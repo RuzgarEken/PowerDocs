@@ -1,4 +1,5 @@
 ---
+sidebar_position: 1
 ---
 
 # How Stat Values Are Evaluated
@@ -12,7 +13,7 @@ Some of these come from the stat itself, such as whether it is clamped, while ot
 
 **Injectors**
 
-Unlike modifiers, Injectors transform a stat's value according to their configuration.
+Injectors transform a stat's value according to their configuration.
 For example, an Injector can:
 - Add a value
 - Multiply the value
@@ -31,7 +32,7 @@ To manage all of these contributions correctly, each stat stores multiple value 
 
 **Modified Value**
   - Whenever the **Raw Value** changes, the **Modified Value** is recalculated.
-  - It is produced by applying all Injectors and Linkers to the Raw Value.
+  - It is produced by applying all Injectors to the Raw Value.
 
 **Value**
   - This is the stat's final public value.

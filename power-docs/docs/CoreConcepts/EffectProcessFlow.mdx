@@ -1,0 +1,176 @@
+---
+sidebar_position: 2
+---
+
+import EffectProcessDefinition from './images/EffectProcessDefinition.png';
+import ProcessFunnel from './images/ProcessFunnel.png';
+
+# Effect Process Flow
+
+When an Effect is sent in Power, it is processed by a series of **Processors** based on its type and configuration.
+
+Processors are organized into a **processing funnel**, where each processor handles the Effect in sequence.
+
+Whether a processor runs, and how it modifies an Effect, depends on the Effect's **Attributes**, **Target Stat**, and **Attribute Stats**.
+
+---
+
+## Effect Types
+
+Power provides three types of Effects depending on how many Attribute Stats they contain.
+
+### BaseStatEffect
+
+A **BaseStatEffect** has no Attribute Stats.
+
+It is processed using only its **Target Stat**.
+
+### AttributeStatEffect
+
+An **AttributeStatEffect** contains a **Target Stat** and a single **Attribute Stat**.
+
+Processors evaluate the relationships of both stats while processing the Effect.
+
+### MultiAttributeStatEffect
+
+A **MultiAttributeStatEffect** contains a **Target Stat** and multiple **Attribute Stats**.
+
+Processors evaluate the relationships of all of these stats.
+
+For example, a skill could be sent with the following Attribute Stats:
+
+- MagicAttack
+- LightningAttack
+- OrbAttack
+
+---
+
+## Effect Processors
+
+Each Effect type is handled by processors designed for that type.
+
+- **BaseStatEffect** → BaseStatEffectProcessors
+- **AttributeStatEffect** → BaseStatEffectProcessors and AttributeStatEffectProcessors
+- **MultiAttributeStatEffect** → BaseStatEffectProcessors and MultiAttributeStatEffectProcessors
+
+Since **AttributeStatEffects** and **MultiAttributeStatEffects** also contain a **Target Stat**, they can be processed by **BaseStatEffectProcessors** as well.
+
+For example, suppose the Target Stat is **Health** and the Effect is sent with the **PhysicalAttack** Attribute Stat.
+
+When processed by **ASPrecontributionProcess_Immune**, the processor checks whether the target is immune to **PhysicalAttack**.
+
+However, the Effect should also be able to check whether the **Health** stat itself is immune to incoming effects.
+
+This is why AS and MAS Effects can also pass through **BaseStatEffectProcessors**, allowing processors that operate on the Target Stat to run in addition to those that operate on the Attribute Stats.
+
+> **Note:** In the editor, these are abbreviated as:
+>
+> - **BS** = BaseStat
+> - **AS** = AttributeStat
+> - **MAS** = MultiAttributeStat
+
+---
+
+## Effect Attributes
+
+Although every processor has its own logic, all processors share the **RequiredAttributes** field.
+
+If an Effect does not contain the required Attributes, that processor simply skips the Effect and processing continues with the next processor in the funnel.
+
+### Example
+
+Suppose **BSPreprocess_Immune** has **Immunable** in its **RequiredAttributes**.
+
+If the incoming Effect does not have the **Immunable** Attribute, it bypasses the immune processor and continues through the rest of the funnel.
+
+---
+
+## Target Stat Processing
+
+Processors that operate on the **Target Stat** (`BaseStatEffectProcessors`) inspect the Target Stat's relationships.
+
+If the relationship required by the processor exists, it uses the related stat during processing.
+
+### Example
+
+- **Target Stat**: Health 
+
+**Health** is connected to the **ImmuneToNegativeHealthEffects** stat through the **NegativeImmune** relationship key.
+
+The **BSPrecontributionProcess_Immune** processor contains both **NegativeImmuneRelativeKey** and **PositiveImmuneRelativeKey**.
+
+When a negative Effect is received, the processor checks **ImmuneToNegativeHealthEffects**.
+
+If its **Value** is greater than `0`, the Effect is blocked.
+
+---
+
+## Attribute Stat Processing
+
+Processors that operate on **Attribute Stats** (`AttributeStatEffectProcessors`) inspect the relationships of each Attribute Stat.
+
+### Example
+
+- **Target Stat**: Health
+- **Attribute Stat**: PhysicalAttack
+
+The **ASPrecontributionProcess_Immune** processor uses the **Immune_AS** relationship key.
+
+It checks whether **PhysicalAttack** has this relationship.
+
+If the relationship exists and its **Value** is greater than `0`, the Effect is absorbed.
+
+The same principle applies to **MultiAttributeStatEffects**. Instead of checking a single Attribute Stat, the processor evaluates all Attribute Stats carried by the Effect.
+
+---
+
+## Effect Process Definition
+
+The **EffectProcessDefinitionModel** defines the processing funnel.
+
+Processors are stored in separate dictionaries based on the Effect type they support.
+
+<img src={EffectProcessDefinition} alt="EffectProcessDefinitionModel reference" />
+
+When an Effect is received, it is routed to the appropriate funnel according to its Effect type and **ProcessorId**.
+
+---
+
+## Processor Stages
+
+Within each funnel, processors are divided into several stages.
+
+<img src={ProcessFunnel} alt="ProcessFunnel reference" />
+
+### PreProcessor
+
+Runs before the Effect is applied.
+
+These processors determine whether the Effect should be blocked or allowed to continue.
+
+### Processor
+
+The main processing stage where the Effect is applied to the Target Stat.
+
+For example, **Add_Float** calculates the final value of the Effect and applies it to the Target Stat.
+
+### PostProcessor
+
+Runs after the Effect has been applied.
+
+### DurationProcessor
+
+Runs only for duration-based Effects.
+
+These processors modify the duration of the applied Effect.
+
+### FeedbackProcessor
+
+Runs after processing is complete.
+
+It receives the result of the Effect and can generate gameplay feedback such as:
+
+- Floating text
+- Visual effects (VFX)
+- Sounds
+- Any other custom feedback
