@@ -1,0 +1,19 @@
+---
+sidebar_position: 1
+---
+
+# EdgeValue
+
+An **EdgeValue** Stat is a specialized **Clamped** Stat whose **Value** is determined by the selected border of its candidate values.
+
+Unlike a regular Clamped Stat, Modifiers are treated as individual candidate values rather than being combined. Depending on the selected **Edge**, the Stat returns either the minimum or maximum candidate value. The **Raw Value** is also considered a candidate.
+
+For example, if **Edge Is** is set to **Min**, the Stat returns the lowest value among its Raw Value and all Modifier values. If **Edge Is** is set to **Max**, it returns the highest one.
+
+## Fields
+
+This Stat inherits all fields from **[Clamped](./Clamped.mdx)**.
+
+| Field | Description |
+| --- | --- |
+| **Edge Is** | Determines which edge is used as the final value: **Min** or **Max**. The selected edge is evaluated across the Stat's **Raw Value** and all Modifier values. |

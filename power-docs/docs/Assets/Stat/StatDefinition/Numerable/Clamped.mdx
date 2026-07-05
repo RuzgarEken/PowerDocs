@@ -1,0 +1,48 @@
+---
+sidebar_position: 1
+---
+
+
+# Clamped
+
+A **Clamped Stat** restricts its final **Value** to remain within a minimum and maximum range.
+
+Unlike a regular Numerable Stat, its **Value** is always clamped between the configured borders.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Allow Exceed** | Determines whether the **Raw Value** is allowed to exceed the configured borders. When disabled, Modifiers are trimmed so that the Raw Value never exceeds the borders. This is recommended for consumable Stats such as **Health**. When enabled, the Raw Value may exceed the borders while the exposed **Value** remains clamped. This is useful for utility Stats. |
+| **Min Border** | Defines the lower border of the Stat using a **Stat Border**. |
+| **Max Border** | Defines the upper border of the Stat using a **Stat Border**. |
+
+## Stat Border
+
+A **Stat Border** defines how a border value is obtained.
+
+| Field | Description |
+| --- | --- |
+| **Type** | Determines how the border value is resolved. |
+| **Value** | The border value when **Type** is set to **Constant**. |
+| **Border Stat** | The Relative Stat used as the border when **Type** is set to **Stat**. The required Relative Stat Keys are **MinValue** and **MaxValue**. |
+
+## Why Allow Exceed Exists
+
+Consider a **Health** Stat with a maximum value of **100**.
+
+If a `+30` Modifier is applied:
+
+- **Allow Exceed = true**
+  - Raw Value becomes **130**.
+  - Value is clamped to **100**.
+
+If the Health then receives **25 damage**, the Raw Value becomes **105**, which is still clamped to **100**. As a result, the visible Health does not decrease.
+
+For consumable Stats such as **Health**, this behavior is usually undesirable.
+
+Setting **Allow Exceed** to **false** trims the Modifier when it is applied, preventing the Raw Value from exceeding the configured borders.
+
+As a result, the Health correctly becomes **75** after taking **25 damage**.
+
+For utility Stats, however, allowing the Raw Value to exceed the borders is often the preferred behavior.
