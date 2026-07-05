@@ -1,0 +1,50 @@
+---
+sidebar_position: 11
+---
+
+# State Based Effect
+
+A **State Based Effect Stat** automatically triggers an Effect when the configured Stat condition is satisfied.
+
+It can be used to implement passive gameplay mechanics such as auras, low-health effects, status effects, or conditional abilities that activate in response to an Actor's current state.
+
+## State Based Effect Signature
+
+### Fields
+
+| Field | Description |
+| --- | --- |
+| **Use Multi Stat Check** | Evaluates the activation condition using multiple Stats instead of a single Stat. |
+| **Single Stat Check** | Defines the condition evaluated against a single Stat. |
+| **Multi Stat Check** | Defines the condition evaluated against multiple Stats. |
+| **Toggleable** | Allows the State Based Effect to be enabled or disabled based on the value of a Toggle Stat. |
+| **Toggle Stat Key** | The **Stat Key** of the Toggle Stat. The referenced Stat must be an **Int Stat**. |
+| **Toggle On Value Type** | Determines when the State Based Effect is active. See **Toggle On Value Types** below. |
+| **Effect Target** | Determines which Actor or Actors receive the triggered Effect. See **Effect Targets** for the available target types. |
+| **Target Relation** | Specifies which Relation is used when **Effect Target** is set to **Relation State**. |
+| **Team Flags** | Defines the target teams using bitwise Team Flags. |
+| **Custom Targeter** | Defines a custom target selection model. |
+| **Targeting Filter** | Filters Actors selected through multi-targeting methods such as **Relation State** or **Team Flags**. |
+| **Target Actor Stat Key** | The **Stat Key** of the **Actor Stat** used when **Effect Target** is set to **Actor Stat**. |
+| **Effect Source As** | Determines which Actor is assigned as the **Source** of the triggered Effect. |
+| **Custom Effect Source** | Defines a custom Effect source provider. |
+| **Effect Source Actor Stat From** | Determines which Actor provides the Actor Stat when **Effect Source As** is set to **Actor Stat**. |
+| **Custom Actor For Actor Stat** | Defines the custom Actor when **Effect Source Actor Stat From** is set to **Custom**. |
+| **Effect Source Actor Stat Key** | The **Stat Key** used to retrieve the Actor Stat. |
+| **Effect Apply Type** | Determines how the triggered Effect is applied. See **Effect Apply Types** below. |
+| **Environment Id** | The Environment Id to which the triggered Effect is sent. |
+
+## Toggle On Value Types
+
+| Type | Description |
+| --- | --- |
+| **On Zero** | The State Based Effect is active when the Toggle Stat's value is `0`. |
+| **On Positive** | The State Based Effect is active when the Toggle Stat's value is greater than `0`. |
+
+## Effect Apply Types
+
+| Type | Description |
+| --- | --- |
+| **Apply Once** | Applies the Effect when the condition becomes true. When the condition becomes false, the applied Effect is removed. |
+| **Replace On Update** | Applies the Effect when the condition becomes true. While the condition remains true, each update removes the previously applied Effect and applies a new one. |
+| **Persistent** | Applies the Effect every time the condition is updated while it remains true. |

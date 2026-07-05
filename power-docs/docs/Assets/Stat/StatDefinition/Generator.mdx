@@ -1,0 +1,47 @@
+---
+sidebar_position: 6
+---
+
+# Generator
+
+A **Generator Stat** automatically generates or consumes its value over time.
+
+It is commonly used for gameplay mechanics such as Health regeneration, Mana regeneration, Energy recovery, or resource production.
+
+## Generator Signature
+
+The **Generator Signature** defines how a **Generator Stat** behaves at runtime.
+
+### Fields
+
+| Field | Description |
+| --- | --- |
+| **Toggleable** | Allows the Generator to be enabled or disabled based on the value of a Toggle Stat. |
+| **Toggle Stat Key** | The **Stat Key** of the Toggle Stat. The referenced Stat must be an **Int Stat**. |
+| **Toggle On Value Type** | Determines when the Generator is active based on the Toggle Stat's value. See **Toggle On Value Types** below. |
+| **Use Turn Stat** | Uses a Stat instead of a predefined Turn value. |
+| **Turn** | The predefined Turn value used by the Generator. |
+| **Turn Stat** | The **Int Stat** that provides the Turn value when **Use Turn Stat** is enabled. |
+| **Turn Stat Value Adapter** | A **Value Adapter** applied to the Turn Stat before its value is used as the Turn value. |
+| **Updater** | The **Updater Id** that determines which Updater executes this Generator. |
+| **Stackable** | Determines how Modifier values are generated. When enabled, all Modifier values are combined and generated as a single value. When disabled, each Modifier is generated independently. |
+| **Use Interval** | Determines whether generation occurs at fixed intervals or continuously over time. When disabled, the Generator value represents the amount generated per second. |
+| **Generating Effect Template** | Defines the Effect used to apply generated values. Generators never modify target Stats directly; instead, they generate through an Effect, allowing the normal Effect processing pipeline to be used. |
+| **Toggle Off On Zero** | Stops generation when the Generator's value is `0`. Generation automatically resumes when the value becomes non-zero. |
+
+### Toggle On Value Types
+
+| Value | Description |
+| --- | --- |
+| **On Zero** | The Generator is active when the Toggle Stat's value is `0`. |
+| **On Positive** | The Generator is active when the Toggle Stat's value is greater than `0`. |
+
+## Types
+
+- Float
+- Int
+- Vector3
+- Vector2
+- Vector3Int
+- Vector2Int 
+- EffectPack

@@ -1,0 +1,29 @@
+---
+sidebar_position: 1
+---
+
+# Director
+
+A **Director** is a Redirector that redirects the **Effect itself** during the **Preprocess** or **Precontribution** stages.
+
+Unlike value-based redirection, a Director does not modify the Effect's value. Instead, it redirects the entire Effect to new target Actors before the Effect is processed or applied.
+
+## Director Signature
+
+### Fields
+
+This Stat inherits all fields from **[Redirector](./index.mdx)**.
+
+| Field | Description |
+| --- | --- |
+| **Use Rate** | Applies the redirection based on probability. A random value in the range `0–1` is generated, and the redirection proceeds only if it is less than the configured rate. |
+| **Use Stat Use Rate** | Uses a Stat instead of a predefined rate value. |
+| **Use Rate Stat** | The **Float Stat** that provides the rate value. |
+| **Rate Value** | The predefined probability value used when **Use Stat Use Rate** is disabled. |
+| **Block Effect** | Determines whether the original Effect is blocked after it has been redirected. |
+| **Attributes To Override** | Defines which **Effect Attributes** are overridden on the redirected Effect. |
+| **Overridden Attribute Values** | Defines the values assigned to the overridden Effect Attributes. |
+
+## Versions
+
+- **Signed**: 

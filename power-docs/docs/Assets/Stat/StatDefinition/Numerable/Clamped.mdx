@@ -11,6 +11,8 @@ Unlike a regular Numerable Stat, its **Value** is always clamped between the con
 
 ## Fields
 
+This Stat inherits all fields from **[Numerable](./index.mdx)**.
+
 | Field | Description |
 | --- | --- |
 | **Allow Exceed** | Determines whether the **Raw Value** is allowed to exceed the configured borders. When disabled, Modifiers are trimmed so that the Raw Value never exceeds the borders. This is recommended for consumable Stats such as **Health**. When enabled, the Raw Value may exceed the borders while the exposed **Value** remains clamped. This is useful for utility Stats. |
