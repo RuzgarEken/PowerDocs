@@ -1,0 +1,26 @@
+---
+sidebar_position: 10
+---
+
+# Modifier Remover
+
+It removes existing Modifiers from the targeted Stat. Modifiers can be removed selectively by configuring the provided filtering options.
+
+## Fields
+
+This Effect inherits all fields from **[Effect](./index)**.
+
+| Field | Description |
+| --- | --- |
+| **Filter** | Enables filtering when removing Modifiers. Only Modifiers matching the configured filter are removed. |
+| **Filter Modifiers By Their** | Determines which Actor associated with a Modifier is used for filtering. |
+| **Custom Modifier Filter Actor** | Specifies a custom Actor used for filtering. |
+| **Actor Stat From** | Determines which Actor is used when filtering through an Actor Stat. |
+| **Custom Actor For Actor Stat** | Specifies the custom Actor used when **Actor Stat From** is set to **Custom**. |
+| **Actor Stat Key** | The Stat Key used to retrieve the Actor Stat for filtering. |
+| **Checking With** | Determines how the selected Actor is compared against the filtering condition. |
+| **Target Relation** | The bitwise Relation filter used when filtering by Relation. |
+| **Team Flags** | The bitwise Team filter used when filtering by Team. |
+| **Team Key** | The Stat Key used to retrieve the Team number. |
+| **Custom Targeter** | Removes the Modifier only if the selected Actor exists in the list returned by the Custom Targeter. |
+| **Actor Stat** | Removes the Modifier only if the selected Actor matches the Actor referenced by the specified Actor Stat. |

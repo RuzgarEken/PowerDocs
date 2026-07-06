@@ -1,0 +1,21 @@
+---
+sidebar_position: 4
+---
+
+# Vector
+
+A **Vector Stat Effect** is the base class for Effects that modify vector-based Stats, including **Vector2**, **Vector3**, **Vector2Int**, and **Vector3Int** Stats.
+
+In addition to the fields inherited from **Effect**, it defines how the vector value used by the Effect is obtained and optionally adapted before processing.
+
+## Fields
+
+This Effect inherits all fields from **[Effect](../index)**.
+
+| Field | Description |
+| --- | --- |
+| **Use Stat Value** | Uses a Stat instead of a predefined Effect value. |
+| **Value** | The predefined vector value applied by the Effect. |
+| **Value Stat** | The Stat that provides the Effect value. |
+| **Use Value Adapter** | Enables a Value Adapter for the Effect value. |
+| **Value Adapter** | The Value Adapter used to convert or modify the Effect value before processing. This can be used to adapt the value for different Stat types or other use cases. |

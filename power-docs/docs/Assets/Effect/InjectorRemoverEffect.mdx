@@ -1,0 +1,22 @@
+---
+sidebar_position: 11
+---
+
+# Injector Remover
+
+It removes Injectors from the targeted Stat. Injectors can be removed selectively based on their tags and the Actor that originally added them.
+
+## Fields
+
+This Effect inherits all fields from **[Effect](./index)**.
+
+| Field | Description |
+| --- | --- |
+| **Target Injector Tags** | The tags of the Injectors to remove. |
+| **Filter Caster** | Enables filtering based on the Actor that originally added the Injector. |
+| **Casted By** | Determines which Actor(s) are used to filter the Injectors to remove. |
+| **Target Relation** | The bitwise Relation filter used to compare the Effect source with the Injector source. |
+| **Team Flags** | The bitwise Team filter used to compare the Injector source's team. |
+| **Team Key** | The Stat Key used to retrieve the Team number. |
+| **Custom Targeter** | Removes the Injector only if its source Actor exists in the list returned by the Custom Targeter. |
+| **Actor Stat** | Removes the Injector only if its source Actor matches the Actor referenced by the specified Actor Stat. |

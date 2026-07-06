@@ -1,0 +1,61 @@
+---
+sidebar_position: 1
+---
+
+# Effect
+
+An **Effect** defines a modification that can be applied to one or more target Stats.
+
+It contains all the information required to determine **how**, **when**, and **where** the modification is applied. When an Effect is dispatched, it is processed by the Processor identified by its **Processor Id**, which then applies the Effect according to its configuration.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Processor Id** | Identifies the Processor that handles this Effect. |
+| **Attributes** | A collection of Effect Attributes used by Processors. Some Processors require specific Attributes in order to process the Effect. |
+| **Apply Type** | Determines whether the Effect is applied permanently or temporarily. See **Apply Types** below. |
+| **Modifier Type** | Determines how a temporary Effect is removed. Used only when **Apply Type** is set to **Temporary**. See **Modifier Types** below. |
+| **Updater** | Specifies which Updater manages the lifetime of the Modifier. Used only when **Apply Type** is **Temporary** and **Modifier Type** is **With Duration**. |
+| **Use Delay** | Enables delayed application of the Effect. |
+| **Use Stat Delay** | Uses a Stat instead of a predefined delay value. |
+| **Delay** | The predefined delay before the Effect is applied. |
+| **Delay Stat** | The Stat that provides the delay value. |
+| **Use Stat Duration** | Uses a Stat instead of a predefined duration value. |
+| **Duration** | The predefined duration of the temporary Modifier. |
+| **Duration Stat** | The Stat that provides the duration value. |
+| **Use Turn Stat** | Uses a Stat instead of a predefined turn value. |
+| **Turn** | The predefined number of turns the temporary Modifier remains active. |
+| **Turn Stat** | The **Int Stat** that provides the turn duration. |
+| **Stat Targeting** | Determines whether the Effect targets a single Stat or multiple tagged Stats. See **Stat Targeting Types** below. |
+| **Target Stat** | The **Stat Key** of the target Stat. Used when **Stat Targeting** is **Single Stat**. |
+| **Tagged Stats** | Defines the criteria used to target multiple Stats. Used when **Stat Targeting** is **Tagged Stats**. |
+
+## Apply Types
+
+| Type | Description |
+| --- | --- |
+| **Permanent** | Applies the Effect permanently. |
+| **Temporary** | Applies the Effect temporarily by creating a Modifier. |
+
+## Modifier Types
+
+| Type | Description |
+| --- | --- |
+| **With Duration** | The temporary Modifier is removed automatically after its configured duration or turn count expires. |
+| **Managed By Code** | The temporary Modifier remains active until it is removed manually through code. |
+
+## Stat Targeting Types
+
+| Type | Description |
+| --- | --- |
+| **Single Stat** | Targets a single Stat specified by **Target Stat**. |
+| **Tagged Stats** | Targets all Stats matching the configured tag criteria. |
+
+## Tagged Stats
+
+| Field | Description |
+| --- | --- |
+| **Environments** | Defines which Environments are searched for matching Stats. |
+| **Container Id** | Defines which Container is searched for matching Stats. |
+| **Tags** | Defines the tags that a Stat must have to be targeted. |

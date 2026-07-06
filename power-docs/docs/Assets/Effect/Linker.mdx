@@ -1,0 +1,21 @@
+---
+sidebar_position: 9
+---
+
+# Linker
+
+Linkers are processed like any other Effect. After being processed, the referenced **Linker Model** is added to the target Stat.
+
+A Linker behaves similarly to an Injector, except that its value is obtained dynamically from another Stat instead of being predefined. This allows two Stats to be linked, so changes to the source Stat are automatically reflected when the target Stat is updated.
+
+Like Injectors, Linkers are applied during the Stat update process according to their **Injection Order**.
+
+## Fields
+
+This Linker inherits all fields from **[Effect](./index)**.
+
+| Field | Description |
+| --- | --- |
+| **Injector Stat** | The Stat whose value is used by the Linker. |
+| **Injection Order** | Determines the execution order of the Linker. Linkers with lower values are applied first, while those with higher values are applied later during the Stat update. |
+| **Injector** | The referenced **Linker Model** that defines how the linked Stat value modifies the target Stat. |

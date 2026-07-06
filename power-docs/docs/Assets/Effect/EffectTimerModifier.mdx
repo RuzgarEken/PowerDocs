@@ -1,0 +1,25 @@
+---
+sidebar_position: 7
+---
+
+# Effect Timer Modifier
+
+An **Effect Timer Modifier** inherits from **Float Stat Effect**.
+
+Instead of modifying a Stat's value, it modifies the remaining duration of active temporary Modifiers.
+
+For example, you can reduce the remaining cooldown of an ability whenever the Actor gets a kill.
+
+## Fields
+
+This Effect inherits all fields from **[Float Stat Effect](./Numerable/Float.mdx)**.
+
+| Field | Description |
+| --- | --- |
+| **Filter** | Determines whether the duration modification is applied to all active Modifiers or only those matching the configured filter. |
+| **Casted By** | Filters Modifiers based on the Actor(s) that originally applied them. |
+| **Target Relation** | The bitwise Relation filter used when **Casted By** targets Actors by Relation. |
+| **Team Flags** | The bitwise Team filter used when **Casted By** targets Actors by Team. |
+| **Team Key** | The Stat Key used to retrieve the Team number. |
+| **Custom Targeter** | A custom target selection model used to filter Modifiers. |
+| **Actor Stat** | Filters Modifiers applied by the Actor referenced by the specified Actor Stat. |
