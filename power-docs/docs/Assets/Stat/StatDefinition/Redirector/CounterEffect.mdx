@@ -1,0 +1,26 @@
+---
+sidebar_position: 2
+---
+
+# Counter Effect
+
+A **Counter Effect** is a Redirector that triggers another Effect in response to an incoming Effect.
+
+It allows gameplay mechanics such as counterattacks, retaliation, chain effects, and reactive abilities by dispatching a new Effect when its conditions are satisfied.
+
+## Counter Effect Signature
+
+### Fields
+
+This Stat inherits all fields from **[Redirector](./)**.
+
+| Field | Description |
+| --- | --- |
+| **Use Rate** | Triggers the Counter Effect based on probability. A random value in the range `0–1` is generated, and the Counter Effect is triggered only if it is less than the configured rate. |
+| **Use Stat Use Rate** | Uses a Stat instead of a predefined rate value. |
+| **Use Rate Stat** | The **Float Stat** that provides the trigger probability. |
+| **Rate Value** | The predefined probability value used when **Use Stat Use Rate** is disabled. |
+
+## Versions
+
+- **Signed**:

@@ -1,0 +1,17 @@
+---
+sidebar_position: 4
+---
+
+# Stat Definition
+
+A **Stat Definition** is a data asset that defines a Stat's values, properties, and behavior.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Stat Key** | The key used to access this Stat. |
+| **Tags** | Tags assigned to this Stat. These can be used in **StatEffectModels** by setting **Stat Target** to **Tagged Stat**, allowing a single Effect to target multiple Stats. For example, you can tag certain Stats as **Debuff** and later use a **ModifierRemoverEffect** to remove Modifiers from all Stats with the **Debuff** tag. |
+| **Name** | The display name of the Stat. |
+| **Relative Stat Keys** | A dictionary of the relationship keys defined for this Stat. These keys are used to locate related Stats during processing. |
+| **Injectors** | The list of Injectors that are attached to this Stat by default. |

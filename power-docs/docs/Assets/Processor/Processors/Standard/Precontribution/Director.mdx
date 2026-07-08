@@ -1,0 +1,18 @@
+---
+sidebar_position: 3
+---
+
+# Director
+
+The **Director** is the signed version of the **Preprocess Director** Processor.
+
+It redirects the raw, unprocessed Effect to another Actor before the current Effect is processed. The redirection is performed according to the resolved **DirectorStat_Signed** and its **DirectorStat_Signed Signature**.
+
+Direction is evaluated separately for the **Source Actor** and the **Target Actor**.
+
+The Director Stat is resolved as follows:
+
+- For the **Target Actor**, the Director Stat is obtained directly from the **Target Stat's Director Relative Stat**.
+- For the **Source Actor**, the Director Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Director Relative Key**.
+
+The resolved Stat must be a **DirectorStat_Signed**.

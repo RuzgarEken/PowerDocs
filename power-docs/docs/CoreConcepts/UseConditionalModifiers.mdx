@@ -1,0 +1,41 @@
+---
+sidebar_position: 5
+sidebar_label: Using Conditional Modifier in Processors
+---
+
+# Using Conditional Modifiers in Processors
+
+Some Processors expose **UseConditionalModifier** options. These allow a Stat used by the Processor to be modified dynamically according to the current context before the Processor continues its execution.
+
+## Why is this needed?
+
+Consider the following requirement:
+
+> **+50% Critical Rate against Undead enemies**
+
+Normally, the **CritHit** process reads a single **CritRate** Stat, which has only one value. That makes it impossible to have different Critical Rate values depending on the current target or other runtime conditions.
+
+By enabling **UseConditionalModifier**, the Processor first passes the **CritRate** Stat through a **Conditional Modifier**. The Conditional Modifier can then adjust the value according to any condition before the Processor uses it.
+
+This mechanism is not limited to **CritRate**. It can be used for any Processor value such as **Hit Rate**, **Shield**, **Immune**, or any other Stat that supports conditional modification.
+
+## How it works
+
+To understand the implementation, it helps to know how standard Contribution processing works.
+
+Normally, a **Contribution Processor** evaluates the **Target Stat** together with **Attribute Stats** and produces a **Contribution Data** object. This Contribution Data is then used to modify the Effect value.
+
+Conditional Modifiers reuse this same mechanism. Instead of modifying an Effect value directly, the Processor creates a temporary Contribution Data using the Stat being queried (for example, **CritRate**) and sends it through a Conditional Modifier process. The resulting value is then used by the Processor in place of the Stat's original value.
+
+In other words, the Stat itself is conditionally modified only for the current Processor execution without permanently changing the Stat.
+
+## Example Setup
+
+Using **CritRate** as an example:
+
+1. Enable **UseConditionalHitRateModifier** on the **CritHit** Processor.
+2. Assign an **ASContribution_ConditionalModifier_Float** Processor reference.
+3. On the **CritRate** Stat, assign the **ConditionalModifier_AttributeStat** Relative Stat that will be used during conditional processing.
+4. If you need multiple independent conditional modification rules, use a **Signature Separated** Conditional Modifier and its corresponding **Signature Separated Processor**.
+
+Once configured, the **CritHit** Processor will automatically resolve and use the conditionally modified **CritRate** value whenever it executes.

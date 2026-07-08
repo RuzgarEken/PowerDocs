@@ -1,0 +1,37 @@
+---
+sidebar_position: 7
+---
+
+# Hit Rate
+
+The **Hit Rate** Processor determines whether an Effect successfully hits its target.
+
+The Processor resolves **Hit Rate** values from both the **Source Actor** and the **Target Actor**, combines them to produce the final Hit Rate value, and then generates a random number between **0** and **1**.
+
+- If the random value is **less than or equal to** the final Hit Rate, the Effect continues through the processing pipeline.
+- Otherwise, the Effect misses and processing is stopped.
+
+The Hit Rate Stat is resolved as follows:
+
+### Base Stat (BS) Processors
+
+- For the **Target Actor**, the Hit Rate Stat is obtained directly from the **Target Stat's HitRateTaken Relative Stat**.
+- For the **Source Actor**, the Hit Rate Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's HitRateGiven Relative Key**.
+
+### Attribute Stat (AS) / Multi Attribute Stat (MAS) Processors
+
+- For the **Target Actor**, the Hit Rate Stat is obtained from the **Target Actor** using the **Stat Key** referenced by the **Attribute Stat's HitRateTaken Relative Key**.
+- For the **Source Actor**, the Hit Rate Stat is obtained directly from the **Attribute Stat's HitRateGiven Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
+
+The resolved Stat must be a **Float Stat**.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Hit Rate Given Key** | The Relative Key used to resolve the Source Actor's Hit Rate Stat. |
+| **Hit Rate Taken Key** | The Relative Key used to resolve the Target Actor's Hit Rate Stat. |
+| **Missed Result Attribute** | The Result Attribute added to the Effect when the hit check fails. This can be used to drive gameplay feedback such as miss animations or UI indicators. |
+| **Use Conditional Hit Rate Modifier (Given)** | Enables conditional modification of the Source Actor's Hit Rate value before it is used. |
+| **Use Conditional Hit Rate Modifier (Taken)** | Enables conditional modification of the Target Actor's Hit Rate value before it is used. |
+| **Conditional Modifier** | The Conditional Modifier Processor used to modify the resolved Hit Rate values. |

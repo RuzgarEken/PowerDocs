@@ -1,0 +1,46 @@
+---
+sidebar_position: 2
+---
+
+# Attribute Stat Eliminator
+
+The **Attribute Stat Eliminator** Processor determines which **Attribute Stats** should participate in processing for **Attribute Stat Effects** and **Multi Attribute Stat Effects**.
+
+Although this may seem similar to an **Immune** mechanic, there is an important distinction:
+
+- **Immune** completely blocks the Effect.
+- **Attribute Stat Elimination** allows the Effect to continue, but removes selected Attribute Stats from the processing pipeline. As a result, the Effect no longer gains the behavior or modifications provided by those eliminated Attribute Stats.
+
+### Implementation
+
+To support Attribute Stat elimination, the **Target Stat** must define a Relative Stat that acts as its **Attribute Stat Eliminator**.
+
+This Relative Stat should be a **SigSep_Int** Stat.
+
+Each Inner Stat represents an Attribute Stat by using its **StatId** as the **Inner Stat Id**.
+
+The value of each Int Stat determines whether the corresponding Attribute Stat is eliminated:
+
+- **1** → Eliminate the Attribute Stat.
+- **0** → Keep the Attribute Stat.
+
+If no matching Inner Stat exists for an Attribute Stat, it is kept by default.
+
+Attribute Stat elimination is evaluated separately for the **Source Actor** and the **Target Actor**.
+
+For **AS** and **MAS** Processors:
+
+- The **Target Actor's** Eliminator Stat is obtained using the **Stat Key** referenced by the **Attribute Stat's** **EliminaterTakenRelativeKey**.
+- The **Source Actor's** Eliminator Stat is obtained directly from the **Attribute Stat's** **EliminaterGivenRelativeKey**, since the Attribute Stat already belongs to the Source Actor.
+
+Both Eliminator Stats must be of type **SigSep_Int**.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Eliminater Taken Relative Key** | The Relative Key used to resolve the Attribute Stat Eliminator on the Target Actor. |
+| **Eliminater Given Relative Key** | The Relative Key used to resolve the Attribute Stat Eliminator on the Source Actor. |
+| **Processable By Attribute Stat Processors** | An Effect Attribute used as a requirement by Attribute Stat Processors. If all Attribute Stats are eliminated, this attribute is removed from the Effect, allowing it to continue through the processing funnel as a normal Base Stat Effect. |
+| **Use Conditional Modifier** | Allows the resolved Attribute Stat Eliminator value to be modified conditionally before it is evaluated. |
+| **Conditional Modifier** | The Processor used to conditionally modify the Eliminator value. |

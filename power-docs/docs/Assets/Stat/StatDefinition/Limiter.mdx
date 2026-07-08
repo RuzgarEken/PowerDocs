@@ -1,0 +1,45 @@
+---
+sidebar_position: 9
+---
+
+# Limiter
+
+A **Limiter Stat** limits an incoming Effect value based on configurable rules.
+
+The limit can be applied as either a minimum or maximum value, using a constant Stat value or a percentage of another Stat. It can also be applied conditionally based on Stat checks.
+
+## Limiter Signature
+
+The **Limiter Signature** defines how the incoming Effect value is limited.
+
+### Fields
+
+| Field | Description |
+| --- | --- |
+| **Limit Value Sign** | Determines which Effect value sign the Limiter applies to. See **Value Sign** for the available options. |
+| **Limit By** | Determines whether the Effect value is limited by a minimum or maximum value. See **Limit By Types** below. |
+| **Limit Value Type** | Determines how the limit value is calculated. See **Limit Value Types** below. |
+| **Use Limit Stat** | Uses another Stat selected from the Interaction Actors instead of the Limiter Stat's own value. |
+| **Limit Stat** | Defines the Stat used as the limit value when **Use Limit Stat** is enabled. |
+| **Percentage Source Stat** | Defines the Stat whose value is used when **Limit Value Type** is set to **Percentage**. |
+| **Value Type Of Percentage Source Stat** | Determines which value type of the **Percentage Source Stat** is used for the percentage calculation. |
+| **State Check** | Enables conditional application of the Limiter. |
+| **Use Multi Stat Check** | Evaluates the condition using multiple Stats instead of a single Stat. |
+| **Single Stat Checker** | Defines the condition evaluated against a single Stat. |
+| **Multi Stat Checker** | Defines the condition evaluated against multiple Stats. |
+| **Add Result Attribute If Pass** | Adds a **Result Attribute** to the Effect if the Limiter is applied. |
+| **Adding Attribute** | The **Result Attribute** added to the Effect. |
+
+### Limit By Types
+
+| Type | Description |
+| --- | --- |
+| **Min** | Ensures the Effect value is not lower than the calculated limit. |
+| **Max** | Ensures the Effect value does not exceed the calculated limit. |
+
+### Limit Value Types
+
+| Type | Description |
+| --- | --- |
+| **Value** | Uses the Limit Stat's value directly as the limit. |
+| **Percentage** | Treats the Limit Stat's value as a percentage (`0–1`) and calculates the limit from the selected **Percentage Source Stat**. For example, if the Limit Stat value is `0.25` and the Percentage Source Stat value is `200`, the calculated limit is `50`. |

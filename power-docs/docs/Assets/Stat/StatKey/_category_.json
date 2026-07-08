@@ -1,0 +1,8 @@
+{
+  "label": "Stat Key",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Stat Keys are used to access Stats on Actors. They provide a layered access mechanism similar to the container hierarchy used to store Stats."
+  }
+}

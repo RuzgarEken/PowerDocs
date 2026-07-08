@@ -1,0 +1,20 @@
+---
+sidebar_position: 8
+---
+
+# Injector
+
+Injectors are processed like any other Effect. After being processed, the **Injector Model** referenced by the Effect is added to the target Stat.
+
+During each Stat update, the Stat's **Modified Value** is initialized from its **Raw Value**, and all Injectors assigned to the Stat are applied sequentially according to their **Injection Order**.
+
+Different Injector Models can define different behaviors. For example, an Injector can add a value, clamp a value, override it with a fixed value, or perform any other custom transformation.
+
+## Fields
+
+This Injector inherits all fields from **[Effect](./)**.
+
+| Field | Description |
+| --- | --- |
+| **Injection Order** | Determines the execution order of the Injector. Injectors with lower values are applied first, while those with higher values are applied later during the Stat update. |
+| **Injector** | The referenced **Injector Model** that is added to the target Stat after the Effect has been processed. |

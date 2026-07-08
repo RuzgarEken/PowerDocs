@@ -1,0 +1,8 @@
+{
+  "label": "Single Stat",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Single Stat Conditions"
+  }
+}

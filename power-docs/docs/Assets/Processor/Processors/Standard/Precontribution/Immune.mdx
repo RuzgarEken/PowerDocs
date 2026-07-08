@@ -1,0 +1,20 @@
+---
+sidebar_position: 6
+---
+
+# Immune
+
+## Description
+
+The **Immune** is the signed version of the **Preprocess Immune** Processor.
+
+It performs the Immune check according to the incoming Effect value sign.
+
+Immune is evaluated separately for the **Source Actor** and the **Target Actor**.
+
+The Immune Stat is resolved as follows:
+
+- For the **Target Actor**, the Immune Stat is obtained directly from the **Target Stat's Immune Relative Stat**.
+- For the **Source Actor**, the Immune Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Immune Relative Key**.
+
+The resolved Stat must be a **Int Stat**.

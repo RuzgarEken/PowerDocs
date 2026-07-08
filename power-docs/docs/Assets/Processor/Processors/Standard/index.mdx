@@ -1,0 +1,94 @@
+---
+sidebar_position: 2
+---
+
+# Standard
+
+## Description
+
+The **Standard Processor** is the most commonly used Processor type for numerable and vector-based Effects.
+
+Unlike basic Processors, a Standard Processor executes multiple processing stages before and after applying the Effect value.
+
+This provides an additional processing mechanism that allows the Effect value to be modified, limited, blocked, or reacted to throughout the processing pipeline.
+
+## Signed Processors
+
+Standard Processors support **Signed Processors**.
+
+The regular Processors in the Effect Flow (such as **Preprocessors** and **Postprocessors**) only operate on Stats resolved from the **Target Stat** or **Attribute Stat**. They do not consider whether the incoming Effect value is positive or negative.
+
+For example, if the **Immune** Processor resolves an Immune value of **1**, the Effect is blocked regardless of whether the Effect deals damage or healing.
+
+If different behavior is required for positive and negative values, the signed versions inside the Standard Processor can be used instead.
+
+For example, **BSPrecontribution_Immune_Float** and **BSPrecontribution_Immune_Int** define separate Relative Keys for **Positive** and **Negative** values, allowing immunity to be configured independently for each sign.
+
+## Contribution
+
+Standard Processors internally build a **Contribution Data** that is used to modify the Effect value.
+
+Contribution Data consists of three contribution types:
+
+- **Flat**
+  - Adds a flat value to the Effect.
+  - Example:
+    - Effect Value: **10**
+    - Flat Contribution: **2**
+    - Final Value: **12**
+
+- **Rate**
+  - Adds a percentage of the Effect value. Rate values are mapped between **0** and **1**.
+  - Example:
+    - Effect Value: **10**
+    - Rate Contribution: **0.1**
+    - Final Value: **11**
+
+- **Multiplier**
+  - Multiplies the Effect value.
+  - Example:
+    - Effect Value: **10**
+    - Multiplier: **1.5**
+    - Final Value: **15**
+
+## Flow
+
+A Standard Processor consists of the following stages:
+
+### Precontribution
+
+Works similarly to a **Preprocessor**, but executes before the **Contribution** stage instead of before the entire Process.
+
+This stage typically uses Signed Processors to determine whether the Effect should continue.
+
+### Contribution
+
+Builds the Contribution Data.
+
+### Postcontribution
+
+Executes after the Contribution Data has already been applied to the Effect value.
+
+Processors in this stage can further modify the calculated value before it is applied to the target Stat.
+
+For example:
+
+- A **Shield** Processor can reduce the calculated value.
+- A **Limiter** Processor can clamp the calculated value according to its configuration.
+
+### Postprocess
+
+Runs signed versions of Postprocessors after the Effect has been applied.
+
+### Feedback Process
+
+Runs signed Feedback Processors to generate different feedback for positive and negative values.
+
+## Supported Types
+
+- Float
+- Int
+- Vector2
+- Vector3
+- Vector2Int
+- Vector3Int

@@ -1,0 +1,28 @@
+---
+sidebar_position: 7
+---
+
+import DispatcherRef from './images/DispatcherRef.png'
+
+# Dispatcher Condition
+
+A **Dispatcher Condition** contains multiple conditions and evaluates the incoming Stats against all of them.
+
+The evaluation succeeds only if **every condition** passes. If any condition fails, the Dispatcher returns **false**.
+
+The **Stat Index** values referenced by the conditions correspond to the indices of the incoming Stats passed to the Dispatcher.
+
+For example, in the **3DCells** samples, the **ChainHook** skill decides whether to transition into the **Punch** or **Kick** state based on both the **Evolution No** and the **Distance**.
+
+<img src={DispatcherRef} alt="Dispather usage reference" />
+
+First, you define which Stats will be passed into the Dispatcher. Then, each condition references those incoming Stats by their indices.
+
+This allows multiple conditions to be evaluated together, and the Dispatcher passes only when every condition succeeds.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Single Stat Conditions** | A list of **(Stat Index, Stat Condition)** pairs. Each condition evaluates a single incoming Stat referenced by its index. |
+| **Multi Stat Conditions** | A list of **(Stat Indices, Multi Stat Condition)** pairs. Each condition evaluates multiple incoming Stats referenced by their indices. |

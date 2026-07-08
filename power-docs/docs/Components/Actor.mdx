@@ -1,0 +1,21 @@
+---
+sidebar_position: 1
+---
+
+import Actor from './images/Actor.png';
+
+# Actor
+
+Actors are runtime entities that contain Stats and participate in Effect interactions.
+
+<img src={Actor} alt="Actor reference" />
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Extensions** | A dictionary of Extension components that add additional functionality to an Actor. Extensions in this dictionary are initialized automatically and can interact with each other. |
+| **Initialize On Load** | When enabled, the Actor initializes itself automatically in its `Awake` method without requiring an external initialization call. |
+| **Predefined Instance Id** | By default, Actors are assigned an incrementing **Instance Id** at runtime, starting from `0`. Enable this option to assign a specific Instance Id instead. This is primarily useful for log filtering, allowing you to view logs generated only by this Actor. |
+| **Stat Repository Definition** | Defines the **Stat Repository Definition** used to initialize the Actor's Stats. |
+| **Effect Process Definition** | Defines the **Effect Process Definition** that determines which Processors handle Effects sent to this Actor. |

@@ -1,0 +1,44 @@
+---
+sidebar_position: 2
+---
+
+# Numerable Comparer
+
+A **Numerable Comparer** evaluates whether a numerable value satisfies a comparison rule.
+
+It supports comparing a value against either a **single value** or a **value range**, making it suitable for conditions such as minimum health checks, cooldown thresholds, or interval-based conditions.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Compare Type** | Determines whether the comparison is performed against a single value or a range. |
+| **Compare Condition** | The comparison operation used when **Compare Type** is **Single**. |
+| **Value** | The comparison value used when **Compare Type** is **Single**. |
+| **Range Compare Condition** | The comparison operation used when **Compare Type** is **Range**. |
+| **Value Min** | The minimum value of the comparison range. |
+| **Value Max** | The maximum value of the comparison range. |
+
+### Compare Type
+
+- **Single**: Compares the value against a single predefined value.
+- **Range**: Compares the value against a predefined range.
+
+### Compare Condition
+
+- **Equals**: The value must be equal to the comparison value.
+- **Lower**: The value must be lower than the comparison value.
+- **Lower Equal**: The value must be lower than or equal to the comparison value.
+- **Greater**: The value must be greater than the comparison value.
+- **Greater Or Equal**: The value must be greater than or equal to the comparison value.
+- **Not Equals**: The value must not be equal to the comparison value.
+
+### Range Compare Condition
+
+- **Inside**: Passes if the value is inside the specified range. The comparison is **inclusive**, meaning both the minimum and maximum values are included.
+- **Outside**: Passes if the value is outside the specified range. The comparison is **exclusive**, meaning values equal to the minimum or maximum are considered inside the range.
+
+### Supported Types
+
+- **Float**
+- **Int**

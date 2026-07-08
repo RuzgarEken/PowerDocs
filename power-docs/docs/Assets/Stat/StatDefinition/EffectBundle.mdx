@@ -1,0 +1,21 @@
+---
+sidebar_position: 14
+---
+
+# Effect Bundle
+
+An **Effect Bundle Stat** inherits from **Effect Pack Stat**.
+
+When initialized, it applies the **Effect Pack** stored in its **Value** to its owning **Host**.
+
+If a Modifier is later added to the Effect Bundle stat, that Modifier's Effect Pack is also applied to the Host. Likewise, when the Modifier is removed, its applied Effects are removed as well.
+
+This is useful when an Actor needs to apply a collection of Effects to itself.
+
+For example, in the **3DCells** demo, weapons have their own Stat Environments and Stat Repositories to keep them modular. When a character equips a weapon, some of the weapon's Stats and mechanics must become active on the character. An **Effect Bundle Stat** accomplishes this by applying its Effect Pack to the Host during initialization. This adds the weapon's Stats to the Host, allowing the necessary relationships between the Host's existing Stats and the newly added Stats to be established. As a result, the weapon's mechanics become fully integrated with the Host's stat system.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Stop Active Effects On Dispose** | Determines whether the Effects applied by this Effect Bundle are also disposed when the Host is disposed. |

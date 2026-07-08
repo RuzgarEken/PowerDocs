@@ -1,0 +1,28 @@
+---
+sidebar_position: 3
+---
+
+# Reflector
+
+A **Reflector** is a Redirector that redirects an Effect's **final value** after it has been fully processed.
+
+Unlike a **Director**, which redirects the Effect itself before processing, a Reflector redirects the resulting value to one or more target Actors according to its configuration.
+
+## Reflector Signature
+
+### Fields
+
+This Stat inherits all fields from **[Redirector](./)**.
+
+| Field | Description |
+| --- | --- |
+| **Incoming Effect Sign** | Reflects only Effect values with the specified sign. See **Value Sign** for the available options. |
+| **Reflect Type** | Determines how the incoming Effect value is reflected. |
+| **Reflect Percentage** | Specifies the percentage of the incoming Effect value to reflect when **Reflect Type** is set accordingly. |
+| **Receive Type** | Determines how the original Effect continues through the processing pipeline after reflection. |
+| **Reflecting Effect Template** | Defines the Effect Template used to deliver the reflected value to the target Actor(s). |
+| **Use Targeted Stat As Reflect Target** | Uses the targeted Stat from the incoming Effect as the target Stat of the reflected Effect. |
+| **Use Value Adapter** | Enables modification of the reflected value using a **Value Adapter**. This can also be used to convert the value for target Stats of different types. |
+| **Value Adapter** | The **Value Adapter** applied to the reflected value. |
+| **Use Value Distributer** | Distributes the reflected Effect value among multiple target Actors using a **Value Distributer**. |
+| **Value Distributer** | The **Value Distributer** used to split the reflected value between multiple target Actors. Custom Value Distributers can also be implemented. |

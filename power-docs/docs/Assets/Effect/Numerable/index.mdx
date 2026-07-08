@@ -1,0 +1,41 @@
+---
+sidebar_position: 3
+---
+
+# Numerable
+
+A **Numerable Stat Effect** is the base class for Effects that modify numerable Stats, such as **Float Stat Effects** and **Int Stat Effects**.
+
+In addition to the fields inherited from **Effect**, it defines how the Effect value is calculated before it is processed.
+
+## Fields
+
+This Effect inherits all fields from **[Effect](../)**.
+
+| Field | Description |
+| --- | --- |
+| **Usage Type** | Determines how the Effect value is interpreted. See **Usage Types** below. |
+| **Use Stat To Take Percentage** | Calculates percentage-based values using another Stat instead of the targeted Stat. |
+| **Stat To Take Percentage From** | The Stat used as the reference when **Use Stat To Take Percentage** is enabled. |
+| **Use Stat Value** | Uses a Stat instead of a predefined Effect value. |
+| **Value** | The predefined Effect value. |
+| **Value Stat** | The Stat that provides the Effect value. |
+| **Use Value Adapter** | Enables a Value Adapter for the Effect value. |
+| **Value Adapter** | The Value Adapter used to convert or modify the Effect value before processing. This can be used to adapt the value for different Stat types or other use cases. |
+
+## Usage Types
+
+Assume the following target Stat:
+
+- **Value:** `15`
+- **Min Value:** `10`
+- **Max Value:** `30`
+- **Effect Value:** `0.2`
+
+| Type | Result | Description |
+| --- | --- | --- |
+| **Constant** | `15 + 0.2` | Uses the Effect value directly. |
+| **Percentage Of Value** | `15 + (15 × 0.2)` | Applies the Effect value as a percentage of the current Stat value. |
+| **Percentage Of Range** | `15 + ((30 − 10) × 0.2)` | Applies the Effect value as a percentage of the Stat's total range. Available only for **Clamped Stats**. |
+| **Percentage Of Missing** | `15 + ((30 − 15) × 0.2)` | Applies the Effect value as a percentage of the value missing from the maximum. Available only for **Clamped Stats**. |
+| **Percentage Of Remain** | `15 + ((15 − 10) × 0.2)` | Applies the Effect value as a percentage of the value remaining above the minimum. Available only for **Clamped Stats**. |

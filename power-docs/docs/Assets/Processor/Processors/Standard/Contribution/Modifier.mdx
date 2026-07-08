@@ -1,0 +1,25 @@
+---
+sidebar_position: 3
+---
+
+# Modifier
+
+The **Modifier** Processor modifies the Effect value according to the contribution rules defined by the resolved **Modifier Stat** and its Signature.
+
+The contribution value is obtained from the resolved **Modifier Stat**.
+
+Modifiers are evaluated separately for the **Source Actor** and the **Target Actor**.
+
+The Modifier Stat is resolved as follows:
+
+### Base Stat (BS) Processors
+
+- For the **Target Actor**, the Modifier Stat is obtained directly from the **Target Stat's Modifier Relative Stat**.
+- For the **Source Actor**, the Modifier Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Modifier Relative Key**.
+
+### Attribute Stat (AS) / Multi Attribute Stat (MAS) Processors
+
+- For the **Target Actor**, the Modifier Stat is obtained from the **Target Actor** using the **Stat Key** referenced by the **Attribute Stat's Modifier Relative Key**.
+- For the **Source Actor**, the Modifier Stat is obtained directly from the **Attribute Stat's Modifier Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
+
+The resolved Stat must be a **Modifier Stat**.
