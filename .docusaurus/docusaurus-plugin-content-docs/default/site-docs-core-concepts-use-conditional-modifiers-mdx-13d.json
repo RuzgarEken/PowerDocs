@@ -1,0 +1,28 @@
+{
+  "id": "CoreConcepts/UseConditionalModifiers",
+  "title": "Using Conditional Modifiers in Processors",
+  "description": "Some Processors expose UseConditionalModifier options. These allow a Stat used by the Processor to be modified dynamically according to the current context before the Processor continues its execution.",
+  "source": "@site/docs/CoreConcepts/UseConditionalModifiers.mdx",
+  "sourceDirName": "CoreConcepts",
+  "slug": "/CoreConcepts/UseConditionalModifiers",
+  "permalink": "/docs/CoreConcepts/UseConditionalModifiers",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/CoreConcepts/UseConditionalModifiers.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5,
+    "sidebar_label": "Using Conditional Modifier in Processors"
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Relative Stat Seperation",
+    "permalink": "/docs/CoreConcepts/RelativeStatSeperation"
+  },
+  "next": {
+    "title": "Interface",
+    "permalink": "/docs/category/interface"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Contribution/Modifier",
+  "title": "Modifier",
+  "description": "The Modifier Processor modifies the Effect value according to the contribution rules defined by the resolved Modifier Stat and its Signature.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Contribution/Modifier.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Contribution",
+  "slug": "/Assets/Processor/Processors/Standard/Contribution/Modifier",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/Modifier",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Contribution/Modifier.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Critical Hit",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit"
+  },
+  "next": {
+    "title": "Multiplier Against Suppressor",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor"
+  }
+}

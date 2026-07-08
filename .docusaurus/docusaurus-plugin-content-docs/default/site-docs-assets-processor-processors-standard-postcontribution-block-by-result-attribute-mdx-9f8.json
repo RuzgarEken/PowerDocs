@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute",
+  "title": "Block By Result Attribute",
+  "description": "The Block By Result Attribute Processor blocks an Effect according to the Result Attributes added during the processing pipeline.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Postcontribution",
+  "slug": "/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Postcontribution",
+    "permalink": "/docs/category/postcontribution"
+  },
+  "next": {
+    "title": "Limiter",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Postcontribution/Limiter"
+  }
+}

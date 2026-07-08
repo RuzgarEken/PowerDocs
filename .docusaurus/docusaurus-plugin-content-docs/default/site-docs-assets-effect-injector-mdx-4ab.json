@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/Injector",
+  "title": "Injector",
+  "description": "Injectors are processed like any other Effect. After being processed, the Injector Model referenced by the Effect is added to the target Stat.",
+  "source": "@site/docs/Assets/Effect/Injector.mdx",
+  "sourceDirName": "Assets/Effect",
+  "slug": "/Assets/Effect/Injector",
+  "permalink": "/docs/Assets/Effect/Injector",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/Injector.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effect Timer Modifier",
+    "permalink": "/docs/Assets/Effect/EffectTimerModifier"
+  },
+  "next": {
+    "title": "Linker",
+    "permalink": "/docs/Assets/Effect/Linker"
+  }
+}

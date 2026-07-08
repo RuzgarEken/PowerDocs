@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/ MultiStat/Dot",
+  "title": "Dot",
+  "description": "A Dot Condition calculates the dot product of two Vector Stats and evaluates the result using a comparison condition.",
+  "source": "@site/docs/Assets/Misc/StatCondition/ MultiStat/Dot.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/ MultiStat",
+  "slug": "/Assets/Misc/StatCondition/ MultiStat/Dot",
+  "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Dot",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/ MultiStat/Dot.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Distance",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Distance"
+  },
+  "next": {
+    "title": "Vector Index",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex"
+  }
+}

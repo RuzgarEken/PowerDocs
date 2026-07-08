@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Preprocessors/HitRate",
+  "title": "Hit Rate",
+  "description": "The Hit Rate Processor determines whether an Effect successfully hits its target.",
+  "source": "@site/docs/Assets/Processor/Preprocessors/HitRate.mdx",
+  "sourceDirName": "Assets/Processor/Preprocessors",
+  "slug": "/Assets/Processor/Preprocessors/HitRate",
+  "permalink": "/docs/Assets/Processor/Preprocessors/HitRate",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Preprocessors/HitRate.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effect Attribute Eliminator",
+    "permalink": "/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater"
+  },
+  "next": {
+    "title": "Immune",
+    "permalink": "/docs/Assets/Processor/Preprocessors/Immune"
+  }
+}

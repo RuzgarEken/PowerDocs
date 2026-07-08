@@ -1,0 +1,683 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "Introduction",
+          "docs": [
+            {
+              "id": "Assets/Effect/Actor",
+              "path": "/docs/Assets/Effect/Actor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/effect",
+              "path": "/docs/Assets/Effect/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/EffectPack",
+              "path": "/docs/Assets/Effect/EffectPack",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/EffectTimerModifier",
+              "path": "/docs/Assets/Effect/EffectTimerModifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Injector",
+              "path": "/docs/Assets/Effect/Injector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/InjectorRemoverEffect",
+              "path": "/docs/Assets/Effect/InjectorRemoverEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Linker",
+              "path": "/docs/Assets/Effect/Linker",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/ModifierRemoverEffect",
+              "path": "/docs/Assets/Effect/ModifierRemoverEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Numerable/Float",
+              "path": "/docs/Assets/Effect/Numerable/Float",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Numerable/index",
+              "path": "/docs/Assets/Effect/Numerable/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Numerable/Int",
+              "path": "/docs/Assets/Effect/Numerable/Int",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/String",
+              "path": "/docs/Assets/Effect/String",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Vector/index",
+              "path": "/docs/Assets/Effect/Vector/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Vector/Vector2",
+              "path": "/docs/Assets/Effect/Vector/Vector2",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Vector/Vector2Int",
+              "path": "/docs/Assets/Effect/Vector/Vector2Int",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Vector/Vector3",
+              "path": "/docs/Assets/Effect/Vector/Vector3",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Effect/Vector/Vector3Int",
+              "path": "/docs/Assets/Effect/Vector/Vector3Int",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/Difference",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Difference",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/Dispatcher",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Dispatcher",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/Distance",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Distance",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/Dot",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Dot",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/index",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/Sum",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Sum",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/ MultiStat/VectorIndex",
+              "path": "/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/index",
+              "path": "/docs/Assets/Misc/StatCondition/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/SingleStat/ActorNullCheck",
+              "path": "/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/SingleStat/NumerableComparer",
+              "path": "/docs/Assets/Misc/StatCondition/SingleStat/NumerableComparer",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/SingleStat/String",
+              "path": "/docs/Assets/Misc/StatCondition/SingleStat/String",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/SingleStat/VectorIndex",
+              "path": "/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
+              "path": "/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Postprocessors/CounterEffect",
+              "path": "/docs/Assets/Processor/Postprocessors/CounterEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Postprocessors/index",
+              "path": "/docs/Assets/Processor/Postprocessors/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Postprocessors/ModifierReplacer",
+              "path": "/docs/Assets/Processor/Postprocessors/ModifierReplacer",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/AttributeStatEliminater",
+              "path": "/docs/Assets/Processor/Preprocessors/AttributeStatEliminater",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/CastRestrictor",
+              "path": "/docs/Assets/Processor/Preprocessors/CastRestrictor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/CounterEffect",
+              "path": "/docs/Assets/Processor/Preprocessors/CounterEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/Director",
+              "path": "/docs/Assets/Processor/Preprocessors/Director",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/EffectAttributeEliminater",
+              "path": "/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/HitRate",
+              "path": "/docs/Assets/Processor/Preprocessors/HitRate",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/Immune",
+              "path": "/docs/Assets/Processor/Preprocessors/Immune",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/index",
+              "path": "/docs/Assets/Processor/Preprocessors/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Preprocessors/ModifierCountLimit",
+              "path": "/docs/Assets/Processor/Preprocessors/ModifierCountLimit",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Add",
+              "path": "/docs/Assets/Processor/Processors/Add",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/index",
+              "path": "/docs/Assets/Processor/Processors/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Injector",
+              "path": "/docs/Assets/Processor/Processors/Injector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/InjectorRemover",
+              "path": "/docs/Assets/Processor/Processors/InjectorRemover",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Linker",
+              "path": "/docs/Assets/Processor/Processors/Linker",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/ModifierRemover",
+              "path": "/docs/Assets/Processor/Processors/ModifierRemover",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Set",
+              "path": "/docs/Assets/Processor/Processors/Set",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Contribution/ConditionalModifier",
+              "path": "/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Contribution/CriticalHit",
+              "path": "/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Contribution/Modifier",
+              "path": "/docs/Assets/Processor/Processors/Standard/Contribution/Modifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor",
+              "path": "/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Feedback",
+              "path": "/docs/Assets/Processor/Processors/Standard/Feedback",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/index",
+              "path": "/docs/Assets/Processor/Processors/Standard/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postcontribution/Limiter",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postcontribution/Limiter",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postcontribution/MinMaxOffset",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postcontribution/MinMaxOffset",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postcontribution/Reflector",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postcontribution/Reflector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postcontribution/Shield",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postcontribution/Shield",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postprocess/CounterEffect",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postprocess/CounterEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Postprocess/ModifierReplacer",
+              "path": "/docs/Assets/Processor/Processors/Standard/Postprocess/ModifierReplacer",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/CastRestrictor",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/CastRestrictor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/CounterEffect",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/CounterEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/Director",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/Director",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/EffectAttributeEliminater",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/EffectAttributeEliminater",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/HitRate",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/HitRate",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/Immune",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/Immune",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/Standard/Precontribution/Reflector",
+              "path": "/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Processor/Processors/TimerModifier",
+              "path": "/docs/Assets/Processor/Processors/TimerModifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/Container",
+              "path": "/docs/Assets/Stat/Container",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/Environment",
+              "path": "/docs/Assets/Stat/Environment",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/Repository",
+              "path": "/docs/Assets/Stat/Repository",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Actor",
+              "path": "/docs/Assets/Stat/StatDefinition/Actor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/ConditionalModifier",
+              "path": "/docs/Assets/Stat/StatDefinition/ConditionalModifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/DurationModifier",
+              "path": "/docs/Assets/Stat/StatDefinition/DurationModifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/EffectBundle",
+              "path": "/docs/Assets/Stat/StatDefinition/EffectBundle",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/EffectPack",
+              "path": "/docs/Assets/Stat/StatDefinition/EffectPack",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/EventBasedEffect",
+              "path": "/docs/Assets/Stat/StatDefinition/EventBasedEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Generator",
+              "path": "/docs/Assets/Stat/StatDefinition/Generator",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/index",
+              "path": "/docs/Assets/Stat/StatDefinition/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Limiter",
+              "path": "/docs/Assets/Stat/StatDefinition/Limiter",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Modifier",
+              "path": "/docs/Assets/Stat/StatDefinition/Modifier",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Numerable/Clamped",
+              "path": "/docs/Assets/Stat/StatDefinition/Numerable/Clamped",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Numerable/EdgeValue",
+              "path": "/docs/Assets/Stat/StatDefinition/Numerable/EdgeValue",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Numerable/index",
+              "path": "/docs/Assets/Stat/StatDefinition/Numerable/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Redirector/CounterEffect",
+              "path": "/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Redirector/Director",
+              "path": "/docs/Assets/Stat/StatDefinition/Redirector/Director",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Redirector/index",
+              "path": "/docs/Assets/Stat/StatDefinition/Redirector/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Redirector/Reflector",
+              "path": "/docs/Assets/Stat/StatDefinition/Redirector/Reflector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/StateBasedEffect",
+              "path": "/docs/Assets/Stat/StatDefinition/StateBasedEffect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/String",
+              "path": "/docs/Assets/Stat/StatDefinition/String",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatDefinition/Vector",
+              "path": "/docs/Assets/Stat/StatDefinition/Vector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatKey/StatKey",
+              "path": "/docs/Assets/Stat/StatKey/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Stat/StatKey/StatKeyModel_SigSep",
+              "path": "/docs/Assets/Stat/StatKey/StatKeyModel_SigSep",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Components/Actor",
+              "path": "/docs/Components/Actor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Components/Effector",
+              "path": "/docs/Components/Effector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Components/PowerWorld",
+              "path": "/docs/Components/PowerWorld",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/EffectProcessFlow",
+              "path": "/docs/CoreConcepts/EffectProcessFlow",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/HowStatValuesEvaluated",
+              "path": "/docs/CoreConcepts/HowStatValuesEvaluated",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/RelativeStatSeperation",
+              "path": "/docs/CoreConcepts/RelativeStatSeperation",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/SignatureSeperatedStats",
+              "path": "/docs/CoreConcepts/SignatureSeperatedStats",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/SourceSeperatedStats",
+              "path": "/docs/CoreConcepts/SourceSeperatedStats",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/UseConditionalModifiers",
+              "path": "/docs/CoreConcepts/UseConditionalModifiers",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "GettingStarted",
+              "path": "/docs/GettingStarted",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Interface/Editor",
+              "path": "/docs/Interface/Editor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Introduction",
+              "path": "/docs/Introduction",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-basics/congratulations",
+              "path": "/docs/tutorial-basics/congratulations",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-basics/create-a-blog-post",
+              "path": "/docs/tutorial-basics/create-a-blog-post",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-basics/create-a-document",
+              "path": "/docs/tutorial-basics/create-a-document",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-basics/create-a-page",
+              "path": "/docs/tutorial-basics/create-a-page",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-basics/deploy-your-site",
+              "path": "/docs/tutorial-basics/deploy-your-site",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-basics/markdown-features",
+              "path": "/docs/tutorial-basics/markdown-features",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/manage-docs-versions",
+              "path": "/docs/tutorial-extras/manage-docs-versions",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "tutorial-extras/translate-your-site",
+              "path": "/docs/tutorial-extras/translate-your-site",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/core-concepts",
+              "path": "/docs/category/core-concepts",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/interface",
+              "path": "/docs/category/interface",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/components",
+              "path": "/docs/category/components",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/assets",
+              "path": "/docs/category/assets",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/stat",
+              "path": "/docs/category/stat",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/stat-key",
+              "path": "/docs/category/stat-key",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/processor",
+              "path": "/docs/category/processor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/precontribution",
+              "path": "/docs/category/precontribution",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/contribution",
+              "path": "/docs/category/contribution",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/postcontribution",
+              "path": "/docs/category/postcontribution",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/postprocess",
+              "path": "/docs/category/postprocess",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/misc",
+              "path": "/docs/category/misc",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/single-stat",
+              "path": "/docs/category/single-stat",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/tutorial---extras",
+              "path": "/docs/category/tutorial---extras",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "/category/tutorial---basics",
+              "path": "/docs/category/tutorial---basics",
+              "sidebar": "tutorialSidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "tutorialSidebar": {
+              "link": {
+                "path": "/docs/Introduction",
+                "label": "Introduction"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

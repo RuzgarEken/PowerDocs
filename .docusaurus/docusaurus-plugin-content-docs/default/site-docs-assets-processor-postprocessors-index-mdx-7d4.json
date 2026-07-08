@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Postprocessors/index",
+  "title": "Postprocessors",
+  "description": "The Postprocessor stage contains all Processors that execute after an Effect has been successfully applied.",
+  "source": "@site/docs/Assets/Processor/Postprocessors/index.mdx",
+  "sourceDirName": "Assets/Processor/Postprocessors",
+  "slug": "/Assets/Processor/Postprocessors/",
+  "permalink": "/docs/Assets/Processor/Postprocessors/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Postprocessors/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Injector Remover",
+    "permalink": "/docs/Assets/Processor/Processors/InjectorRemover"
+  },
+  "next": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Processor/Postprocessors/CounterEffect"
+  }
+}

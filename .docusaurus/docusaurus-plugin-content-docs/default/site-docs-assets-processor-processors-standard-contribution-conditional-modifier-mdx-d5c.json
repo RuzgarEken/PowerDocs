@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Contribution/ConditionalModifier",
+  "title": "Conditional Modifier",
+  "description": "The Conditional Modifier Processor modifies the Effect value according to the conditions and contribution rules defined by the resolved Conditional Modifier Stat and its Signature.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Contribution",
+  "slug": "/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Contribution",
+    "permalink": "/docs/category/contribution"
+  },
+  "next": {
+    "title": "Critical Hit",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit"
+  }
+}

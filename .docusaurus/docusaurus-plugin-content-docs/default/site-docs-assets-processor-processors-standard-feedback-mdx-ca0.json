@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Feedback",
+  "title": "Feedback",
+  "description": "Feedback Processors are responsible for generating gameplay feedback after an Effect has been processed.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Feedback.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard",
+  "slug": "/Assets/Processor/Processors/Standard/Feedback",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Feedback",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Feedback.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier Replacer",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Postprocess/ModifierReplacer"
+  },
+  "next": {
+    "title": "Set",
+    "permalink": "/docs/Assets/Processor/Processors/Set"
+  }
+}

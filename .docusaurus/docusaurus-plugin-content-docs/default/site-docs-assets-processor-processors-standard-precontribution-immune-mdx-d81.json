@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Precontribution/Immune",
+  "title": "Immune",
+  "description": "Description",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Precontribution/Immune.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Precontribution",
+  "slug": "/Assets/Processor/Processors/Standard/Precontribution/Immune",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/Immune",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Precontribution/Immune.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Hit Rate",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/HitRate"
+  },
+  "next": {
+    "title": "Modifier Count Limit",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit"
+  }
+}

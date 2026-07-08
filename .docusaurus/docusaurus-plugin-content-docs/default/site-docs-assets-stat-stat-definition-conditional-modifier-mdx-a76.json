@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/ConditionalModifier",
+  "title": "Conditional Modifier",
+  "description": "A Conditional Modifier is a Modifier that is executed only when its condition is satisfied.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/ConditionalModifier.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition",
+  "slug": "/Assets/Stat/StatDefinition/ConditionalModifier",
+  "permalink": "/docs/Assets/Stat/StatDefinition/ConditionalModifier",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/ConditionalModifier.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Modifier"
+  },
+  "next": {
+    "title": "Limiter",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Limiter"
+  }
+}

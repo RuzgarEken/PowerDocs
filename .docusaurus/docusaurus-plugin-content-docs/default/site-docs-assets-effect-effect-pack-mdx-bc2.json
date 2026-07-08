@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/EffectPack",
+  "title": "Effect Pack",
+  "description": "An Effect Pack Stat Effect modifies Effect Pack Stats.",
+  "source": "@site/docs/Assets/Effect/EffectPack.mdx",
+  "sourceDirName": "Assets/Effect",
+  "slug": "/Assets/Effect/EffectPack",
+  "permalink": "/docs/Assets/Effect/EffectPack",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/EffectPack.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Vector2Int",
+    "permalink": "/docs/Assets/Effect/Vector/Vector2Int"
+  },
+  "next": {
+    "title": "Actor",
+    "permalink": "/docs/Assets/Effect/Actor"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/Linker",
+  "title": "Linker",
+  "description": "Linkers are processed like any other Effect. After being processed, the referenced Linker Model is added to the target Stat.",
+  "source": "@site/docs/Assets/Effect/Linker.mdx",
+  "sourceDirName": "Assets/Effect",
+  "slug": "/Assets/Effect/Linker",
+  "permalink": "/docs/Assets/Effect/Linker",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/Linker.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "sidebar_position": 9
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Injector",
+    "permalink": "/docs/Assets/Effect/Injector"
+  },
+  "next": {
+    "title": "Modifier Remover",
+    "permalink": "/docs/Assets/Effect/ModifierRemoverEffect"
+  }
+}

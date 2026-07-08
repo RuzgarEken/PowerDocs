@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/ MultiStat/Difference",
+  "title": "Difference",
+  "description": "A Difference Condition subtracts one Stat value from another and evaluates the result using a comparison condition.",
+  "source": "@site/docs/Assets/Misc/StatCondition/ MultiStat/Difference.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/ MultiStat",
+  "slug": "/Assets/Misc/StatCondition/ MultiStat/Difference",
+  "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Difference",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/ MultiStat/Difference.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Multi Stat",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/"
+  },
+  "next": {
+    "title": "Sum",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Sum"
+  }
+}

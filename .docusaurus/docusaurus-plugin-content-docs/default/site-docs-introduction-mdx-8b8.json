@@ -1,0 +1,24 @@
+{
+  "id": "Introduction",
+  "title": "What is Power",
+  "description": "Create a doc page with rich content.",
+  "source": "@site/docs/Introduction.mdx",
+  "sourceDirName": ".",
+  "slug": "/Introduction",
+  "permalink": "/docs/Introduction",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Introduction.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "description": "Create a doc page with rich content.",
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Getting Started",
+    "permalink": "/docs/GettingStarted"
+  }
+}

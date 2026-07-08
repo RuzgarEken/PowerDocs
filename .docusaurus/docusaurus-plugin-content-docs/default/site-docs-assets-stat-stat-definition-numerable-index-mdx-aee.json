@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/Numerable/index",
+  "title": "Numerable",
+  "description": "A Numerable Stat is the base type for all numeric Stats.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/Numerable/index.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition/Numerable",
+  "slug": "/Assets/Stat/StatDefinition/Numerable/",
+  "permalink": "/docs/Assets/Stat/StatDefinition/Numerable/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/Numerable/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "String",
+    "permalink": "/docs/Assets/Stat/StatDefinition/String"
+  },
+  "next": {
+    "title": "Clamped",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Numerable/Clamped"
+  }
+}

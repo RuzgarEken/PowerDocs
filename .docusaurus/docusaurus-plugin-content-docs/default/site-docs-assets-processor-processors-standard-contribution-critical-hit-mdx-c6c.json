@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Contribution/CriticalHit",
+  "title": "Critical Hit",
+  "description": "The Critical Hit Processor determines whether the incoming Effect becomes a critical hit and, if successful, applies a multiplier contribution to the Effect value.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Contribution",
+  "slug": "/Assets/Processor/Processors/Standard/Contribution/CriticalHit",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Conditional Modifier",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier"
+  },
+  "next": {
+    "title": "Modifier",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/Modifier"
+  }
+}

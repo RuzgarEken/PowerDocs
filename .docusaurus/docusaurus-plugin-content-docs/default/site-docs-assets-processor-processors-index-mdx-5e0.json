@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/index",
+  "title": "Processors",
+  "description": "The Processor stage is the main stage of the processing pipeline where Effects are applied to their target Stats.",
+  "source": "@site/docs/Assets/Processor/Processors/index.mdx",
+  "sourceDirName": "Assets/Processor/Processors",
+  "slug": "/Assets/Processor/Processors/",
+  "permalink": "/docs/Assets/Processor/Processors/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier Count Limit",
+    "permalink": "/docs/Assets/Processor/Preprocessors/ModifierCountLimit"
+  },
+  "next": {
+    "title": "Add",
+    "permalink": "/docs/Assets/Processor/Processors/Add"
+  }
+}

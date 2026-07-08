@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/index",
+  "title": "Stat Definition",
+  "description": "A Stat Definition is a data asset that defines a Stat's values, properties, and behavior.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/index.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition",
+  "slug": "/Assets/Stat/StatDefinition/",
+  "permalink": "/docs/Assets/Stat/StatDefinition/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Container",
+    "permalink": "/docs/Assets/Stat/Container"
+  },
+  "next": {
+    "title": "String",
+    "permalink": "/docs/Assets/Stat/StatDefinition/String"
+  }
+}

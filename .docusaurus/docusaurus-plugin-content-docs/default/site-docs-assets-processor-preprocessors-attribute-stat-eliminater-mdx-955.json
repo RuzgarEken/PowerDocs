@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Preprocessors/AttributeStatEliminater",
+  "title": "Attribute Stat Eliminator",
+  "description": "The Attribute Stat Eliminator Processor determines which Attribute Stats should participate in processing for Attribute Stat Effects and Multi Attribute Stat Effects.",
+  "source": "@site/docs/Assets/Processor/Preprocessors/AttributeStatEliminater.mdx",
+  "sourceDirName": "Assets/Processor/Preprocessors",
+  "slug": "/Assets/Processor/Preprocessors/AttributeStatEliminater",
+  "permalink": "/docs/Assets/Processor/Preprocessors/AttributeStatEliminater",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Preprocessors/AttributeStatEliminater.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Preprocessor",
+    "permalink": "/docs/Assets/Processor/Preprocessors/"
+  },
+  "next": {
+    "title": "Cast Restrictor",
+    "permalink": "/docs/Assets/Processor/Preprocessors/CastRestrictor"
+  }
+}

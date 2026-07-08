@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/InjectorRemover",
+  "title": "Injector Remover",
+  "description": "The Injector Remover Processor processes Injector Remover Effects and removes Injectors from the target Stat according to the filtering rules defined by the Injector Remover Effect.",
+  "source": "@site/docs/Assets/Processor/Processors/InjectorRemover.mdx",
+  "sourceDirName": "Assets/Processor/Processors",
+  "slug": "/Assets/Processor/Processors/InjectorRemover",
+  "permalink": "/docs/Assets/Processor/Processors/InjectorRemover",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/InjectorRemover.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "sidebar_position": 9
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier Remover",
+    "permalink": "/docs/Assets/Processor/Processors/ModifierRemover"
+  },
+  "next": {
+    "title": "Postprocessors",
+    "permalink": "/docs/Assets/Processor/Postprocessors/"
+  }
+}

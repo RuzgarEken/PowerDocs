@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/Redirector/index",
+  "title": "Redirector",
+  "description": "A Redirector is the base class for components that redirect incoming Effects during processing.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/Redirector/index.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition/Redirector",
+  "slug": "/Assets/Stat/StatDefinition/Redirector/",
+  "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/Redirector/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "sidebar_position": 10
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Limiter",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Limiter"
+  },
+  "next": {
+    "title": "Director",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/Director"
+  }
+}

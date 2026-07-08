@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Linker",
+  "title": "Linker",
+  "description": "The Linker Processor processes Linker Effects and links another Stat to the target Stat by adding the configured Linker.",
+  "source": "@site/docs/Assets/Processor/Processors/Linker.mdx",
+  "sourceDirName": "Assets/Processor/Processors",
+  "slug": "/Assets/Processor/Processors/Linker",
+  "permalink": "/docs/Assets/Processor/Processors/Linker",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Linker.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Injector",
+    "permalink": "/docs/Assets/Processor/Processors/Injector"
+  },
+  "next": {
+    "title": "Modifier Remover",
+    "permalink": "/docs/Assets/Processor/Processors/ModifierRemover"
+  }
+}

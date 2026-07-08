@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/Actor",
+  "title": "Actor",
+  "description": "An Actor Stat stores a reference to an Actor.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/Actor.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition",
+  "slug": "/Assets/Stat/StatDefinition/Actor",
+  "permalink": "/docs/Assets/Stat/StatDefinition/Actor",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/Actor.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effect Pack",
+    "permalink": "/docs/Assets/Stat/StatDefinition/EffectPack"
+  },
+  "next": {
+    "title": "Generator",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Generator"
+  }
+}

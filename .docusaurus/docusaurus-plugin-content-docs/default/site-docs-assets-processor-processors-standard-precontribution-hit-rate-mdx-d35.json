@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Precontribution/HitRate",
+  "title": "Hit Rate",
+  "description": "The Hit Rate is the signed version of the Preprocess Hit Rate Processor.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Precontribution/HitRate.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Precontribution",
+  "slug": "/Assets/Processor/Processors/Standard/Precontribution/HitRate",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/HitRate",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Precontribution/HitRate.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effect Attribute Eliminater",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/EffectAttributeEliminater"
+  },
+  "next": {
+    "title": "Immune",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/Immune"
+  }
+}

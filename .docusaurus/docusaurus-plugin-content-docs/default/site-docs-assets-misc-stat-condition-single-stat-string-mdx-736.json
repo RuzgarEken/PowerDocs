@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/SingleStat/String",
+  "title": "String Comparer",
+  "description": "A String Comparer checks whether a string value is equal to another string value.",
+  "source": "@site/docs/Assets/Misc/StatCondition/SingleStat/String.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/SingleStat",
+  "slug": "/Assets/Misc/StatCondition/SingleStat/String",
+  "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/String",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/SingleStat/String.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Numerable Comparer",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/NumerableComparer"
+  },
+  "next": {
+    "title": "Vector Index",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex"
+  }
+}

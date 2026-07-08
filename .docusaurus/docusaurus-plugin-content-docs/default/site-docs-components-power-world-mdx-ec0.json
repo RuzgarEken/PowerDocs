@@ -1,0 +1,27 @@
+{
+  "id": "Components/PowerWorld",
+  "title": "PowerWorld",
+  "description": "PowerWorld is initialized using PowerWorldSettings and serves as the central hub for Power's runtime systems, such as Diplomacy, Updater, and Logging.",
+  "source": "@site/docs/Components/PowerWorld.mdx",
+  "sourceDirName": "Components",
+  "slug": "/Components/PowerWorld",
+  "permalink": "/docs/Components/PowerWorld",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Components/PowerWorld.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effector",
+    "permalink": "/docs/Components/Effector"
+  },
+  "next": {
+    "title": "Assets",
+    "permalink": "/docs/category/assets"
+  }
+}

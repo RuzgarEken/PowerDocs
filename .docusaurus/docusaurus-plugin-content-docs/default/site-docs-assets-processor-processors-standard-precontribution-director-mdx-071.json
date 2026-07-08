@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Precontribution/Director",
+  "title": "Director",
+  "description": "The Director is the signed version of the Preprocess Director Processor.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Precontribution/Director.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Precontribution",
+  "slug": "/Assets/Processor/Processors/Standard/Precontribution/Director",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/Director",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Precontribution/Director.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/CounterEffect"
+  },
+  "next": {
+    "title": "Effect Attribute Eliminater",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/EffectAttributeEliminater"
+  }
+}

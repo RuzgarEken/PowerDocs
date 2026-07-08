@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/SingleStat/VectorIndex",
+  "title": "Vector Index",
+  "description": "A Vector Index checks whether a specific component of a vector satisfies a comparison rule.",
+  "source": "@site/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/SingleStat",
+  "slug": "/Assets/Misc/StatCondition/SingleStat/VectorIndex",
+  "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "String Comparer",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/String"
+  },
+  "next": {
+    "title": "Vector Magnitude",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude"
+  }
+}

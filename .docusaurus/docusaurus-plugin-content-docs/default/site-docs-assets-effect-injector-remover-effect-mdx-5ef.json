@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/InjectorRemoverEffect",
+  "title": "Injector Remover",
+  "description": "It removes Injectors from the targeted Stat. Injectors can be removed selectively based on their tags and the Actor that originally added them.",
+  "source": "@site/docs/Assets/Effect/InjectorRemoverEffect.mdx",
+  "sourceDirName": "Assets/Effect",
+  "slug": "/Assets/Effect/InjectorRemoverEffect",
+  "permalink": "/docs/Assets/Effect/InjectorRemoverEffect",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/InjectorRemoverEffect.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 11,
+  "frontMatter": {
+    "sidebar_position": 11
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier Remover",
+    "permalink": "/docs/Assets/Effect/ModifierRemoverEffect"
+  },
+  "next": {
+    "title": "Stat",
+    "permalink": "/docs/category/stat"
+  }
+}

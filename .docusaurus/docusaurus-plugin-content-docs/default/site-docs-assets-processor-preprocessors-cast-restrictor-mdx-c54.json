@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Preprocessors/CastRestrictor",
+  "title": "Cast Restrictor",
+  "description": "The Cast Restrictor Processor determines whether the Source Actor is allowed to apply an Effect.",
+  "source": "@site/docs/Assets/Processor/Preprocessors/CastRestrictor.mdx",
+  "sourceDirName": "Assets/Processor/Preprocessors",
+  "slug": "/Assets/Processor/Preprocessors/CastRestrictor",
+  "permalink": "/docs/Assets/Processor/Preprocessors/CastRestrictor",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Preprocessors/CastRestrictor.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Attribute Stat Eliminator",
+    "permalink": "/docs/Assets/Processor/Preprocessors/AttributeStatEliminater"
+  },
+  "next": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Processor/Preprocessors/CounterEffect"
+  }
+}

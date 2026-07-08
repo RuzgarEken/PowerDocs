@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/ MultiStat/VectorIndex",
+  "title": "Vector Index",
+  "description": "A Vector Index Condition compares the values of the selected component from two Vector Stats using a Numerable Comparer.",
+  "source": "@site/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/ MultiStat",
+  "slug": "/Assets/Misc/StatCondition/ MultiStat/VectorIndex",
+  "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Dot",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Dot"
+  },
+  "next": {
+    "title": "Dispatcher Condition",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Dispatcher"
+  }
+}

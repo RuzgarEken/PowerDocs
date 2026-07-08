@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
+  "title": "Vector Magnitude",
+  "description": "A Vector Magnitude checks whether the magnitude of a vector satisfies a comparison rule.",
+  "source": "@site/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/SingleStat",
+  "slug": "/Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
+  "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Vector Index",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex"
+  },
+  "next": {
+    "title": "Actor Null Check",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck"
+  }
+}

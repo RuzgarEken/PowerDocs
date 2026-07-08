@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Preprocessors/Director",
+  "title": "Director",
+  "description": "The Director Processor forwards the original, unprocessed Effect to another Actor before the current Effect continues through the processing pipeline.",
+  "source": "@site/docs/Assets/Processor/Preprocessors/Director.mdx",
+  "sourceDirName": "Assets/Processor/Preprocessors",
+  "slug": "/Assets/Processor/Preprocessors/Director",
+  "permalink": "/docs/Assets/Processor/Preprocessors/Director",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Preprocessors/Director.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Processor/Preprocessors/CounterEffect"
+  },
+  "next": {
+    "title": "Effect Attribute Eliminator",
+    "permalink": "/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater"
+  }
+}

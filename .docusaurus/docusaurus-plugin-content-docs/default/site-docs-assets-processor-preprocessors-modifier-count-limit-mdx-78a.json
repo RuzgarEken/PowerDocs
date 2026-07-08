@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Preprocessors/ModifierCountLimit",
+  "title": "Modifier Count Limit",
+  "description": "The Modifier Count Limit Processor limits how many Modifiers can be added to a Stat. If the configured limit has already been reached, the incoming Effect is blocked and the Modifier is not added.",
+  "source": "@site/docs/Assets/Processor/Preprocessors/ModifierCountLimit.mdx",
+  "sourceDirName": "Assets/Processor/Preprocessors",
+  "slug": "/Assets/Processor/Preprocessors/ModifierCountLimit",
+  "permalink": "/docs/Assets/Processor/Preprocessors/ModifierCountLimit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Preprocessors/ModifierCountLimit.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "sidebar_position": 9
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Immune",
+    "permalink": "/docs/Assets/Processor/Preprocessors/Immune"
+  },
+  "next": {
+    "title": "Processors",
+    "permalink": "/docs/Assets/Processor/Processors/"
+  }
+}

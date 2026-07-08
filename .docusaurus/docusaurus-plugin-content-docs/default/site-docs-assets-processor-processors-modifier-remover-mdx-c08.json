@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/ModifierRemover",
+  "title": "Modifier Remover",
+  "description": "The Modifier Remover Processor processes Modifier Remover Effects and removes Modifiers from the target Stat according to the filtering rules defined by the Modifier Remover Effect.",
+  "source": "@site/docs/Assets/Processor/Processors/ModifierRemover.mdx",
+  "sourceDirName": "Assets/Processor/Processors",
+  "slug": "/Assets/Processor/Processors/ModifierRemover",
+  "permalink": "/docs/Assets/Processor/Processors/ModifierRemover",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/ModifierRemover.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Linker",
+    "permalink": "/docs/Assets/Processor/Processors/Linker"
+  },
+  "next": {
+    "title": "Injector Remover",
+    "permalink": "/docs/Assets/Processor/Processors/InjectorRemover"
+  }
+}

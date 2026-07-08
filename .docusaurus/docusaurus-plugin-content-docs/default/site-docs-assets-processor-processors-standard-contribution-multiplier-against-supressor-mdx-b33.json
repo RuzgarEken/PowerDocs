@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor",
+  "title": "Multiplier Against Suppressor",
+  "description": "The Multiplier Against Suppressor Processor calculates a multiplier based on the relationship between the incoming Attribute Stat and its corresponding Suppressor Stat, then adds the result to the Effect's Contribution Data as a Multiplier contribution.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Contribution",
+  "slug": "/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Contribution/Modifier"
+  },
+  "next": {
+    "title": "Postcontribution",
+    "permalink": "/docs/category/postcontribution"
+  }
+}

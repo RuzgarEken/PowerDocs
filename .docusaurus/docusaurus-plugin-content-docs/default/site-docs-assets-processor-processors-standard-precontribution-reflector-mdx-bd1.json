@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Precontribution/Reflector",
+  "title": "Reflector",
+  "description": "It allows reflection to be performed according to the incoming Effect value sign and redirects the final calculated Effect value to one or more Actors based on the configuration defined by the resolved Reflector Stat and its Signature.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Precontribution",
+  "slug": "/Assets/Processor/Processors/Standard/Precontribution/Reflector",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Modifier Count Limit",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit"
+  },
+  "next": {
+    "title": "Contribution",
+    "permalink": "/docs/category/contribution"
+  }
+}

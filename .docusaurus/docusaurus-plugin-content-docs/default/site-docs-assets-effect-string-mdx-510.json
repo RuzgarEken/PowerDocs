@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/String",
+  "title": "String",
+  "description": "A String Stat Effect modifies String Stats.",
+  "source": "@site/docs/Assets/Effect/String.mdx",
+  "sourceDirName": "Assets/Effect",
+  "slug": "/Assets/Effect/String",
+  "permalink": "/docs/Assets/Effect/String",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/String.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effect",
+    "permalink": "/docs/Assets/Effect/"
+  },
+  "next": {
+    "title": "Numerable",
+    "permalink": "/docs/Assets/Effect/Numerable/"
+  }
+}

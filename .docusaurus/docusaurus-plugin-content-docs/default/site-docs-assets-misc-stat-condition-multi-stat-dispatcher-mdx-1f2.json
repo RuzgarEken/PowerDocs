@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/ MultiStat/Dispatcher",
+  "title": "Dispatcher Condition",
+  "description": "A Dispatcher Condition contains multiple conditions and evaluates the incoming Stats against all of them.",
+  "source": "@site/docs/Assets/Misc/StatCondition/ MultiStat/Dispatcher.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition/ MultiStat",
+  "slug": "/Assets/Misc/StatCondition/ MultiStat/Dispatcher",
+  "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/Dispatcher",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/ MultiStat/Dispatcher.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Vector Index",
+    "permalink": "/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex"
+  },
+  "next": {
+    "title": "Tutorial - Extras",
+    "permalink": "/docs/category/tutorial---extras"
+  }
+}

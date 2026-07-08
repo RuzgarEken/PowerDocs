@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/Vector/Vector2",
+  "title": "Vector2",
+  "description": "A Vector2 Stat Effect modifies Vector2 Stats.",
+  "source": "@site/docs/Assets/Effect/Vector/Vector2.mdx",
+  "sourceDirName": "Assets/Effect/Vector",
+  "slug": "/Assets/Effect/Vector/Vector2",
+  "permalink": "/docs/Assets/Effect/Vector/Vector2",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/Vector/Vector2.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Vector3",
+    "permalink": "/docs/Assets/Effect/Vector/Vector3"
+  },
+  "next": {
+    "title": "Vector3Int",
+    "permalink": "/docs/Assets/Effect/Vector/Vector3Int"
+  }
+}

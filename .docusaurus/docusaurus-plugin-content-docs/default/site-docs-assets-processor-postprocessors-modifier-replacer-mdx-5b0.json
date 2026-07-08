@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Postprocessors/ModifierReplacer",
+  "title": "Modifier Replacer",
+  "description": "The Modifier Replacer Processor replaces an existing Modifier when adding a new Modifier would exceed the configured replacement limit.",
+  "source": "@site/docs/Assets/Processor/Postprocessors/ModifierReplacer.mdx",
+  "sourceDirName": "Assets/Processor/Postprocessors",
+  "slug": "/Assets/Processor/Postprocessors/ModifierReplacer",
+  "permalink": "/docs/Assets/Processor/Postprocessors/ModifierReplacer",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Postprocessors/ModifierReplacer.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Processor/Postprocessors/CounterEffect"
+  },
+  "next": {
+    "title": "Misc",
+    "permalink": "/docs/category/misc"
+  }
+}

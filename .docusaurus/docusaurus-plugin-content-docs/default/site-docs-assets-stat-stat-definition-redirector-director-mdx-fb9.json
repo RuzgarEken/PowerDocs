@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/Redirector/Director",
+  "title": "Director",
+  "description": "A Director is a Redirector that redirects the Effect itself during the Preprocess or Precontribution stages.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/Redirector/Director.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition/Redirector",
+  "slug": "/Assets/Stat/StatDefinition/Redirector/Director",
+  "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/Director",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/Redirector/Director.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Redirector",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/"
+  },
+  "next": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect"
+  }
+}

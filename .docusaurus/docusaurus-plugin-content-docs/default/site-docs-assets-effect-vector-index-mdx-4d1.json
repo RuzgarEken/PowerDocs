@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/Vector/index",
+  "title": "Vector",
+  "description": "A Vector Stat Effect is the base class for Effects that modify vector-based Stats, including Vector2, Vector3, Vector2Int, and Vector3Int Stats.",
+  "source": "@site/docs/Assets/Effect/Vector/index.mdx",
+  "sourceDirName": "Assets/Effect/Vector",
+  "slug": "/Assets/Effect/Vector/",
+  "permalink": "/docs/Assets/Effect/Vector/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/Vector/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Int",
+    "permalink": "/docs/Assets/Effect/Numerable/Int"
+  },
+  "next": {
+    "title": "Vector3",
+    "permalink": "/docs/Assets/Effect/Vector/Vector3"
+  }
+}

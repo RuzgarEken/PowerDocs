@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/Redirector/Reflector",
+  "title": "Reflector",
+  "description": "A Reflector is a Redirector that redirects an Effect's final value after it has been fully processed.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/Redirector/Reflector.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition/Redirector",
+  "slug": "/Assets/Stat/StatDefinition/Redirector/Reflector",
+  "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/Reflector",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/Redirector/Reflector.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Counter Effect",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect"
+  },
+  "next": {
+    "title": "State Based Effect",
+    "permalink": "/docs/Assets/Stat/StatDefinition/StateBasedEffect"
+  }
+}

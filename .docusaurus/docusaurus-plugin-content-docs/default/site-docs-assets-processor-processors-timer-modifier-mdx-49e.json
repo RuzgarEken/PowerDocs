@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/TimerModifier",
+  "title": "Effect Timer Modifier",
+  "description": "The Effect Timer Modifier Processor processes Effect Timer Modifier Effects and modifies the remaining duration of active Modifiers.",
+  "source": "@site/docs/Assets/Processor/Processors/TimerModifier.mdx",
+  "sourceDirName": "Assets/Processor/Processors",
+  "slug": "/Assets/Processor/Processors/TimerModifier",
+  "permalink": "/docs/Assets/Processor/Processors/TimerModifier",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/TimerModifier.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Set",
+    "permalink": "/docs/Assets/Processor/Processors/Set"
+  },
+  "next": {
+    "title": "Injector",
+    "permalink": "/docs/Assets/Processor/Processors/Injector"
+  }
+}

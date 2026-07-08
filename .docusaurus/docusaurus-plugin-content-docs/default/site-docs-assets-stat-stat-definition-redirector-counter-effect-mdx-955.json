@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Stat/StatDefinition/Redirector/CounterEffect",
+  "title": "Counter Effect",
+  "description": "A Counter Effect is a Redirector that triggers another Effect in response to an incoming Effect.",
+  "source": "@site/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect.mdx",
+  "sourceDirName": "Assets/Stat/StatDefinition/Redirector",
+  "slug": "/Assets/Stat/StatDefinition/Redirector/CounterEffect",
+  "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Director",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/Director"
+  },
+  "next": {
+    "title": "Reflector",
+    "permalink": "/docs/Assets/Stat/StatDefinition/Redirector/Reflector"
+  }
+}

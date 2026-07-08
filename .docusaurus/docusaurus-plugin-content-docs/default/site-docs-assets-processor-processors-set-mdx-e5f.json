@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Set",
+  "title": "Set",
+  "description": "The Set Processor calculates the Effect value according to the processed Effect's configuration and directly sets the target Stat's RawValue to the resulting value.",
+  "source": "@site/docs/Assets/Processor/Processors/Set.mdx",
+  "sourceDirName": "Assets/Processor/Processors",
+  "slug": "/Assets/Processor/Processors/Set",
+  "permalink": "/docs/Assets/Processor/Processors/Set",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Set.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Feedback",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Feedback"
+  },
+  "next": {
+    "title": "Effect Timer Modifier",
+    "permalink": "/docs/Assets/Processor/Processors/TimerModifier"
+  }
+}

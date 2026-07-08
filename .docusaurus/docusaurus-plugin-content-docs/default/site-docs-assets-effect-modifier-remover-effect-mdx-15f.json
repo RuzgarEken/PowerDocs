@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Effect/ModifierRemoverEffect",
+  "title": "Modifier Remover",
+  "description": "It removes existing Modifiers from the targeted Stat. Modifiers can be removed selectively by configuring the provided filtering options.",
+  "source": "@site/docs/Assets/Effect/ModifierRemoverEffect.mdx",
+  "sourceDirName": "Assets/Effect",
+  "slug": "/Assets/Effect/ModifierRemoverEffect",
+  "permalink": "/docs/Assets/Effect/ModifierRemoverEffect",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Effect/ModifierRemoverEffect.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "sidebar_position": 10
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Linker",
+    "permalink": "/docs/Assets/Effect/Linker"
+  },
+  "next": {
+    "title": "Injector Remover",
+    "permalink": "/docs/Assets/Effect/InjectorRemoverEffect"
+  }
+}

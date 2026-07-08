@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/index",
+  "title": "Stat Condition",
+  "description": "A Stat Condition checks whether a Stat satisfies a specified condition.",
+  "source": "@site/docs/Assets/Misc/StatCondition/index.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition",
+  "slug": "/Assets/Misc/StatCondition/",
+  "permalink": "/docs/Assets/Misc/StatCondition/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Misc",
+    "permalink": "/docs/category/misc"
+  },
+  "next": {
+    "title": "Single Stat",
+    "permalink": "/docs/category/single-stat"
+  }
+}

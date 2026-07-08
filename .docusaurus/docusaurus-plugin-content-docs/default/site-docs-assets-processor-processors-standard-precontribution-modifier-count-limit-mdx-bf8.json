@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit",
+  "title": "Modifier Count Limit",
+  "description": "The Modifier Count Limit is the signed version of the Preprocess Modifier Count Limit Processor.",
+  "source": "@site/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit.mdx",
+  "sourceDirName": "Assets/Processor/Processors/Standard/Precontribution",
+  "slug": "/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit",
+  "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Immune",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/Immune"
+  },
+  "next": {
+    "title": "Reflector",
+    "permalink": "/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector"
+  }
+}

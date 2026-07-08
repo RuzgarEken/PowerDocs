@@ -1,0 +1,27 @@
+{
+  "id": "CoreConcepts/SourceSeperatedStats",
+  "title": "Source Seperated Stats",
+  "description": "A Source Separated Stat is both a regular Stat and a container Stat.",
+  "source": "@site/docs/CoreConcepts/SourceSeperatedStats.mdx",
+  "sourceDirName": "CoreConcepts",
+  "slug": "/CoreConcepts/SourceSeperatedStats",
+  "permalink": "/docs/CoreConcepts/SourceSeperatedStats",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/CoreConcepts/SourceSeperatedStats.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Effect Process Flow",
+    "permalink": "/docs/CoreConcepts/EffectProcessFlow"
+  },
+  "next": {
+    "title": "Signature Seperated Stats",
+    "permalink": "/docs/CoreConcepts/SignatureSeperatedStats"
+  }
+}
