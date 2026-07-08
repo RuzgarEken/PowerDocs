@@ -3,21 +3,56 @@ import ComponentCreator from '@docusaurus/ComponentCreator';
 
 export default [
   {
+    path: '/__docusaurus/debug',
+    component: ComponentCreator('/__docusaurus/debug', '5ff'),
+    exact: true
+  },
+  {
+    path: '/__docusaurus/debug/config',
+    component: ComponentCreator('/__docusaurus/debug/config', '5ba'),
+    exact: true
+  },
+  {
+    path: '/__docusaurus/debug/content',
+    component: ComponentCreator('/__docusaurus/debug/content', 'a2b'),
+    exact: true
+  },
+  {
+    path: '/__docusaurus/debug/globalData',
+    component: ComponentCreator('/__docusaurus/debug/globalData', 'c3c'),
+    exact: true
+  },
+  {
+    path: '/__docusaurus/debug/metadata',
+    component: ComponentCreator('/__docusaurus/debug/metadata', '156'),
+    exact: true
+  },
+  {
+    path: '/__docusaurus/debug/registry',
+    component: ComponentCreator('/__docusaurus/debug/registry', '88c'),
+    exact: true
+  },
+  {
+    path: '/__docusaurus/debug/routes',
+    component: ComponentCreator('/__docusaurus/debug/routes', '000'),
+    exact: true
+  },
+  {
     path: '/markdown-page',
     component: ComponentCreator('/markdown-page', '53a'),
     exact: true
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '01f'),
+    component: ComponentCreator('/docs', '20c'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'a22'),
+        component: ComponentCreator('/docs', '2c3'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '313'),
+            component: ComponentCreator('/docs', '3e1'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -170,6 +205,12 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/Assets/Misc/StatCondition/MultiStatDynamic',
+                component: ComponentCreator('/docs/Assets/Misc/StatCondition/MultiStatDynamic', '733'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck',
                 component: ComponentCreator('/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck', '16e'),
                 exact: true,
@@ -196,6 +237,12 @@ export default [
               {
                 path: '/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude',
                 component: ComponentCreator('/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude', 'e6c'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatCondition/SingleStatDynamic',
+                component: ComponentCreator('/docs/Assets/Misc/StatCondition/SingleStatDynamic', '72d'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

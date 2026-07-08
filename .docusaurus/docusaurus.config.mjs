@@ -29,7 +29,7 @@ export default {
       "gitEagerVcs": true
     }
   },
-  "url": "https://ruzgareken.github.io",
+  "url": "https://powerengine.dev",
   "baseUrl": "/",
   "organizationName": "RuzgarEken",
   "projectName": "PowerDocs",

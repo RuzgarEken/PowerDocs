@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatCondition/MultiStatDynamic",
+  "title": "Multi Stat (Dynamic)",
+  "description": "Similar to MultiStatCondition, but instead of using predefined comparison values, all comparison values are retrieved dynamically from Stats.",
+  "source": "@site/docs/Assets/Misc/StatCondition/MultiStatDynamic.mdx",
+  "sourceDirName": "Assets/Misc/StatCondition",
+  "slug": "/Assets/Misc/StatCondition/MultiStatDynamic",
+  "permalink": "/docs/Assets/Misc/StatCondition/MultiStatDynamic",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatCondition/MultiStatDynamic.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Single Stat (Dynamic)",
+    "permalink": "/docs/Assets/Misc/StatCondition/SingleStatDynamic"
+  },
+  "next": {
+    "title": "Tutorial - Extras",
+    "permalink": "/docs/category/tutorial---extras"
+  }
+}

@@ -1,553 +1,604 @@
 {
-  "/markdown-page-53a": {
-    "__comp": "1f391b9e",
+  "/__docusaurus/debug-5ff": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
     "__context": {
-      "plugin": "a7456010"
-    },
-    "content": "4c678320"
-  },
-  "/docs-01f": {
-    "__comp": "5e95c892",
-    "__context": {
-      "plugin": "aba21aa0"
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
     }
   },
-  "/docs-a22": {
-    "__comp": "a7bd4aaa",
-    "__props": "0058b4c6"
+  "/__docusaurus/debug/config-5ba": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
   },
-  "/docs-313": {
-    "__comp": "a94703ab"
+  "/__docusaurus/debug/content-a2b": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    },
+    "__props": "__props---docusaurus-debug-content-3-c-0-be2"
+  },
+  "/__docusaurus/debug/globalData-c3c": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/metadata-156": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/registry-88c": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/routes-000": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/markdown-page-53a": {
+    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "content": "content---markdown-page-4-c-6-c89"
+  },
+  "/docs-20c": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
+    "__context": {
+      "plugin": "plugin---docsaba-d7c"
+    }
+  },
+  "/docs-2c3": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---docs-005-788"
+  },
+  "/docs-3e1": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/Assets/Effect/-d2e": {
-    "__comp": "17896441",
-    "content": "483c6640"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-483-5ae"
   },
   "/docs/Assets/Effect/Actor-791": {
-    "__comp": "17896441",
-    "content": "ee19f326"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-actoree-1-597"
   },
   "/docs/Assets/Effect/EffectPack-a48": {
-    "__comp": "17896441",
-    "content": "bc2dad74"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-effect-packbc-2-aff"
   },
   "/docs/Assets/Effect/EffectTimerModifier-8f1": {
-    "__comp": "17896441",
-    "content": "1fca51f1"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-effect-timer-modifier-1-fc-a84"
   },
   "/docs/Assets/Effect/Injector-0b6": {
-    "__comp": "17896441",
-    "content": "4abba261"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-injector-4-ab-be5"
   },
   "/docs/Assets/Effect/InjectorRemoverEffect-605": {
-    "__comp": "17896441",
-    "content": "5ef95ea6"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-injector-remover-effect-5-ef-cfd"
   },
   "/docs/Assets/Effect/Linker-a86": {
-    "__comp": "17896441",
-    "content": "c7c3e769"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-linkerc-7-c-ef3"
   },
   "/docs/Assets/Effect/ModifierRemoverEffect-cf9": {
-    "__comp": "17896441",
-    "content": "15f5755f"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-modifier-remover-effect-15-f-f8b"
   },
   "/docs/Assets/Effect/Numerable/-c3c": {
-    "__comp": "17896441",
-    "content": "5c48d0bc"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-numerable-5-c-4-f99"
   },
   "/docs/Assets/Effect/Numerable/Float-199": {
-    "__comp": "17896441",
-    "content": "3043dfb8"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-numerable-float-304-0b9"
   },
   "/docs/Assets/Effect/Numerable/Int-b49": {
-    "__comp": "17896441",
-    "content": "4f3165f1"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-numerable-int-4-f-3-9bf"
   },
   "/docs/Assets/Effect/String-1e1": {
-    "__comp": "17896441",
-    "content": "5108827f"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-string-510-063"
   },
   "/docs/Assets/Effect/Vector/-f15": {
-    "__comp": "17896441",
-    "content": "4d11eb06"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-vector-4-d-1-7cb"
   },
   "/docs/Assets/Effect/Vector/Vector2-8cd": {
-    "__comp": "17896441",
-    "content": "0dcf8b53"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-vector-vector-20-dc-e0e"
   },
   "/docs/Assets/Effect/Vector/Vector2Int-cf0": {
-    "__comp": "17896441",
-    "content": "75bb7536"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-vector-vector-2-int-75-b-f04"
   },
   "/docs/Assets/Effect/Vector/Vector3-768": {
-    "__comp": "17896441",
-    "content": "9b436a63"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-vector-vector-39-b-4-b58"
   },
   "/docs/Assets/Effect/Vector/Vector3Int-96f": {
-    "__comp": "17896441",
-    "content": "38086c29"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-effect-vector-vector-3-int-380-84d"
   },
   "/docs/Assets/Misc/StatCondition/-86f": {
-    "__comp": "17896441",
-    "content": "ed947f40"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-ed-9-9de"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/-b4f": {
-    "__comp": "17896441",
-    "content": "4ff40db5"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-4-ff-4b1"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/Difference-1d8": {
-    "__comp": "17896441",
-    "content": "559d94ff"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-difference-559-6da"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/Dispatcher-7e8": {
-    "__comp": "17896441",
-    "content": "1f222532"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-dispatcher-1-f-2-d2e"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/Distance-e47": {
-    "__comp": "17896441",
-    "content": "6c303cd3"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-distance-6-c-3-25f"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/Dot-535": {
-    "__comp": "17896441",
-    "content": "e3242ac9"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-dote-32-ac0"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/Sum-c98": {
-    "__comp": "17896441",
-    "content": "eafaf668"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-sumeaf-dd3"
   },
   "/docs/Assets/Misc/StatCondition/ MultiStat/VectorIndex-66b": {
-    "__comp": "17896441",
-    "content": "86708778"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-vector-index-867-55b"
+  },
+  "/docs/Assets/Misc/StatCondition/MultiStatDynamic-733": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-multi-stat-dynamicf-11-87a"
   },
   "/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck-16e": {
-    "__comp": "17896441",
-    "content": "c8f13b26"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-single-stat-actor-null-checkc-8-f-90f"
   },
   "/docs/Assets/Misc/StatCondition/SingleStat/NumerableComparer-6c6": {
-    "__comp": "17896441",
-    "content": "ea8724d6"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-single-stat-numerable-comparerea-8-561"
   },
   "/docs/Assets/Misc/StatCondition/SingleStat/String-08b": {
-    "__comp": "17896441",
-    "content": "73641786"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-single-stat-string-736-2fa"
   },
   "/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex-c61": {
-    "__comp": "17896441",
-    "content": "b95418d4"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-single-stat-vector-indexb-95-298"
   },
   "/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude-e6c": {
-    "__comp": "17896441",
-    "content": "ba1da2f6"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-single-stat-vector-magnitudeba-1-250"
+  },
+  "/docs/Assets/Misc/StatCondition/SingleStatDynamic-72d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-stat-condition-single-stat-dynamicd-0-b-980"
   },
   "/docs/Assets/Processor/Postprocessors/-306": {
-    "__comp": "17896441",
-    "content": "7d47b1ca"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-postprocessors-7-d-4-40a"
   },
   "/docs/Assets/Processor/Postprocessors/CounterEffect-545": {
-    "__comp": "17896441",
-    "content": "63fdacdd"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-postprocessors-counter-effect-63-f-d85"
   },
   "/docs/Assets/Processor/Postprocessors/ModifierReplacer-882": {
-    "__comp": "17896441",
-    "content": "5b0235ac"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-postprocessors-modifier-replacer-5-b-0-a22"
   },
   "/docs/Assets/Processor/Preprocessors/-25d": {
-    "__comp": "17896441",
-    "content": "d9ed084b"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-d-9-e-57a"
   },
   "/docs/Assets/Processor/Preprocessors/AttributeStatEliminater-d82": {
-    "__comp": "17896441",
-    "content": "9559dd54"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-attribute-stat-eliminater-955-1a7"
   },
   "/docs/Assets/Processor/Preprocessors/CastRestrictor-346": {
-    "__comp": "17896441",
-    "content": "c54e4e71"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-cast-restrictorc-54-bbd"
   },
   "/docs/Assets/Processor/Preprocessors/CounterEffect-e2c": {
-    "__comp": "17896441",
-    "content": "30d2c824"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-counter-effect-30-d-352"
   },
   "/docs/Assets/Processor/Preprocessors/Director-08b": {
-    "__comp": "17896441",
-    "content": "c44d7f85"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-directorc-44-ef4"
   },
   "/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater-0a4": {
-    "__comp": "17896441",
-    "content": "133de54b"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-effect-attribute-eliminater-133-fbd"
   },
   "/docs/Assets/Processor/Preprocessors/HitRate-ab0": {
-    "__comp": "17896441",
-    "content": "57fbda52"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-hit-rate-57-f-54e"
   },
   "/docs/Assets/Processor/Preprocessors/Immune-d57": {
-    "__comp": "17896441",
-    "content": "80138cc2"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-immune-801-f3b"
   },
   "/docs/Assets/Processor/Preprocessors/ModifierCountLimit-fc9": {
-    "__comp": "17896441",
-    "content": "78a4a4e4"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-preprocessors-modifier-count-limit-78-a-cee"
   },
   "/docs/Assets/Processor/Processors/-f6e": {
-    "__comp": "17896441",
-    "content": "5e042b35"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-5-e-0-b4b"
   },
   "/docs/Assets/Processor/Processors/Add-67e": {
-    "__comp": "17896441",
-    "content": "340a1017"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-add-340-397"
   },
   "/docs/Assets/Processor/Processors/Injector-6b5": {
-    "__comp": "17896441",
-    "content": "2643fa68"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-injector-264-4b3"
   },
   "/docs/Assets/Processor/Processors/InjectorRemover-e79": {
-    "__comp": "17896441",
-    "content": "135313cf"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-injector-remover-135-274"
   },
   "/docs/Assets/Processor/Processors/Linker-ebd": {
-    "__comp": "17896441",
-    "content": "8e369c4f"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-linker-8-e-3-32e"
   },
   "/docs/Assets/Processor/Processors/ModifierRemover-964": {
-    "__comp": "17896441",
-    "content": "c08f9a0c"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-modifier-removerc-08-411"
   },
   "/docs/Assets/Processor/Processors/Set-edc": {
-    "__comp": "17896441",
-    "content": "e5f9f257"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-sete-5-f-d8d"
   },
   "/docs/Assets/Processor/Processors/Standard/-4c4": {
-    "__comp": "17896441",
-    "content": "e5e557e0"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-e-5-e-612"
   },
   "/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier-0a0": {
-    "__comp": "17896441",
-    "content": "d5ce6108"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-contribution-conditional-modifierd-5-c-c0c"
   },
   "/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit-1a3": {
-    "__comp": "17896441",
-    "content": "c6c8b5ec"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-contribution-critical-hitc-6-c-a6c"
   },
   "/docs/Assets/Processor/Processors/Standard/Contribution/Modifier-d0c": {
-    "__comp": "17896441",
-    "content": "992c5f37"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-contribution-modifier-992-c79"
   },
   "/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor-d3a": {
-    "__comp": "17896441",
-    "content": "b33169bf"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-contribution-multiplier-against-supressorb-33-254"
   },
   "/docs/Assets/Processor/Processors/Standard/Feedback-082": {
-    "__comp": "17896441",
-    "content": "ca04af66"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-feedbackca-0-73e"
   },
   "/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute-87a": {
-    "__comp": "17896441",
-    "content": "9f85548d"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postcontribution-block-by-result-attribute-9-f-8-fa2"
   },
   "/docs/Assets/Processor/Processors/Standard/Postcontribution/Limiter-92f": {
-    "__comp": "17896441",
-    "content": "49d68f51"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postcontribution-limiter-49-d-6d4"
   },
   "/docs/Assets/Processor/Processors/Standard/Postcontribution/MinMaxOffset-470": {
-    "__comp": "17896441",
-    "content": "d8ecbb29"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postcontribution-min-max-offsetd-8-e-bcf"
   },
   "/docs/Assets/Processor/Processors/Standard/Postcontribution/Reflector-48d": {
-    "__comp": "17896441",
-    "content": "c461b4fc"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postcontribution-reflectorc-46-33c"
   },
   "/docs/Assets/Processor/Processors/Standard/Postcontribution/Shield-852": {
-    "__comp": "17896441",
-    "content": "380bd564"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postcontribution-shield-380-d10"
   },
   "/docs/Assets/Processor/Processors/Standard/Postprocess/CounterEffect-584": {
-    "__comp": "17896441",
-    "content": "b2b69a3d"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postprocess-counter-effectb-2-b-68f"
   },
   "/docs/Assets/Processor/Processors/Standard/Postprocess/ModifierReplacer-925": {
-    "__comp": "17896441",
-    "content": "90b90520"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-postprocess-modifier-replacer-90-b-240"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/CastRestrictor-b2d": {
-    "__comp": "17896441",
-    "content": "226bbad2"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-cast-restrictor-226-7d7"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/CounterEffect-df2": {
-    "__comp": "17896441",
-    "content": "0bea0f27"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-counter-effect-0-be-5ac"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/Director-7c9": {
-    "__comp": "17896441",
-    "content": "071a5ea1"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-director-071-0b5"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/EffectAttributeEliminater-de6": {
-    "__comp": "17896441",
-    "content": "400caf61"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-effect-attribute-eliminater-400-3cf"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/HitRate-3f2": {
-    "__comp": "17896441",
-    "content": "d356a853"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-hit-rated-35-3d3"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/Immune-eaf": {
-    "__comp": "17896441",
-    "content": "d81d4ecb"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-immuned-81-8aa"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/ModifierCountLimit-a1a": {
-    "__comp": "17896441",
-    "content": "bf876edd"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-modifier-count-limitbf-8-56c"
   },
   "/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector-017": {
-    "__comp": "17896441",
-    "content": "bd10d833"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-standard-precontribution-reflectorbd-1-020"
   },
   "/docs/Assets/Processor/Processors/TimerModifier-d10": {
-    "__comp": "17896441",
-    "content": "49e3cdd4"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-processor-processors-timer-modifier-49-e-d17"
   },
   "/docs/Assets/Stat/Container-22b": {
-    "__comp": "17896441",
-    "content": "d97614cb"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-containerd-97-3a1"
   },
   "/docs/Assets/Stat/Environment-20f": {
-    "__comp": "17896441",
-    "content": "1175953d"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-environment-117-834"
   },
   "/docs/Assets/Stat/Repository-102": {
-    "__comp": "17896441",
-    "content": "775882c3"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-repository-775-937"
   },
   "/docs/Assets/Stat/StatDefinition/-9c5": {
-    "__comp": "17896441",
-    "content": "a5520577"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-a-55-284"
   },
   "/docs/Assets/Stat/StatDefinition/Actor-c83": {
-    "__comp": "17896441",
-    "content": "62d66a6d"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-actor-62-d-c29"
   },
   "/docs/Assets/Stat/StatDefinition/ConditionalModifier-00b": {
-    "__comp": "17896441",
-    "content": "a76b67cc"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-conditional-modifiera-76-9eb"
   },
   "/docs/Assets/Stat/StatDefinition/DurationModifier-384": {
-    "__comp": "17896441",
-    "content": "4afe37cc"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-duration-modifier-4-af-531"
   },
   "/docs/Assets/Stat/StatDefinition/EffectBundle-624": {
-    "__comp": "17896441",
-    "content": "5cc6759b"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-effect-bundle-5-cc-5c3"
   },
   "/docs/Assets/Stat/StatDefinition/EffectPack-84f": {
-    "__comp": "17896441",
-    "content": "f2b3ffe1"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-effect-packf-2-b-d2f"
   },
   "/docs/Assets/Stat/StatDefinition/EventBasedEffect-1c1": {
-    "__comp": "17896441",
-    "content": "e3ab18d4"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-event-based-effecte-3-a-3f2"
   },
   "/docs/Assets/Stat/StatDefinition/Generator-c6a": {
-    "__comp": "17896441",
-    "content": "70a867db"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-generator-70-a-766"
   },
   "/docs/Assets/Stat/StatDefinition/Limiter-59a": {
-    "__comp": "17896441",
-    "content": "2a6d0a42"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-limiter-2-a-6-a59"
   },
   "/docs/Assets/Stat/StatDefinition/Modifier-d80": {
-    "__comp": "17896441",
-    "content": "a36a5f17"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-modifiera-36-375"
   },
   "/docs/Assets/Stat/StatDefinition/Numerable/-d90": {
-    "__comp": "17896441",
-    "content": "aee163cc"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-numerable-aee-6d7"
   },
   "/docs/Assets/Stat/StatDefinition/Numerable/Clamped-de3": {
-    "__comp": "17896441",
-    "content": "2003f0f5"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-numerable-clamped-200-a4b"
   },
   "/docs/Assets/Stat/StatDefinition/Numerable/EdgeValue-b57": {
-    "__comp": "17896441",
-    "content": "179badbe"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-numerable-edge-value-179-dff"
   },
   "/docs/Assets/Stat/StatDefinition/Redirector/-e00": {
-    "__comp": "17896441",
-    "content": "1ecf46bf"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-redirector-1-ec-a0b"
   },
   "/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect-fea": {
-    "__comp": "17896441",
-    "content": "9554ab59"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-redirector-counter-effect-955-e54"
   },
   "/docs/Assets/Stat/StatDefinition/Redirector/Director-fa2": {
-    "__comp": "17896441",
-    "content": "fb91444c"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-redirector-directorfb-9-502"
   },
   "/docs/Assets/Stat/StatDefinition/Redirector/Reflector-c25": {
-    "__comp": "17896441",
-    "content": "755a30d2"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-redirector-reflector-755-0b0"
   },
   "/docs/Assets/Stat/StatDefinition/StateBasedEffect-0e6": {
-    "__comp": "17896441",
-    "content": "5ac2b14b"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-state-based-effect-5-ac-41b"
   },
   "/docs/Assets/Stat/StatDefinition/String-996": {
-    "__comp": "17896441",
-    "content": "6dee94a9"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-string-6-de-25e"
   },
   "/docs/Assets/Stat/StatDefinition/Vector-b49": {
-    "__comp": "17896441",
-    "content": "010598f3"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-definition-vector-010-10c"
   },
   "/docs/Assets/Stat/StatKey/-995": {
-    "__comp": "17896441",
-    "content": "48050e6b"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-key-480-5c4"
   },
   "/docs/Assets/Stat/StatKey/StatKeyModel_SigSep-e4d": {
-    "__comp": "17896441",
-    "content": "0137c951"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-stat-stat-key-stat-key-model-sig-sep-013-183"
   },
   "/docs/category/assets-beb": {
-    "__comp": "14eb3368",
-    "__props": "0227ab91"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-assets-022-cdb"
   },
   "/docs/category/components-84a": {
-    "__comp": "14eb3368",
-    "__props": "4f2b2ca4"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-components-4-f-2-437"
   },
   "/docs/category/contribution-8a1": {
-    "__comp": "14eb3368",
-    "__props": "2c1f242d"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-contribution-2-c-1-a6e"
   },
   "/docs/category/core-concepts-409": {
-    "__comp": "14eb3368",
-    "__props": "9d132284"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-core-concepts-9-d-1-fe4"
   },
   "/docs/category/interface-a84": {
-    "__comp": "14eb3368",
-    "__props": "32c13460"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-interface-32-c-609"
   },
   "/docs/category/misc-240": {
-    "__comp": "14eb3368",
-    "__props": "5df7ccd7"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-misc-5-df-901"
   },
   "/docs/category/postcontribution-a1f": {
-    "__comp": "14eb3368",
-    "__props": "8d95bccc"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-postcontribution-8-d-9-036"
   },
   "/docs/category/postprocess-9b9": {
-    "__comp": "14eb3368",
-    "__props": "8f7b1df3"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-postprocess-8-f-7-b6b"
   },
   "/docs/category/precontribution-22c": {
-    "__comp": "14eb3368",
-    "__props": "28c0f743"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-precontribution-28-c-3a5"
   },
   "/docs/category/processor-d9a": {
-    "__comp": "14eb3368",
-    "__props": "e355b93c"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-processore-35-017"
   },
   "/docs/category/single-stat-468": {
-    "__comp": "14eb3368",
-    "__props": "9e958e4d"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-single-stat-9-e-9-949"
   },
   "/docs/category/stat-c4f": {
-    "__comp": "14eb3368",
-    "__props": "f343fc96"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-statf-34-f52"
   },
   "/docs/category/stat-key-dfd": {
-    "__comp": "14eb3368",
-    "__props": "cf3fc0e7"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-stat-keycf-3-bfd"
   },
   "/docs/category/tutorial---basics-20e": {
-    "__comp": "14eb3368",
-    "__props": "c8a4e95a"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-tutorial-basicsc-8-a-e51"
   },
   "/docs/category/tutorial---extras-9ad": {
-    "__comp": "14eb3368",
-    "__props": "6bb166bd"
+    "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
+    "__props": "__props---docs-category-tutorial-extras-6-bb-a82"
   },
   "/docs/Components/Actor-360": {
-    "__comp": "17896441",
-    "content": "8de3b09e"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-components-actor-8-de-d3e"
   },
   "/docs/Components/Effector-e33": {
-    "__comp": "17896441",
-    "content": "f350d65c"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-components-effectorf-35-d7d"
   },
   "/docs/Components/PowerWorld-ca9": {
-    "__comp": "17896441",
-    "content": "ec0b49f8"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-components-power-worldec-0-0af"
   },
   "/docs/CoreConcepts/EffectProcessFlow-59a": {
-    "__comp": "17896441",
-    "content": "825e0315"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-effect-process-flow-825-292"
   },
   "/docs/CoreConcepts/HowStatValuesEvaluated-958": {
-    "__comp": "17896441",
-    "content": "96aa656f"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-how-stat-values-evaluated-96-a-4e5"
   },
   "/docs/CoreConcepts/RelativeStatSeperation-364": {
-    "__comp": "17896441",
-    "content": "68586008"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-relative-stat-seperation-685-41e"
   },
   "/docs/CoreConcepts/SignatureSeperatedStats-61d": {
-    "__comp": "17896441",
-    "content": "54063a66"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-signature-seperated-stats-540-18b"
   },
   "/docs/CoreConcepts/SourceSeperatedStats-f59": {
-    "__comp": "17896441",
-    "content": "267724e4"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-source-seperated-stats-267-158"
   },
   "/docs/CoreConcepts/UseConditionalModifiers-8ca": {
-    "__comp": "17896441",
-    "content": "13df228c"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-use-conditional-modifiers-13-d-0d0"
   },
   "/docs/GettingStarted-45e": {
-    "__comp": "17896441",
-    "content": "6e283d00"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-getting-started-6-e-2-aa2"
   },
   "/docs/Interface/Editor-6be": {
-    "__comp": "17896441",
-    "content": "56bc13fa"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-interface-editor-56-b-9c1"
   },
   "/docs/Introduction-856": {
-    "__comp": "17896441",
-    "content": "8b80ea90"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-introduction-8-b-8-ff7"
   },
   "/docs/tutorial-basics/congratulations-93d": {
-    "__comp": "17896441",
-    "content": "d2046142"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-basics-congratulationsd-20-b14"
   },
   "/docs/tutorial-basics/create-a-blog-post-c2a": {
-    "__comp": "17896441",
-    "content": "bcf87191"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-basics-create-a-blog-postbcf-5aa"
   },
   "/docs/tutorial-basics/create-a-document-920": {
-    "__comp": "17896441",
-    "content": "c88346e3"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-basics-create-a-documentc-88-1fa"
   },
   "/docs/tutorial-basics/create-a-page-539": {
-    "__comp": "17896441",
-    "content": "41f7977f"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-basics-create-a-page-41-f-f2e"
   },
   "/docs/tutorial-basics/deploy-your-site-feb": {
-    "__comp": "17896441",
-    "content": "8b48892d"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-basics-deploy-your-site-8-b-4-c45"
   },
   "/docs/tutorial-basics/markdown-features-b05": {
-    "__comp": "17896441",
-    "content": "18c41134"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-basics-markdown-features-18-c-a79"
   },
   "/docs/tutorial-extras/manage-docs-versions-5a2": {
-    "__comp": "17896441",
-    "content": "af321b0b"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-manage-docs-versionsaf-3-232"
   },
   "/docs/tutorial-extras/translate-your-site-d21": {
-    "__comp": "17896441",
-    "content": "25aee49d"
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-tutorial-extras-translate-your-site-25-a-725"
   },
   "/-2e1": {
-    "__comp": "c4f5d8e4",
+    "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",
     "__context": {
-      "plugin": "a7456010"
+      "plugin": "plugin---markdown-pagea-74-7b5"
     },
-    "config": "5e9f5e1a"
+    "config": "config---5-e-9-4f3"
   }
 }

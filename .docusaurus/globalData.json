@@ -136,6 +136,11 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Assets/Misc/StatCondition/MultiStatDynamic",
+              "path": "/docs/Assets/Misc/StatCondition/MultiStatDynamic",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Assets/Misc/StatCondition/SingleStat/ActorNullCheck",
               "path": "/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck",
               "sidebar": "tutorialSidebar"
@@ -158,6 +163,11 @@
             {
               "id": "Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
               "path": "/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatCondition/SingleStatDynamic",
+              "path": "/docs/Assets/Misc/StatCondition/SingleStatDynamic",
               "sidebar": "tutorialSidebar"
             },
             {
