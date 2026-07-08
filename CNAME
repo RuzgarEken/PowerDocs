@@ -1,1 +1,1 @@
-powerengine.dev
+echo "powerengine.dev" > static/CNAME
