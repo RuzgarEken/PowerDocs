@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Value/Alter copy",
+  "title": "Alter copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Adapter/Value/Alter copy.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Value",
+  "slug": "/Assets/Misc/Adapter/Value/Alter copy",
+  "permalink": "/docs/Assets/Misc/Adapter/Value/Alter copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Value/Alter copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Parent Actor",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/ParentActor"
+  },
+  "next": {
+    "title": "Alter",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/Alter"
+  }
+}

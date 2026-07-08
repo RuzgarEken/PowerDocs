@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '20c'),
+    component: ComponentCreator('/docs', '086'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '2c3'),
+        component: ComponentCreator('/docs', '5b5'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '3e1'),
+            component: ComponentCreator('/docs', '0fc'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -157,6 +157,96 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/Assets/Misc/Adapter/',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/', 'b2d'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/', '99c'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/', '73d'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Alter',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Alter', '1c3'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Chain',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Chain', 'acf'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/ParentActor',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/ParentActor', '0f6'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/ToUniformVector',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/ToUniformVector', '74a'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/ToVectorIndex',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/ToVectorIndex', '2ec'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/Cross',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Cross', '057'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/Direction',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Direction', '4b2'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/Dot',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Dot', 'a08'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/Normalize',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Normalize', '816'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane', 'd9a'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/Reflect',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Reflect', '740'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Value/Vector/Substract',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Substract', 'e70'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/docs/Assets/Misc/StatCondition/',
                 component: ComponentCreator('/docs/Assets/Misc/StatCondition/', '86f'),
                 exact: true,
@@ -243,6 +333,42 @@ export default [
               {
                 path: '/docs/Assets/Misc/StatCondition/SingleStatDynamic',
                 component: ComponentCreator('/docs/Assets/Misc/StatCondition/SingleStatDynamic', '72d'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatScaler/',
+                component: ComponentCreator('/docs/Assets/Misc/StatScaler/', '64d'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatScaler/Multi/',
+                component: ComponentCreator('/docs/Assets/Misc/StatScaler/Multi/', '7c3'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatScaler/Multi/Distance',
+                component: ComponentCreator('/docs/Assets/Misc/StatScaler/Multi/Distance', '8ec'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatScaler/Multi/Dot',
+                component: ComponentCreator('/docs/Assets/Misc/StatScaler/Multi/Dot', '109'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatScaler/Single/',
+                component: ComponentCreator('/docs/Assets/Misc/StatScaler/Single/', '7a1'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/StatScaler/Single/MapValue',
+                component: ComponentCreator('/docs/Assets/Misc/StatScaler/Single/MapValue', '2c8'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

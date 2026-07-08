@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Value/Vector/Substract",
+  "title": "Substract",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/Substract.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
+  "slug": "/Assets/Misc/Adapter/Value/Vector/Substract",
+  "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/Substract",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Value/Vector/Substract.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Reflect",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/Reflect"
+  },
+  "next": {
+    "title": "Stat Value Adapter",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/"
+  }
+}

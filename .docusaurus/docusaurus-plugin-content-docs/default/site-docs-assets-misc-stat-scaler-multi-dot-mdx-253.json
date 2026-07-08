@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/StatScaler/Multi/Dot",
+  "title": "Dot",
+  "description": "Calculates the dot product between two vector Stats, maps the result using a ValueMapper, and returns the resulting multiplier.",
+  "source": "@site/docs/Assets/Misc/StatScaler/Multi/Dot.mdx",
+  "sourceDirName": "Assets/Misc/StatScaler/Multi",
+  "slug": "/Assets/Misc/StatScaler/Multi/Dot",
+  "permalink": "/docs/Assets/Misc/StatScaler/Multi/Dot",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/StatScaler/Multi/Dot.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Distance",
+    "permalink": "/docs/Assets/Misc/StatScaler/Multi/Distance"
+  },
+  "next": {
+    "title": "Adapter",
+    "permalink": "/docs/Assets/Misc/Adapter/"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Value/ParentActor",
+  "title": "Parent Actor",
+  "description": "Works with ActorEntity values.",
+  "source": "@site/docs/Assets/Misc/Adapter/Value/ParentActor.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Value",
+  "slug": "/Assets/Misc/Adapter/Value/ParentActor",
+  "permalink": "/docs/Assets/Misc/Adapter/Value/ParentActor",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Value/ParentActor.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Value Adapter",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/"
+  },
+  "next": {
+    "title": "Alter",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/Alter"
+  }
+}

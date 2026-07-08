@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Value/Vector/ProjectOnPlane copy",
+  "title": "ProjectOnPlane copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane copy.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
+  "slug": "/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane copy",
+  "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Normalize",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/Normalize"
+  },
+  "next": {
+    "title": "ProjectOnPlane",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane"
+  }
+}

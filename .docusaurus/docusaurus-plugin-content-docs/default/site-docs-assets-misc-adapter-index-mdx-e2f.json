@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/index",
+  "title": "Adapter",
+  "description": "Converts a Stat value between different types or modifies it into a format required by the target processor or injector.",
+  "source": "@site/docs/Assets/Misc/Adapter/index.mdx",
+  "sourceDirName": "Assets/Misc/Adapter",
+  "slug": "/Assets/Misc/Adapter/",
+  "permalink": "/docs/Assets/Misc/Adapter/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Dot",
+    "permalink": "/docs/Assets/Misc/StatScaler/Multi/Dot"
+  },
+  "next": {
+    "title": "Value Adapter",
+    "permalink": "/docs/Assets/Misc/Adapter/Value/"
+  }
+}

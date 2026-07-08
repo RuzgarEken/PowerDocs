@@ -96,6 +96,81 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Assets/Misc/Adapter/index",
+              "path": "/docs/Assets/Misc/Adapter/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/index",
+              "path": "/docs/Assets/Misc/Adapter/Stat/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Alter",
+              "path": "/docs/Assets/Misc/Adapter/Value/Alter",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Chain",
+              "path": "/docs/Assets/Misc/Adapter/Value/Chain",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/index",
+              "path": "/docs/Assets/Misc/Adapter/Value/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/ParentActor",
+              "path": "/docs/Assets/Misc/Adapter/Value/ParentActor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/ToUniformVector",
+              "path": "/docs/Assets/Misc/Adapter/Value/ToUniformVector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/ToVectorIndex",
+              "path": "/docs/Assets/Misc/Adapter/Value/ToVectorIndex",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/Cross",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/Cross",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/Direction",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/Direction",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/Dot",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/Dot",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/Normalize",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/Normalize",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/ProjectOnPlane",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/Reflect",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/Reflect",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Value/Vector/Substract",
+              "path": "/docs/Assets/Misc/Adapter/Value/Vector/Substract",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Assets/Misc/StatCondition/ MultiStat/Difference",
               "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Difference",
               "sidebar": "tutorialSidebar"
@@ -168,6 +243,36 @@
             {
               "id": "Assets/Misc/StatCondition/SingleStatDynamic",
               "path": "/docs/Assets/Misc/StatCondition/SingleStatDynamic",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatScaler/index",
+              "path": "/docs/Assets/Misc/StatScaler/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatScaler/Multi/Distance",
+              "path": "/docs/Assets/Misc/StatScaler/Multi/Distance",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatScaler/Multi/Dot",
+              "path": "/docs/Assets/Misc/StatScaler/Multi/Dot",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatScaler/Multi/index",
+              "path": "/docs/Assets/Misc/StatScaler/Multi/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatScaler/Single/index",
+              "path": "/docs/Assets/Misc/StatScaler/Single/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/StatScaler/Single/MapValue",
+              "path": "/docs/Assets/Misc/StatScaler/Single/MapValue",
               "sidebar": "tutorialSidebar"
             },
             {
