@@ -1,0 +1,35 @@
+---
+sidebar_position: 2
+---
+
+# Critical Hit
+
+The **Critical Hit** Processor determines whether the incoming Effect becomes a critical hit and, if successful, applies a multiplier contribution to the Effect value.
+
+The **Critical Rate** and **Critical Multiplier** Stats are resolved through the **Attribute Stat**.
+
+The Critical Rate values from both the **Source Actor** and the **Target Actor** are combined to produce the final Critical Rate.
+
+A random value between **0** and **1** is then generated. If the random value is lower than the calculated Critical Rate, the critical hit succeeds.
+
+If the critical hit succeeds, the **Critical Multiplier** values from both sides are combined and added to the Effect's **Contribution Data** as a **Multiplier** contribution.
+
+The Critical Rate and Critical Multiplier Stats are resolved as follows:
+
+- For the **Target Actor**, the Stats are obtained directly from the **Attribute Stat's Relative Stats**.
+- For the **Source Actor**, the Stats are obtained from the **Source Actor** using the **Stat Keys** referenced by the **Attribute Stat's Relative Keys**.
+
+The resolved Stats must be **Float Stats**.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Critical Rate Taken Key** | The Relative Key used to resolve the Target Actor's Critical Rate Stat. |
+| **Critical Rate Given Key** | The Relative Key used to resolve the Source Actor's Critical Rate Stat. |
+| **Critical Multiplier Taken Key** | The Relative Key used to resolve the Target Actor's Critical Multiplier Stat. |
+| **Critical Multiplier Given Key** | The Relative Key used to resolve the Source Actor's Critical Multiplier Stat. |
+| **Critical Result Attribute** | The Result Attribute added when the Critical Hit check succeeds. |
+| **Use Conditional Rate Modifier** | Enables conditional modification of the resolved Critical Rate values before they are evaluated. |
+| **Use Conditional Multiplier Modifier** | Enables conditional modification of the resolved Critical Multiplier values before they are added to the Contribution Data. |
+| **Conditional Modifier Processor** | The Conditional Modifier Processor used to modify the resolved Critical Rate and Critical Multiplier values. |

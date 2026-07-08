@@ -1,0 +1,23 @@
+---
+sidebar_position: 1
+---
+
+# Conditional Modifier
+
+The **Conditional Modifier** Processor modifies the Effect value according to the conditions and contribution rules defined by the resolved **Conditional Modifier Stat** and its Signature.
+
+Conditional Modifiers are evaluated separately for the **Source Actor** and the **Target Actor**.
+
+The Conditional Modifier Stat is resolved as follows:
+
+### Base Stat (BS) Processors
+
+- For the **Target Actor**, the Conditional Modifier Stat is obtained directly from the **Target Stat's Conditional Modifier Relative Stat**.
+- For the **Source Actor**, the Conditional Modifier Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Conditional Modifier Relative Key**.
+
+### Attribute Stat (AS) / Multi Attribute Stat (MAS) Processors
+
+- For the **Target Actor**, the Conditional Modifier Stat is obtained from the **Target Actor** using the **Stat Key** referenced by the **Attribute Stat's Conditional Modifier Relative Key**.
+- For the **Source Actor**, the Conditional Modifier Stat is obtained directly from the **Attribute Stat's Conditional Modifier Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
+
+The resolved Stat must be a **Conditional Modifier Stat**.
