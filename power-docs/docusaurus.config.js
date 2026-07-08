@@ -27,8 +27,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'ruzgareken', // Usually your GitHub org/user name.
-  projectName: 'powerdocs', // Usually your repo name.
+  organizationName: 'RuzgarEken', // Usually your GitHub org/user name.
+  projectName: 'PowerDocs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
