@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Vector/Dot",
   "title": "Dot",
-  "description": "",
+  "description": "Returns the dot product of the input vector and a predefined vector.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/Dot.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
   "slug": "/Assets/Misc/Adapter/Value/Vector/Dot",

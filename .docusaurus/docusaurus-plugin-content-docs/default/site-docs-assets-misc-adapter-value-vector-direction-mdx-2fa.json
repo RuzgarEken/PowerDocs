@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Vector/Direction",
   "title": "Direction",
-  "description": "",
+  "description": "Returns the normalized direction from the input vector to a predefined vector.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/Direction.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
   "slug": "/Assets/Misc/Adapter/Value/Vector/Direction",

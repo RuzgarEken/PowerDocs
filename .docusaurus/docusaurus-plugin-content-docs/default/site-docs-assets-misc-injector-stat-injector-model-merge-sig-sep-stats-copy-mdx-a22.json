@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats copy",
+  "title": "MergeSigSepStats copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats copy.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats copy",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "InserStatToSigSepStat",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat"
+  },
+  "next": {
+    "title": "MergeSigSepStats",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats"
+  }
+}

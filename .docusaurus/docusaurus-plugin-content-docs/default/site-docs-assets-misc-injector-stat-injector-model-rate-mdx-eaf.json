@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/Rate",
+  "title": "Rate",
+  "description": "Applies the value of the injector Stat as a rate to the target Stat value.",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/Rate.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/Rate",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/Rate",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/Rate.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 11,
+  "frontMatter": {
+    "sidebar_position": 11
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Multiply Value By Condition",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/MultiplyByCondition"
+  },
+  "next": {
+    "title": "Rate Value By Condition",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/ActorStatExtractor copy",
+  "title": "ActorStatExtractor copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor copy.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/ActorStatExtractor copy",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "FloatToIntAltered",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered"
+  },
+  "next": {
+    "title": "ActorStatExtractor",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor"
+  }
+}

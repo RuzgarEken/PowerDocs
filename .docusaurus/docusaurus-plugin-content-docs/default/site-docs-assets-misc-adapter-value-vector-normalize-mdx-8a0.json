@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Vector/Normalize",
   "title": "Normalize",
-  "description": "",
+  "description": "Returns the normalized version of the input vector.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/Normalize.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
   "slug": "/Assets/Misc/Adapter/Value/Vector/Normalize",
@@ -21,7 +21,7 @@
     "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/Dot"
   },
   "next": {
-    "title": "ProjectOnPlane",
+    "title": "Project On Plane",
     "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane"
   }
 }

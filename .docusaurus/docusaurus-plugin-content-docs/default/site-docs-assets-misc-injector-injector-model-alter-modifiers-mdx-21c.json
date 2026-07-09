@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/InjectorModel/AlterModifiers",
+  "title": "Alter Modifiers",
+  "description": "Modifies the modifier values applied to a Stat.",
+  "source": "@site/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers.mdx",
+  "sourceDirName": "Assets/Misc/Injector/InjectorModel",
+  "slug": "/Assets/Misc/Injector/InjectorModel/AlterModifiers",
+  "permalink": "/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Absolute Value",
+    "permalink": "/docs/Assets/Misc/Injector/InjectorModel/AbsoluteValue"
+  },
+  "next": {
+    "title": "Combine",
+    "permalink": "/docs/Assets/Misc/Injector/InjectorModel/Combine"
+  }
+}

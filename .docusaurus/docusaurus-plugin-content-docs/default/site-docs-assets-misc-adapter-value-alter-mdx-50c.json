@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Alter",
   "title": "Alter",
-  "description": "",
+  "description": "Modifies the input value using a predefined value.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Alter.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value",
   "slug": "/Assets/Misc/Adapter/Value/Alter",

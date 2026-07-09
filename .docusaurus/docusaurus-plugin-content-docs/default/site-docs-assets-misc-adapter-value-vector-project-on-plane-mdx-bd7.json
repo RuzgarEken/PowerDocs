@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Vector/ProjectOnPlane",
-  "title": "ProjectOnPlane",
-  "description": "",
+  "title": "Project On Plane",
+  "description": "Projects the input vector onto a predefined plane and returns the projected vector.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
   "slug": "/Assets/Misc/Adapter/Value/Vector/ProjectOnPlane",

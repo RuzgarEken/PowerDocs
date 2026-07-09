@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats",
+  "title": "Merge SigSep Stats",
+  "description": "Used with SigSep Stats.",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "sidebar_position": 8
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Insert Stat To SigSep Stat",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat"
+  },
+  "next": {
+    "title": "Multiply",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/Multiply"
+  }
+}

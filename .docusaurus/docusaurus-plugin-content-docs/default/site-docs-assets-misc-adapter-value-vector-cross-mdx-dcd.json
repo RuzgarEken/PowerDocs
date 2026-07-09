@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Vector/Cross",
   "title": "Cross",
-  "description": "",
+  "description": "Returns the cross product of the input vector and a predefined vector.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/Cross.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
   "slug": "/Assets/Misc/Adapter/Value/Vector/Cross",
@@ -17,7 +17,7 @@
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "ToVectorIndex",
+    "title": "To Vector Index",
     "permalink": "/docs/Assets/Misc/Adapter/Value/ToVectorIndex"
   },
   "next": {

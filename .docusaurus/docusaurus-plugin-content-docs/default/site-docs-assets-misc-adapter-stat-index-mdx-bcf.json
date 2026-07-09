@@ -17,11 +17,11 @@
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "Substract",
+    "title": "Subtract",
     "permalink": "/docs/Assets/Misc/Adapter/Value/Vector/Substract"
   },
   "next": {
-    "title": "Tutorial - Extras",
-    "permalink": "/docs/category/tutorial---extras"
+    "title": "Actor Stat Extractor",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor"
   }
 }

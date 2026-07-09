@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/ToVectorIndex",
-  "title": "ToVectorIndex",
-  "description": "",
+  "title": "To Vector Index",
+  "description": "Assigns the input value to a specified vector component while setting all other components to 0.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/ToVectorIndex.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value",
   "slug": "/Assets/Misc/Adapter/Value/ToVectorIndex",
@@ -17,7 +17,7 @@
   },
   "sidebar": "tutorialSidebar",
   "previous": {
-    "title": "ToUniformVector",
+    "title": "To Uniform Vector",
     "permalink": "/docs/Assets/Misc/Adapter/Value/ToUniformVector"
   },
   "next": {

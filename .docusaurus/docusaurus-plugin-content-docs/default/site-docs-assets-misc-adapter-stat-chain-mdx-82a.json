@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/Chain",
+  "title": "Chain",
+  "description": "Processes a Stat value through a sequence of StatValueAdapters, passing the output of each adapter as the input to the next.",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/Chain.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/Chain",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/Chain",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/Chain.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Alter Vector By Secondary",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary"
+  },
+  "next": {
+    "title": "Distance By Source Vector",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/DistanceBySourceVector"
+  }
+}

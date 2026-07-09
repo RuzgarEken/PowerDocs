@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '086'),
+    component: ComponentCreator('/docs', '5bb'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '5b5'),
+        component: ComponentCreator('/docs', 'f99'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '0fc'),
+            component: ComponentCreator('/docs', '35c'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -169,6 +169,60 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor', '755'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/Alter',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/Alter', '547'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary', '42b'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/Chain',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/Chain', 'e5d'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/DistanceBySourceVector',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/DistanceBySourceVector', 'cea'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered', '138'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/IntToFloatAltered',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/IntToFloatAltered', '6c7'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/ToUniformVector',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/ToUniformVector', '934'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Adapter/Stat/ToVectorIndex',
+                component: ComponentCreator('/docs/Assets/Misc/Adapter/Stat/ToVectorIndex', '256'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/docs/Assets/Misc/Adapter/Value/',
                 component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/', '73d'),
                 exact: true,
@@ -243,6 +297,132 @@ export default [
               {
                 path: '/docs/Assets/Misc/Adapter/Value/Vector/Substract',
                 component: ComponentCreator('/docs/Assets/Misc/Adapter/Value/Vector/Substract', 'e70'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/', '01a'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/InjectorDefinitionModel',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/InjectorDefinitionModel', '772'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/InjectorModel/',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/InjectorModel/', '691'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/InjectorModel/AbsoluteValue',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/InjectorModel/AbsoluteValue', 'ddf'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers', '692'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/InjectorModel/Combine',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/InjectorModel/Combine', '9f6'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/InjectorModel/Limit',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/InjectorModel/Limit', '4f7'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorDefinitionModel',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorDefinitionModel', '1f0'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/', '86e'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue', 'f22'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/Add',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/Add', '283'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition', 'a81'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/AlterModifiers',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/AlterModifiers', '0bf'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue', 'e24'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat', 'af8'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/Limit',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/Limit', 'ec9'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats', '9c0'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/Multiply',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/Multiply', '383'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/MultiplyByCondition',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/MultiplyByCondition', '4e5'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/Rate',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/Rate', '435'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition',
+                component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition', '11f'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -369,6 +549,12 @@ export default [
               {
                 path: '/docs/Assets/Misc/StatScaler/Single/MapValue',
                 component: ComponentCreator('/docs/Assets/Misc/StatScaler/Single/MapValue', '2c8'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/ValueDistributer/',
+                component: ComponentCreator('/docs/Assets/Misc/ValueDistributer/', '9e2'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },
@@ -883,8 +1069,8 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
-                path: '/docs/CoreConcepts/HowStatValuesEvaluated',
-                component: ComponentCreator('/docs/CoreConcepts/HowStatValuesEvaluated', '958'),
+                path: '/docs/CoreConcepts/HowStatValuesAreEvaluated',
+                component: ComponentCreator('/docs/CoreConcepts/HowStatValuesAreEvaluated', 'df3'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

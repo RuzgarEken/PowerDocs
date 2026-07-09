@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/ToUniformVector",
-  "title": "ToUniformVector",
-  "description": "",
+  "title": "To Uniform Vector",
+  "description": "Converts the input value into a uniform vector, where all components are assigned the same value.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/ToUniformVector.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value",
   "slug": "/Assets/Misc/Adapter/Value/ToUniformVector",
@@ -21,7 +21,7 @@
     "permalink": "/docs/Assets/Misc/Adapter/Value/Chain"
   },
   "next": {
-    "title": "ToVectorIndex",
+    "title": "To Vector Index",
     "permalink": "/docs/Assets/Misc/Adapter/Value/ToVectorIndex"
   }
 }

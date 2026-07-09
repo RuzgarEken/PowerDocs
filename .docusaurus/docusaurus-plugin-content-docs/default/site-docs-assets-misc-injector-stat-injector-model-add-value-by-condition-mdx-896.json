@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/AddValueByCondition",
+  "title": "Add Value By Condition",
+  "description": "Adds the value of the injector Stat to the target Stat only if the specified condition is met.",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Add",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/Add"
+  },
+  "next": {
+    "title": "Alter Modifiers",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/AlterModifiers"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/Chain copy",
+  "title": "Chain copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/Chain copy.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/Chain copy",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/Chain copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/Chain copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "AlterVectorBySecondary",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary"
+  },
+  "next": {
+    "title": "Chain",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/Chain"
+  }
+}

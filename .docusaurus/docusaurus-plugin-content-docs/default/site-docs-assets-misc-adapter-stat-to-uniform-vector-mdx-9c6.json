@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/ToUniformVector",
+  "title": "To Uniform Vector",
+  "description": "Converts the value of a Stat into a uniform vector, where all components are assigned the same value.",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/ToUniformVector.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/ToUniformVector",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/ToUniformVector",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/ToUniformVector.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "sidebar_position": 9
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Int To Float (Altered)",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/IntToFloatAltered"
+  },
+  "next": {
+    "title": "To Vector Index",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/ToVectorIndex"
+  }
+}

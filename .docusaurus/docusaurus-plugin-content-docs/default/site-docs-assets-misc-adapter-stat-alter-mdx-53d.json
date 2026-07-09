@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/Alter",
+  "title": "Alter",
+  "description": "Returns the modified value of a Stat after applying a predefined operation.",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/Alter.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/Alter",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/Alter",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/Alter.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Actor Stat Extractor",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor"
+  },
+  "next": {
+    "title": "Alter Vector By Secondary",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary"
+  }
+}

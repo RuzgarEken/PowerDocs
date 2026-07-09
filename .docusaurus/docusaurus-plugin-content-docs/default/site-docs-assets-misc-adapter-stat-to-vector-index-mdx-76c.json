@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/ToVectorIndex",
+  "title": "To Vector Index",
+  "description": "Assigns the value of a Stat to a specified vector component while setting all other components to 0.",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/ToVectorIndex.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/ToVectorIndex",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/ToVectorIndex",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/ToVectorIndex.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "sidebar_position": 10
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "To Uniform Vector",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/ToUniformVector"
+  },
+  "next": {
+    "title": "Value Distributer",
+    "permalink": "/docs/Assets/Misc/ValueDistributer/"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/Limit copy",
+  "title": "Limit copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/Limit copy.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/Limit copy",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/Limit copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/Limit copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "AlterModifiers",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/AlterModifiers"
+  },
+  "next": {
+    "title": "Limit",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/Limit"
+  }
+}

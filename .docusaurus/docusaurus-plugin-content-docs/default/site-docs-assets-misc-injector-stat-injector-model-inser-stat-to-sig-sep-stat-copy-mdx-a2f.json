@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat copy",
+  "title": "InserStatToSigSepStat copy",
+  "description": "",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat copy.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat copy",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "EasedValue",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue"
+  },
+  "next": {
+    "title": "InserStatToSigSepStat",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat"
+  }
+}

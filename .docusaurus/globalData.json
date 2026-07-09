@@ -101,8 +101,53 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Assets/Misc/Adapter/Stat/ActorStatExtractor",
+              "path": "/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/Alter",
+              "path": "/docs/Assets/Misc/Adapter/Stat/Alter",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/AlterVectorBySecondary",
+              "path": "/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/Chain",
+              "path": "/docs/Assets/Misc/Adapter/Stat/Chain",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/DistanceBySourceVector",
+              "path": "/docs/Assets/Misc/Adapter/Stat/DistanceBySourceVector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/FloatToIntAltered",
+              "path": "/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Assets/Misc/Adapter/Stat/index",
               "path": "/docs/Assets/Misc/Adapter/Stat/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/IntToFloatAltered",
+              "path": "/docs/Assets/Misc/Adapter/Stat/IntToFloatAltered",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/ToUniformVector",
+              "path": "/docs/Assets/Misc/Adapter/Stat/ToUniformVector",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Adapter/Stat/ToVectorIndex",
+              "path": "/docs/Assets/Misc/Adapter/Stat/ToVectorIndex",
               "sidebar": "tutorialSidebar"
             },
             {
@@ -168,6 +213,111 @@
             {
               "id": "Assets/Misc/Adapter/Value/Vector/Substract",
               "path": "/docs/Assets/Misc/Adapter/Value/Vector/Substract",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/index",
+              "path": "/docs/Assets/Misc/Injector/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/InjectorDefinitionModel",
+              "path": "/docs/Assets/Misc/Injector/InjectorDefinitionModel",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/InjectorModel/AbsoluteValue",
+              "path": "/docs/Assets/Misc/Injector/InjectorModel/AbsoluteValue",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/InjectorModel/AlterModifiers",
+              "path": "/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/InjectorModel/Combine",
+              "path": "/docs/Assets/Misc/Injector/InjectorModel/Combine",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/InjectorModel/index",
+              "path": "/docs/Assets/Misc/Injector/InjectorModel/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/InjectorModel/Limit",
+              "path": "/docs/Assets/Misc/Injector/InjectorModel/Limit",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorDefinitionModel",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorDefinitionModel",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/AbsoluteValue",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/Add",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/Add",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/AddValueByCondition",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/AlterModifiers",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/AlterModifiers",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/EasedValue",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/index",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/Limit",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/Limit",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/Multiply",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/Multiply",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/MultiplyByCondition",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/MultiplyByCondition",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/Rate",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/Rate",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/Injector/StatInjectorModel/RateByCondition",
+              "path": "/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition",
               "sidebar": "tutorialSidebar"
             },
             {
@@ -273,6 +423,11 @@
             {
               "id": "Assets/Misc/StatScaler/Single/MapValue",
               "path": "/docs/Assets/Misc/StatScaler/Single/MapValue",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/ValueDistributer/index",
+              "path": "/docs/Assets/Misc/ValueDistributer/",
               "sidebar": "tutorialSidebar"
             },
             {
@@ -626,8 +781,8 @@
               "sidebar": "tutorialSidebar"
             },
             {
-              "id": "CoreConcepts/HowStatValuesEvaluated",
-              "path": "/docs/CoreConcepts/HowStatValuesEvaluated",
+              "id": "CoreConcepts/HowStatValuesAreEvaluated",
+              "path": "/docs/CoreConcepts/HowStatValuesAreEvaluated",
               "sidebar": "tutorialSidebar"
             },
             {

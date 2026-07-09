@@ -18,7 +18,7 @@
   "sidebar": "tutorialSidebar",
   "previous": {
     "title": "How Stat Values Are Evaluated",
-    "permalink": "/docs/CoreConcepts/HowStatValuesEvaluated"
+    "permalink": "/docs/CoreConcepts/HowStatValuesAreEvaluated"
   },
   "next": {
     "title": "Source Seperated Stats",

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Adapter/Stat/FloatToIntAltered",
+  "title": "Float To Int (Altered)",
+  "description": "Transforms a Float Stat into an Int value after applying a predefined modification.",
+  "source": "@site/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered.mdx",
+  "sourceDirName": "Assets/Misc/Adapter/Stat",
+  "slug": "/Assets/Misc/Adapter/Stat/FloatToIntAltered",
+  "permalink": "/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Distance By Source Vector",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/DistanceBySourceVector"
+  },
+  "next": {
+    "title": "Int To Float (Altered)",
+    "permalink": "/docs/Assets/Misc/Adapter/Stat/IntToFloatAltered"
+  }
+}

@@ -49,17 +49,17 @@
     },
     "content": "content---markdown-page-4-c-6-c89"
   },
-  "/docs-086": {
+  "/docs-5bb": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-5b5": {
+  "/docs-f99": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-0fc": {
+  "/docs-35c": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/Assets/Effect/-d2e": {
@@ -138,6 +138,42 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-assets-misc-adapter-stat-bcf-dd9"
   },
+  "/docs/Assets/Misc/Adapter/Stat/ActorStatExtractor-755": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-actor-stat-extractor-030-218"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/Alter-547": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-alter-53-d-d32"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/AlterVectorBySecondary-42b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-alter-vector-by-secondaryf-19-d23"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/Chain-e5d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-chain-82-a-e26"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/DistanceBySourceVector-cea": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-distance-by-source-vectorfb-4-132"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/FloatToIntAltered-138": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-float-to-int-alteredc-97-c8c"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/IntToFloatAltered-6c7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-int-to-float-alteredc-2-a-d17"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/ToUniformVector-934": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-to-uniform-vector-9-c-6-563"
+  },
+  "/docs/Assets/Misc/Adapter/Stat/ToVectorIndex-256": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-adapter-stat-to-vector-index-76-c-de4"
+  },
   "/docs/Assets/Misc/Adapter/Value/-73d": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-assets-misc-adapter-value-028-00a"
@@ -189,6 +225,90 @@
   "/docs/Assets/Misc/Adapter/Value/Vector/Substract-e70": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-assets-misc-adapter-value-vector-substractb-7-d-ef4"
+  },
+  "/docs/Assets/Misc/Injector/-01a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-6-a-6-4dc"
+  },
+  "/docs/Assets/Misc/Injector/InjectorDefinitionModel-772": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-injector-definition-modeleaf-5f6"
+  },
+  "/docs/Assets/Misc/Injector/InjectorModel/-691": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-injector-model-92-a-e9c"
+  },
+  "/docs/Assets/Misc/Injector/InjectorModel/AbsoluteValue-ddf": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-injector-model-absolute-value-338-c63"
+  },
+  "/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers-692": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-injector-model-alter-modifiers-21-c-904"
+  },
+  "/docs/Assets/Misc/Injector/InjectorModel/Combine-9f6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-injector-model-combine-3-fa-b0d"
+  },
+  "/docs/Assets/Misc/Injector/InjectorModel/Limit-4f7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-injector-model-limited-4-dcb"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorDefinitionModel-1f0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-definition-model-4-c-1-fee"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/-86e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-769-af5"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue-f22": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-absolute-value-228-2b6"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/Add-283": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-add-0-c-2-bc2"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition-a81": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-add-value-by-condition-896-b51"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/AlterModifiers-0bf": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-alter-modifiers-5-c-8-2bd"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue-e24": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-eased-valuea-29-33f"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat-af8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-inser-stat-to-sig-sep-stat-5-bd-c35"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/Limit-ec9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-limit-5-e-2-1c9"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/MergeSigSepStats-9c0": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-merge-sig-sep-stats-54-b-802"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/Multiply-383": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-multiplyc-33-ff3"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/MultiplyByCondition-4e5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-multiply-by-conditioneab-7c3"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/Rate-435": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-rateeaf-7d5"
+  },
+  "/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition-11f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-injector-stat-injector-model-rate-by-condition-7-f-2-4d4"
   },
   "/docs/Assets/Misc/StatCondition/-86f": {
     "__comp": "__comp---theme-doc-item-178-a40",
@@ -273,6 +393,10 @@
   "/docs/Assets/Misc/StatScaler/Single/MapValue-2c8": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-assets-misc-stat-scaler-single-map-value-51-f-298"
+  },
+  "/docs/Assets/Misc/ValueDistributer/-9e2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-value-distributer-075-88a"
   },
   "/docs/Assets/Processor/Postprocessors/-306": {
     "__comp": "__comp---theme-doc-item-178-a40",
@@ -614,7 +738,7 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-core-concepts-effect-process-flow-825-292"
   },
-  "/docs/CoreConcepts/HowStatValuesEvaluated-958": {
+  "/docs/CoreConcepts/HowStatValuesAreEvaluated-df3": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-core-concepts-how-stat-values-evaluated-96-a-4e5"
   },

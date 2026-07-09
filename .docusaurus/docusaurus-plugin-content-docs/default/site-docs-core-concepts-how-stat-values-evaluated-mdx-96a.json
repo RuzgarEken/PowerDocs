@@ -1,11 +1,11 @@
 {
-  "id": "CoreConcepts/HowStatValuesEvaluated",
+  "id": "CoreConcepts/HowStatValuesAreEvaluated",
   "title": "How Stat Values Are Evaluated",
   "description": "Several elements contribute to a stat's final value.",
   "source": "@site/docs/CoreConcepts/HowStatValuesEvaluated.mdx",
   "sourceDirName": "CoreConcepts",
-  "slug": "/CoreConcepts/HowStatValuesEvaluated",
-  "permalink": "/docs/CoreConcepts/HowStatValuesEvaluated",
+  "slug": "/CoreConcepts/HowStatValuesAreEvaluated",
+  "permalink": "/docs/CoreConcepts/HowStatValuesAreEvaluated",
   "draft": false,
   "unlisted": false,
   "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/CoreConcepts/HowStatValuesEvaluated.mdx",
@@ -13,7 +13,8 @@
   "version": "current",
   "sidebarPosition": 1,
   "frontMatter": {
-    "sidebar_position": 1
+    "sidebar_position": 1,
+    "id": "HowStatValuesAreEvaluated"
   },
   "sidebar": "tutorialSidebar",
   "previous": {

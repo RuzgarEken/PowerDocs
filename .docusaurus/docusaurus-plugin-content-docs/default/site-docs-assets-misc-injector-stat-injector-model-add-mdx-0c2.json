@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/Add",
+  "title": "Add",
+  "description": "Adds the value of the injector Stat to the target Stat.",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/Add.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/Add",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/Add",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/Add.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Absolute Value",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue"
+  },
+  "next": {
+    "title": "Add Value By Condition",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/Injector/StatInjectorModel/index",
+  "title": "Stat Injector Model",
+  "description": "Injects the value of one Stat into another Stat.",
+  "source": "@site/docs/Assets/Misc/Injector/StatInjectorModel/index.mdx",
+  "sourceDirName": "Assets/Misc/Injector/StatInjectorModel",
+  "slug": "/Assets/Misc/Injector/StatInjectorModel/",
+  "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/Injector/StatInjectorModel/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Stat Injector Definition Model",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorDefinitionModel"
+  },
+  "next": {
+    "title": "Absolute Value",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue"
+  }
+}

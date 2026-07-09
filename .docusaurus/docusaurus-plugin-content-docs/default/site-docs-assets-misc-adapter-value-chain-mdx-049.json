@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Chain",
   "title": "Chain",
-  "description": "",
+  "description": "Processes the input value through a sequence of ValueAdapters, passing the output of each adapter as the input to the next.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Chain.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value",
   "slug": "/Assets/Misc/Adapter/Value/Chain",
@@ -21,7 +21,7 @@
     "permalink": "/docs/Assets/Misc/Adapter/Value/Alter"
   },
   "next": {
-    "title": "ToUniformVector",
+    "title": "To Uniform Vector",
     "permalink": "/docs/Assets/Misc/Adapter/Value/ToUniformVector"
   }
 }

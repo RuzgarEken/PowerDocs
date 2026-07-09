@@ -1,7 +1,7 @@
 {
   "id": "Assets/Misc/Adapter/Value/Vector/Substract",
-  "title": "Substract",
-  "description": "",
+  "title": "Subtract",
+  "description": "Subtracts a predefined vector from the input vector and returns the result.",
   "source": "@site/docs/Assets/Misc/Adapter/Value/Vector/Substract.mdx",
   "sourceDirName": "Assets/Misc/Adapter/Value/Vector",
   "slug": "/Assets/Misc/Adapter/Value/Vector/Substract",
