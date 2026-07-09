@@ -1,0 +1,33 @@
+---
+sidebar_position: 4
+---
+
+# Targeting Model
+
+A `TargetingModel` defines how a Skill delivers its Effects to the target.
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Skill Prefab** | *(Optional)* The Skill prefab that will be spawned when the Skill is used. |
+| **Highlight Range Prefab** | *(Optional)* The prefab used to visualize the Skill's effective range. |
+| **Highlight Projectile Range Prefab** | *(Optional)* The prefab used to visualize the projectile's travel range. |
+| **Use Pooling** | When enabled, Skill objects are spawned and despawned using `GameObjectPoolController` instead of being instantiated and destroyed. |
+
+## Types
+
+### Skillshot
+
+Spawns a Skill object and delivers the `EffectPack` through the Effectors attached to that object.
+
+### Direct
+
+Applies the configured `EffectPack` directly to the target without spawning a Skill object.
+
+## Notes
+
+`TargetingModel` assets define the targeting behavior used by Skill activator behaviours such as:
+
+- `ActorExtension_KeyboardSkillActivator`
+- `SkillElementExtension_ButtonActivator`

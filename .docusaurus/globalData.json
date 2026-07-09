@@ -856,8 +856,23 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Samples/GeneralExpansions/Skill/CastingModel",
+              "path": "/docs/Samples/GeneralExpansions/Skill/CastingModel",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Samples/GeneralExpansions/Skill/index",
               "path": "/docs/Samples/GeneralExpansions/Skill/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/Skill/SkillState",
+              "path": "/docs/Samples/GeneralExpansions/Skill/SkillState",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/Skill/TargetingModel",
+              "path": "/docs/Samples/GeneralExpansions/Skill/TargetingModel",
               "sidebar": "tutorialSidebar"
             },
             {

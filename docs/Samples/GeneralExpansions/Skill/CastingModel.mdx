@@ -1,0 +1,38 @@
+---
+sidebar_position: 3
+---
+
+# Casting Model
+
+A `CastingModel` defines how a Skill is cast.
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Casting On Progress Stat Key** | Defines the Stat used to track the casting state of the Skill or its owning Actor. |
+| **Casting Stat State Controls The Casting State** | Determines whether the Skill should be interrupted when the `CastingOnProgress` Stat returns to `0` before casting is completed. |
+| **Casting On Progress Effect** | An optional Effect that increases the `CastingOnProgress` Stat when casting begins. |
+| **Control Blocker Effect** | An optional Effect applied while casting to block character input. |
+| **Switch State While Casting** | Used by `Evolver Skills`. Determines whether the Skill can switch to another State while `CastingOnProgress` is active. |
+
+## Types
+
+### Unity Animation
+
+Starts the casting animation when the Skill is cast.
+
+The `Targeter` is triggered after the animation invokes the **Cast End** callback.
+
+### Direct
+
+Triggers the `Targeter` immediately when the Skill is cast without requiring an animation.
+
+## Notes
+
+## Notes
+
+`CastingModel` assets are used by Skill activator behaviours such as:
+
+- `ActorExtension_KeyboardSkillActivator`
+- `SkillElementExtension_ButtonActivator`

@@ -1,0 +1,23 @@
+{
+  "id": "Samples/GeneralExpansions/Skill/TargetingModel",
+  "title": "Targeting Model",
+  "description": "A TargetingModel defines how a Skill delivers its Effects to the target.",
+  "source": "@site/docs/Samples/GeneralExpansions/Skill/TargetingModel.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Skill",
+  "slug": "/Samples/GeneralExpansions/Skill/TargetingModel",
+  "permalink": "/docs/Samples/GeneralExpansions/Skill/TargetingModel",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Skill/TargetingModel.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Casting Model",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/CastingModel"
+  }
+}

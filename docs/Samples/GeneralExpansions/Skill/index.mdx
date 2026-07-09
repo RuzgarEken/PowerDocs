@@ -1,3 +1,73 @@
 ---
 sidebar_position: 2
 ---
+
+import NormalSkillReference from './images/NormalSkillReference.png';
+import EvolverSkillReference from './images/EvolverSkillReference.png';
+
+# Skill
+
+The Skill system is designed to support modern gameplay mechanics such as multi-state skills, different input systems, animation systems, and animation canceling. It is highly dynamic and extensible, allowing it to adapt to a wide variety of game designs.
+
+Skills are divided into two types:
+
+- **Normal Skill**
+- **Evolver Skill**
+
+The difference between them is the number of States they contain.
+
+- A **Normal Skill** consists of a single State.
+- An **Evolver Skill** consists of multiple States.
+
+A **State** defines how a Skill behaves, including its activation conditions, casting behavior, and targeting logic.
+
+## Normal Skill
+
+<img src={NormalSkillReference} alt="NormalSkill reference" />
+
+## Evolver Skill
+
+<img src={EvolverSkillReference} alt="EvolverSkill reference" />
+
+## State Transitions
+
+State transitions are driven entirely by the value of the `StateNoStat`.
+
+Since `StateNoStat` is just another Stat, it can be modified by any logic you create with Power. This makes Evolver Skills extremely flexible and allows you to build a wide variety of gameplay mechanics.
+
+### Examples
+
+#### Sequential State Progression
+
+Increment the `StateNoStat` after each activation to cycle through different Skill States.
+
+See the **Legion Spear** sample.
+
+#### Charge Skills
+
+Use States to represent different charge levels.
+
+- **Deadeye String**
+  - Holding the input (`Pointer Down`) starts charging.
+  - Releasing the input (`Pointer Up`) switches to the firing State.
+
+- **Stormchannel**
+  - Charges while the input is held.
+  - Transitions through multiple States as the charge value reaches predefined thresholds.
+
+#### Conditional State Transitions
+
+Change States dynamically based on gameplay conditions.
+
+- **Chain Hook**
+  - After the hook connects, clicking again transitions to either **Kick** or **Punch** depending on the distance to the target.
+
+- **Venomfang Blade**
+  - If the target is far away, the Skill first performs a dash to the target.
+  - If the target is already nearby, it immediately transitions to the attack State.
+
+#### Skill Levels
+
+States can also represent Skill levels.
+
+The `StateNoStat` can be used directly as the Skill level, allowing each level to execute a completely different State and behavior.

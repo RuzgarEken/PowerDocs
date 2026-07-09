@@ -1,7 +1,7 @@
 {
   "id": "Samples/GeneralExpansions/Skill/index",
-  "title": "index",
-  "description": "",
+  "title": "Skill",
+  "description": "The Skill system is designed to support modern gameplay mechanics such as multi-state skills, different input systems, animation systems, and animation canceling. It is highly dynamic and extensible, allowing it to adapt to a wide variety of game designs.",
   "source": "@site/docs/Samples/GeneralExpansions/Skill/index.mdx",
   "sourceDirName": "Samples/GeneralExpansions/Skill",
   "slug": "/Samples/GeneralExpansions/Skill/",
@@ -19,5 +19,9 @@
   "previous": {
     "title": "Enter Exit",
     "permalink": "/docs/Samples/GeneralExpansions/Effector/EnterExit"
+  },
+  "next": {
+    "title": "Skill State",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/SkillState"
   }
 }

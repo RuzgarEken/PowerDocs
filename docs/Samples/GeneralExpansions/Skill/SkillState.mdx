@@ -1,0 +1,63 @@
+---
+sidebar_position: 2
+---
+
+import SkillEventEffects from './images/SkillEventEffects.png';
+
+# Skill State
+
+A `SkillState` defines how a Skill behaves while it is active. It controls the activation flow, casting behavior, targeting, and the Effects triggered throughout the Skill lifecycle.
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The name of the Skill State. |
+| **Use Type** | Determines how the Skill is used. Available options: `Instant`, `Toggleable`. |
+| **Activation Type** | Determines how the Skill is activated. Available options: `WithInteraction`, `WithoutInteraction`. |
+| **Use Blocker Stat** | An `IntStat`. If its value is greater than `0`, the Skill cannot be activated. |
+| **Caster** | Defines how the Skill is cast. |
+| **Targeter** | Defines how the Skill selects and delivers its Effects to targets. |
+| **Skill Event Effects** | Defines Effects that are automatically triggered at different points during the Skill lifecycle. |
+
+## Skill Event Effects
+
+`Skill Event Effects` allow you to trigger Effects automatically when specific Skill events occur.
+
+<img src={SkillEventEffects} alt="SkillEventEffects reference" />
+
+### Skill Events
+
+| Event | Description |
+|-------|-------------|
+| **OnUse** | Triggered when the Skill is initially activated. |
+| **WhileMounted** | Triggered when the Skill State is mounted. For `Normal Skills`, this occurs when the Skill is first created. For `Evolver Skills`, it is triggered when the first State is mounted and whenever the Skill transitions to another State. |
+| **OnUnmount** | Triggered when the current State is unmounted. It is also triggered when the Skill is disposed. |
+| **WhileUsing** | Available only for `Toggleable` Skill States. Triggered when the Skill is toggled on. |
+| **StoppedUsing** | Available only for `Toggleable` Skill States. Triggered when the Skill is toggled off. |
+| **BeforeUse** | Triggered after the Skill is activated but before casting begins. |
+| **OnCastEnd** | Triggered when the configured `CastingModel` finishes casting. `CastingModel_UnityAnimation` triggers this event when the `CastingEnded` Animation Event is received. `CastingModel_Direct` triggers it one frame after casting begins. |
+| **OnInterrupted** | Triggered when the Skill is interrupted before it finishes. |
+
+## On Interrupted
+
+`OnInterrupted` can be triggered in multiple situations.
+
+### Toggleable Skills
+
+A `Toggleable` Skill is interrupted when it is forced to stop unexpectedly.
+
+For example, imagine a Skill that fires continuously while the input is held. If its `UseBlockerStat` depends on the player's ammo count and becomes greater than `0` when the ammo reaches zero, the Skill is interrupted and the `OnInterrupted` event is triggered.
+
+### Interrupted Casting
+
+Casting can also be interrupted by the configured `CastingModel`.
+
+If the `CastingOnProgressStat` returns to `0` before the cast completes, the Skill is interrupted instead of reaching `OnCastEnd`.
+
+This allows systems such as animation canceling or external gameplay Effects to interrupt Skills naturally.
+
+For this behavior to work:
+
+- `CastingOnProgressStatKey` must be assigned.
+- `CastingStatStateControlsTheCastingState` must be enabled in the `CastingModel`.

@@ -49,17 +49,17 @@
     },
     "content": "content---markdown-page-4-c-6-c89"
   },
-  "/docs-cd4": {
+  "/docs-7b8": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-713": {
+  "/docs-6bf": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-992": {
+  "/docs-164": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/Assets/Effect/-d2e": {
@@ -797,6 +797,18 @@
   "/docs/Samples/GeneralExpansions/Skill/-702": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-samples-general-expansions-skill-0-dc-1d2"
+  },
+  "/docs/Samples/GeneralExpansions/Skill/CastingModel-acf": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-samples-general-expansions-skill-casting-modelcd-4-3d3"
+  },
+  "/docs/Samples/GeneralExpansions/Skill/SkillState-75b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-samples-general-expansions-skill-skill-state-8-d-2-f6c"
+  },
+  "/docs/Samples/GeneralExpansions/Skill/TargetingModel-2fc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-samples-general-expansions-skill-targeting-model-2-cf-3d2"
   },
   "/-2e1": {
     "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",

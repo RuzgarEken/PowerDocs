@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', 'cd4'),
+    component: ComponentCreator('/docs', '7b8'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '713'),
+        component: ComponentCreator('/docs', '6bf'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '992'),
+            component: ComponentCreator('/docs', '164'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -1155,6 +1155,24 @@ export default [
               {
                 path: '/docs/Samples/GeneralExpansions/Skill/',
                 component: ComponentCreator('/docs/Samples/GeneralExpansions/Skill/', '702'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Skill/CastingModel',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Skill/CastingModel', 'acf'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Skill/SkillState',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Skill/SkillState', '75b'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Skill/TargetingModel',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Skill/TargetingModel', '2fc'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               }

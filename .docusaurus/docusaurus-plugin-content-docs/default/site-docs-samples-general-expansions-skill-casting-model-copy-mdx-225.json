@@ -1,0 +1,27 @@
+{
+  "id": "Samples/GeneralExpansions/Skill/CastingModel copy",
+  "title": "CastingModel copy",
+  "description": "",
+  "source": "@site/docs/Samples/GeneralExpansions/Skill/CastingModel copy.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Skill",
+  "slug": "/Samples/GeneralExpansions/Skill/CastingModel copy",
+  "permalink": "/docs/Samples/GeneralExpansions/Skill/CastingModel copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Skill/CastingModel copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "index",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/"
+  },
+  "next": {
+    "title": "CastingModel",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/CastingModel"
+  }
+}

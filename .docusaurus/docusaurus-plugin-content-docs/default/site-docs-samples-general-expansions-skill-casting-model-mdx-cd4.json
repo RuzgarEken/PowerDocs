@@ -1,0 +1,27 @@
+{
+  "id": "Samples/GeneralExpansions/Skill/CastingModel",
+  "title": "Casting Model",
+  "description": "A CastingModel defines how a Skill is cast.",
+  "source": "@site/docs/Samples/GeneralExpansions/Skill/CastingModel.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Skill",
+  "slug": "/Samples/GeneralExpansions/Skill/CastingModel",
+  "permalink": "/docs/Samples/GeneralExpansions/Skill/CastingModel",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Skill/CastingModel.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Skill State",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/SkillState"
+  },
+  "next": {
+    "title": "Targeting Model",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/TargetingModel"
+  }
+}

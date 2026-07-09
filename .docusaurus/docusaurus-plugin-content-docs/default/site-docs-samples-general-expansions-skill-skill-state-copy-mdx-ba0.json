@@ -1,0 +1,27 @@
+{
+  "id": "Samples/GeneralExpansions/Skill/SkillState copy",
+  "title": "SkillState copy",
+  "description": "",
+  "source": "@site/docs/Samples/GeneralExpansions/Skill/SkillState copy.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Skill",
+  "slug": "/Samples/GeneralExpansions/Skill/SkillState copy",
+  "permalink": "/docs/Samples/GeneralExpansions/Skill/SkillState copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Skill/SkillState copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "index",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/"
+  },
+  "next": {
+    "title": "SkillState",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/SkillState"
+  }
+}
