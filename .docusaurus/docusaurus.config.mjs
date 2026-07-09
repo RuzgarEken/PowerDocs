@@ -5,7 +5,7 @@
  */
 export default {
   "title": "Power",
-  "tagline": "Dinosaurs are cool",
+  "tagline": "In your hands",
   "favicon": "img/favicon.ico",
   "future": {
     "v4": {
@@ -65,7 +65,7 @@ export default {
       "disableSwitch": false
     },
     "navbar": {
-      "title": "My Site",
+      "title": "Power",
       "logo": {
         "alt": "My Site Logo",
         "src": "img/logo.svg"
@@ -75,7 +75,7 @@ export default {
           "type": "docSidebar",
           "sidebarId": "tutorialSidebar",
           "position": "left",
-          "label": "Tutorial"
+          "label": "Docs"
         },
         {
           "href": "https://github.com/facebook/docusaurus",
