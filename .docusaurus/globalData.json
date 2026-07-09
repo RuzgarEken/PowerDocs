@@ -321,6 +321,16 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Assets/Misc/PremadeAssetPack",
+              "path": "/docs/Assets/Misc/PremadeAssetPack",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/Misc/PremadeRelationPack",
+              "path": "/docs/Assets/Misc/PremadeRelationPack",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Assets/Misc/StatCondition/ MultiStat/Difference",
               "path": "/docs/Assets/Misc/StatCondition/ MultiStat/Difference",
               "sidebar": "tutorialSidebar"

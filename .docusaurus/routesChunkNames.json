@@ -49,17 +49,17 @@
     },
     "content": "content---markdown-page-4-c-6-c89"
   },
-  "/docs-5bb": {
+  "/docs-586": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-f99": {
+  "/docs-f06": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-35c": {
+  "/docs-8e5": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/Assets/Effect/-d2e": {
@@ -309,6 +309,14 @@
   "/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition-11f": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-assets-misc-injector-stat-injector-model-rate-by-condition-7-f-2-4d4"
+  },
+  "/docs/Assets/Misc/PremadeAssetPack-baf": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-premade-asset-pack-1-c-4-099"
+  },
+  "/docs/Assets/Misc/PremadeRelationPack-d82": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-misc-premade-relation-pack-858-db3"
   },
   "/docs/Assets/Misc/StatCondition/-86f": {
     "__comp": "__comp---theme-doc-item-178-a40",

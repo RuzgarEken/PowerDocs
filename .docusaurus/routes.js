@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '5bb'),
+    component: ComponentCreator('/docs', '586'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'f99'),
+        component: ComponentCreator('/docs', 'f06'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '35c'),
+            component: ComponentCreator('/docs', '8e5'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -423,6 +423,18 @@ export default [
               {
                 path: '/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition',
                 component: ComponentCreator('/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition', '11f'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/PremadeAssetPack',
+                component: ComponentCreator('/docs/Assets/Misc/PremadeAssetPack', 'baf'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/Misc/PremadeRelationPack',
+                component: ComponentCreator('/docs/Assets/Misc/PremadeRelationPack', 'd82'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

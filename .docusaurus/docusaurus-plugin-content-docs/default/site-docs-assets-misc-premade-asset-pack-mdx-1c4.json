@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/PremadeAssetPack",
+  "title": "Premade Asset Pack",
+  "description": "Premade Asset Pack (PAP) is an editor asset designed to simplify the creation of frequently used assets that do not contain Stat relations.",
+  "source": "@site/docs/Assets/Misc/PremadeAssetPack.mdx",
+  "sourceDirName": "Assets/Misc",
+  "slug": "/Assets/Misc/PremadeAssetPack",
+  "permalink": "/docs/Assets/Misc/PremadeAssetPack",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/PremadeAssetPack.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Premade Relation Pack",
+    "permalink": "/docs/Assets/Misc/PremadeRelationPack"
+  },
+  "next": {
+    "title": "Tutorial - Extras",
+    "permalink": "/docs/category/tutorial---extras"
+  }
+}

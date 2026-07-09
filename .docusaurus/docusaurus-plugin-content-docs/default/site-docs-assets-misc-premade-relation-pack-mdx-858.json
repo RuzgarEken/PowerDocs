@@ -1,0 +1,27 @@
+{
+  "id": "Assets/Misc/PremadeRelationPack",
+  "title": "Premade Relation Pack",
+  "description": "Premade Relation Pack (PRP) is an editor asset designed to simplify the creation of frequently used Stat relation setups.",
+  "source": "@site/docs/Assets/Misc/PremadeRelationPack.mdx",
+  "sourceDirName": "Assets/Misc",
+  "slug": "/Assets/Misc/PremadeRelationPack",
+  "permalink": "/docs/Assets/Misc/PremadeRelationPack",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/Misc/PremadeRelationPack.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Rate Value By Condition",
+    "permalink": "/docs/Assets/Misc/Injector/StatInjectorModel/RateByCondition"
+  },
+  "next": {
+    "title": "Premade Asset Pack",
+    "permalink": "/docs/Assets/Misc/PremadeAssetPack"
+  }
+}

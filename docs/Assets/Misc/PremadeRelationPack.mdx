@@ -1,0 +1,31 @@
+---
+sidebar_position: 6
+---
+
+import PrpReference from './images/PrpReference.png'
+import AddingPrp from './images/AddingPrp.png'
+
+# Premade Relation Pack
+
+`Premade Relation Pack` (PRP) is an editor asset designed to simplify the creation of frequently used Stat relation setups.
+
+In many projects, the same relation mechanisms are created repeatedly. Recreating these setups every time can be both repetitive and time-consuming. PRPs allow you to define these common relation structures once and reuse them whenever needed.
+
+Like a `StatRepository`, a PRP contains multiple `Environments`. Each Environment contains the Stats and relation mechanisms required for a specific feature or gameplay system.
+
+<img src={PrpReference} alt="Prp reference" />
+
+## Adding a PRP
+
+A PRP can be added to any `StatRepository` from:
+
+`Power Editor → Stat → Containers → Repository`
+
+<img src={AddingPrp} alt="Adding PRP" />
+
+Select the target repository and add the desired PRP.
+
+## Notes
+
+- To assign names dynamically, use the `$Name` keyword in asset names.
+- When a PRP is added to a `StatRepository`, every occurrence of `$Name` is automatically replaced with the name you provide.
