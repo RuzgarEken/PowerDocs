@@ -1,0 +1,170 @@
+---
+sidebar_position: 3
+---
+
+# Slay The Sphere
+
+`Slay The Sphere` is a demo scene that showcases how Power can be used to build a turn-based card game.
+
+![Slay The Sphere](./images/SlayTheSphere.gif)
+
+The demo is inspired by the deck-building genre and includes the following content:
+
+- **20 Cards**
+- **7 Relics**
+- **3 Potions**
+
+## Cards
+
+### Attack
+
+Attack cards deal damage to enemies.
+
+#### Bloodied Shiv
+
+- Costs **1 additional Energy** for each time you have lost HP during the current combat.
+- Deal **12** damage.
+
+#### Disarm
+
+- Deal **3** damage.
+- Apply **1 Weak**.
+
+#### Final Curtain
+
+- Can only be played if your draw pile is empty.
+- Deal **50** damage to **all enemies**.
+
+#### Shred
+
+- Costs **1 less Energy** for each card discarded this turn.
+- Deal **7** damage **3 times**.
+
+#### Strike
+
+- Deal **6** damage.
+
+#### Venom Burst
+
+- Deal **7** damage.
+- If the target is **Poisoned**, deal **7** damage again.
+
+---
+
+### Skill
+
+Skill cards provide utility effects instead of direct damage.
+
+#### Defend
+
+- Gain **5 Block**.
+
+#### Expose Weakness
+
+- Apply **99 Vulnerable**.
+- **Exhaust.**
+
+#### Focus
+
+- Discard **3** cards.
+- Gain **2 Energy**.
+
+#### Fortified Guard
+
+- Gain **5 Block**.
+- Block is **not removed** at the start of your next turn.
+
+#### Plague Burst
+
+- Apply **6 Poison**.
+- When the affected enemy dies, deal damage equal to its **Max HP** to **all enemies**.
+
+#### Quick Hands
+
+- Draw **3** cards.
+- Discard **1** card.
+
+#### Shadow Double
+
+- At the start of your next turn, draw **X** cards and gain **X Energy**.
+- **Exhaust.**
+
+#### Tactical Setup
+
+- Put a card from your hand on top of your draw pile.
+- It costs **0 Energy** until played.
+
+#### Void Assassin
+
+- During your next turn, your **Attack** cards deal **double damage**.
+
+---
+
+### Power
+
+Power cards apply persistent effects that remain active for the rest of combat unless explicitly removed.
+
+#### Barbed Armor
+
+- Whenever you are attacked, deal **3** damage back to the attacker.
+
+#### Blade Storm
+
+- Whenever you play a card, deal **1** damage to **all enemies**.
+
+#### Phantom Veil
+
+- Gain **2 Intangible**.
+- At the end of your turn, lose **1 Dexterity**.
+
+#### Prepared Scheme
+
+- At the end of your turn, **retain up to 1 card**.
+
+#### Toxic Edge
+
+- Whenever an **Attack** deals unblocked damage, apply **1 Poison**.
+
+## Relics
+
+### Ancient Barrier
+
+- Prevent the **first instance of HP loss** each combat.
+
+### Cursed Wraps
+
+- Whenever you play a **Power** card, a random card in your hand costs **0 Energy** for that turn.
+
+### Divine Cask
+
+- Doubles the effectiveness of Potions.
+
+### Iron Bracers
+
+- At the start of your turn, lose **15 Block** instead of losing all Block.
+
+### Raider's Trophy
+
+- Whenever an enemy dies, gain **1 Energy** and draw **1 card**.
+
+### Spice Root
+
+- You can no longer become **Weak**.
+
+### Steel Greaves
+
+- Whenever an Attack would deal **4 or less** unblocked damage, increase it to **5** instead.
+
+## Potions
+
+### Blast Potion
+
+- Deal **12** damage to **everyone**, including yourself and all enemies.
+
+### Guardian Sprite
+
+- When you would die, heal to **30% of your Max HP** instead and consume this Potion.
+
+### Heal Potion
+
+- Restore **20% of your Max HP**.

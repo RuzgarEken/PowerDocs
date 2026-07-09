@@ -19,5 +19,9 @@
   "previous": {
     "title": "Casting Model",
     "permalink": "/docs/Samples/GeneralExpansions/Skill/CastingModel"
+  },
+  "next": {
+    "title": "3DCells",
+    "permalink": "/docs/Samples/3DCells/"
   }
 }

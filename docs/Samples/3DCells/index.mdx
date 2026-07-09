@@ -1,0 +1,99 @@
+---
+sidebar_position: 2
+---
+# 3DCells
+
+`3DCells` is a demo scene that showcases how Power can be used in a real-time action game.
+
+![3DCells](./images/3DCells.gif)
+
+The player can equip **15 unique weapons**, each featuring its own mechanics and gameplay style. Together, they demonstrate many of Power's systems, including conditional critical hits, status effects, charge mechanics, multi-state Skills, animation-driven gameplay, and collision-based Effects.
+
+## Weapons
+
+### Chain Hook
+
+- Pulls the player toward enemies.
+- Pressing the attack button again after connecting performs either a **Punch** or a **Kick**, depending on the distance to the target.
+- **Punch** slightly knocks enemies back.
+- **Kick** launches enemies into the air, causing them to take fall damage when they land.
+
+### Deadeye String
+
+- Landing the shot within a specific timing window deals a critical hit.
+- The critical damage multiplier depends on how accurately the shot is released within that window.
+
+### Doom Blade
+
+- Every attack is a critical hit.
+- Taking any damage instantly kills the player.
+
+### Glacier Pulse
+
+- Freezes enemies and deals a small amount of damage.
+- Already frozen enemies cannot be damaged by the freezing hit again.
+- When the freeze expires, enemies are slowed, reducing both their movement and attack speed.
+
+### Legion Spear
+
+- Deals a critical hit when a single attack hits multiple enemies.
+- The critical damage multiplier increases based on the number of enemies hit.
+
+### Pulse Repeater
+
+- Projectiles pierce through enemies.
+- The first enemy standing behind the initial target receives critical damage.
+
+### Ravenmark Bow
+
+- Marks enemies for a short duration.
+- Marked enemies take additional damage whenever they are hit.
+- When a marked enemy dies, the mark spreads to nearby enemies.
+
+### Rusty Pan
+
+- Deals critical damage to enemies that are facing the player.
+
+### Scrap Tossers
+
+- Holds up to **3 ammo**.
+- Stuns enemies on hit.
+- Restores **1 ammo** whenever an enemy is killed.
+
+### Stormchannel
+
+- Fires a continuous lightning attack while the input is held.
+- Charges over time and changes Skill State as the charge increases.
+- Consists of **3 States**.
+- Begins dealing critical hits in the second State.
+- Remaining in the third State causes the player to take self-damage.
+
+### Soulpiercer Nail
+
+- Can attack horizontally, upward, or downward.
+- Jumping performs an upward attack.
+- Falling performs a downward attack.
+- Landing a downward attack on an enemy causes the player to bounce upward.
+
+### Thorn Shield
+
+- Blocks incoming attacks.
+- Perfectly timed blocks perform a parry and negate all damage.
+- Reflects incoming ranged attacks back at enemies.
+
+### Titan Greaves
+
+- Kicks enemies backward.
+- Enemies take damage on impact.
+- Enemies slammed into walls receive additional damage.
+
+### Twinblade Lance
+
+- Defeating two enemies in quick succession empowers the weapon.
+- While empowered, all attacks become critical hits for **6 seconds**.
+
+### Venomfang Blade
+
+- Blinks to the nearest enemy.
+- Poisons the target for **4 DPS** over **15 seconds**.
+- Deals critical hits against heavily poisoned enemies.

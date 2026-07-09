@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '7b8'),
+    component: ComponentCreator('/docs', '557'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '6bf'),
+        component: ComponentCreator('/docs', 'df3'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '164'),
+            component: ComponentCreator('/docs', '4be'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -1123,6 +1123,12 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/Samples/3DCells/',
+                component: ComponentCreator('/docs/Samples/3DCells/', '588'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/docs/Samples/GeneralExpansions/',
                 component: ComponentCreator('/docs/Samples/GeneralExpansions/', 'b8a'),
                 exact: true,
@@ -1173,6 +1179,12 @@ export default [
               {
                 path: '/docs/Samples/GeneralExpansions/Skill/TargetingModel',
                 component: ComponentCreator('/docs/Samples/GeneralExpansions/Skill/TargetingModel', '2fc'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/SlayTheSphere/',
+                component: ComponentCreator('/docs/Samples/SlayTheSphere/', 'f37'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               }

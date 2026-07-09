@@ -831,6 +831,11 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Samples/3DCells/index",
+              "path": "/docs/Samples/3DCells/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Samples/GeneralExpansions/Effector/EnterExit",
               "path": "/docs/Samples/GeneralExpansions/Effector/EnterExit",
               "sidebar": "tutorialSidebar"
@@ -878,6 +883,11 @@
             {
               "id": "Samples/index",
               "path": "/docs/Samples/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/SlayTheSphere/index",
+              "path": "/docs/Samples/SlayTheSphere/",
               "sidebar": "tutorialSidebar"
             },
             {

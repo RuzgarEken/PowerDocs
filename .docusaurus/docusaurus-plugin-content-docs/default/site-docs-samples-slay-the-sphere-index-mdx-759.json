@@ -1,0 +1,23 @@
+{
+  "id": "Samples/SlayTheSphere/index",
+  "title": "Slay The Sphere",
+  "description": "Slay The Sphere is a demo scene that showcases how Power can be used to build a turn-based card game.",
+  "source": "@site/docs/Samples/SlayTheSphere/index.mdx",
+  "sourceDirName": "Samples/SlayTheSphere",
+  "slug": "/Samples/SlayTheSphere/",
+  "permalink": "/docs/Samples/SlayTheSphere/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/SlayTheSphere/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "3DCells",
+    "permalink": "/docs/Samples/3DCells/"
+  }
+}

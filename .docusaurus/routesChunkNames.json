@@ -49,17 +49,17 @@
     },
     "content": "content---markdown-page-4-c-6-c89"
   },
-  "/docs-7b8": {
+  "/docs-557": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-6bf": {
+  "/docs-df3": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-164": {
+  "/docs-4be": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/Assets/Effect/-d2e": {
@@ -774,6 +774,10 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-samples-7-c-7-7db"
   },
+  "/docs/Samples/3DCells/-588": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-samples-3-d-cells-208-914"
+  },
   "/docs/Samples/GeneralExpansions/-b8a": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-samples-general-expansions-9-c-9-6c2"
@@ -809,6 +813,10 @@
   "/docs/Samples/GeneralExpansions/Skill/TargetingModel-2fc": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-samples-general-expansions-skill-targeting-model-2-cf-3d2"
+  },
+  "/docs/Samples/SlayTheSphere/-f37": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-samples-slay-the-sphere-759-87c"
   },
   "/-2e1": {
     "__comp": "__comp---site-src-pages-index-jsc-4-f-f99",
