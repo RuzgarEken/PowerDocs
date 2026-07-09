@@ -13,3 +13,10 @@ These components hold one or more **Effect Packs** and send them to the target w
 A reference to the Effector is also passed to the Processors during Effect processing.
 
 If an **Actor** is assigned to the Effector, Processors can also access the Stats of the Effector's Actor while processing the Effect.
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Actor** | Defines the Actor that belongs to the Effector itself. This field is independent of the Source. While the Source may refer to another Actor, this field defines the Actor that stores the Effector's own Stats. For example, in the **Deadeye String** skill from the **3DCells** sample, the arrow itself is the Effector's Actor. Before being fired, the arrow is charged, and if the charge reaches a certain range, the attack becomes a critical hit. |
+| **Sourceless** | Initializes the Effector using its own `Actor` field as the Source instead of waiting for an external initialization. All relation checks are performed using the Effector's own Actor. |

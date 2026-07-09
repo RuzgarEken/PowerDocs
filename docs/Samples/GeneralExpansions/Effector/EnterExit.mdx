@@ -1,0 +1,22 @@
+---
+sidebar_position: 4
+---
+
+import EnterExitReference from './images/EnterExitReference.png';
+
+# Enter Exit
+
+Applies an Effect when a target enters the collision area and removes the Effect when the target leaves it.
+
+<img src={EnterExitReference} alt="EnterExit reference" />
+
+## Effect Definition Fields
+
+| Field | Description |
+|-------|-------------|
+| **Use Pack Stat** | Retrieves the `EffectPack` from an `EffectPackStat` instead of using a predefined `EffectPack`. Useful for dynamic Effect Packs. |
+| **Effect Pack** | The predefined `EffectPack` that will be applied to the target. |
+| **Pack Stat** | Defines where the `EffectPackStat` is retrieved from and which key is used. |
+| **Pack Stat Environment** | Defines the Environment from which the `EffectPackStat` is retrieved. |
+| **Effect Target** | Determines which Actor receives the Effect. |
+| **Effect Source** | Determines which Actor is assigned as the Effect Source. |

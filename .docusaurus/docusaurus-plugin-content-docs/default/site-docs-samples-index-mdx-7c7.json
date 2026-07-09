@@ -1,0 +1,27 @@
+{
+  "id": "Samples/index",
+  "title": "Samples",
+  "description": "Samples include additional tools and features for Power, such as General Expansions, as well as demo projects like 3DCells and Slay The Sphere.",
+  "source": "@site/docs/Samples/index.mdx",
+  "sourceDirName": "Samples",
+  "slug": "/Samples/",
+  "permalink": "/docs/Samples/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Premade Asset Pack",
+    "permalink": "/docs/Assets/Misc/PremadeAssetPack"
+  },
+  "next": {
+    "title": "General Expansions",
+    "permalink": "/docs/Samples/GeneralExpansions/"
+  }
+}

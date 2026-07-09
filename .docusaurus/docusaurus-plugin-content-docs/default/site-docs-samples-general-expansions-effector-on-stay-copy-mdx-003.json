@@ -1,0 +1,27 @@
+{
+  "id": "Samples/GeneralExpansions/Effector/OnStay copy",
+  "title": "OnStay copy",
+  "description": "",
+  "source": "@site/docs/Samples/GeneralExpansions/Effector/OnStay copy.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Effector",
+  "slug": "/Samples/GeneralExpansions/Effector/OnStay copy",
+  "permalink": "/docs/Samples/GeneralExpansions/Effector/OnStay copy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Effector/OnStay copy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "OnCollide",
+    "permalink": "/docs/Samples/GeneralExpansions/Effector/OnCollide"
+  },
+  "next": {
+    "title": "OnStay",
+    "permalink": "/docs/Samples/GeneralExpansions/Effector/OnStay"
+  }
+}

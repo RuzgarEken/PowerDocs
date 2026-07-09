@@ -1,0 +1,31 @@
+---
+sidebar_position: 2
+---
+
+import OnCollideReference from './images/OnCollideReference.png';
+
+# On Collide
+
+Applies Effects when a collision occurs.
+
+<img src={OnCollideReference} alt="OnCollide reference" />
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Limit Exceeded Behaviour** | Determines what happens when the hit limit is reached. Available options: `Dispose` and `Passivate`. |
+| **Do Not Effect Target Twice** | Prevents the same target from receiving the Effect multiple times after repeated collisions. |
+| **Track Hit Count With Stat** | Stores the hit count as a Stat instead of tracking it internally. |
+| **Effect Definitions** | Defines which Effects are applied, who applies them, and who receives them when the Effector is triggered. |
+
+## Effect Definition Fields
+
+| Field | Description |
+|-------|-------------|
+| **Use Pack Stat** | Retrieves the `EffectPack` from an `EffectPackStat` instead of using a predefined `EffectPack`. Useful for dynamic Effect Packs. |
+| **Effect Pack** | The predefined `EffectPack` that will be applied to the target. |
+| **Pack Stat** | Defines where the `EffectPackStat` is retrieved from and which key is used. |
+| **Pack Stat Environment** | Defines the Environment from which the `EffectPackStat` is retrieved. |
+| **Effect Target** | Determines which Actor receives the Effect. |
+| **Effect Source** | Determines which Actor is assigned as the Effect Source. |

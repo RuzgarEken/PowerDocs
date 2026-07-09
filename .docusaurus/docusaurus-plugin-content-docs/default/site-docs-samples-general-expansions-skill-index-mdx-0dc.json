@@ -1,0 +1,23 @@
+{
+  "id": "Samples/GeneralExpansions/Skill/index",
+  "title": "index",
+  "description": "",
+  "source": "@site/docs/Samples/GeneralExpansions/Skill/index.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Skill",
+  "slug": "/Samples/GeneralExpansions/Skill/",
+  "permalink": "/docs/Samples/GeneralExpansions/Skill/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Skill/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Enter Exit",
+    "permalink": "/docs/Samples/GeneralExpansions/Effector/EnterExit"
+  }
+}

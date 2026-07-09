@@ -831,6 +831,41 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Samples/GeneralExpansions/Effector/EnterExit",
+              "path": "/docs/Samples/GeneralExpansions/Effector/EnterExit",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/Effector/index",
+              "path": "/docs/Samples/GeneralExpansions/Effector/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/Effector/OnCollide",
+              "path": "/docs/Samples/GeneralExpansions/Effector/OnCollide",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/Effector/OnStay",
+              "path": "/docs/Samples/GeneralExpansions/Effector/OnStay",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/index",
+              "path": "/docs/Samples/GeneralExpansions/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/GeneralExpansions/Skill/index",
+              "path": "/docs/Samples/GeneralExpansions/Skill/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Samples/index",
+              "path": "/docs/Samples/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "/category/core-concepts",
               "path": "/docs/category/core-concepts",
               "sidebar": "tutorialSidebar"

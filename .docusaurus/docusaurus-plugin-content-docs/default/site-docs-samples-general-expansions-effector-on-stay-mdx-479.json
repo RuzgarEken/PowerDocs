@@ -1,0 +1,27 @@
+{
+  "id": "Samples/GeneralExpansions/Effector/OnStay",
+  "title": "On Stay",
+  "description": "Continuously applies Effects while a target remains inside the collision area.",
+  "source": "@site/docs/Samples/GeneralExpansions/Effector/OnStay.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Effector",
+  "slug": "/Samples/GeneralExpansions/Effector/OnStay",
+  "permalink": "/docs/Samples/GeneralExpansions/Effector/OnStay",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Effector/OnStay.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "On Collide",
+    "permalink": "/docs/Samples/GeneralExpansions/Effector/OnCollide"
+  },
+  "next": {
+    "title": "Enter Exit",
+    "permalink": "/docs/Samples/GeneralExpansions/Effector/EnterExit"
+  }
+}

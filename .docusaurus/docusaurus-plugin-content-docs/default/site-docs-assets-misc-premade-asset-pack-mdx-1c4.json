@@ -19,5 +19,9 @@
   "previous": {
     "title": "Premade Relation Pack",
     "permalink": "/docs/Assets/Misc/PremadeRelationPack"
+  },
+  "next": {
+    "title": "Samples",
+    "permalink": "/docs/Samples/"
   }
 }

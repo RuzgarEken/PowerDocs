@@ -1,0 +1,27 @@
+{
+  "id": "Samples/GeneralExpansions/Effector/EnterExit",
+  "title": "Enter Exit",
+  "description": "Applies an Effect when a target enters the collision area and removes the Effect when the target leaves it.",
+  "source": "@site/docs/Samples/GeneralExpansions/Effector/EnterExit.mdx",
+  "sourceDirName": "Samples/GeneralExpansions/Effector",
+  "slug": "/Samples/GeneralExpansions/Effector/EnterExit",
+  "permalink": "/docs/Samples/GeneralExpansions/Effector/EnterExit",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Samples/GeneralExpansions/Effector/EnterExit.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "sidebar_position": 4
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "On Stay",
+    "permalink": "/docs/Samples/GeneralExpansions/Effector/OnStay"
+  },
+  "next": {
+    "title": "index",
+    "permalink": "/docs/Samples/GeneralExpansions/Skill/"
+  }
+}

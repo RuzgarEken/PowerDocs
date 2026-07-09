@@ -1,0 +1,31 @@
+---
+sidebar_position: 1
+---
+
+# Effector
+
+Before continuing, read the [Effector](/docs/Components/Effector) documentation to understand how Effectors work.
+
+In the Power Core, `Effector` is provided only as a base class.
+
+This is intentional, as Effector behavior can vary significantly from game to game. The base implementation allows you to extend and customize Effectors to fit your project's specific requirements.
+
+`General Expansions` provides a collision-based implementation, `Effector_CollisionBased`, which includes three built-in types:
+
+- `OnCollide`
+- `OnStay`
+- `EnterExit`
+
+## Collision Based Effector
+
+`Collision Based Effector` is the base class for all collision-driven Effectors included in `General Expansions`.
+
+### Fields
+
+| Field | Description |
+|-------|-------------|
+| **Collide Detectors** | References to the collision detectors used by the Effector. An Effector is not limited to a single trigger; multiple colliders can be assigned to the same Effector. |
+| **Trigger Actors** | Determines which Actor relations, relative to the Source, can trigger the Effector. |
+| **Hit Limitation Type** | Determines how many times the Effector can be triggered. Available options: `Unlimited` and `ByCount`. |
+| **Use Hit Limit Stat** | Retrieves the hit limit dynamically from a Stat instead of using a predefined value. Useful for dynamic hit limits. |
+| **Hit Limit** | Defines the predefined maximum number of times the Effector can be triggered. |

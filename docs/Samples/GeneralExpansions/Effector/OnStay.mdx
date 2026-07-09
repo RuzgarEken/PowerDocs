@@ -1,0 +1,51 @@
+---
+sidebar_position: 3
+---
+
+import OnStayReference from './images/OnStayReference.png';
+
+# On Stay
+
+Continuously applies Effects while a target remains inside the collision area.
+
+<img src={OnStayReference} alt="OnStay reference" />
+
+Since this Effector operates over time, it provides two implementations:
+
+- `Realtime OnStay`
+- `Turnbased OnStay`
+
+## Time User Base Fields
+
+| Field | Description |
+|-------|-------------|
+| **Updater** | Determines which Updater is used to update the Effector. |
+| **Use Turn Stat** | Retrieves the Turn value from a Stat instead of using a predefined value. Required only if the selected Updater has `Turn Enabled`. |
+| **Turn** | The predefined Turn value. Required only if the selected Updater has `Turn Enabled`. |
+
+## On Stay Effector Fields
+
+| Field | Description |
+|-------|-------------|
+| **Effect Definitions** | Defines which Effects are applied, who applies them, and who receives them when the Effector is triggered. |
+| **Targets Under Effect** | Displays the current targets affected by the Effector for debugging purposes. |
+
+## Realtime / Turnbased OnStay Fields
+
+The following fields are shared by both implementations. `Realtime` uses `float` values, while `Turnbased` uses `int` values.
+
+| Field | Description |
+|-------|-------------|
+| **Use Stat Interval** | Retrieves the interval from a Stat instead of using a predefined value. Useful for dynamic intervals. |
+| **Interval** | The predefined interval between Effect applications. |
+
+## Effect Definition Fields
+
+| Field | Description |
+|-------|-------------|
+| **Use Pack Stat** | Retrieves the `EffectPack` from an `EffectPackStat` instead of using a predefined `EffectPack`. Useful for dynamic Effect Packs. |
+| **Effect Pack** | The predefined `EffectPack` that will be applied to the target. |
+| **Pack Stat** | Defines where the `EffectPackStat` is retrieved from and which key is used. |
+| **Pack Stat Environment** | Defines the Environment from which the `EffectPackStat` is retrieved. |
+| **Effect Target** | Determines which Actor receives the Effect. |
+| **Effect Source** | Determines which Actor is assigned as the Effect Source. |

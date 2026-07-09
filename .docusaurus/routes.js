@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', 'f2a'),
+    component: ComponentCreator('/docs', 'cd4'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '429'),
+        component: ComponentCreator('/docs', '713'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '456'),
+            component: ComponentCreator('/docs', '992'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -1113,6 +1113,48 @@ export default [
               {
                 path: '/docs/Introduction',
                 component: ComponentCreator('/docs/Introduction', '856'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/',
+                component: ComponentCreator('/docs/Samples/', '47e'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/', 'b8a'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Effector/',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Effector/', '6eb'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Effector/EnterExit',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Effector/EnterExit', '410'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Effector/OnCollide',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Effector/OnCollide', '476'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Effector/OnStay',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Effector/OnStay', '073'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Samples/GeneralExpansions/Skill/',
+                component: ComponentCreator('/docs/Samples/GeneralExpansions/Skill/', '702'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               }
