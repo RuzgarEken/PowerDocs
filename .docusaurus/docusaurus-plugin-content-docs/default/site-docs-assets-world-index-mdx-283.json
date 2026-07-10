@@ -1,0 +1,27 @@
+{
+  "id": "Assets/World/index",
+  "title": "World",
+  "description": "PowerWorldSettingsModel contains the configuration used to initialize PowerWorld. It defines how Power's core runtime systems, such as Diplomacy, Updater, and Logging, are configured.",
+  "source": "@site/docs/Assets/World/index.mdx",
+  "sourceDirName": "Assets/World",
+  "slug": "/Assets/World/",
+  "permalink": "/docs/Assets/World/",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/World/index.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 5,
+  "frontMatter": {
+    "sidebar_position": 5
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Premade Asset Pack",
+    "permalink": "/docs/Assets/Misc/PremadeAssetPack"
+  },
+  "next": {
+    "title": "Diplomacy",
+    "permalink": "/docs/Assets/World/Diplomacy"
+  }
+}

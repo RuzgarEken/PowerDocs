@@ -1,0 +1,27 @@
+{
+  "id": "Assets/World/Updater",
+  "title": "Updater",
+  "description": "Updater controllers are responsible for updating time-dependent Power elements, such as Effects, Effectors, and Stats. They provide the update flow used by systems that rely on time or turn progression.",
+  "source": "@site/docs/Assets/World/Updater.mdx",
+  "sourceDirName": "Assets/World",
+  "slug": "/Assets/World/Updater",
+  "permalink": "/docs/Assets/World/Updater",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/World/Updater.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Diplomacy",
+    "permalink": "/docs/Assets/World/Diplomacy"
+  },
+  "next": {
+    "title": "Log",
+    "permalink": "/docs/Assets/World/Log"
+  }
+}

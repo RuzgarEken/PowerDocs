@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '557'),
+    component: ComponentCreator('/docs', '62a'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', 'df3'),
+        component: ComponentCreator('/docs', '808'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', '4be'),
+            component: ComponentCreator('/docs', 'f81'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -967,6 +967,30 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/Assets/World/',
+                component: ComponentCreator('/docs/Assets/World/', '07f'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/World/Diplomacy',
+                component: ComponentCreator('/docs/Assets/World/Diplomacy', 'd97'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/World/Log',
+                component: ComponentCreator('/docs/Assets/World/Log', '184'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Assets/World/Updater',
+                component: ComponentCreator('/docs/Assets/World/Updater', 'bb5'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/docs/category/assets',
                 component: ComponentCreator('/docs/category/assets', 'beb'),
                 exact: true,
@@ -1071,6 +1095,12 @@ export default [
               {
                 path: '/docs/CoreConcepts/HowStatValuesAreEvaluated',
                 component: ComponentCreator('/docs/CoreConcepts/HowStatValuesAreEvaluated', 'df3'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/CoreConcepts/LogFiltering',
+                component: ComponentCreator('/docs/CoreConcepts/LogFiltering', 'ba6'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

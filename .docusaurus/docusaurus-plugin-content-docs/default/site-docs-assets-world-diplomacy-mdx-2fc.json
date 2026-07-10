@@ -1,0 +1,27 @@
+{
+  "id": "Assets/World/Diplomacy",
+  "title": "Diplomacy",
+  "description": "DiplomacySettings contains the configuration used by the DiplomacyController. It defines settings such as the TeamStatKey and other diplomacy-related configuration values.",
+  "source": "@site/docs/Assets/World/Diplomacy.mdx",
+  "sourceDirName": "Assets/World",
+  "slug": "/Assets/World/Diplomacy",
+  "permalink": "/docs/Assets/World/Diplomacy",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Assets/World/Diplomacy.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "World",
+    "permalink": "/docs/Assets/World/"
+  },
+  "next": {
+    "title": "Updater",
+    "permalink": "/docs/Assets/World/Updater"
+  }
+}

@@ -771,6 +771,26 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Assets/World/Diplomacy",
+              "path": "/docs/Assets/World/Diplomacy",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/World/index",
+              "path": "/docs/Assets/World/",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/World/Log",
+              "path": "/docs/Assets/World/Log",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Assets/World/Updater",
+              "path": "/docs/Assets/World/Updater",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Components/Actor",
               "path": "/docs/Components/Actor",
               "sidebar": "tutorialSidebar"
@@ -793,6 +813,11 @@
             {
               "id": "CoreConcepts/HowStatValuesAreEvaluated",
               "path": "/docs/CoreConcepts/HowStatValuesAreEvaluated",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "CoreConcepts/LogFiltering",
+              "path": "/docs/CoreConcepts/LogFiltering",
               "sidebar": "tutorialSidebar"
             },
             {

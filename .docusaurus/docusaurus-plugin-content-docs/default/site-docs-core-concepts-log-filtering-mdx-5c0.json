@@ -1,0 +1,27 @@
+{
+  "id": "CoreConcepts/LogFiltering",
+  "title": "Log Filtering",
+  "description": "To enable Power's debug logs, the POWER_DEBUG scripting define symbol must be added to your project's Scripting Define Symbols.",
+  "source": "@site/docs/CoreConcepts/LogFiltering.mdx",
+  "sourceDirName": "CoreConcepts",
+  "slug": "/CoreConcepts/LogFiltering",
+  "permalink": "/docs/CoreConcepts/LogFiltering",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/CoreConcepts/LogFiltering.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "sidebar_position": 7
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Using Conditional Modifier in Processors",
+    "permalink": "/docs/CoreConcepts/UseConditionalModifiers"
+  },
+  "next": {
+    "title": "Interface",
+    "permalink": "/docs/category/interface"
+  }
+}

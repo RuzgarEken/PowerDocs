@@ -49,17 +49,17 @@
     },
     "content": "content---markdown-page-4-c-6-c89"
   },
-  "/docs-557": {
+  "/docs-62a": {
     "__comp": "__comp---theme-docs-root-5-e-9-0b6",
     "__context": {
       "plugin": "plugin---docsaba-d7c"
     }
   },
-  "/docs-df3": {
+  "/docs-808": {
     "__comp": "__comp---theme-doc-version-roota-7-b-5de",
     "__props": "__props---docs-005-788"
   },
-  "/docs-4be": {
+  "/docs-f81": {
     "__comp": "__comp---theme-doc-roota-94-67a"
   },
   "/docs/Assets/Effect/-d2e": {
@@ -670,6 +670,22 @@
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-assets-stat-stat-key-stat-key-model-sig-sep-013-183"
   },
+  "/docs/Assets/World/-07f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-world-283-d14"
+  },
+  "/docs/Assets/World/Diplomacy-d97": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-world-diplomacy-2-fc-507"
+  },
+  "/docs/Assets/World/Log-184": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-world-logfee-e27"
+  },
+  "/docs/Assets/World/Updater-bb5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-assets-world-updater-8-d-2-341"
+  },
   "/docs/category/assets-beb": {
     "__comp": "__comp---theme-doc-category-generated-index-page-14-e-640",
     "__props": "__props---docs-category-assets-022-cdb"
@@ -741,6 +757,10 @@
   "/docs/CoreConcepts/HowStatValuesAreEvaluated-df3": {
     "__comp": "__comp---theme-doc-item-178-a40",
     "content": "content---docs-core-concepts-how-stat-values-are-evaluated-96-a-4ad"
+  },
+  "/docs/CoreConcepts/LogFiltering-ba6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-core-concepts-log-filtering-5-c-0-bd4"
   },
   "/docs/CoreConcepts/RelativeStatSeperation-364": {
     "__comp": "__comp---theme-doc-item-178-a40",
