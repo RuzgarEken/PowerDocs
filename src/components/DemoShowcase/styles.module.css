@@ -1,0 +1,74 @@
+.demoSection {
+  padding: 3rem 0;
+  text-align: center;
+
+  background: var(--ifm-color-primary);
+  color: #111;
+}
+
+.sectionTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 0;
+  color: #111;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  max-width: 800px;
+  margin: 1rem auto 3rem;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.subtitle {
+  max-width: 700px;
+  margin: 1rem auto 4rem;
+  opacity: .8;
+  font-size: 1.1rem;
+}
+
+.demoGrid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.demoCard {
+  flex: 1;
+  min-width: 360px;
+  max-width: 550px;
+
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  background: var(--ifm-background-surface-color);
+}
+
+.demoCard h3 {
+  color: white;
+}
+
+.demoCard img {
+  width: 100%;
+  display: block;
+}
+
+.demoCard h3 {
+  margin-top: 1.5rem;
+}
+
+.demoCard p {
+  padding: 0 1.5rem;
+  min-height: 80px;
+}
+
+.demoCard {
+  color: white;
+}
+
+.demoCard a {
+  margin: 1.5rem 0 2rem;
+}

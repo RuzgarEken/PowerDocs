@@ -37,3 +37,7 @@
   --ifm-color-primary-lightest: #f1e08a;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.navbar__items .navbar__link {
+  font-weight: 700;
+}

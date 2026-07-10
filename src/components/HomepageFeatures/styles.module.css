@@ -2,8 +2,20 @@
   display: flex;
   align-items: center;
   padding: 2rem 0;
+  margin-top: 2rem;
   width: 100%;
 }
+
+.features :global(.row) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 4rem;
+}
+
+/* .features :global(.row) {
+  row-gap: 3rem;
+} */
 
 .featureSvg {
   height: 200px;

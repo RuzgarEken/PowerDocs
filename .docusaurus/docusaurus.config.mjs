@@ -5,7 +5,7 @@
  */
 export default {
   "title": "Power",
-  "tagline": "In your hands",
+  "tagline": "A universal stat and effect system for Unity.",
   "favicon": "img/favicon.ico",
   "future": {
     "v4": {
@@ -61,14 +61,14 @@ export default {
     "image": "img/docusaurus-social-card.jpg",
     "colorMode": {
       "respectPrefersColorScheme": true,
-      "defaultMode": "light",
-      "disableSwitch": false
+      "disableSwitch": true,
+      "defaultMode": "light"
     },
     "navbar": {
       "title": "Power",
       "logo": {
         "alt": "My Site Logo",
-        "src": "img/logo.svg"
+        "src": "img/PowerIconFlatNew.svg"
       },
       "items": [
         {
@@ -76,11 +76,6 @@ export default {
           "sidebarId": "tutorialSidebar",
           "position": "left",
           "label": "Docs"
-        },
-        {
-          "href": "https://github.com/facebook/docusaurus",
-          "label": "GitHub",
-          "position": "right"
         }
       ],
       "hideOnScroll": false
