@@ -18,7 +18,7 @@ export default function DemoShowcase() {
             playsInline
             className={styles.demoVideo}
             >
-            <source src="/videos/3dcells.mp4" type="video/mp4" />
+            <source src="/videos/3DCells.mp4" type="video/mp4" />
         </video>
 
           <h3>Realtime Demo</h3>
