@@ -11,10 +11,15 @@ export default function DemoShowcase() {
 
       <div className={styles.demoGrid}>
         <div className={styles.demoCard}>
-          <img
-            src="/img/3dcells.gif"
-            alt="3DCells Demo"
-          />
+        <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={styles.demoVideo}
+            >
+            <source src="/videos/3dcells.mp4" type="video/mp4" />
+        </video>
 
           <h3>Realtime Demo</h3>
 
@@ -29,10 +34,15 @@ export default function DemoShowcase() {
         </div>
 
         <div className={styles.demoCard}>
-          <img
-            src="/img/SlayTheSphere.gif"
-            alt="Slay The Sphere Demo"
-          />
+        <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className={styles.demoVideo}
+            >
+            <source src="/videos/SlayTheSphere.mp4" type="video/mp4" />
+        </video>
 
           <h3>Turn-Based Demo</h3>
 

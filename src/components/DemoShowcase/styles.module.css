@@ -6,6 +6,12 @@
   color: #111;
 }
 
+.demoCard video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
 .sectionTitle {
   font-size: 3rem;
   font-weight: 800;
