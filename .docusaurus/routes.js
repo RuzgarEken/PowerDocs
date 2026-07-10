@@ -44,15 +44,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '62a'),
+    component: ComponentCreator('/docs', 'd4a'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '808'),
+        component: ComponentCreator('/docs', 'dc9'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'f81'),
+            component: ComponentCreator('/docs', 'cd3'),
             routes: [
               {
                 path: '/docs/Assets/Effect/',
@@ -1135,8 +1135,20 @@ export default [
                 sidebar: "tutorialSidebar"
               },
               {
+                path: '/docs/Interface/AccessHelper',
+                component: ComponentCreator('/docs/Interface/AccessHelper', 'a67'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
                 path: '/docs/Interface/Editor',
                 component: ComponentCreator('/docs/Interface/Editor', '6be'),
+                exact: true,
+                sidebar: "tutorialSidebar"
+              },
+              {
+                path: '/docs/Interface/Flow',
+                component: ComponentCreator('/docs/Interface/Flow', 'c0e'),
                 exact: true,
                 sidebar: "tutorialSidebar"
               },

@@ -846,8 +846,18 @@
               "sidebar": "tutorialSidebar"
             },
             {
+              "id": "Interface/AccessHelper",
+              "path": "/docs/Interface/AccessHelper",
+              "sidebar": "tutorialSidebar"
+            },
+            {
               "id": "Interface/Editor",
               "path": "/docs/Interface/Editor",
+              "sidebar": "tutorialSidebar"
+            },
+            {
+              "id": "Interface/Flow",
+              "path": "/docs/Interface/Flow",
               "sidebar": "tutorialSidebar"
             },
             {

@@ -1,0 +1,27 @@
+{
+  "id": "Interface/Flow",
+  "title": "Flow",
+  "description": "Power Flow is a runtime debugging tool that helps you inspect how Effects are processed throughout Power's execution pipeline.",
+  "source": "@site/docs/Interface/Flow.mdx",
+  "sourceDirName": "Interface",
+  "slug": "/Interface/Flow",
+  "permalink": "/docs/Interface/Flow",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/docs/Interface/Flow.mdx",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 3,
+  "frontMatter": {
+    "sidebar_position": 3
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Access Helper",
+    "permalink": "/docs/Interface/AccessHelper"
+  },
+  "next": {
+    "title": "Components",
+    "permalink": "/docs/category/components"
+  }
+}
