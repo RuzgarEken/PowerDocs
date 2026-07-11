@@ -12,7 +12,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 const config = {
   title: 'Power',
   tagline: 'A universal stat and effect system for Unity.',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/PowerIconFlat.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -64,7 +64,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      // image: 'img/docusaurus-social-card.jpg',
       colorMode: {
         respectPrefersColorScheme: true,
         disableSwitch: true
@@ -73,7 +73,7 @@ const config = {
         title: 'Power',
         logo: {
           alt: 'My Site Logo',
-          src: 'img/PowerIconFlatNew.svg',
+          src: 'img/PowerIconFlat.png',
         },
         items: [
           {

@@ -6,7 +6,7 @@
 export default {
   "title": "Power",
   "tagline": "A universal stat and effect system for Unity.",
-  "favicon": "img/favicon.ico",
+  "favicon": "img/PowerIconFlat.png",
   "future": {
     "v4": {
       "removeLegacyPostBuildHeadAttribute": true,
@@ -58,7 +58,6 @@ export default {
     ]
   ],
   "themeConfig": {
-    "image": "img/docusaurus-social-card.jpg",
     "colorMode": {
       "respectPrefersColorScheme": true,
       "disableSwitch": true,
@@ -68,7 +67,7 @@ export default {
       "title": "Power",
       "logo": {
         "alt": "My Site Logo",
-        "src": "img/PowerIconFlatNew.svg"
+        "src": "img/PowerIconFlat.png"
       },
       "items": [
         {
