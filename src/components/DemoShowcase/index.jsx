@@ -18,7 +18,7 @@ export default function DemoShowcase() {
             playsInline
             className={styles.demoVideo}
             >
-            <source src="/videos/3DCells.mp4" type="video/mp4" />
+            <source src="/videos/3DCells.webm" type="video/webm" />
         </video>
 
           <h3>Realtime Demo</h3>
@@ -41,7 +41,7 @@ export default function DemoShowcase() {
             playsInline
             className={styles.demoVideo}
             >
-            <source src="/videos/SlayTheSphere.mp4" type="video/mp4" />
+            <source src="/videos/SlayTheSphere.webm" type="video/webm" />
         </video>
 
           <h3>Turn-Based Demo</h3>
