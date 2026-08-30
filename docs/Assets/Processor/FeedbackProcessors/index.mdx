@@ -1,0 +1,39 @@
+---
+sidebar_position: 5
+---
+
+# Feedback
+
+**Feedback Processors** are responsible for generating gameplay feedback after an Effect has been processed.
+
+Unlike the other Processor categories, **Power Core does not include any built-in Feedback Processors**. Feedback implementations vary significantly between projects, so this category is intentionally left for game-specific implementations.
+
+**Feedback Processors** differ from Standard Feedback Processors in how feedback is selected. They do not use sign-based separation to distinguish between positive and negative Effect values. Instead, they can use the **Effect Result Attributes** and **Target Stat** to determine which feedback should be generated.
+
+Feedback Processors are typically used to:
+
+- Spawn visual effects (VFX)
+- Play sound effects (SFX)
+- Display floating damage or healing numbers
+- Trigger camera shake
+- Play hit reactions
+- Execute any other gameplay feedback appropriate for your project
+
+### Effect Result and Target Stat Separation
+
+Feedback Processors can use the processed **Effect Result Attributes** together with the **Target Stat** to select the appropriate feedback.
+
+For example, a Feedback Processor can use a combination of:
+
+- **Target Stat** — Determines which Stat was affected.
+- **Effect Result Attributes** — Determines the result or characteristics of the processed Effect.
+
+This allows different feedback to be generated for the same Target Stat based on the Effect's processing results.
+
+For example, a text feedback processor can define different text styles for different combinations of **Target Stats** and **Effect Result Attributes**:
+
+- A `Health` Target Stat with a `Immune` Result Attribute → immune text.
+
+## Samples
+
+Example **Feedback Processors** can be found in the **Samples** package. These implementations demonstrate how to build custom Feedback Processors using **Effect Result Attributes** and **Target Stats**, and can be used as a starting point for your own project.

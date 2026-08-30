@@ -1,0 +1,23 @@
+---
+sidebar_position: 4
+---
+
+# Duration Processors
+
+You can find a video tutorial for Duration Modifiers [▶ here](https://youtu.be/5Ptp3SPc-64?list=PLAVxVgoBmZhM).
+
+A **DurationModifier Processors** modifies the duration of a Modifier when the Modifier is added.
+
+It uses **DurationModifier Stats** to create **Duration Contribution Data**, which determines how the Modifier's duration is modified. This allows Modifier durations to be extended or reduced based on configurable contribution types and conditions.
+
+For example, a `BuffDurationModifier` Stat can be configured with a default value of `2` and a **Contribution Type** of **Multiplier**. When assigned as the **Duration Modifier Relative** of an `AttackRateBuff` Stat, the DurationModifier Process applies its contribution when the buff is added.
+
+If the original Modifier duration is `10` seconds and the DurationModifier Stat contributes a multiplier of `2`, the resulting duration becomes `20` seconds.
+
+**DurationModifier Processes** also support **Stat Checks** and **Result Attribute Checks**, allowing Modifier durations to be modified conditionally based on Stat values or Effect processing results.
+
+See [**Duration Modifier Stats**](/docs/Assets/Stat/StatDefinition/DurationModifier.mdx) for more information.
+
+:::info
+Duration modification is performed when the Modifier is initially added. **DurationModifier Processes** do not continuously modify the duration of an existing Modifier.
+:::
