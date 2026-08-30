@@ -4,6 +4,8 @@ sidebar_position: 3
 
 # Source Seperated Stats
 
+You can find a video tutorial for Source Separated Stats [▶ here](https://youtu.be/SqY9eV1WYp8).
+
 A **Source Separated Stat** is both a regular Stat and a container Stat.
 
 In addition to maintaining its own value, it creates and manages a separate inner Stat for each source Actor that applies a Modifier. These inner Stats are created using the **Inner Stat Definition**.
@@ -13,6 +15,7 @@ Whenever a Modifier is applied to the Source Separated Stat, the Modifier is app
 This allows the Source Separated Stat to maintain its own total value while also keeping track of the individual contributions made by each source Actor.
 
 For example, if three different Actors each apply a poison Modifier to the same target, the Source Separated Stat stores the combined poison value on itself while also maintaining three separate inner Stats—one for each source Actor. This enables mechanics that depend on individual sources, such as removing the poison from a specific attacker or redirecting only the damage contributed by a particular source.
+
 
 ## Fields
 
