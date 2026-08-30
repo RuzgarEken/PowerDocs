@@ -31,11 +31,28 @@ In other words, the Stat itself is conditionally modified only for the current P
 
 ## Example Setup
 
-Using **CritRate** as an example:
+We will use **VenomfangBlade** from the **3DCells** demo to demonstrate how Conditional Modifiers can be used with the **CritHit** Processor.
 
-1. Enable **UseConditionalHitRateModifier** on the **CritHit** Processor.
-2. Assign an **ASContribution_ConditionalModifier_Float** Processor reference.
-3. On the **CritRate** Stat, assign the **ConditionalModifier_AttributeStat** Relative Stat that will be used during conditional processing.
-4. If you need multiple independent conditional modification rules, use a **Signature Separated** Conditional Modifier and its corresponding **Signature Separated Processor**.
+In the **VenomfangBlade** example, the Conditional Modifier is used to modify the critical hit chance based on the target's Poison stacks.
 
-Once configured, the **CritHit** Processor will automatically resolve and use the conditionally modified **CritRate** value whenever it executes.
+1. This is the VenomfangAttack Stat, which is used as an AttributeStat for VenomfangBlade attacks.
+
+![VenomfangBlade Attack Stat](./images/UsingConditionalModifiers_2.png)
+
+2. Enable **UseConditionalHitRateModifier** on the **CritHit** Processor.
+
+3. Assign an **ASContribution_ConditionalModifier_Float** Processor reference.
+
+![CritHit Processor](./images/UsingConditionalModifiers_1.png)
+
+4. On the **CritRate** Stat, assign the **ConditionalModifier_AttributeStat** Relative Stat that will be used during conditional processing.
+
+![VenomfangBlade CritRate Stat](./images/UsingConditionalModifiers_3.png)
+
+5. When the Conditional Modifier's condition is met, the **CritRate** value will be modified. In this example, **1 is added to CritRate as a flat contribution**, allowing the blade to deal critical damage when the target has **3 or more Poison stacks**.
+
+![VenomfangBlade CritRate ConditionalModifier Stat](./images/UsingConditionalModifiers_4.png)
+
+If you need multiple independent conditional modification rules, use a **Signature Separated** Conditional Modifier and its corresponding **Signature Separated Processor**.
+
+

@@ -19,19 +19,19 @@ Whether a processor runs, and how it modifies an Effect, depends on the Effect's
 
 Power provides three types of Effects depending on how many Attribute Stats they contain.
 
-### BaseStatEffect
+### Base Stat Effect
 
 A **BaseStatEffect** has no Attribute Stats.
 
 It is processed using only its **Target Stat**.
 
-### AttributeStatEffect
+### Attribute Stat Effect
 
 An **AttributeStatEffect** contains a **Target Stat** and a single **Attribute Stat**.
 
 Processors evaluate the relationships of both stats while processing the Effect.
 
-### MultiAttributeStatEffect
+### Multi Attribute Stat Effect
 
 A **MultiAttributeStatEffect** contains a **Target Stat** and multiple **Attribute Stats**.
 
@@ -42,6 +42,12 @@ For example, a skill could be sent with the following Attribute Stats:
 - MagicAttack
 - LightningAttack
 - OrbAttack
+
+> **Note:** In the editor, these are abbreviated as:
+>
+> - **BS** = BaseStat
+> - **AS** = AttributeStat
+> - **MAS** = MultiAttributeStat
 
 ---
 
@@ -62,12 +68,6 @@ When processed by **ASPrecontributionProcess_Immune**, the processor checks whet
 However, the Effect should also be able to check whether the **Health** stat itself is immune to incoming effects.
 
 This is why AS and MAS Effects can also pass through **BaseStatEffectProcessors**, allowing processors that operate on the Target Stat to run in addition to those that operate on the Attribute Stats.
-
-> **Note:** In the editor, these are abbreviated as:
->
-> - **BS** = BaseStat
-> - **AS** = AttributeStat
-> - **MAS** = MultiAttributeStat
 
 ---
 
