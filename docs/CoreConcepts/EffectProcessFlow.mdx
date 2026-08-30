@@ -53,15 +53,23 @@ For example, a skill could be sent with the following Attribute Stats:
 
 ---
 
+<br />
+
+For the following topics, you can find the corresponding video tutorial [▶ here](https://youtu.be/3yMrViborRs?list=PLAVxVgoBmZhM)
+
 ## Effect Processors
 
 Each Effect type is handled by processors designed for that type.
 
-- **BaseStatEffect** → BaseStatEffectProcessors
-- **AttributeStatEffect** → BaseStatEffectProcessors and AttributeStatEffectProcessors
-- **MultiAttributeStatEffect** → BaseStatEffectProcessors and MultiAttributeStatEffectProcessors
+| Field | Description |
+| --- | --- |
+| **BaseStatEffect** | BaseStatEffectProcessors |
+| **AttributeStatEffect** | BaseStatEffectProcessors and AttributeStatEffectProcessors |
+| **MultiAttributeStatEffect** | BaseStatEffectProcessors and MultiAttributeStatEffectProcessors |
 
+:::info
 Since **AttributeStatEffects** and **MultiAttributeStatEffects** also contain a **Target Stat**, they can be processed by **BaseStatEffectProcessors** as well.
+:::
 
 For example, suppose the Target Stat is **Health** and the Effect is sent with the **PhysicalAttack** Attribute Stat.
 
