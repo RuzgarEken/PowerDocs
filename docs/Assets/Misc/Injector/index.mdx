@@ -4,8 +4,18 @@ sidebar_position: 5
 
 # Injector
 
-Injectors transform a stat's value according to their configuration.
-For example, an Injector can:
-- Add a value
-- Multiply the value
-- Set the value to a fixed amount
+**Injectors** contribute to building a Stat's final value during the Stat update process.
+
+During each Stat update, the Stat's **Modified Value** is initialized from its **Raw Value**. The assigned Injectors are then applied sequentially according to their **Injection Order**.
+
+Different **Injector Models** can define different behaviors. For example, an Injector can add a value, multiply a value, clamp a value, override it with a fixed value, or perform any other custom transformation.
+
+Each **Injector Definition** contains an **Injection Order**, which determines when the Injector is applied relative to other Injectors.
+
+For example, an Injector can multiply the **PhysicalAttack** Stat value by 2. If the Raw Value is **10**, applying the Injector results in a Modified Value of **20**.
+
+## Linkers
+
+**Linkers** are specialized Stat Injectors that use values from other Stats instead of predefined values.
+
+Like other Injectors, Linkers are applied during the Stat update process according to their **Injection Order**. The difference is that the value injected by a Linker is obtained from another Stat, allowing Stats to dynamically influence each other.
