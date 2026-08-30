@@ -4,4 +4,26 @@ sidebar_position: 5
 
 # Chain
 
-Processes a Stat value through a sequence of `StatValueAdapters`, passing the output of each adapter as the input to the next.
+**Chain Adapters** allows multiple value transformations to be applied sequentially to a Stat's value.
+
+The Chain Adapter can optionally use another **Stat Value Adapter** as its initial value source. The resulting value is then passed through each configured **Value Adapter** in order, with the output of each adapter becoming the input of the next one.
+
+| Field | Description |
+| --- | --- |
+| **Stat Adapter** | The **Stat Value Adapter** used to obtain the initial value. When not assigned, the Stat's current value is used directly. |
+| **Adapters** | Defines the **Value Adapters** applied sequentially to the value. Each adapter receives the result of the previous adapter. |
+
+### Processing Order
+
+The value is processed in the following order:
+
+1. If **Stat Adapter** is assigned, its result is used as the initial value.
+2. Otherwise, the Stat's current value is used directly.
+3. Each **Value Adapter** in **Adapters** is applied in array order.
+4. The final adapter's result becomes the final adapted value.
+
+For example, if the initial Stat value is `100` and the Chain contains three Value Adapters:
+
+`Stat Value → Adapter 1 → Adapter 2 → Adapter 3 → Final Value`
+
+This allows multiple value transformations to be combined into a single **Stat Value Adapter**.

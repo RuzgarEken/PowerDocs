@@ -4,4 +4,20 @@ sidebar_position: 2
 
 # Actor Stat Extractor
 
-Returns a Stat from the `ActorEntity` contained within an `ActorStat`.
+**StatValueAdapter_ExtractActorStat** extracts the value of a specific **Stat** from an **Actor Stat**.
+
+This adapter expects the incoming Stat to be an **Actor Stat** and uses the configured **Stat Key** to find the target Stat within that Actor. The value of the extracted Stat is then returned as the adapted value.
+
+| Field | Description |
+| --- | --- |
+| **Stat Key** | Defines the **Stat Key** used to identify the Stat to extract from the Actor. |
+
+### Processing
+
+The adapter performs the following steps:
+
+1. Verifies that the incoming Stat is an **Actor Stat**.
+2. Uses **Stat Key** to find the corresponding **Stat** within the Actor.
+3. Returns the current value of the extracted Stat.
+
+For example, if the incoming Stat represents an Actor and **Stat Key** references its `Health` Stat, the adapter returns the Actor's current Health value.

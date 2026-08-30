@@ -1,0 +1,43 @@
+---
+sidebar_position: 9
+---
+
+
+# Map Value
+
+**StatValueAdapter_MapValue** maps a Stat's current value to a new value using a configurable **Value Mapper**.
+
+The mapping first calculates the absolute distance between the Stat's value and the configured **Min** value, then normalizes that distance to a `0–1` range. The normalized value can optionally be passed through an **Animation Curve** before the final modifier is applied.
+
+| Field | Description |
+| --- | --- |
+| **Mapper** | Defines how the Stat's value is mapped to the resulting value. |
+
+### Value Mapper
+
+The **Value Mapper** controls how the input value is transformed.
+
+| Field | Description |
+| --- | --- |
+| **Min** | Defines the minimum value used as the starting point of the mapping range. |
+| **Max** | Defines the maximum value used to normalize the input value. |
+| **Curve Map** | Determines whether the normalized value is evaluated through the configured **Curve**. |
+| **Curve** | Defines the mapping curve applied to the normalized value when **Curve Map** is enabled. |
+| **Final Modifier** | Determines how the evaluated value is combined with the configured final value. |
+| **Final Offset** | The value added to the evaluated value when **Final Modifier** is set to **Add**. |
+| **Final Value Multiplier** | The value multiplied by the evaluated value when **Final Modifier** is set to **Multiply**. |
+
+### Mapping Process
+
+The input value is first converted into a normalized value:
+
+`Normalized Value = Abs(Value - Min) / (Max - Min)`
+
+If **Curve Map** is enabled, the normalized value is evaluated using the configured **Curve**.
+
+The evaluated value is then modified according to **Final Modifier**:
+
+- **Add** → `Final Offset + Evaluated Value`
+- **Multiply** → `Final Value Multiplier × Evaluated Value`
+
+For example, with **Min** = `0`, **Max** = `100`, and an input value of `75`, the normalized value is `0.75`. If **Curve Map** is disabled and **Final Modifier** is **Multiply** with a **Final Value Multiplier** of `2`, the resulting value is `1.5`.

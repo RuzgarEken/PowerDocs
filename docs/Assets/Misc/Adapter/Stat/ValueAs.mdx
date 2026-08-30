@@ -1,0 +1,23 @@
+---
+sidebar_position: 12
+---
+
+# Value As
+
+**StatValueAdapter_ValueAs** converts a Stat's current value into a different representation before it is used.
+
+| Value As | Description |
+| --- | --- |
+| **Constant** | Returns the Stat's current value directly. |
+| **Percentage Of Remaining** | Returns the proportion of the Stat's current value within its minimum and maximum range as a percentage (`0–1`). Calculated as `(Current Value - Min Value) / (Max Value - Min Value)`. |
+| **Percentage Of Missing** | Returns the proportion of the Stat's missing value within its minimum and maximum range as a percentage (`0–1`). Calculated as `(Max Value - Current Value) / (Max Value - Min Value)`. |
+
+:::info
+**Percentage Of Remaining** and **Percentage Of Missing** require the target Stat to be a **Clamped Stat**, since these calculations use its **Min Value** and **Max Value**.
+:::
+
+For example, if a Clamped Stat has a **Min Value** of `0`, a **Max Value** of `100`, and a current value of `75`:
+
+- **Constant** → `75`
+- **Percentage Of Remaining** → `0.75`
+- **Percentage Of Missing** → `0.25`

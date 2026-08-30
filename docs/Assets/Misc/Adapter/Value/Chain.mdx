@@ -4,4 +4,22 @@ sidebar_position: 4
 
 # Chain
 
-Processes the input value through a sequence of `ValueAdapters`, passing the output of each adapter as the input to the next.
+**ValueAdapter_Chain** applies multiple **Value Adapters** sequentially to an incoming value.
+
+Each adapter receives the result produced by the previous adapter, allowing multiple value transformations to be combined into a single **Value Adapter**.
+
+| Field | Description |
+| --- | --- |
+| **Adapters** | Defines the **Value Adapters** applied to the incoming value. Adapters are executed in array order, with each adapter receiving the result of the previous adapter. |
+
+### Processing Order
+
+The value is processed sequentially through the configured adapters:
+
+`Input Value → Adapter 1 → Adapter 2 → Adapter 3 → Final Value`
+
+For example, if the input value is `100` and the Chain contains three Value Adapters, the first adapter receives `100`, the second receives the result of the first, and the third receives the result of the second. The result of the final adapter becomes the adapted value.
+
+:::info
+The **Adapters** array must contain at least one adapter, and every element in the array must be assigned.
+:::

@@ -4,4 +4,27 @@ sidebar_position: 3
 
 # Alter
 
-Modifies the input value using a predefined value.
+**ValueAdapter_Alter** modifies an incoming value using a configurable **Modifier** and **Modify Type**.
+
+| Field | Description |
+| --- | --- |
+| **Modifier** | Defines the value used to modify the incoming value. |
+| **Modify Type** | Determines how the **Modifier** is applied to the incoming value. See **Modify Types** below. |
+
+### Modify Types
+
+| Type | Description |
+| --- | --- |
+| **Flat** | Adds the Modifier directly to the incoming value. `Result = Value + Modifier` |
+| **Rate** | Changes the incoming value by the Modifier rate. `Result = Value × (1 + Modifier)` |
+| **Multiplier** | Multiplies the incoming value directly by the Modifier. `Result = Value × Modifier` |
+
+For example, if the incoming value is `100`:
+
+- **Flat** with `10` → `110`
+- **Rate** with `0.10` → `110`
+- **Multiplier** with `1.10` → `110`
+
+:::info
+**ValueAdapter_Alter** has implementations for different value types. The supported value type and the exact behavior of the modification depend on the specific implementation being used.
+:::
