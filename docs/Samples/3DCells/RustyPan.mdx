@@ -1,0 +1,27 @@
+---
+sidebar_position: 8
+---
+
+# Rusty Pan
+
+Deals critical damage to enemies that are facing the player.
+
+## Implementation
+
+We use the **RustyPan_Attack** Attribute Stat to apply skill-specific behaviors.
+
+![RustyPan Effect](./images/RustyPan_Effect.png)
+
+![RustyPan Attack Stat](./images/RustyPan_Attack.png)
+
+As you can see, we have a **CritRate** Stat attached to the **RustyPan_Attack** Stat.
+
+![RustyPan Crit Rate](./images/RustyPan_CritRate.png)
+
+By enabling **UseConditionalModifier** in the **CritProcessor**, we can conditionally modify the CritRate value based on the enemy's facing direction.
+
+![RustyPan Crit Processor](./images/CritProcessor.png)
+
+![RustyPan Crit Rate Modifier](./images/RustyPan_CritRateModifier.png)
+
+The **CritRateModifier** Stat adds `1` to **CritRate** as a flat contribution when the dot product between the enemy's forward direction and the source Actor's forward direction is below `-0.7`, indicating that the enemy is facing the player.
