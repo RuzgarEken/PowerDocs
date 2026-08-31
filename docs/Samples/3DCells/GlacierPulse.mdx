@@ -1,0 +1,47 @@
+---
+sidebar_position: 4
+---
+
+# Glacier Pulse
+
+Freezes enemies and deals a small amount of damage.
+
+Already frozen enemies cannot be damaged by the freezing hit again.
+
+When the freeze expires, enemies are slowed, reducing both their movement speed and attack speed.
+
+## Implementation
+
+This is the **GlacierPulse** attack Effect Pack.
+
+![Glacier Pulse Attack Pack](./images/GlacierPulse_Pack.png)
+
+The freeze attack targets the enemy's **Frozen** Stat.
+
+The **Frozen** Stat also injects its value into **ControlBlocker**, which prevents the Actor from moving or attacking while frozen.
+
+![Glacier Pulse ControlBlocker Injection](./images/GlacierPulse_ControlBlockInjection.png)
+
+The **GlacierPulse** attack also cancels the enemy's ongoing attack by removing its **CastingOnProgress** Stat modifiers.
+
+![Glacier Pulse Attack Canceling](./images/GlacierPulse_AnimationCanceling.png)
+
+On the skill side, the skill casting state is tracked by the **CastingOnProgress** Stat. When its modifiers are removed externally, the Skill system can be configured to cancel the ongoing skill cast.
+
+![Glacier Pulse Skill Casting](./images/GlacierPulse_SkillCasting.png)
+
+To prevent **GlacierPulse** from dealing damage when the target is already frozen, we use a **ConditionalModifier**.
+
+![Glacier Pulse Attack Stat](./images/GlacierPulse_AttackStat.png)
+
+The Conditional Modifier essentially multiplies the attack value by `0` and adds an **Immune** result attribute when the target is already frozen.
+
+![Glacier Pulse Conditional Attack Modifier Stat](./images/GlacierPulse_ConditionalAttackModifier.png)
+
+For the slow effect after the freeze expires, we use a **StateBasedEffect** to trigger the slow effects.
+
+![Glacier Pulse Thaw Trigger](./images/GlacierPulse_ThawTrigger.png)
+
+The slow effect targets the **SpeedScaler** Stat, which is used by both movement speed and animation speed.
+
+![Glacier Pulse Slow Effect](./images/GlacierPulse_SlowEffect.png)

@@ -1,0 +1,39 @@
+---
+sidebar_position: 5
+---
+
+# Legion Spear
+
+Deals a critical hit when a single attack hits multiple enemies.
+
+The critical damage multiplier increases based on the number of enemies hit.
+
+## Implementation
+
+The **Legion Spear** skill object contains two Effectors.
+
+![Legion Spear Skill](./images/LegionSpear_Skill.png)
+
+The **Toucher** is initially active. Its **EnterExit** Effector increases the source Actor's **TouchCount** for each target inside the area.
+
+![Legion Spear Toucher Effector](./images/LegionSpear_ToucherEffector.png)
+
+The **Damage** Effector is activated after a `0.15` second delay. It uses an **OnCollide** Effector to apply damage to the **TriggerActors**.
+
+![Legion Spear Damage Effector](./images/LegionSpear_DamageEffector.png)
+
+To modify the **CritRate** and **CritMultiplier** values based on the number of touched targets, we use **ConditionalModifiers** with the **CritProcessor**.
+
+![Legion Spear Crit Processor](./images/CritProcessor.png)
+
+The **CritRate** Conditional Modifier checks whether the **TouchCount** is greater than `1`. If the condition is met, it adds `1` to the **CritRate** as a flat contribution.
+
+![Legion Spear CritRate Stat](./images/LegionSpear_CritRate.png)
+
+![Legion Spear CritRate Modifier](./images/LegionSpear_CritRateModifier.png)
+
+For the **CritMultiplier**, we use a **StatScaler** to scale the **CritMultiplierModifier** based on the number of touched targets. It adds `0.25` to the **CritMultiplier** for each target.
+
+![Legion Spear CritMultiplier Stat](./images/LegionSpear_CritMultiplier.png)
+
+![Legion Spear CritMultiplier Modifier](./images/LegionSpear_CritMultiplierModifier.png)

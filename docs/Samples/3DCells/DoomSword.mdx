@@ -1,0 +1,31 @@
+---
+sidebar_position: 3
+---
+
+# Doom Sword
+
+Every attack is a critical hit.
+
+Taking any damage instantly kills the player.
+
+## Implementation
+
+We use **DoomSword_Attack** as the Effect Attribute Stat.
+
+![DoomSword Attack Effect](./images/DoomSword_Effect.png)
+
+This Stat has a **CritRate** relation with a value of `1`.
+
+![DoomSword Attack Stat](./images/DoomSword_Attack.png)
+
+![DoomSword CritRate Stat](./images/DoomSword_CritRate.png)
+
+Since the **CritProcessor** sums the **CritRate** and **CritMultiplier** values from all Attribute Stats, the CritRate reaches `1`, causing every attack to be a critical hit.
+
+For the instant-death mechanic, we use a **CounterEffect** Stat injected into the **Health** Stat with negative Effect values being tracked.
+
+![DoomSword Die CounterEffect](./images/DoomSword_CounterEffect.png)
+
+When the player takes damage, the **CounterEffect** detects the negative Effect and triggers the die Effect.
+
+![DoomSword Die Effect](./images/DoomSword_DieEffect.png)

@@ -4,8 +4,9 @@ sidebar_position: 1
 
 # Deadeye String
 
-- Landing the shot within a specific timing window deals a critical hit.
-- The critical damage multiplier depends on how accurately the shot is released within that window.
+Landing the shot within a specific timing window deals a critical hit.
+
+The critical damage multiplier depends on how accurately the shot is released within that window.
 
 ## Implementation
 
@@ -35,7 +36,7 @@ As you can see, we have skill specific CritRate and CritMultiplier Stats.
 
 We want both of these values to change based on the arrow's charge value. Therefore, we enable UseConditionalModifier for both CritRate and CritMultiplier in the CritProcessor, allowing their values to be conditionally modified.
 
-![Deadeye String Crit Processor](./images/DeadeyeString_CritProcessor.png)
+![Deadeye String Crit Processor](./images/CritProcessor.png)
 
 We also need to add ConditionalModifier_Given_AttributeStat relations to the CritRate and CritMultiplier Stats.
 
