@@ -8,6 +8,22 @@ id: HowStatValuesAreEvaluated
 Several elements contribute to a stat's final value.
 Some of these come from the stat itself, such as whether it is clamped, while others come from **Modifiers** and **Injectors**.
 
+```mermaid
+flowchart LR
+    Default(["Default Value"]) --> Raw("Raw Value")
+    Mod("Modifiers") -.-> Raw
+    Raw --> Modified("Modified Value")
+    Inj("Injectors") -.-> Modified
+    Modified --> Value(["Value"])
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    classDef input stroke:#2f6690,stroke-width:1.5px,stroke-dasharray: 4 3;
+    class Default,Value terminal;
+    class Raw,Modified stage;
+    class Mod,Inj input;
+```
+
 **Modifiers**
 - Modifiers are temporary values added to a stat.
 - They can be removed over time or when a specific event is triggered.
@@ -15,6 +31,17 @@ Some of these come from the stat itself, such as whether it is clamped, while ot
 **Injectors**
 
 Injectors transform a stat's value according to their configuration.
+
+```mermaid
+flowchart LR
+    RawIn("Raw Value") --> Injector("Injector")
+    Injector --> Add("Add a value")
+    Injector --> Mul("Multiply the value")
+    Injector --> Set("Set a fixed value")
+
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class RawIn,Injector,Add,Mul,Set stage;
+```
 
 For example, an Injector can:
 - Add a value
@@ -45,4 +72,3 @@ To manage all of these contributions correctly, each stat stores multiple value 
   - It is the value used for gameplay logic, calculations, and UI.
   - For most stats, **Value** is the same as **Modified Value**.
   - Some specialized stats behave differently. For example, a **Clamped Stat** returns the clamped version of **Modified Value** as its final **Value**.
-  

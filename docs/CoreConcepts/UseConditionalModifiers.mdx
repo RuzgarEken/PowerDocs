@@ -21,11 +21,24 @@ This mechanism is not limited to **CritRate**. It can be used for any Processor 
 
 ## How it works
 
-To understand the implementation, it helps to know how standard Contribution processing works.
+Conditional Modifiers are always resolved through an **ASContribution_ConditionalModifier** Processor, regardless of which **UseConditionalModifier** option triggered them — its signature is the one that accepts both a **Target Stat** and an **Attribute Stat**.
 
-Normally, a **Contribution Processor** evaluates the **Target Stat** together with **Attribute Stats** and produces a **Contribution Data** object. This Contribution Data is then used to modify the Effect value.
+For a Conditional Modifier, the Effect's real **Target Stat** is passed through as-is, while the queried Stat — the one whose value needs conditional adjustment, such as **CritRate** stat for the Crit process, or **HitRate** stat for the HitRate process — is passed in the **Attribute Stat** slot.
 
-Conditional Modifiers reuse this same mechanism. Instead of modifying an Effect value directly, the Processor creates a temporary Contribution Data using the Stat being queried (for example, **CritRate**) and sends it through a Conditional Modifier process. The resulting value is then used by the Processor in place of the Stat's original value.
+```mermaid
+flowchart LR
+    Target(["Effect's Target Stat"]) --> CondProc("ASContribution_ConditionalModifier")
+    Queried(["Queried Stat<br/><small>e.g. CritRate, HitRate</small>"]) --> CondProc
+    CondProc --> Contribution("Contribution<br/><small>Rate / Flat / Multiplier</small>")
+    Contribution --> Result("Adjusted Value<br/><small>used for this execution only</small>")
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Target,Queried terminal;
+    class CondProc,Contribution,Result stage;
+```
+
+The resulting Contribution is applied to the queried Stat's current value, and only for this Processor execution — the Stat's stored value is never permanently changed.
 
 In other words, the Stat itself is conditionally modified only for the current Processor execution without permanently changing the Stat.
 
@@ -54,5 +67,3 @@ In the **VenomfangBlade** example, the Conditional Modifier is used to modify th
 ![VenomfangBlade CritRate ConditionalModifier Stat](./images/UsingConditionalModifiers_4.png)
 
 If you need multiple independent conditional modification rules, use a **Signature Separated** Conditional Modifier and its corresponding **Signature Separated Processor**.
-
-

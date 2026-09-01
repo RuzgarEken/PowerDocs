@@ -28,6 +28,20 @@ Power flow consists of five elements: <Highlight>Actor</Highlight>, <Highlight>S
 - <Highlight>Actor</Highlight>s contain <Highlight>Stat</Highlight>s.
 - <Highlight>Effector</Highlight>s apply <Highlight >Effect</Highlight>s through <Highlight>Processor</Highlight>s to modify <Highlight>Stat</Highlight>s.
 
+```mermaid
+%%{init: {'themeVariables': {'edgeLabelBackground': 'transparent'}}}%%
+flowchart LR
+    Actor(["Actor"]) -->|contains| Stat("Stat")
+    Effector(["Effector"]) -->|applies| Effect("Effect")
+    Effect -->|through| Processor("Processor")
+    Processor -->|modifies| Stat
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Actor,Effector terminal;
+    class Stat,Effect,Processor stage;
+```
+
 The overall concept is easy to understand.
 In practice, using Power is mostly about defining relations between Power assets.
 
@@ -36,6 +50,18 @@ All actors store their stats in a multi layered container structure.
 At the top level there is the Stat Repository. This holds the full stat definition set and is used by the Actor at runtime.
 
 The stat hierarchy is structured as follows: <Highlight color="#ffffff">Repository -> Environment -> Container -> Stat</Highlight>
+
+```mermaid
+flowchart TD
+    Repo(["Repository"]) --> Env("Environment")
+    Env --> Cont("Container")
+    Cont --> St("Stat")
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Repo terminal;
+    class Env,Cont,St stage;
+```
 
 **Container**
   - Containers group Stat Definitions of the same type.
@@ -64,6 +90,19 @@ Let’s understand this process through an example.
 
 
 Let’s say we want to decrease the enemy’s health by five.
+
+```mermaid
+flowchart LR
+    Effect(["FloatEffect<br/><small>-5, targets HealthStat</small>"]) --> Pack("Pack_Damage<br/><small>EffectPack</small>")
+    Pack --> Effector("OnCollideEffector")
+    Effector --> Proc("Processor_Add_Float<br/><small>ProcessorId: Add_Float</small>")
+    Proc --> Stat(["HealthStat<br/><small>-5 applied</small>"])
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Effect,Stat terminal;
+    class Pack,Effector,Proc stage;
+```
 
 For this, we need a Float Health stat in the StatRepository.
 <img src={HealthStatReference} alt="HealthStat reference" />

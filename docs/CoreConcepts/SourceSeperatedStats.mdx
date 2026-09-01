@@ -16,6 +16,20 @@ This allows the Source Separated Stat to maintain its own total value while also
 
 For example, if three different Actors each apply a poison Modifier to the same target, the Source Separated Stat stores the combined poison value on itself while also maintaining three separate inner Stats—one for each source Actor. This enables mechanics that depend on individual sources, such as removing the poison from a specific attacker or redirecting only the damage contributed by a particular source.
 
+```mermaid
+flowchart LR
+    A1("Actor A<br/><small>Poison Modifier</small>") --> Inner1("Inner Stat A")
+    A2("Actor B<br/><small>Poison Modifier</small>") --> Inner2("Inner Stat B")
+    A3("Actor C<br/><small>Poison Modifier</small>") --> Inner3("Inner Stat C")
+    Inner1 --> Total(["Source Separated Stat<br/><small>combined value</small>"])
+    Inner2 --> Total
+    Inner3 --> Total
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Total terminal;
+    class Inner1,Inner2,Inner3,A1,A2,A3 stage;
+```
 
 ## Fields
 
@@ -29,4 +43,26 @@ To use a Stat as a **Source Separated Stat**, you must use the **SrcSep** versio
 
 For example, if you want to use a **FloatGenerator** as a Source Separated Stat, you should create a **SrcSep_Float** Stat and assign the **FloatGenerator** Stat Definition to its **Inner Stat Definition** field. The **SrcSep_Float** Stat must also be placed in a **Container_SrcSep_Float**.
 
+```mermaid
+flowchart LR
+    Prim("FloatGenerator<br/><small>primitive Stat Definition</small>") --> SrcSep("SrcSep_Float<br/><small>Inner Stat Definition = FloatGenerator</small>")
+    SrcSep --> Container(["Container_SrcSep_Float"])
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Container terminal;
+    class Prim,SrcSep stage;
+```
+
 The same rule applies to all Stat types. For example, **CounterEffect** uses the **EffectPack** primitive type. To use it as a Source Separated Stat, create a **SrcSep_EffectPack** Stat, assign the **CounterEffect** Stat Definition to its **Inner Stat Definition**, and place it in a **Container_SrcSep_EffectPack**.
+
+```mermaid
+flowchart LR
+    Prim("CounterEffect<br/><small>EffectPack Stat Definition</small>") --> SrcSep("SrcSep_EffectPack<br/><small>Inner Stat Definition = CounterEffect</small>")
+    SrcSep --> Container(["Container_SrcSep_EffectPack"])
+
+    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
+    classDef stage stroke:#2f6690,stroke-width:1.5px;
+    class Container terminal;
+    class Prim,SrcSep stage;
+```
