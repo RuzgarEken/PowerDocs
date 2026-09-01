@@ -1,0 +1,35 @@
+---
+sidebar_position: 11
+---
+
+# Soulpiercer Nail
+
+Can attack horizontally, upward, or downward.
+
+Jumping performs an upward attack, and falling performs a downward attack.
+
+Landing a downward attack on an enemy causes the player to bounce upward.
+
+## Implementation
+
+**Soulpiercer Nail** is a multi-state Skill with three attack directions: **Forward** (State 1), **Upward** (State 2), and **Downward** (State 3).
+
+{/* ![Soulpiercer Nail Skill States](./images/SoulpiercerNail_SkillStates.png) */}
+
+The direction is chosen through **SkillEvolutionNo** ConditionalModifiers. A `StatComparer_IsNotGrounded` check gates the aerial variants: while the player is grounded, the horizontal attack (State 1) is used.
+
+{/* ![Soulpiercer Nail Evolution Dispatch](./images/SoulpiercerNail_EvolutionDispatch.png) */}
+
+While airborne, a dispatcher inspects the Actor's vertical speed. If it is positive, `Effect_EvolutionNoToUpward` adds `1` and the Upward attack (State 2) runs. If it is negative, `Effect_EvolutionNoToDownward` adds `2` and the Downward attack (State 3) runs.
+
+{/* ![Soulpiercer Nail Vertical Speed Comparers](./images/SoulpiercerNail_VerticalSpeedComparers.png) */}
+
+The Downward attack applies its bounce on collision. `Effect_ZeroVerticalSpeed` first cancels the falling velocity, then `Effect_Bounce` sets the Actor's vertical speed to a positive value, launching the player back up. A self `Effect_MoveBlock` briefly locks movement during the strike.
+
+{/* ![Soulpiercer Nail Bounce Effect](./images/SoulpiercerNail_BounceEffect.png) */}
+
+The aerial attacks use their own **VerticalAttackCritRate** Attribute Stat, keeping their critical-hit behavior independent from the horizontal attack.
+
+{/* ![Soulpiercer Nail Vertical Attack Stat](./images/SoulpiercerNail_VerticalAttackStat.png) */}
+
+Like the other 3DCells weapons, the Skill uses the shared cooldown-degenerator and use-blocker mechanism to gate reuse.
