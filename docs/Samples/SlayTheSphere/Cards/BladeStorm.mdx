@@ -1,0 +1,23 @@
+---
+sidebar_position: 17
+---
+
+# Blade Storm
+
+Whenever you play a card, deal **1** damage to **all enemies**.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_BladeStorm_STS"
+  stats={[
+    {key: 'Thousand Cuts', value: 1},
+    {key: 'Exhaust', value: 1},
+    {key: 'Energy Cost', value: 2},
+    {key: 'Card Type', value: 'Power'},
+  ]}
+/>
+
+Blade Storm is internally keyed as <PowerRef>Stat_ThousandCuts_1_STS</PowerRef>. It drives the shared <PowerRef>Pack_ThousandCutsEventEffectTrigger_STS</PowerRef>, which listens for **any card being played** and responds against every enemy:
+
+<EffectExample name="Effect_ThousandCutsDamage" targetStat="Health" value={-1} target="All enemies" />

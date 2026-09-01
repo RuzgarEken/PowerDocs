@@ -1,0 +1,25 @@
+---
+sidebar_position: 5
+---
+
+# Raider's Trophy
+
+Whenever an enemy dies, gain **1 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** and [draw](/docs/Samples/SlayTheSphere/Keywords#draw-pile) **1 card**.
+
+## Implementation
+
+A Linker adds a CounterEffect to every enemy's <PowerRef>Key_KillCounterEffects_STS</PowerRef> — the stat that collects Effects to run when that Actor is killed:
+
+<InjectorExample
+  name="Effect_RaidersTrophyEffectLink"
+  into="KillCounterEffects"
+  condition="Enemy is killed"
+  effect="RaidersTrophyKillEffects"
+/>
+
+The linked pack then runs on the player:
+
+<PackExample name="Pack_RaidersTrophyKillEffects_STS" target="Self">
+  <EffectExample name="Effect_Draw_STS" targetStat="DrawCount" value={1} />
+  <EffectExample name="Effect_Energy_STS" targetStat="Energy" value={1} />
+</PackExample>

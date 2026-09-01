@@ -1,0 +1,34 @@
+---
+sidebar_position: 4
+---
+
+# Shred
+
+Costs **1 less [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** for each card [discarded](/docs/Samples/SlayTheSphere/Keywords#discard-pile) this turn.
+
+Deal **7** damage **3 times**.
+
+## Implementation
+
+Shred brings its own base cost instead of using the shared `EnergyCost` value:
+
+<RepositoryExample
+  name="Repository_Card_Shred_STS"
+  stats={[
+    {key: 'Damage', value: 7},
+    {key: 'Energy Cost', value: 3},
+    {key: 'Card Type', value: 'Attack'},
+    {key: 'Repeat Count', value: 0},
+  ]}
+/>
+
+A Linker then discounts that cost as you discard. It feeds this turn's discard count into the card's `EnergyCost`, subtracting `1` per discarded card:
+
+<InjectorExample
+  name="LinkerDefinition_UpdateEnergyByDiscardTT"
+  into="EnergyCost (this card)"
+  condition={<>Per card discarded this turn (<PowerRef>Key_DiscardCountTT</PowerRef>)</>}
+  value={-1}
+/>
+
+Before the card resolves, a `BeforeUse` Effect — <PowerRef>Effect_RepeatCount_2</PowerRef> — adds `2` to its base repeat count, so the shared <PowerRef>Effect_AttackDamage_STS</PowerRef> hit lands **3 times** in total.

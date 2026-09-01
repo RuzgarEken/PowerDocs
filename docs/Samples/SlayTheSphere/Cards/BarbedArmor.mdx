@@ -1,0 +1,23 @@
+---
+sidebar_position: 16
+---
+
+# Barbed Armor
+
+Whenever you are attacked, deal **3** damage back to the attacker.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_BarbedArmor_STS"
+  stats={[
+    {key: 'Thorns', value: 3},
+    {key: 'Exhaust', value: 1},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Power'},
+  ]}
+/>
+
+Playing the card raises <PowerRef>Stat_Thorns_3_STS</PowerRef>. The shared <PowerRef>Pack_ThornsCounterEffect_STS</PowerRef> attaches a CounterEffect to the player's Health; whenever damage is taken it fires back at the attacker for the Thorns amount:
+
+<EffectExample name="Effect_ThornsDamage" targetStat="Health" valueStat="Thorns" />

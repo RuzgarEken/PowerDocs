@@ -1,0 +1,84 @@
+---
+sidebar_position: 4
+---
+
+# Keywords
+
+The Cards, Relics, and Potions in this demo are described with deck-builder keywords. This page explains what each one does in the sample. Values in brackets are the ones configured in the demo's assets.
+
+## Card types
+
+Every card composes a `Stat_CardType` value that tells the rest of the systems how to treat it.
+
+- **Attack** — a card that deals damage. Only Attack cards interact with effects like Void Assassin or Steel Greaves.
+- **Skill** — a utility card (block, draw, discard, debuffs) with no direct damage.
+- **Power** — a card that applies a persistent effect and then leaves play for the rest of combat.
+- **Status** — a non-playable junk card that clutters your hand. The demo defines the type but only a few systems use it.
+
+## HP
+
+**HP** (Health) is how much damage a combatant can take before dying. **Max HP** is the upper bound. Several effects (Heal Potion, Guardian Sprite) work as a percentage of Max HP rather than a flat amount.
+
+## Energy
+
+The resource spent to play cards. It refills at the start of each of your turns. A card's cost is its `EnergyCost` Stat; effects like Shred, Cursed Wraps, and Tactical Setup change that cost dynamically.
+
+## Block
+
+A temporary shield. Incoming damage is removed from Block before it touches HP. Block is normally cleared at the start of your turn — Fortified Guard and Iron Bracers change that behaviour.
+
+## Unblocked damage
+
+Damage that gets through after Block has absorbed what it can. Toxic Edge and Steel Greaves only react to the unblocked portion.
+
+## Weak
+
+A debuff. While a combatant is Weak, the Attack damage it deals is reduced (25% less in this demo). It counts down by 1 at the end of the affected combatant's turn. Spice Root makes the player immune to Weak.
+
+## Vulnerable
+
+A debuff. While a combatant is Vulnerable, the damage it *takes* is increased by 50%. It counts down by 1 each turn. Expose Weakness applies a very long Vulnerable and then exhausts.
+
+## Poison
+
+A stacking debuff. At the start of the poisoned combatant's turn it loses HP equal to its current Poison, and then Poison drops by 1. Applied by Plague Burst, Venom Burst (which also checks for it), and the Toxic Edge power.
+
+## Thorns
+
+A retaliation buff. Whenever the owner is attacked, it deals damage equal to its Thorns value back to the attacker. Granted by Barbed Armor (**3**).
+
+## Intangible
+
+A defensive buff. While Intangible, every instance of damage taken is reduced to **1**. It decreases by 1 each turn. Granted by Phantom Veil (**2**), which also drains Dexterity as a downside.
+
+## Dexterity
+
+A scaling buff. Dexterity is added to the Block gained from cards, so higher Dexterity means more Block per Defend. It can go negative — Phantom Veil lowers it by **1** at the end of each turn.
+
+## Double damage
+
+A one-shot modifier that multiplies an Attack card's damage by **2**. Void Assassin arms it for the first Attack you play on your next turn, then clears it.
+
+## Draw pile
+
+The face-down stack you draw cards from. When it empties, the discard pile is shuffled back into it. Final Curtain can only be played while the draw pile is empty.
+
+## Discard pile
+
+Where played and discarded cards go. Cards like Focus, Quick Hands, and Shred discard from hand; Shred also reads how many cards were discarded this turn.
+
+## Exhaust
+
+When a card with Exhaust is played, it is removed from your deck for the rest of the combat instead of going to the discard pile. Used by Expose Weakness, Shadow Double, and every Power card.
+
+## Retain
+
+A card that would normally be discarded at the end of your turn is kept in hand instead. Prepared Scheme lets you retain up to **1** card each turn.
+
+---
+
+:::note Engine terms
+
+Terms like **Stat**, **Effect Pack**, **CounterEffect**, **Linker**, **Injector**, and **Repository** in the Implementation sections are Power engine concepts, not game keywords. See the **Core Concepts** and **Components** sections of the documentation for those.
+
+:::

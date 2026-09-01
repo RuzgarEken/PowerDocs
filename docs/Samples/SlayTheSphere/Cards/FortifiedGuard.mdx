@@ -1,0 +1,27 @@
+---
+sidebar_position: 10
+---
+
+# Fortified Guard
+
+Gain **5 [Block](/docs/Samples/SlayTheSphere/Keywords#block)**.
+
+Block is **not removed** at the start of your next turn.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_FortifiedGuard_STS"
+  stats={[
+    {key: 'Block', value: 5},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+It gains Block like Defend, then adds one extra Effect that marks the Block to survive the normal start-of-turn reset once:
+
+<PackExample name="Pack_FortifiedGuard" target="Self">
+  <EffectExample name="Effect_Block_STS" targetStat="Block" valueStat="Block" value={5} />
+  <EffectExample name="Effect_BlockExtender" targetStat="Block" value={-1} />
+</PackExample>

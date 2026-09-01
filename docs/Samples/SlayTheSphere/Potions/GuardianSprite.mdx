@@ -1,0 +1,22 @@
+---
+sidebar_position: 2
+---
+
+# Guardian Sprite
+
+When you would die, heal to **30% of your [Max HP](/docs/Samples/SlayTheSphere/Keywords#hp)** instead and consume this Potion.
+
+## Implementation
+
+While carried, an `OnMount` pack overrides the player's die condition:
+
+<EffectExample name="Effect_DieImmune" targetStat="DieImmune" value={1} />
+
+When the player would otherwise die, the potion's `ToTarget` pack fires instead:
+
+<PackExample name="Pack_GuardianSprite" target="Self">
+  <EffectExample name="Effect_Heal" targetStat="Health" value="30% of Max HP" />
+  <EffectExample name="Effect_DecreaseUseBlocker" targetStat="UseBlocker" value={-1} />
+</PackExample>
+
+`Effect_DecreaseUseBlocker` consumes the potion so it can't trigger again.

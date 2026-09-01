@@ -1,0 +1,21 @@
+---
+sidebar_position: 7
+---
+
+# Steel Greaves
+
+Whenever an Attack would deal **4 or less** [unblocked damage](/docs/Samples/SlayTheSphere/Keywords#unblocked-damage), increase it to **5** instead.
+
+## Implementation
+
+This Effect raises the floor on the unblocked Attack damage the player deals:
+
+<EffectExample
+  name="Effect_GivenAttackDamageLImiterMin_STS"
+  targetStat="GivenAttackDamageMin"
+  valueStat="GivenAttackDamageMin"
+  value={5}
+  duration="1 turn"
+/>
+
+Any hit of `4` or less is clamped up to `5` before it lands. The minimum comes from <PowerRef>Stat_GivenAttackDamageMin_5_STS</PowerRef>.

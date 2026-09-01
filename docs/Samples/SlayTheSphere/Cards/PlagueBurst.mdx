@@ -1,0 +1,28 @@
+---
+sidebar_position: 11
+---
+
+# Plague Burst
+
+Apply **6 [Poison](/docs/Samples/SlayTheSphere/Keywords#poison)**.
+
+When the affected enemy dies, deal damage equal to its **[Max HP](/docs/Samples/SlayTheSphere/Keywords#hp)** to **all enemies**.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_PlagueBurst_STS"
+  stats={[
+    {key: 'Poison', value: 6},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+The card applies Poison through the shared Effect, and separately records that amount against a <PowerRef>Key_PlagueBurst</PowerRef> marker on the target:
+
+<EffectExample name="Effect_Poison_STS" targetStat="Poison" valueStat="Poison" value={6} />
+
+<EffectExample name="Effect_PlagueBurst_STS" targetStat="PlagueBurst" valueStat="Poison" />
+
+A shared death trigger watches every Actor's die condition; when a marked enemy dies, <PowerRef>Effect_PlagueBurst</PowerRef> deals damage equal to that enemy's Max HP to every remaining enemy.

@@ -1,0 +1,23 @@
+---
+sidebar_position: 20
+---
+
+# Toxic Edge
+
+Whenever an **Attack** deals [unblocked damage](/docs/Samples/SlayTheSphere/Keywords#unblocked-damage), apply **1 [Poison](/docs/Samples/SlayTheSphere/Keywords#poison)**.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_ToxicEdge_STS"
+  stats={[
+    {key: 'Toxic Edge', value: 1},
+    {key: 'Exhaust', value: 1},
+    {key: 'Energy Cost', value: 2},
+    {key: 'Card Type', value: 'Power'},
+  ]}
+/>
+
+Playing the card raises <PowerRef>Stat_ToxicEdge_1_STS</PowerRef>. The shared <PowerRef>Pack_ToxicEdgeAttackToPoisonCounter_STS</PowerRef> attaches a CounterEffect to the player's outgoing Attack damage; whenever unblocked damage is dealt it applies Poison to the target:
+
+<EffectExample name="Effect_Poison" targetStat="Poison" value={1} />

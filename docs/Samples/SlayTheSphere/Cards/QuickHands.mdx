@@ -1,0 +1,27 @@
+---
+sidebar_position: 12
+---
+
+# Quick Hands
+
+[Draw](/docs/Samples/SlayTheSphere/Keywords#draw-pile) **3** cards.
+
+[Discard](/docs/Samples/SlayTheSphere/Keywords#discard-pile) **1** card.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_QuickHands_STS"
+  stats={[
+    {key: 'Draw', value: 3},
+    {key: 'Discard', value: 1},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+Both run through shared Effects, with no card-specific logic:
+
+<EffectExample name="Effect_Draw_STS" targetStat="DrawCount" valueStat="Draw" value={3} />
+
+<EffectExample name="Effect_Discard_STS" targetStat="DiscardCount" valueStat="Discard" value={1} />

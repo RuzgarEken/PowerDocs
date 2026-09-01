@@ -1,0 +1,15 @@
+---
+sidebar_position: 6
+---
+
+# Spice Root
+
+You can no longer become [**Weak**](/docs/Samples/SlayTheSphere/Keywords#weak).
+
+## Implementation
+
+Spice Root applies an immunity flag to the player:
+
+<EffectExample name="Effect_WeaknessImmune_STS" targetStat="WeaknessImmune" value={1} />
+
+The shared Weak Effect checks <PowerRef>Key_WeaknessImmune</PowerRef> before applying Weak, so any attempt to apply it is rejected instead of taking effect.

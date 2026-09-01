@@ -1,0 +1,38 @@
+---
+sidebar_position: 6
+---
+
+# Venom Burst
+
+Deal **7** damage.
+
+If the target is [**Poisoned**](/docs/Samples/SlayTheSphere/Keywords#poison), deal **7** damage again.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_VenomBurst_STS"
+  stats={[
+    {key: 'Damage', value: 7},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Attack'},
+    {key: 'Repeat Count', value: 0},
+  ]}
+/>
+
+A `BeforeUse` Effect — <PowerRef>Effect_UpdateRepeatCount</PowerRef> — resets the repeat count to its base value. A conditional modifier then checks the target's Poison and adds one extra repeat when it is present, so the shared damage Effect resolves a second time only against already-Poisoned enemies:
+
+<InjectorExample
+  name="Stat_RepeatCountConditionalModifier_STS"
+  into="RepeatCount"
+  condition={<>Target Poison &gt; 0</>}
+  value={1}
+/>
+
+<EffectExample
+  name="Effect_AttackDamage_STS"
+  targetStat="Health"
+  attributeStat="AttackDamage"
+  valueStat="Damage"
+  value={7}
+/>

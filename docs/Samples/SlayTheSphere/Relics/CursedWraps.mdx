@@ -1,0 +1,15 @@
+---
+sidebar_position: 2
+---
+
+# Cursed Wraps
+
+Whenever you play a **Power** card, a random card in your hand costs **0 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** for that turn.
+
+## Implementation
+
+Cursed Wraps listens for Power cards being played. When one is, <PowerRef>CustomTargeter_RandomCardInHand</PowerRef> picks a random card from hand — filtered by <PowerRef>SingleCondition_IsPowerCard</PowerRef> so it can also target the Power card that was just played — and its cost is zeroed for the turn:
+
+<EffectExample name="Effect_SetEnergyCostToZero" targetStat="EnergyCost" value={-100} />
+
+The `-100` is a large negative modifier that the clamped `EnergyCost` Stat resolves to `0`.

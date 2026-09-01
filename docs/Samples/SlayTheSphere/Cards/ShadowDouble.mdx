@@ -1,0 +1,27 @@
+---
+sidebar_position: 13
+---
+
+# Shadow Double
+
+At the start of your next turn, [draw](/docs/Samples/SlayTheSphere/Keywords#draw-pile) **X** cards and gain **X [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)**.
+
+[**Exhaust.**](/docs/Samples/SlayTheSphere/Keywords#exhaust)
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_ShadowDouble_STS"
+  stats={[
+    {key: 'Card Type', value: 'Skill'},
+    {key: 'Dynamic Energy Requirement', value: 1},
+  ]}
+/>
+
+Instead of a fixed cost, Shadow Double composes <PowerRef>Stat_DynamicEnergyRequirement_1_STS</PowerRef> so its cost is resolved live. Its draw and Energy Effects are scheduled against the **NextTurn** Stat containers rather than the current turn, so they only resolve when your next turn begins:
+
+<EffectExample name="Effect_DrawNT_X_STS" targetStat="NextTurn / DrawCount" value="X" />
+
+<EffectExample name="Effect_EnergyGainNT_X_STS" targetStat="NextTurn / Energy" value="X" />
+
+The card also carries an `Exhaust` flag and removes itself after use.

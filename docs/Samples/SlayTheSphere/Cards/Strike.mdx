@@ -1,0 +1,32 @@
+---
+sidebar_position: 5
+---
+
+# Strike
+
+Deal **6** damage.
+
+## Implementation
+
+Strike is the simplest Attack card in the demo. Its Repository just picks values from the shared library:
+
+<RepositoryExample
+  name="Repository_Card_Strike_STS"
+  stats={[
+    {key: 'Damage', value: 6},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Attack'},
+  ]}
+/>
+
+Damage is applied by the generic Effect every Attack card shares, which reads the played card's Damage value rather than carrying a fixed number:
+
+<EffectExample
+  name="Effect_AttackDamage_STS"
+  targetStat="Health"
+  attributeStat="AttackDamage"
+  valueStat="Damage"
+  value={6}
+/>
+
+There are no card-specific Effects.

@@ -1,0 +1,43 @@
+---
+sidebar_position: 2
+---
+
+# Disarm
+
+Deal **3** damage.
+
+Apply **1 [Weak](/docs/Samples/SlayTheSphere/Keywords#weak)**.
+
+## Implementation
+
+Disarm composes the shared Attack values plus a Weak amount:
+
+<RepositoryExample
+  name="Repository_Card_Disarm_STS"
+  stats={[
+    {key: 'Damage', value: 3},
+    {key: 'Energy Cost', value: 0},
+    {key: 'Card Type', value: 'Attack'},
+    {key: 'Weakness', value: 1},
+  ]}
+/>
+
+On hit it runs a two-Effect pack — the shared damage Effect and the shared Weak Effect:
+
+<PackExample name="Pack_Disarm" target="Target">
+  <EffectExample
+    name="Effect_AttackDamage_STS"
+    targetStat="Health"
+    attributeStat="AttackDamage"
+    valueStat="Damage"
+    value={3}
+  />
+  <EffectExample
+    name="Effect_Week_STS"
+    targetStat="Weak"
+    valueStat="Weakness"
+    value={1}
+  />
+</PackExample>
+
+<PowerRef>Effect_Week_STS</PowerRef> is shared across the game — it reads the card's own <PowerRef>Stat_Weakness_1_STS</PowerRef> and applies that much [Weak](/docs/Samples/SlayTheSphere/Keywords#weak) to the target.

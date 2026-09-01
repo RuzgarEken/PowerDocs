@@ -1,0 +1,32 @@
+---
+sidebar_position: 8
+---
+
+# Expose Weakness
+
+Apply **99 [Vulnerable](/docs/Samples/SlayTheSphere/Keywords#vulnerable)**.
+
+[**Exhaust.**](/docs/Samples/SlayTheSphere/Keywords#exhaust)
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_ExposeWeakness_STS"
+  stats={[
+    {key: 'Vulnerable', value: 99},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Attack'},
+    {key: 'Exhaust', value: 1},
+  ]}
+/>
+
+The card applies its own long Vulnerable through the shared Effect:
+
+<EffectExample
+  name="Effect_Vulnerable_STS"
+  targetStat="Vulnerable"
+  valueStat="Vulnerable"
+  value={99}
+/>
+
+`Exhaust` is a composed flag — <PowerRef>Stat_Exhaust_1_STS</PowerRef> — that the deck system reads when the card leaves play, removing it for the rest of combat instead of sending it to the discard pile.

@@ -1,0 +1,29 @@
+---
+sidebar_position: 9
+---
+
+# Focus
+
+[Discard](/docs/Samples/SlayTheSphere/Keywords#discard-pile) **3** cards.
+
+Gain **2 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)**.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_Focus_STS"
+  stats={[
+    {key: 'Discard', value: 3},
+    {key: 'Energy', value: 2},
+    {key: 'Energy Cost', value: 0},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+Both effects run through their shared templates — discard from hand, then refund Energy:
+
+<EffectExample name="Effect_Discard_STS" targetStat="DiscardCount" valueStat="Discard" value={3} />
+
+<EffectExample name="Effect_EnergyGain_STS" targetStat="Energy" valueStat="Energy" value={2} />
+
+The card's use-blocker is `Stat_UseBlocker_ByEnergy_HandCountByDiscard`, which also stops it being played when you don't hold 3 cards to discard.

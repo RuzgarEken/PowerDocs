@@ -1,0 +1,33 @@
+---
+sidebar_position: 999
+---
+
+# Spec component test
+
+<EffectExample targetStat="Health" attributeStats={['MagicAttack', 'LightningAttack']} value={-100} />
+
+<StatExample
+  name="Stat_ScrapTossers_AmmoCount"
+  statKey="AmmoCount"
+  type="Int (Clamped)"
+  min={0}
+  max={3}
+  default={3}
+  injectors={['Add1 If AmmoCount == 0']}
+/>
+
+<InjectorExample
+  name="StatInjectorDefinition_Add1_AmmoEq0"
+  into="UseBlockers"
+  condition="AmmoCount == 0"
+  value={1}
+/>
+
+<PackExample name="Pack_Strike" target="Target">
+  <EffectExample targetStat="Health" attributeStat="AttackDamage" value="Card Damage stat" />
+</PackExample>
+
+<SpecCard kind="stat" name="Custom composed card">
+  <SpecRow label="Anything">free-form value</SpecRow>
+  <SpecRow label="Tags"><SpecTags items={['A', {key: 'B', value: 2}]} /></SpecRow>
+</SpecCard>

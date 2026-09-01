@@ -1,0 +1,120 @@
+---
+sidebar_position: 1
+---
+
+# Cards
+
+Cards are the core of the demo. Every card references a Skill that runs when the card is played, and the three card types differ in how that Skill behaves.
+
+## How cards are built
+
+Every card's Skill points at a small **Repository** of Stats composed from a shared library in `Stats/Cards/General`. Generic Keys such as **Damage**, **EnergyCost**, [**Block**](/docs/Samples/SlayTheSphere/Keywords#block), or **CardType** are filled in with reusable, pre-named value Stats (`Stat_Damage_6`, `Stat_EnergyCost_1`, `Stat_CardType_Attack`, and so on). A small set of generic Effects &mdash; `Effect_AttackDamage_STS`, `Effect_Block_STS`, `Effect_EnergyCost_STS`, etc. &mdash; read those Keys dynamically and apply them, so the same Effect is reused by every card of that kind; only the composed Stats change per card. Cards that need something the shared library can't express add their own Effects and Stats on top, described in that card's **Implementation** section below.
+
+## Attack
+
+Attack cards deal damage to enemies.
+
+### Bloodied Shiv
+
+- Costs **1 additional [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** for each time you have lost HP during the current combat.
+- Deal **12** damage.
+
+### Disarm
+
+- Deal **3** damage.
+- Apply **1 [Weak](/docs/Samples/SlayTheSphere/Keywords#weak)**.
+
+### Final Curtain
+
+- Can only be played if your [draw pile](/docs/Samples/SlayTheSphere/Keywords#draw-pile) is empty.
+- Deal **50** damage to **all enemies**.
+
+### Shred
+
+- Costs **1 less Energy** for each card [discarded](/docs/Samples/SlayTheSphere/Keywords#discard-pile) this turn.
+- Deal **7** damage **3 times**.
+
+### Strike
+
+- Deal **6** damage.
+
+### Venom Burst
+
+- Deal **7** damage.
+- If the target is [**Poisoned**](/docs/Samples/SlayTheSphere/Keywords#poison), deal **7** damage again.
+
+---
+
+## Skill
+
+Skill cards provide utility effects instead of direct damage.
+
+### Defend
+
+- Gain **5 Block**.
+
+### Expose Weakness
+
+- Apply **99 [Vulnerable](/docs/Samples/SlayTheSphere/Keywords#vulnerable)**.
+- [**Exhaust.**](/docs/Samples/SlayTheSphere/Keywords#exhaust)
+
+### Focus
+
+- Discard **3** cards.
+- Gain **2 Energy**.
+
+### Fortified Guard
+
+- Gain **5 Block**.
+- Block is **not removed** at the start of your next turn.
+
+### Plague Burst
+
+- Apply **6 Poison**.
+- When the affected enemy dies, deal damage equal to its **[Max HP](/docs/Samples/SlayTheSphere/Keywords#hp)** to **all enemies**.
+
+### Quick Hands
+
+- Draw **3** cards.
+- Discard **1** card.
+
+### Shadow Double
+
+- At the start of your next turn, draw **X** cards and gain **X Energy**.
+- **Exhaust.**
+
+### Tactical Setup
+
+- Put a card from your hand on top of your draw pile.
+- It costs **0 Energy** until played.
+
+### Void Assassin
+
+- During your next turn, your **Attack** cards deal [**double damage**](/docs/Samples/SlayTheSphere/Keywords#double-damage).
+
+---
+
+## Power
+
+Power cards apply persistent effects that remain active for the rest of combat unless explicitly removed.
+
+### Barbed Armor
+
+- Whenever you are attacked, deal **3** damage back to the attacker.
+
+### Blade Storm
+
+- Whenever you play a card, deal **1** damage to **all enemies**.
+
+### Phantom Veil
+
+- Gain **2 [Intangible](/docs/Samples/SlayTheSphere/Keywords#intangible)**.
+- At the end of your turn, lose **1 [Dexterity](/docs/Samples/SlayTheSphere/Keywords#dexterity)**.
+
+### Prepared Scheme
+
+- At the end of your turn, [**retain up to 1 card**](/docs/Samples/SlayTheSphere/Keywords#retain).
+
+### Toxic Edge
+
+- Whenever an **Attack** deals [unblocked damage](/docs/Samples/SlayTheSphere/Keywords#unblocked-damage), apply **1 Poison**.

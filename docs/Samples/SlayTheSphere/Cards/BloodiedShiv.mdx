@@ -1,0 +1,46 @@
+---
+sidebar_position: 1
+---
+
+# Bloodied Shiv
+
+Costs **1 additional [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** for each time you have lost HP during the current combat.
+
+Deal **12** damage.
+
+## Implementation
+
+Bloodied Shiv composes the shared Attack template with the highest base damage of any Attack card and a starting cost of `0`.
+
+<RepositoryExample
+  name="Repository_Card_BloodiedShiv_STS"
+  stats={[
+    {key: 'Damage', value: 12},
+    {key: 'Energy Cost', value: '0 (before any HP loss)'},
+    {key: 'Card Type', value: 'Attack'},
+  ]}
+/>
+
+Damage is applied by the same generic Effect every Attack card uses, which reads the card's own Damage value rather than carrying a fixed number:
+
+<EffectExample
+  name="Effect_AttackDamage_STS"
+  targetStat="Health"
+  attributeStat="AttackDamage"
+  valueStat="Damage"
+  value={12}
+/>
+
+The one card-specific piece is a cost that grows as you take damage. A **CounterEffect** on <PowerRef>Key_HealthCounterEffectsTaken</PowerRef> fires every time the player loses HP, and it runs a Linker that permanently raises this card's `EnergyCost`:
+
+<InjectorExample
+  name="Effect_LinkDamageIncreaseEnergyCost_STS"
+  into="EnergyCost (this card)"
+  condition={<>Each HP-loss CounterEffect on <PowerRef>Key_HealthCounterEffectsTaken</PowerRef></>}
+  effect="Effect_IncreaseEnergyCost"
+  order={1}
+/>
+
+<EffectExample name="Effect_IncreaseEnergyCost" targetStat="EnergyCost" value={1} />
+
+So after losing HP three times in a combat, Bloodied Shiv costs `3`.

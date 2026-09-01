@@ -1,0 +1,27 @@
+---
+sidebar_position: 15
+---
+
+# Void Assassin
+
+During your next turn, your **Attack** cards deal [**double damage**](/docs/Samples/SlayTheSphere/Keywords#double-damage).
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_VoidAssassin_STS"
+  stats={[
+    {key: 'Void Assassin', value: 1},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+Void Assassin doesn't modify damage directly — it raises a persistent <PowerRef>Stat_VoidAssassin_1_STS</PowerRef> trigger. A shared converter pack listens for the next Attack card played during your next turn:
+
+<PackExample name="Pack_VoidAssassinToDoubleDamageConverter_STS" target="Next Attack card">
+  <EffectExample name="Effect_DoubleDamage" targetStat="DamageMultiplier" value={1} duration="1 use" />
+  <EffectExample name="Effect_ResetVoidAssassin" targetStat="VoidAssassin" value={0} />
+</PackExample>
+
+`Effect_ResetVoidAssassin` clears the trigger straight after, so only that one attack is doubled.

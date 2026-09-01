@@ -1,0 +1,21 @@
+---
+sidebar_position: 4
+---
+
+# Iron Bracers
+
+At the start of your turn, lose **15 [Block](/docs/Samples/SlayTheSphere/Keywords#block)** instead of losing all Block.
+
+## Implementation
+
+At the start of each turn, this Effect sets a reserve amount that the normal Block-reset stops at, so Block is clamped down to `15` instead of `0`:
+
+<EffectExample
+  name="Effect_BlockReserveThreshold"
+  targetStat="BlockReserveAmount"
+  valueStat="BlockReserver"
+  value={15}
+  duration="1 turn"
+/>
+
+The amount comes from <PowerRef>Stat_BlockReserver_15_STS</PowerRef>.

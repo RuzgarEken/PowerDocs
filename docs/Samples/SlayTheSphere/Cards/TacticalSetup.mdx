@@ -1,0 +1,35 @@
+---
+sidebar_position: 14
+---
+
+# Tactical Setup
+
+Put a card from your hand on top of your [draw pile](/docs/Samples/SlayTheSphere/Keywords#draw-pile).
+
+It costs **0 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** until played.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_TacticalSetup_STS"
+  stats={[
+    {key: 'Put Front Of Draw', value: 1},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+The card places the chosen hand card on top of the draw pile, then attaches a cost modifier to it:
+
+<PackExample name="Pack_TacticalSetup" target="Chosen card">
+  <EffectExample
+    name="Effect_PutFrontOfDraw"
+    targetStat="PutFrontOfDrawCount"
+    valueStat="PutFrontOfDraw"
+    value={1}
+  />
+  <EffectExample name="Effect_SetModifierCard" targetStat="ModifierCard" />
+  <EffectExample name="Effect_ZeroManaCost" targetStat="EnergyCost" value={0} />
+</PackExample>
+
+A separate <PowerRef>Pack_RemoveZeroManaModifierOnUse</PowerRef> watches for that specific card being played and removes both the cost modifier and itself, so the discount applies only once.

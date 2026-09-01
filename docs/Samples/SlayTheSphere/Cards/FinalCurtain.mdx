@@ -1,0 +1,40 @@
+---
+sidebar_position: 3
+---
+
+# Final Curtain
+
+Can only be played if your [draw pile](/docs/Samples/SlayTheSphere/Keywords#draw-pile) is empty.
+
+Deal **50** damage to **all enemies**.
+
+## Implementation
+
+<RepositoryExample
+  name="Repository_Card_FinalCurtain_STS"
+  stats={[
+    {key: 'Damage', value: 50},
+    {key: 'Energy Cost', value: 0},
+    {key: 'Card Type', value: 'Attack'},
+  ]}
+/>
+
+The damage is the same shared Effect other Attack cards use, aimed at every enemy instead of a single target:
+
+<EffectExample
+  name="Effect_AttackDamage_STS"
+  targetStat="Health"
+  attributeStat="AttackDamage"
+  valueStat="Damage"
+  value={50}
+  target="All enemies"
+/>
+
+The "draw pile must be empty" rule is a use-block injector. It reads <PowerRef>Key_DrawPileCardCount</PowerRef> and adds a UseBlocker to the card whenever the draw pile is **not** empty, so Final Curtain only becomes playable once the pile is exhausted:
+
+<InjectorExample
+  name="StatInjectorDefinition_UseBlockWhenDrawNotEmpty_STS"
+  into="Card UseBlockers"
+  condition={<>Draw pile count &gt; 0</>}
+  value={1}
+/>

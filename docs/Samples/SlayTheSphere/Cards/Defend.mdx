@@ -1,0 +1,27 @@
+---
+sidebar_position: 7
+---
+
+# Defend
+
+Gain **5 [Block](/docs/Samples/SlayTheSphere/Keywords#block)**.
+
+## Implementation
+
+Defend is a minimal Skill card — it composes a Block value and runs it through the shared Block Effect:
+
+<RepositoryExample
+  name="Repository_Card_Defend_STS"
+  stats={[
+    {key: 'Block', value: 5},
+    {key: 'Energy Cost', value: 1},
+    {key: 'Card Type', value: 'Skill'},
+  ]}
+/>
+
+<EffectExample
+  name="Effect_Block_STS"
+  targetStat="Block"
+  valueStat="Block"
+  value={5}
+/>

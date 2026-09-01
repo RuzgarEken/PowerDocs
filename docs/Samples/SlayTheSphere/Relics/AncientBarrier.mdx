@@ -1,0 +1,20 @@
+---
+sidebar_position: 1
+---
+
+# Ancient Barrier
+
+Prevent the **first instance of [HP](/docs/Samples/SlayTheSphere/Keywords#hp) loss** each combat.
+
+## Implementation
+
+On pickup, an injector adds a **Health Reflector** to the player that intercepts the first instance of HP loss each combat:
+
+<InjectorExample
+  name="Effect_HealthReflectorInjector"
+  into="Health"
+  condition="First HP loss each combat"
+  effect="Health Reflector"
+/>
+
+Once it absorbs a hit, <PowerRef>Effect_HelixToggleOff_STS</PowerRef> disables the reflector (value `-1`) until it is re-armed at the start of the next combat.
