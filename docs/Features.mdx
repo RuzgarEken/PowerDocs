@@ -1,49 +1,499 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
+description: Every stat, effect, processor and tooling feature Power ships with — categorized, with real examples.
 ---
+
+import EffectExample from '@site/src/components/EffectExample';
 
 # Features
 
-Power provides a comprehensive set of production-ready features for implementing stat-driven gameplay systems. Below are some examples of the mechanics it supports.
+Power ships with a complete, production-ready toolkit for stat-driven gameplay. Everything below is **built in** — you configure assets in the Inspector and connect them, instead of writing and re-writing damage formulas, buff timers, immunity checks and reflection logic in every project.
 
-For practical examples of these features in action, see the [Samples](docs/Samples/3DCells/index.mdx) page, which contains example implementations using Power.
+This page is the full catalogue, grouped by concept. Every entry names the asset that provides it and gives a concrete example.
 
-- ✅ **Clamped Stats:** Max Health: 100
-- ✅ **Immunity:** Immune to stun
-- ✅ **Cast Restrictions:** Cannot cast magic damage
-- ✅ **Critical Hits:** Crit Rate: 20%, Crit Multiplier: 150%
-- ✅ **Dodge & Accuracy:** 80% Hit Rate
-- ✅ **Parent Stats:** Debuff Immunity → Stun Immunity
-- ✅ **Weapon Damage Range:** Attack: 95–126
-- ✅ **Shields:** Shield stat to absorb incoming damage
-- ✅ **Absolute Values:** Set Defense to 50,000 for 5 seconds
-- ✅ **Delayed Effects:** Apply -40 damage after 3 seconds
-- ✅ **Temporary Modifiers:** Gain 50 Shield for 10 seconds
-- ✅ **Buffs & Debuffs:** +20% Defense
-- ✅ **Stat Linking & Influence:** Every 100 Dexterity increases Move Speed by 20%
-- ✅ **Effect Duration & Timer Manipulation:** Killing an enemy reduces cooldowns by 0.2 seconds
-- ✅ **Constant Damage**
-- ✅ **Percentage-Based Damage:** Deal damage equal to 5% of the target's missing Health
-- ✅ **Attribute Stats:** Physical/Magical, Spear/Sword, Fire/Water/Electric, Orc/Human/Undead
-- ✅ **Effect Value Limits:** Damage cannot exceed 2% of the target's Health
-- ✅ **Poisons & Regeneration:** Health Regeneration: 0.5
-- ✅ **Multi-Stat Targeting:** Reduce all elemental defenses by 50%
-- ✅ **Effect Redirection:** Redirect incoming healing effects to the entire team
-- ✅ **Counter Effects:** Slow the attacker
-- ✅ **Conditional Modifiers:** Deal 25% more damage to targets below 50% Health
-- ✅ **State-Based Effects:** Gain 50% Defense while Health is below 50%
-- ✅ **Event-Based Effects:** Increase Morale when an enemy dies
-- ✅ **Effect Removal:** Remove debuff effects
-- ✅ **Actor Relationship Tracking**
-- ✅ **Effect Attribute Elimination:** Orc attacks cannot critically hit
-- ✅ **Effect Reflection:** 5% Life Steal
-- ✅ **Reflection Distribution:** Reflect damage to nearby enemies based on distance
-- ✅ **Modifier Count Limits:** An enemy cannot have more than one Poison effect
-- ✅ **Attribute Elimination:** Ignore Lightning damage effects
-- ✅ **Result Attribute Blocking:** Block critical hits
-- ✅ **Modifier Replacement:** Replace an existing Poison with a newly applied one
-- ✅ **Tweeners:** Create non-physics interactions such as pushes and jumps by manipulating Position Stats
-- ✅ **Modifier Manipulation:** Reduce all debuff values by 50%
-- ✅ **Mapped Value Modifiers:** Trigger a critical hit when Charge is between 0.4 and 0.6, with the critical damage multiplier increasing the closer the Charge is to 0.4.
+:::tip 
+Not sure where to start?
 
-Power is designed to be fully customizable and extensible. Every system can be adapted or extended, enabling you to implement your own gameplay mechanics while integrating seamlessly with the existing framework.
+Skip to the [Mechanics Cookbook](#mechanics-cookbook) — a list of gameplay mechanics you can build, each mapped to the Power feature that does the work.
+:::
+
+---
+
+## Stat Types
+
+There are **no predefined stats in Power**. You define what a Stat means through its type and its relationships. These are the types you can build from.
+
+### Value stats
+
+| Stat | What it stores | Example |
+| --- | --- | --- |
+| **[Numerable](/docs/Assets/Stat/StatDefinition/Numerable)** (Float / Int) | Numeric values with arithmetic and comparison support | `Attack`, `Gold`, `Level` |
+| **[Clamped](/docs/Assets/Stat/StatDefinition/Numerable/Clamped)** | A numeric value locked between a min and max border | `Health: 0–100` |
+| **[Edge Value](/docs/Assets/Stat/StatDefinition/Numerable/EdgeValue)** | Returns the **lowest** or **highest** candidate among the raw value and every Modifier, instead of summing them | A `MoveSpeedSlow` stat where only the strongest slow applies |
+| **[Vector](/docs/Assets/Stat/StatDefinition/Vector)** | Vector2, Vector3, Vector2Int, Vector3Int | Positions, directions, knockback vectors |
+| **[String](/docs/Assets/Stat/StatDefinition/String)** | Text values | Names, dialogue keys, localization ids |
+| **[Actor](/docs/Assets/Stat/StatDefinition/Actor)** | A reference to another Actor | "the enemy I'm currently hooked to" |
+| **[Effect Pack](/docs/Assets/Stat/StatDefinition/EffectPack)** | One or more Effect Packs stored **as stat data** | A reusable "on death" payload other systems can read |
+
+#### Clamped stats: `Allow Exceed`
+
+A detail that matters. Give `Health` a max of `100` and apply a `+30` Modifier:
+
+- **Allow Exceed = true** → Raw Value becomes `130`, Value shows `100`. Take 25 damage and the raw drops to `105` — the visible Health *doesn't move*. Wrong for consumables.
+- **Allow Exceed = false** → the Modifier is trimmed on the way in, so the same 25 damage correctly leaves you at `75`.
+
+Consumable stats want it off; utility stats often want it on. Both are one checkbox.
+
+#### Stat borders from other stats
+
+A Clamped Stat's min/max can be a **constant** or resolved from another Stat via the `MinValue` / `MaxValue` Relative Keys — so "max Health scales with Level" is a relationship, not code.
+
+### Behavioural stats
+
+These stats *do* something rather than just holding a number.
+
+| Stat | What it does | Example |
+| --- | --- | --- |
+| **[Generator](/docs/Assets/Stat/StatDefinition/Generator)** | Generates values over time by dispatching Effects | Health regen `0.5/s`, mana recovery, resource production, poison damage-over-time |
+| **[Modifier](/docs/Assets/Stat/StatDefinition/Modifier)** | Transforms an incoming Effect value (Flat / Rate / Multiplier) | `+20% Defense` |
+| **[Conditional Modifier](/docs/Assets/Stat/StatDefinition/ConditionalModifier)** | A Modifier that only fires when its condition passes | "Deal 25% more damage to targets below 50% Health" |
+| **[Duration Modifier](/docs/Assets/Stat/StatDefinition/DurationModifier)** | Changes how long a Modifier lasts | "Buffs last twice as long", "Debuffs on me are 50% shorter" |
+| **[Limiter](/docs/Assets/Stat/StatDefinition/Limiter)** | Clamps an incoming Effect value by a min or max rule | "Damage can never exceed 2% of the target's Health" |
+| **[State Based Effect](/docs/Assets/Stat/StatDefinition/StateBasedEffect)** | Fires an Effect automatically while a stat condition holds | "Gain 50% Defense while Health is below 50%" |
+| **[Event Based Effect](/docs/Assets/Stat/StatDefinition/EventBasedEffect)** | Fires an Effect when a named event is dispatched | "Increase Morale when an enemy dies" |
+| **[Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle)** | Applies its Effect Pack to its host on initialization, and removes it cleanly | Equipping a weapon injects the weapon's whole stat system into the character |
+| **[Director](/docs/Assets/Stat/StatDefinition/Redirector/Director)** | Redirects the **whole Effect** to other Actors before processing | Taunt, redirect incoming healing to the whole team |
+| **[Reflector](/docs/Assets/Stat/StatDefinition/Redirector/Reflector)** | Redirects the **final value** after processing | 5% life steal, thorns, splash damage to nearby enemies |
+| **[Counter Effect](/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect)** | Triggers a *different* Effect in response to an incoming one | "Slow whoever attacks me", retaliation, chain reactions |
+
+#### Generators are more than regen
+
+Generators never touch the target Stat directly — they generate **through an Effect**, so the full processing funnel still applies. They support:
+
+- **Interval** mode (a tick every N seconds) or **continuous** mode (value = amount per second)
+- **Turn**-based generation for turn games
+- **Stackable** on/off — combine all Modifiers into one tick, or generate each Modifier independently
+- **Toggleable** — switch on/off from another stat's value (`On Zero` / `On Positive`)
+- **Toggle Off On Zero** — pauses itself at `0` and resumes automatically
+
+That last set is how Stormchannel's charge meter in [3DCells](/docs/Samples/3DCells/Stormchannel) builds up while the button is held.
+
+### Container stats
+
+| Stat | What it does |
+| --- | --- |
+| **[Source Separated (SrcSep)](/docs/CoreConcepts/SourceSeperatedStats)** | Keeps its own combined value **and** a private inner Stat per source Actor |
+| **[Signature Separated (SigSep)](/docs/CoreConcepts/SignatureSeperatedStats)** | Holds multiple child Stats of the same role, processed in a configured order |
+
+**Source Separated example.** Three enemies each poison you. The SrcSep Poison Stat stores the combined poison *and* three inner stats — one per attacker. Now you can remove only *that* attacker's poison, or reflect only their share of the damage. Without it, you'd have a single blended number and no way back.
+
+**Signature Separated example.** `PhysicalAttack` needs two reflection mechanics at once — `HealthSteal` and `DamageReflect`. A stat can only reference one Reflector Relative Stat, and making a new Relative Key per reflector doesn't scale. A SigSep stat holds both, and the SigSep Reflect Processors run them in order.
+
+---
+
+## How a Stat Value Is Built
+
+Every Stat resolves through a defined pipeline, so you always know where a number came from.
+
+```
+Default Value → Raw Value (+ Modifiers) → Modified Value (+ Injectors) → Value
+```
+
+- **Modifiers** are temporary contributions — they expire, or you remove them.
+- **[Injectors](/docs/Assets/Misc/Injector/InjectorModel)** transform the value every update — add, multiply, clamp, or override it.
+
+Full breakdown in [How Stat Values Are Evaluated](/docs/CoreConcepts/HowStatValuesAreEvaluated).
+
+---
+
+## Effect Features
+
+An [Effect](/docs/Assets/Effect) is the data describing a change. Here is what you can configure without writing any code.
+
+<EffectExample targetStat="Health" attributeStat="PhysicalAttack" value={-50} />
+
+### Lifetime and timing
+
+| Feature | Description | Example |
+| --- | --- | --- |
+| **Apply Type: Permanent** | Applies the change permanently | Spend 10 Gold |
+| **Apply Type: Temporary** | Creates a Modifier that can expire | Gain 50 Shield |
+| **Modifier Type: With Duration** | Removed automatically when the timer or turn count runs out | `+20% Attack for 10 seconds` |
+| **Modifier Type: Managed By Code** | Stays until your code removes it | An aura that lasts while you stand in a zone |
+| **Delay** | Apply the Effect after a wait | "Deal −40 damage after 3 seconds" |
+| **Duration** | How long the Modifier lives | `10s` |
+| **Turn** | Turn-count lifetime instead of seconds | "Lasts 3 turns" |
+| **Updater** | Which Updater drives the Modifier's lifetime | Real-time clock vs. turn clock |
+
+**Every one of Delay, Duration and Turn can come from a Stat instead of a constant.** So "cooldown scales with the caster's Haste" is configuration, not a special case.
+
+### Value calculation
+
+| Feature | Description |
+| --- | --- |
+| **Value** | A fixed value |
+| **Use Stat Value** | Pull the value from a Stat instead — this is how one shared "deal damage" Effect serves every weapon and card in a game |
+| **Use Value Adapter** | Transform the value before processing, including converting between stat types |
+
+#### Usage Types — percentage-based effects
+
+For a target Stat with **Value 15**, **Min 10**, **Max 30**, and an Effect value of **0.2**:
+
+| Usage Type | Result | Reads as |
+| --- | --- | --- |
+| **Constant** | `15 + 0.2` | Flat amount |
+| **Percentage Of Value** | `15 + (15 × 0.2)` | "Deal 20% of current Health" |
+| **Percentage Of Range** | `15 + ((30 − 10) × 0.2)` | "Heal 20% of Max Health" |
+| **Percentage Of Missing** | `15 + ((30 − 15) × 0.2)` | "Heal 20% of missing Health" — execute and recovery mechanics |
+| **Percentage Of Remain** | `15 + ((15 − 10) × 0.2)` | "Deal 20% of remaining Health" |
+
+`Use Seperate Percentage Source Stat` lets the percentage be calculated from a *different* Stat than the one being modified — "deal damage equal to 5% of the target's Max Health, applied to their Shield".
+
+### Targeting
+
+| Feature | Description | Example |
+| --- | --- | --- |
+| **Single Stat** | Targets one Stat by key | Health |
+| **Tagged Stats** | Targets **every** Stat matching a tag, container and environment filter | "Reduce all elemental defences by 50%", "Strip every stat tagged `Debuff`" |
+| **Effect Attributes** | Flags carried by the Effect that Processors key off of | Only Effects marked `Critable` can crit |
+
+### Specialized Effects
+
+| Effect | What it does | Example |
+| --- | --- | --- |
+| **[Injector](/docs/Assets/Effect/Injector)** | Attaches a value transformation to a Stat | Add a permanent "×2 damage" transform while a Power card is active |
+| **[Linker](/docs/Assets/Effect/Linker)** | Links one Stat's value into another and keeps it in sync | "Every 100 Dexterity increases Move Speed by 20%" |
+| **[Modifier Remover](/docs/Assets/Effect/ModifierRemoverEffect)** | Removes existing Modifiers, filtered by who applied them | Cleanse — remove only debuffs applied by enemies |
+| **[Injector Remover](/docs/Assets/Effect/InjectorRemoverEffect)** | Removes Injectors by tag and source Actor | End an aura when the caster dies |
+| **[Effect Timer Modifier](/docs/Assets/Effect/EffectTimerModifier)** | Changes the **remaining time** on active Modifiers | "Killing an enemy reduces your cooldowns by 0.2 seconds" |
+| **[Effect Pack](/docs/Assets/Effect/EffectPack)** | Bundles several Effects so they travel and apply together | One "hit" pack = damage + stun + VFX trigger |
+
+Removers filter by **Relation**, **Team**, a **Custom Targeter**, or a specific **Actor Stat** — so "dispel only what my ally cast on me" is a filter setting.
+
+---
+
+## The Processing Funnel
+
+An Effect never touches a Stat directly. It travels through a configurable funnel where Processors can inspect, modify, block or react to it. See [Effect Process Flow](/docs/CoreConcepts/EffectProcessFlow).
+
+```
+Effect (BS / AS / MAS) → PreProcess → Process → PostProcess → DurationProcess → FeedbackProcess → Stat
+```
+
+### Pre-process — should this Effect happen at all?
+
+| Processor | What it does | Example |
+| --- | --- | --- |
+| **[Immune](/docs/Assets/Processor/Preprocessors/Immune)** | Blocks the Effect entirely | "Immune to stun", "immune to Physical attacks" |
+| **[Cast Restrictor](/docs/Assets/Processor/Preprocessors/CastRestrictor)** | Stops the **source** from applying it | "Silenced — cannot cast magic damage" |
+| **[Hit Rate](/docs/Assets/Processor/Preprocessors/HitRate)** | Rolls accuracy vs. dodge and can miss | `80% Hit Rate` |
+| **[Modifier Count Limit](/docs/Assets/Processor/Preprocessors/ModifierCountLimit)** | Caps how many Modifiers can stack | "An enemy can't have more than one Poison" — and it can count *per source* |
+| **[Director](/docs/Assets/Processor/Preprocessors/Director)** | Forwards the whole Effect elsewhere | Taunt, guard, redirect healing to the team |
+| **[Counter Effect](/docs/Assets/Processor/Preprocessors/CounterEffect)** | Fires a different Effect *before* this one lands | Retaliate on being hit |
+| **[Attribute Stat Eliminator](/docs/Assets/Processor/Preprocessors/AttributeStatEliminater)** | Removes selected Attribute Stats from processing without blocking the Effect | "Ignore the Fire part of this attack, keep the Physical part" |
+| **[Effect Attribute Eliminator](/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater)** | Strips Effect Attributes to disable specific mechanics | "Orc attacks cannot critically hit" — remove `Critable` |
+
+### Contribution — what is the value?
+
+Standard Processors build **Contribution Data** from three contribution types: **Flat** (`10 + 2 = 12`), **Rate** (`10 + 10% = 11`) and **Multiplier** (`10 × 1.5 = 15`).
+
+| Processor | What it does | Example |
+| --- | --- | --- |
+| **[Modifier](/docs/Assets/Processor/Processors/Standard/Contribution/Modifier)** | Applies Modifier Stats to the value | `+20% Attack` |
+| **[Conditional Modifier](/docs/Assets/Processor/Processors/Standard/Contribution/ConditionalModifier)** | Applies Modifiers only when conditions pass | `+50% Crit Rate against Undead` |
+| **[Critical Hit](/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit)** | Rolls crit rate from both sides, applies the crit multiplier, tags the Effect `Critical` | `Crit Rate 20%, Crit Multiplier 150%` |
+| **[Multiplier Against Suppressor](/docs/Assets/Processor/Processors/Standard/Contribution/MultiplierAgainstSupressor)** | Curve-based attack-vs-defence formula with tunable offset, scale and exponent | Physical Attack vs. Physical Defense |
+
+### Post-contribution — shape the final number
+
+| Processor | What it does | Example |
+| --- | --- | --- |
+| **[Shield](/docs/Assets/Processor/Processors/Standard/Postcontribution/Shield)** | Consumes a Shield Stat before the remainder reaches the target | 10 Shield eats 10 of a 15 damage hit; 5 goes to Health |
+| **[Limiter](/docs/Assets/Processor/Processors/Standard/Postcontribution/Limiter)** | Min/max clamps the value, optionally as a percentage of another stat's range, missing, or remaining portion | "Damage can never exceed 2% of the target's Health", "any hit deals at least 5" |
+| **[Reflector](/docs/Assets/Processor/Processors/Standard/Postcontribution/Reflector)** | Sends a share of the final value to other Actors | Life steal, thorns, splash |
+| **[Min Max Offset](/docs/Assets/Processor/Processors/Standard/Postcontribution/MinMaxOffset)** | Randomizes within a range around the base value | Weapon damage range `15–25` on a base Attack of `20` |
+| **[Block By Result Attribute](/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute)** | Blocks the Effect based on what happened during processing | "Block critical hits" — after the crit roll succeeded |
+
+Limiters can also gate on **Result Attributes**, so "cap only *critical* damage" is one setting.
+
+### Post-process — react to what happened
+
+| Processor | What it does | Example |
+| --- | --- | --- |
+| **[Counter Effect](/docs/Assets/Processor/Postprocessors/CounterEffect)** | Triggers an Effect after this one applied | Riposte on taking damage |
+| **[Modifier Replacer](/docs/Assets/Processor/Postprocessors/ModifierReplacer)** | Replaces an existing Modifier instead of rejecting the new one | Re-applying Poison refreshes it rather than stacking |
+
+### Duration process
+
+**[Duration Processors](/docs/Assets/Processor/DurationProcessors)** modify a Modifier's lifetime as it's added — with Flat / Rate / Multiplier contributions, stat conditions and Result Attribute checks.
+
+> A `BuffDurationModifier` with value `2` and Contribution Type **Multiplier** turns a 10-second buff into a 20-second buff.
+
+### Feedback process
+
+**[Feedback Processors](/docs/Assets/Processor/FeedbackProcessors)** turn the result into presentation — floating numbers, VFX, SFX, camera shake, hit reactions, combat log. They can select feedback from the **Target Stat** and the **Result Attributes** together, so a critical Health hit and an ordinary Mana drain produce different feedback with no branching in your code.
+
+Power Core ships no built-in Feedback Processors on purpose — presentation differs per project. Working implementations are in the Samples package.
+
+### Signed processors
+
+Regular Processors don't care about the sign of the value. **Signed** variants define separate Relative Keys for positive and negative values — so a stat can be immune to damage but still healable, or reflect damage without reflecting heals.
+
+### Result Attributes
+
+Processors tag an Effect as it flows — `Critical`, `Reflected`, and your own. Later stages read those tags. This is what makes "block crits", "cap only critical damage", and "double buff duration on critical effects" configurations rather than code branches.
+
+---
+
+## The Relationship System
+
+This is the idea the whole framework rests on: a Stat doesn't contain its rules, it **points at** the stats that hold them.
+
+`Health` doesn't know what immunity is. It has a `NegativeImmune` Relative Key pointing at `ImmuneToNegativeHealthEffects`. The Immune Processor follows the relationship and decides. Add a new rule by adding a relationship — never by editing `Health`.
+
+| Feature | Description |
+| --- | --- |
+| **Relative Stat Keys** | Named relationships the funnel resolves during processing |
+| **[Target Stat vs Attribute Stat separation](/docs/CoreConcepts/RelativeStatSeperation)** | The same Stat can behave differently depending on the role it plays in an Effect |
+| **Source / Target resolution** | Every relationship is resolved separately for the attacker and the defender, and combined |
+
+**Why the role separation matters.** `Attack` used as a **Target Stat** ("+5 Attack buff") resolves `Modifier_Given` → `AttackModifier`. The same `Attack` used as an **Attribute Stat** ("deal damage using Attack") resolves `Modifier_Given_AttributeStat` → `AttackDamageModifier`. Two different modifiers, two different intents, one stat — with no chance of an Attack buff accidentally inflating outgoing damage.
+
+---
+
+## Data Organization
+
+| Asset | Role |
+| --- | --- |
+| **[Stat Repository](/docs/Assets/Stat/Repository)** | The full stat set an Actor uses at runtime |
+| **[Environment](/docs/Assets/Stat/Environment)** | Groups Containers — one Actor can have several |
+| **[Container](/docs/Assets/Stat/Container)** | Groups Stat Definitions of the same type |
+| **[Stat Key](/docs/Assets/Stat/StatKey)** | Layered addressing for any Stat |
+| **[SigSep Stat Key](/docs/Assets/Stat/StatKey/StatKeyModel_SigSep)** | Addresses a Stat *inside* a Signature Separated Stat |
+| **Tags** | Let one Effect target many Stats at once |
+
+**Multiple Environments in practice.** A robot with independently damageable limbs: give each limb its own Environment with its own Health, damage multipliers and reactions. Shoot the arm to zero and disable just that limb — no bespoke limb system required.
+
+### Reusable authoring packs
+
+| Asset | What it saves you |
+| --- | --- |
+| **[Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack)** | Define a common relation setup once, reuse it across stats and projects |
+| **[Premade Asset Pack](/docs/Assets/Misc/PremadeAssetPack)** | Same idea for frequently created assets without relations |
+
+---
+
+## Injectors and Linkers
+
+Modifiers expire. **Injectors** are persistent transformations applied on every stat update, in a configurable **Injection Order**.
+
+### Injector Models — inject a fixed value
+
+| Model | Behaviour |
+| --- | --- |
+| **[Absolute Value](/docs/Assets/Misc/Injector/InjectorModel/AbsoluteValue)** | Overrides the stat with a fixed value |
+| **[Combine](/docs/Assets/Misc/Injector/InjectorModel/Combine)** | Modifies by Flat / Rate / Multiplier |
+| **[Limit](/docs/Assets/Misc/Injector/InjectorModel/Limit)** | Clamps the stat value |
+| **[Alter Modifiers](/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers)** | Rewrites the Modifier values applied to the stat — "reduce all debuff values by 50%" |
+
+### Stat Injector Models — inject another Stat's value
+
+| Model | Behaviour |
+| --- | --- |
+| **[Add](/docs/Assets/Misc/Injector/StatInjectorModel/Add)** / **[Multiply](/docs/Assets/Misc/Injector/StatInjectorModel/Multiply)** / **[Rate](/docs/Assets/Misc/Injector/StatInjectorModel/Rate)** | Combine one stat into another |
+| **[Add / Multiply / Rate By Condition](/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition)** | Same, but only while a condition holds |
+| **[Absolute Value](/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue)** | Overrides the target with the source stat's value |
+| **[Limit](/docs/Assets/Misc/Injector/StatInjectorModel/Limit)** | Clamps using another stat as the bound |
+| **[Eased Value](/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue)** | Uses the source value as an easing duration — non-physics movement, pulls and dashes |
+| **[Insert / Merge SigSep Stats](/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat)** | Compose Signature Separated stats at runtime |
+
+A common pattern: `StatInjectorDefinition_Add1IfCdGT0` injects `+1` into a skill's `UseBlockers` while its cooldown is above zero. That single injector *is* the cooldown gate.
+
+---
+
+## Conditions, Scalers and Adapters
+
+The connective tissue that keeps everything data-driven.
+
+### Stat Conditions
+
+| Condition | Checks |
+| --- | --- |
+| **[Numerable Comparer](/docs/Assets/Misc/StatCondition/SingleStat/NumerableComparer)** | A number against a comparison rule |
+| **[String](/docs/Assets/Misc/StatCondition/SingleStat/String)** | String equality |
+| **[Actor Null Check](/docs/Assets/Misc/StatCondition/SingleStat/ActorNullCheck)** | Whether a referenced Actor still exists |
+| **[Vector Index](/docs/Assets/Misc/StatCondition/SingleStat/VectorIndex)** / **[Magnitude](/docs/Assets/Misc/StatCondition/SingleStat/VectorMagnitude)** | A vector component, or its length |
+| **[Distance](/docs/Assets/Misc/StatCondition)** | Distance between two vector stats — proximity mechanics |
+| **[Dot](/docs/Assets/Misc/StatCondition)** | Facing checks — "is the enemy looking at me?" |
+| **[Sum](/docs/Assets/Misc/StatCondition)** / **[Difference](/docs/Assets/Misc/StatCondition)** | Combined or compared stat values |
+| **[Dispatcher](/docs/Assets/Misc/StatCondition)** | Many conditions evaluated together |
+| **[Dynamic](/docs/Assets/Misc/StatCondition/SingleStatDynamic)** | Both sides of the comparison read from Stats — thresholds that move at runtime |
+
+### Stat Scalers
+
+**[Stat Scalers](/docs/Assets/Misc/StatScaler)** return a multiplier derived from stats — including [Map Value](/docs/Assets/Misc/StatScaler/Single/MapValue) (remap one range onto another), [Distance](/docs/Assets/Misc/StatScaler/Multi/Distance) and [Dot](/docs/Assets/Misc/StatScaler/Multi/Dot).
+
+> Deadeye String in [3DCells](/docs/Samples/3DCells/DeadeyeString) uses this to scale the critical multiplier by how close the release was to the perfect window.
+
+### Value Adapters
+
+[Value](/docs/Assets/Misc/Adapter/Value) and [Stat](/docs/Assets/Misc/Adapter/Stat) Adapters convert and transform values in flight — including type conversion, so a Float stat can drive a Vector effect.
+
+Vector operations available out of the box: **Direction**, **Normalize**, **Dot**, **Cross**, **Reflect**, **Project On Plane**, **Subtract**, **To Uniform Vector**, **To Vector Index**. Adapters can be **[chained](/docs/Assets/Misc/Adapter/Value/Chain)**, so a knockback destination is built from a direction, projected onto the ground plane, then multiplied — with no script.
+
+---
+
+## Turn-Based and Real-Time
+
+Power treats pacing as configuration.
+
+- **[Updaters](/docs/Assets/World/Updater)** drive time-dependent elements — Effects, Effectors and Stats. Which Updater an Effect uses is a field.
+- Every duration has a **Turn** counterpart: Effects, Generators and Modifiers can all live on a turn clock.
+- You can run both in the same project.
+
+The proof ships with the plugin: **[3DCells](/docs/Samples/3DCells)** is real-time action, **[Slay The Sphere](/docs/Samples/SlayTheSphere)** is a turn-based deck builder, and both are built from the same assets.
+
+---
+
+## World Systems
+
+| System | Purpose |
+| --- | --- |
+| **[Diplomacy](/docs/Assets/World/Diplomacy)** | Teams and relations — every targeting and filtering option reads from it |
+| **[Updater](/docs/Assets/World/Updater)** | Time and turn progression |
+| **[Log](/docs/Assets/World/Log)** | Runtime logging with category and per-object filtering |
+| **[Actor](/docs/Components/Actor)** | Runtime entity holding Stats, extendable via Extensions |
+| **[Effector](/docs/Components/Effector)** | Delivers Effect Packs to targets |
+
+---
+
+## Tooling
+
+Power is a framework you live in daily, so it ships with editor tooling that respects that.
+
+| Tool | What it gives you |
+| --- | --- |
+| **[Power Editor](/docs/Interface/Editor)** | One window to create, organize and manage every Power asset |
+| **[Power Flow](/docs/Interface/Flow)** | Runtime debugger showing an Effect's complete journey — every Processor that ran and what it produced. Plus a **Trigger** tab to fire Effects from the editor before any gameplay exists to fire them |
+| **[Access Helper](/docs/Interface/AccessHelper)** | Pin frequently used assets and jump back through recent history |
+| **[Log Filtering](/docs/CoreConcepts/LogFiltering)** | Narrow logs to one system, or one Actor instance |
+
+**Power Flow is the answer to the usual complaint about data-driven systems.** When a number comes out wrong, you don't guess — you open the flow and read exactly which Processor changed it.
+
+---
+
+## Mechanics Cookbook
+
+Every mechanic below is achievable by configuring assets. No custom code required unless noted.
+
+### Damage and defence
+
+| Mechanic | Built from |
+| --- | --- |
+| Weapon damage range `95–126` | Min Max Offset Processor |
+| Critical hits — `20%` rate, `150%` multiplier | Critical Hit Processor |
+| Conditional crits — `+50%` crit vs. Undead | Conditional Modifier + Stat Condition |
+| Crit multiplier that scales with charge accuracy | Conditional Modifier + Map Value Scaler |
+| Attack vs. Defense curve | Multiplier Against Suppressor |
+| Shields that absorb before Health | Shield Processor |
+| Damage cap — "never more than 2% of target Health" | Limiter, `Percentage Of Range` |
+| Damage floor — "any hit deals at least 5" | Limiter, `Min` |
+| Dodge and accuracy — `80%` hit rate | Hit Rate Processor |
+| Block critical hits | Block By Result Attribute |
+| Prevent crits from a whole enemy type | Effect Attribute Eliminator (remove `Critable`) |
+
+### Buffs, debuffs and status
+
+| Mechanic | Built from |
+| --- | --- |
+| `+20%` Defense buff | Modifier Stat, Rate contribution |
+| Temporary buff — `50` Shield for `10` seconds | Temporary Effect + Duration |
+| Delayed damage — `−40` after `3` seconds | Effect `Use Delay` |
+| Poison / regeneration ticking over time | Generator Stat |
+| "Only one Poison per enemy" | Modifier Count Limit |
+| "Re-applying Poison refreshes it" | Modifier Replacer |
+| "Only one Poison *per attacker*" | Modifier Count Limit, source side |
+| Remove a specific attacker's debuff | Source Separated Stat + filtered Modifier Remover |
+| Cleanse all debuffs | Tagged Stats targeting + Modifier Remover |
+| Buffs last twice as long | Duration Modifier, Multiplier |
+| Longer duration on critical effects only | Duration Modifier + Result Attribute check |
+| Aura active while standing in a zone | `Managed By Code` Modifier, or State Based Effect |
+| "Gain 50% Defense below 50% Health" | State Based Effect |
+| Stat immunity — "immune to stun" | Immune Processor |
+| Immune to damage but still healable | Signed Immune Processor |
+| Silence — "cannot cast magic damage" | Cast Restrictor |
+
+### Reactions and redirection
+
+| Mechanic | Built from |
+| --- | --- |
+| Life steal — `5%` of damage dealt | Reflector |
+| Thorns — deal damage back to attackers | Reflector or Counter Effect |
+| Slow whoever attacks me | Counter Effect |
+| Reflect damage to nearby enemies, weighted by distance | Reflector + Value Distributer |
+| Taunt — redirect Effects to the guardian | Director |
+| Redirect incoming healing to the whole team | Director + Team targeting |
+| "When this enemy dies, damage every other enemy" | Counter Effect on the death condition |
+| "Gain energy and draw a card on any kill" | Counter Effect linked into `KillCounterEffects` |
+
+### Scaling and relationships
+
+| Mechanic | Built from |
+| --- | --- |
+| "Every 100 Dexterity increases Move Speed by 20%" | Linker + Stat Injector |
+| Max Health scales with Level | Clamped Stat with a Stat Border |
+| Parent stats — Debuff Immunity implies Stun Immunity | Relative Stat Keys |
+| Cooldown reduction on kill — `−0.2s` | Effect Timer Modifier |
+| Cooldowns that gate ability use | Stat Injector into `UseBlockers` |
+| Cost that grows each time you take damage | Counter Effect + Linker into the cost stat |
+| Cost that drops per card discarded this turn | Linker from a per-turn counter |
+
+### Attributes and typing
+
+| Mechanic | Built from |
+| --- | --- |
+| Physical / Magical, Fire / Water / Electric, Orc / Human | Attribute Stats |
+| One attack that is Magic **and** Lightning **and** Orb at once | Multi Attribute Stat Effect |
+| "Immune to Physical, but Fire still lands" | Attribute Stat Eliminator |
+| "Ignore Lightning damage effects" | Attribute Stat Eliminator |
+| Reduce all elemental defences at once | Tagged Stats targeting |
+
+### Resources and movement
+
+| Mechanic | Built from |
+| --- | --- |
+| Clamped resources — `Max Health: 100` | Clamped Stat |
+| Ammo that refills on kill | Clamped Int Stat + Counter Effect |
+| Charge meters that build while held | Generator with Toggle Stat |
+| Absolute overrides — "set Defense to 50,000 for 5s" | Absolute Value Injector, temporary |
+| Knockback, pulls, jumps without physics | Vector Stats + Tweeners + Eased Value Injector |
+| Facing-based mechanics — "crit enemies facing you" | Dot Condition |
+| Proximity mechanics | Distance Condition |
+
+---
+
+## See It Running
+
+Everything on this page is demonstrated in projects that ship with Power — with full source.
+
+- **[3DCells](/docs/Samples/3DCells)** — a real-time action demo with **15 weapons and a shield**. Conditional crits, charge states, status effects, animation-driven multi-state skills, collision Effects, environmental interaction.
+- **[Slay The Sphere](/docs/Samples/SlayTheSphere)** — a turn-based deck builder with **20 cards, 7 relics and 3 potions**, all composed from a shared library of reusable value Stats and generic Effects.
+- **[General Expansions](/docs/Samples/GeneralExpansions)** — collision-based Effectors and a full Skill system, source included and free to modify.
+
+Each sample page walks through the actual assets used, so you can open the same setup in the Editor and take it apart.
+
+---
+
+## Extending Power
+
+Power is deliberately unopinionated about your game. Every system has an extension point:
+
+- Custom **Processors** for rules Power doesn't ship
+- Custom **Feedback Processors** for your presentation layer
+- Custom **Targeters**, **Value Distributers**, **Value Adapters**, **Conditions** and **Scalers**
+- Custom **Actor Extensions**
+- **Injector** and **Stat Injector** models of your own
+
+And Power stays in its lane — it operates within a well-defined scope and never asks you to route your whole game through it.
+
+Ready to try it? Start with [Getting Started](/docs/GettingStarted).
