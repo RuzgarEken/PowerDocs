@@ -5,6 +5,7 @@ sidebar_position: 2
 import EffectProcessDefinition from './images/EffectProcessDefinition.png';
 import ProcessFunnel from './images/ProcessFunnel.png';
 import EffectExample from '@site/src/components/EffectExample';
+import EffectFunnel from '@site/src/components/EffectFunnel';
 
 # Effect Process Flow
 
@@ -12,24 +13,7 @@ When an **Effect** is sent in Power, it does not modify a Stat directly.
 
 Instead, it passes through a configurable **processing funnel** where multiple **Processors** can inspect, modify, block, or react to it.
 
-```mermaid
-flowchart TD
-    Effect(["Effect"]) --> Type("Effect Type<br/><small>BS / AS / MAS</small>")
- 
-    subgraph Funnel[" "]
-        direction LR
-        Pre("PreProcessor") --> Proc("Processor") --> Post("PostProcessor") --> Dur("DurationProcessor") --> Fb("FeedbackProcessor")
-    end
- 
-    Type --> Pre
-    Fb --> Result(["Result"])
- 
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Effect,Result terminal;
-    class Type,Pre,Proc,Post,Dur,Fb stage;
-    style Funnel fill:#2f669012,stroke:#2f6690,stroke-width:1.5px
-```
+<EffectFunnel />
 
 Which processors participate — and what they do — depends on the Effect's:
 
@@ -151,14 +135,16 @@ An Effect carrying `Immunable` lets this Processor run; without it, the Processo
 
 `BaseStatEffectProcessors` operate on the **Target Stat**, inspecting its relationships to decide how to handle the Effect.
 
-```mermaid
-flowchart LR
-    Health("Health") -->|NegativeImmune| Immune("ImmuneToNegativeHealthEffects")
-```
+<StatExample
+  name="Health"
+  relations={[{key: 'NegativeImmune', value: 'ImmuneToNegativeHealthEffects'}]}
+/>
 
 Given:
 
 <EffectExample targetStat="Health" value={-50} />
+
+<ProcessorExample name="BSPrecontributionProcess_Immune" relativeKey="NegativeImmune" />
 
 `BSPrecontributionProcess_Immune` uses `NegativeImmuneRelativeKey` / `PositiveImmuneRelativeKey` to pick which immunity Stat to evaluate — here, since the Effect is negative, it checks `ImmuneToNegativeHealthEffects`. If that Stat's value is greater than `0`, the Effect is blocked:
 
@@ -181,12 +167,14 @@ Health doesn't need to contain immunity logic itself — the relationship tells 
 
 <EffectExample targetStat="Health" attributeStat="PhysicalAttack" />
 
+<ProcessorExample name="ASPrecontributionProcess_Immune" relativeKey="Immune_AS" />
+
 `ASPrecontributionProcess_Immune` inspects `PhysicalAttack`'s relationships:
 
-```mermaid
-flowchart LR
-    Attack("PhysicalAttack") -->|Immune_AS| Stat("Immunity Stat")
-```
+<StatExample
+  name="PhysicalAttack"
+  relations={[{key: 'Immune_AS', value: 'ImmuneToPhysicalAttack'}]}
+/>
 
 If the relationship exists and its value is greater than `0`, the Effect is absorbed. This lets a target express rules like:
 

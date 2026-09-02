@@ -52,3 +52,20 @@
 .docusaurus-mermaid-container svg {
   margin: 0 auto;
 }
+
+/* Left-aligned mermaid (opt in per page with <div className="mermaid-left">) */
+.mermaid-left .docusaurus-mermaid-container {
+  justify-content: flex-start;
+}
+
+.mermaid-left .docusaurus-mermaid-container svg {
+  margin: 0;
+}
+
+/* Drop the grey box behind mermaid edge labels ("applies", "through", …) */
+.mermaid-left .docusaurus-mermaid-container .edgeLabel,
+.mermaid-left .docusaurus-mermaid-container .edgeLabel p,
+.mermaid-left .docusaurus-mermaid-container .edgeLabel rect,
+.mermaid-left .docusaurus-mermaid-container .edgeLabel foreignObject div {
+  background-color: transparent !important;
+}

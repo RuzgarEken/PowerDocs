@@ -1,24 +1,62 @@
 ---
-description: Create a doc page with rich content.
+description: Power is a content-agnostic stat and effect system for Unity — build stat-driven gameplay by connecting assets instead of writing bespoke code.
 sidebar_position: 1
 ---
 
+import PowerFlow from '@site/src/components/PowerFlow';
+
 # What is Power
 
-- Power is a content agnostic stat and effect system for your Unity game. It is designed to be the ultimate solution for stat related game mechanics.
+Power is a **content-agnostic stat and effect system** for Unity. You assemble stat-driven mechanics by connecting assets in the Inspector, with little or no custom code.
 
-- Power is **User Friendly**
-  - Create game mechanics by connecting Power assets.
-  - Most mechanics can be built without writing custom code
-- Power is **Stat Agnostic**
-  - There are no predefined stats in Power.
-  - A stat’s purpose and behavior are fully defined by the user through its relationships.
-- Power is **Effect Centric**
-  - Power does not just support primitive stats like float and int.
-  - It provides a variety of useful stat types to enable complex effects.
-- Power **Minds Its Own Business**
-  - Power does not force you to use its systems across your entire game.
-  - It operates within a well defined scope, allowing you to extend it freely in your own game logic.
-- Power **Supports Both Turnbased and Realtime Systems**
-  - This is mainly about pacing and Power supports both approaches.
-  - You can even combine both if you want.
+Power is **User Friendly**
+- Create game mechanics by connecting Power assets.
+- Most mechanics can be built without writing custom code.
+
+Power is **Stat Agnostic**
+- There are no predefined stats in Power.
+- A Stat's purpose and behavior are fully defined by the user through its relationships.
+
+Power is **Effect Centric**
+- Power does not just support primitive stats like `float` and `int`.
+- It provides a variety of useful stat types to enable complex effects.
+
+Power **Minds Its Own Business**
+- Power does not force you to use its systems across your entire game.
+- It operates within a well-defined scope, allowing you to extend it freely in your own game logic.
+
+Power **Supports Both Turn-based and Real-time Systems**
+- This is mainly about pacing, and Power supports both approaches.
+- You can even combine both if you want.
+
+### How it fits together
+
+Power's runtime flow has five elements: **Actor**, **Stat**, **Effector**, **Effect**, and **Processor**.
+
+<PowerFlow />
+
+An Effect targets a **Target Stat** and can carry **Attribute Stats** that define its behavior or classification. As the Effect passes through the Processor funnel, relationships defined on those Stats — such as modifiers, immunities, limits, and reflections — can shape, modify, or block the result before it is applied.
+
+## Is Power for you?
+
+Power is for you if you want to design your game with ready-made, detailed building blocks instead of having to implement complex stat and effect mechanics from scratch.
+
+#### Games Power is good for:
+
+- Action RPGs
+- JRPGs
+- Tactics / SRPGs
+- Roguelikes & roguelites
+- Looter shooters
+- Tower defense
+- Survival & crafting
+- City & management sims
+- Idle & incremental games
+
+Every game has stats and ways for players to change them. That interaction is exactly what Power focuses on, making it a strong fit for genres built around numbers, stats, and the rules connecting them
+
+## See it in action
+
+- **[3DCells](/docs/Samples/3DCells)** — a real-time action demo with 15 weapons and a shield: conditional crits, status effects, charge mechanics, multi-state Skills, collision Effects.
+- **[Slay The Sphere](/docs/Samples/SlayTheSphere)** — a turn-based card game: 20 cards, 7 relics, 3 potions.
+- **[General Expansions](/docs/Samples/GeneralExpansions)** — collision-based Effectors and the Skill system, with source you can adapt.

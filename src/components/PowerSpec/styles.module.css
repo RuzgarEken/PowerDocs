@@ -134,6 +134,28 @@
   color: var(--ifm-color-emphasis-800);
 }
 
+/* A labelled sub-group of rows (e.g. a Stat's Relative Stats). */
+.group {
+  margin-top: 0.55rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.groupLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ifm-color-emphasis-600);
+  margin-bottom: 0.25rem;
+}
+
+.group .row:first-of-type {
+  padding-top: 0;
+}
+
 /* Inline <PowerRef> — icon + monospace name that stay together on wrap. */
 .ref {
   display: inline-flex;

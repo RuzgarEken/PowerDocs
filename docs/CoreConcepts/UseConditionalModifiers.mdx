@@ -3,6 +3,8 @@ sidebar_position: 5
 sidebar_label: Using Conditional Modifier in Processors
 ---
 
+import FlowChain from '@site/src/components/FlowChain';
+
 # Using Conditional Modifiers in Processors
 
 Some Processors expose **UseConditionalModifier** options. These allow a Stat used by the Processor to be modified dynamically according to the current context before the Processor continues its execution.
@@ -25,18 +27,18 @@ Conditional Modifiers are always resolved through an **ASContribution_Conditiona
 
 For a Conditional Modifier, the Effect's real **Target Stat** is passed through as-is, while the queried Stat — the one whose value needs conditional adjustment, such as **CritRate** stat for the Crit process, or **HitRate** stat for the HitRate process — is passed in the **Attribute Stat** slot.
 
-```mermaid
-flowchart LR
-    Target(["Effect's Target Stat"]) --> CondProc("ASContribution_ConditionalModifier")
-    Queried(["Queried Stat<br/><small>e.g. CritRate, HitRate</small>"]) --> CondProc
-    CondProc --> Contribution("Contribution<br/><small>Rate / Flat / Multiplier</small>")
-    Contribution --> Result("Adjusted Value<br/><small>used for this execution only</small>")
-
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Target,Queried terminal;
-    class CondProc,Contribution,Result stage;
-```
+<FlowChain
+  vertical
+  columns={[
+    [
+      {icon: 'stat', label: "Effect's Target Stat"},
+      {icon: 'stat', label: 'Queried Stat', sub: 'e.g. CritRate, HitRate'},
+    ],
+    {icon: 'processor', label: 'ASContribution_ConditionalModifier'},
+    {label: 'Contribution', sub: 'Rate / Flat / Multiplier'},
+    {label: 'Adjusted Value', sub: 'used for this execution only'},
+  ]}
+/>
 
 The resulting Contribution is applied to the queried Stat's current value, and only for this Processor execution — the Stat's stored value is never permanently changed.
 

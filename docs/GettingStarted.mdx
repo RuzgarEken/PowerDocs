@@ -3,6 +3,9 @@ sidebar_position: 3
 ---
 
 import Highlight from '@site/src/components/Highlight';
+import PowerFlow from '@site/src/components/PowerFlow';
+import StatStructure from '@site/src/components/StatStructure';
+import DamageFlow from '@site/src/components/DamageFlow';
 import ContainerReference from './images/ContainerReference.png';
 import EnvironmentReference from './images/EnvironmentReference.png';
 import RepositoryReference from './images/RepositoryReference.png';
@@ -28,19 +31,7 @@ Power flow consists of five elements: <Highlight>Actor</Highlight>, <Highlight>S
 - <Highlight>Actor</Highlight>s contain <Highlight>Stat</Highlight>s.
 - <Highlight>Effector</Highlight>s apply <Highlight >Effect</Highlight>s through <Highlight>Processor</Highlight>s to modify <Highlight>Stat</Highlight>s.
 
-```mermaid
-%%{init: {'themeVariables': {'edgeLabelBackground': 'transparent'}}}%%
-flowchart LR
-    Actor(["Actor"]) -->|contains| Stat("Stat")
-    Effector(["Effector"]) -->|applies| Effect("Effect")
-    Effect -->|through| Processor("Processor")
-    Processor -->|modifies| Stat
-
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Actor,Effector terminal;
-    class Stat,Effect,Processor stage;
-```
+<PowerFlow />
 
 The overall concept is easy to understand.
 In practice, using Power is mostly about defining relations between Power assets.
@@ -51,39 +42,32 @@ At the top level there is the Stat Repository. This holds the full stat definiti
 
 The stat hierarchy is structured as follows: <Highlight color="#ffffff">Repository -> Environment -> Container -> Stat</Highlight>
 
-```mermaid
-flowchart TD
-    Repo(["Repository"]) --> Env("Environment")
-    Env --> Cont("Container")
-    Cont --> St("Stat")
-
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Repo terminal;
-    class Env,Cont,St stage;
-```
+<StatStructure />
 
 **Container**
-  - Containers group Stat Definitions of the same type.
-  - <img src={ContainerReference} alt="ContainerModel reference" />
-  - For example
-    - IntContainer contains Int stats
-    - GeneratorFloatContainer contains GeneratorFloat stats
-    - StateBasedEffectContainer contains StateBasedEffect stats
 
-- **Environment** 
-  - Environments group different types of stat containers together.
-  - <img src={EnvironmentReference} alt="EnvironmentModel reference" />
+Containers group Stat Definitions of the same type.
+<img src={ContainerReference} alt="ContainerModel reference" />
+For example
+  - IntContainer contains Int stats
+  - GeneratorFloatContainer contains GeneratorFloat stats
+  - StateBasedEffectContainer contains StateBasedEffect stats
 
-- **Repository** 
-  - The repository holds multiple stat environments.
-  - <img src={RepositoryReference} alt="RepositoryModel reference" />
-  - In simple systems, working only with the Default Environment may be sufficient.
-  - However, you may also need systems that require multiple environments.
-  - For example, imagine a robot with multiple limbs, each having its own health.
-  - When we shoot the robot’s arm and its health reaches zero, we can disable that specific limb.
-  - In this case, we can define separate environments for each limb such as the arm and other body parts.
-  - This allows each environment to have different health values, damage multipliers, and unique reactions to damage events.
+**Environment** 
+
+Environments group different types of stat containers together.
+<img src={EnvironmentReference} alt="EnvironmentModel reference" />
+
+**Repository** 
+
+The repository holds multiple stat environments.
+<img src={RepositoryReference} alt="RepositoryModel reference" />
+In simple systems, working only with the Default Environment may be sufficient.
+However, you may also need systems that require multiple environments.
+For example, imagine a robot with multiple limbs, each having its own health.
+When we shoot the robot’s arm and its health reaches zero, we can disable that specific limb.
+In this case, we can define separate environments for each limb such as the arm and other body parts.
+This allows each environment to have different health values, damage multipliers, and unique reactions to damage events.
 
 We use Effects to modify stats. Effects define the data describing how a stat should be changed. This Effect is passed through a process flow on the target, and the resulting value is applied to the stat as a modifier.
 Let’s understand this process through an example.
@@ -91,18 +75,7 @@ Let’s understand this process through an example.
 
 Let’s say we want to decrease the enemy’s health by five.
 
-```mermaid
-flowchart LR
-    Effect(["FloatEffect<br/><small>-5, targets HealthStat</small>"]) --> Pack("Pack_Damage<br/><small>EffectPack</small>")
-    Pack --> Effector("OnCollideEffector")
-    Effector --> Proc("Processor_Add_Float<br/><small>ProcessorId: Add_Float</small>")
-    Proc --> Stat(["HealthStat<br/><small>-5 applied</small>"])
-
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Effect,Stat terminal;
-    class Pack,Effector,Proc stage;
-```
+<DamageFlow />
 
 For this, we need a Float Health stat in the StatRepository.
 <img src={HealthStatReference} alt="HealthStat reference" />

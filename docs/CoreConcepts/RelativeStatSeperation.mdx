@@ -4,6 +4,7 @@ sidebar_label: Relative Stat Seperation
 ---
 
 import EffectExample from '@site/src/components/EffectExample';
+import Flow from '@site/src/components/Flow';
 
 # Relative Stats for Target Stats and Attribute Stats
 
@@ -18,45 +19,63 @@ These two roles often require different Relative Stats.
 
 For example, consider the following scenarios:
 
-Now assume the **Attack** Stat has a **Modifier** Relative Stat that increases values by **10%**.
+Assume the <PowerRef kind="stat">Attack</PowerRef> Stat has two different Modifier Relative Stats, each designed for a different usage:
 
-### 1. Attack Stat as the Target Stat
+- <PowerRef kind="stat">AttackModifier</PowerRef> — modifies values when **Attack** is the Target Stat.
+- <PowerRef kind="stat">AttackDamageModifier</PowerRef> — modifies outgoing Effects when **Attack** is used as an Attribute Stat.
 
-<EffectExample targetStat="Attack" value={5} />
+<StatExample
+  name="Attack"
+  default={10}
+  relations={[
+    {key: 'Modifier_Given', value: 'AttackModifier'},
+    {key: 'Modifier_Given_AttributeStat', value: 'AttackDamageModifier'},
+  ]}
+/>
 
-The **BSModifier** Processor uses the Attack Stat as the **Target Stat**. It resolves the **Modifier_Given** Relative Stat and increases the incoming value from **5** to **5.5** before applying it to the Attack Stat.
+Both modifiers increase values by **10%**, but they serve different purposes and are resolved through different Relative Stat keys.
 
-```mermaid
-flowchart LR
-    Effect(["Effect<br/><small>+5 to Attack</small>"]) --> Processor("BSModifier<br/><small>Target Stat = Attack</small>")
-    Processor --> Key("Modifier_Given")
-    Key --> Result("5 → 5.5<br/><small>applied to Attack</small>")
+**1. Attack Stat as the Target Stat**
 
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Effect terminal;
-    class Processor,Key,Result stage;
-```
+The **BSModifier** Processor uses the Attack Stat as the **Target Stat**. It resolves the **Modifier_Given** Relative Stat, which points to **AttackModifier**, and increases the incoming value from **5** to **5.5** before applying it to the Attack Stat.
 
-### 2. Attack Stat as an Attribute Stat
+<Flow>
+  <EffectExample targetStat="Attack" value={5} />
+  <SpecCard kind="processor" name="BSModifier">
+    <SpecRow label="Resolves" icon="key">Modifier_Given</SpecRow>
+  </SpecCard>
+  <SpecCard kind="stat" name="Attack">
+    <SpecRow label="Value">10 → 15.5</SpecRow>
+  </SpecCard>
+</Flow>
 
-<EffectExample targetStat="Health" attributeStat="Attack" value={-10} />
+**2. Attack Stat as an Attribute Stat**
 
-The target of the Effect is the enemy's **Health** Stat, while the **Attack** Stat is only used as an **Attribute Stat** during the **ASModifier** stage of the processing funnel to modify the Effect value. Since the Attack Stat also has a **Modifier** Relative Stat scoped to Attribute Stat usage, resolving **Modifier_Given_AttributeStat** correctly increases the outgoing damage from **-10** to **-11**.
+Now consider a different situation. The Effect targets the enemy's <PowerRef kind="stat">HealthStat</PowerRef>, while the <PowerRef kind="stat">AttackStat</PowerRef> is used only as an **Attribute Stat**.
 
-```mermaid
-flowchart LR
-    Effect(["Effect<br/><small>-10 to Health</small>"]) --> Processor("ASModifier<br/><small>Attribute Stat = Attack</small>")
-    Processor --> Key("Modifier_Given_AttributeStat")
-    Key --> Result("-10 → -11<br/><small>applied to Health</small>")
+During the **ASModifier** stage of the processing funnel, the Processor evaluates the Attribute Stats attached to the Effect. Because the Attack Stat is being used in this role, it resolves the **Modifier_Given_AttributeStat** Relative Stat, which points to **AttackDamageModifier**.
 
-    classDef terminal fill:#a83232,stroke:#a83232,stroke-width:2px,color:#ffffff,font-weight:600;
-    classDef stage stroke:#2f6690,stroke-width:1.5px;
-    class Effect terminal;
-    class Processor,Key,Result stage;
-```
+This increases the outgoing damage from **-10** to **-11** before the Effect is applied to Health.
 
-**Modifier_Given** is scoped to direct Target Stat modification — it's the key **BSModifier** resolves in scenario 1. Reusing it here, in the Attribute Stat role, would be a mistake: since the Modifier is meant for Attack buffs, not for damage dealt using Attack, applying it via the wrong key would inflate the outgoing damage in a way that wasn't intended.
+<Flow>
+  <EffectExample targetStat="Health" attributeStat="Attack" value={-10} />
+  <SpecCard kind="processor" name="ASModifier">
+    <SpecRow label="Resolves" icon="key">Modifier_Given_AttributeStat</SpecRow>
+  </SpecCard>
+  <SpecCard kind="stat" name="Health">
+    <SpecRow label="Value">100 → 89</SpecRow>
+  </SpecCard>
+</Flow>
+
+:::warning
+**The role of a Stat determines which Relative Stat relationship should be resolved.**
+
+**Modifier_Given** is scoped to direct **Target Stat** modification. In scenario 1, **BSModifier** resolves this key and follows the relationship to **AttackModifier**.
+
+When **Attack** is used as an **Attribute Stat**, it should not reuse **Modifier_Given**. Instead, **ASModifier** resolves **Modifier_Given_AttributeStat**, which points to the separate **AttackDamageModifier** Stat.
+
+This separation is intentional. **AttackModifier** controls modifications to the Attack Stat itself, while **AttackDamageModifier** controls modifications to Effects that use Attack as an Attribute Stat.
+:::
 
 As shown in the samples, you will often see both **Modifier_Given** and **Modifier_Given_AttributeStat** Relative Keys.
 

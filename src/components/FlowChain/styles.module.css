@@ -1,0 +1,102 @@
+.chain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.75rem 0;
+}
+
+.chain.vertical {
+  flex-direction: column;
+  align-items: center;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+/* In a vertical chain, a multi-node column sits side by side. */
+.chain.vertical .col {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  border: 2px solid var(--c, var(--ifm-color-emphasis-400));
+  border-radius: 10px;
+  background: var(--ifm-background-color);
+}
+
+.nodeIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.nodeLabel {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.nodeSub {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.container {
+  border: 2px dashed var(--c, var(--ifm-color-emphasis-400));
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+  padding: 0.6rem;
+}
+
+.containerHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.containerBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.containerBody .node {
+  background: var(--ifm-background-color);
+}
+
+.arrow {
+  align-self: center;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--ifm-color-emphasis-500);
+}
+
+@media (max-width: 900px) {
+  .chain:not(.vertical) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .chain:not(.vertical) > .arrow {
+    transform: rotate(90deg);
+  }
+}

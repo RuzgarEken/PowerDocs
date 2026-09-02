@@ -1,0 +1,82 @@
+.flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.5rem;
+  margin: 1.75rem 0;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1.05rem;
+  border: 2px solid var(--node-color, var(--ifm-color-emphasis-400));
+  border-radius: 10px;
+  background: var(--ifm-background-color);
+}
+
+.nodeIcon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nodeLabel {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0 0.1rem;
+}
+
+.arrowLabel {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.arrowGlyph {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ifm-color-emphasis-500);
+}
+
+.actor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.8rem;
+  border: 2px dashed var(--ifm-color-emphasis-400);
+  border-radius: 12px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.actorHeader {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ifm-color-emphasis-700);
+}
+
+@media (max-width: 720px) {
+  .flow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .arrow {
+    flex-direction: row-reverse;
+    gap: 0.45rem;
+    padding: 0.1rem 0 0.1rem 1.1rem;
+  }
+  .arrowGlyph {
+    transform: rotate(90deg);
+  }
+}

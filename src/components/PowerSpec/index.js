@@ -271,9 +271,20 @@ export function StatExample({
         <SpecRow label="Default">{defaultValue}</SpecRow>
       )}
       {relations && relations.length > 0 && (
-        <SpecRow label="Relations">
-          <SpecTags icon="key" items={relations} />
-        </SpecRow>
+        <div className={styles.group}>
+          <div className={styles.groupLabel}>Relative Stats</div>
+          {relations.map((r, i) =>
+            r && typeof r === 'object' ? (
+              <SpecRow key={i} label={r.key} icon="key">
+                {r.value}
+              </SpecRow>
+            ) : (
+              <SpecRow key={i} label="Relation" icon="key">
+                {r}
+              </SpecRow>
+            ),
+          )}
+        </div>
       )}
       {injectors && injectors.length > 0 && (
         <SpecRow label="Injectors">
@@ -312,6 +323,24 @@ export function InjectorExample({
         </SpecRow>
       )}
       {order !== undefined && <SpecRow label="Order">{order}</SpecRow>}
+      {children && <div className={styles.note}>{children}</div>}
+    </SpecCard>
+  );
+}
+
+export function ProcessorExample({name, relativeKey, children}) {
+  const keys = Array.isArray(relativeKey)
+    ? relativeKey
+    : relativeKey != null
+      ? [relativeKey]
+      : [];
+  return (
+    <SpecCard kind="processor" name={name}>
+      {keys.map((k, i) => (
+        <SpecRow key={i} label="Relative Key" icon="key">
+          {k}
+        </SpecRow>
+      ))}
       {children && <div className={styles.note}>{children}</div>}
     </SpecCard>
   );

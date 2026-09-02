@@ -1,0 +1,67 @@
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 1.75rem 0;
+}
+
+.node {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.95rem;
+  border: 2px solid var(--c, var(--ifm-color-emphasis-400));
+  border-radius: 10px;
+  background: var(--ifm-background-color);
+}
+
+.nodeIcon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.nodeLabel {
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.nodeSub {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.down {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.downGlyph {
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--ifm-color-emphasis-500);
+}
+
+.packWrap {
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+}
+
+.packWrap > * {
+  margin: 0 !important;
+  width: 100%;
+  max-width: 440px;
+}
