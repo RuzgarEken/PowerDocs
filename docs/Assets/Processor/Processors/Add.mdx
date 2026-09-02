@@ -19,3 +19,15 @@ For **Vector2**, **Vector3**, **Vector2Int**, and **Vector3Int** Effects, the ca
 - Vector3
 - Vector2Int
 - Vector3Int
+
+## Variations
+
+Ships as `BS` only — Add writes straight to the Target Stat and never consults an Attribute Stat's relations. One asset per supported type, with no container or signed variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSEffectProcess_Add_Int` | `Health -50`, `Gold +12`, `PoisonStackCount +1`. |
+| `BSEffectProcess_Add_Float` | `MoveSpeed +1.5`, `CritRate +0.05`. |
+| `BSEffectProcess_Add_Pack` | Adds an Effect Pack to a Pack Stat — granting a passive that the Actor can later deliver. |
+| `BSEffectProcess_Add_Vector2` `_Vector3` | `Knockback` accumulates a direction vector from several simultaneous hits. |
+| `BSEffectProcess_Add_Vector2Int` `_Vector3Int` | Grid movement — a tactics unit's `TilePosition` advances by `(1, 0)`. |

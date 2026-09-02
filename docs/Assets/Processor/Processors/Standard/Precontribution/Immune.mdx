@@ -18,3 +18,12 @@ The Immune Stat is resolved as follows:
 - For the **Source Actor**, the Immune Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Immune Relative Key**.
 
 The resolved Stat must be a **Int Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, with no container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSPrecontribution_Immune_Int` | *Undying* — immune to negative `Health` Effects while active, but still healable. The unsigned [Preprocess Immune](/docs/Assets/Processor/Preprocessors/Immune) would block the heals too. |
+| `BSPrecontribution_Immune_Float` | *Unstoppable* — immune to `MoveSpeed` reductions while charging, with speed buffs still landing. |

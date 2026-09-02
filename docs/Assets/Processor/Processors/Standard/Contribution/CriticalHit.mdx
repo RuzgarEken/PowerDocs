@@ -33,3 +33,15 @@ The resolved Stats must be **Float Stats**.
 | **Use Conditional Rate Modifier** | Enables conditional modification of the resolved Critical Rate values before they are evaluated. |
 | **Use Conditional Multiplier Modifier** | Enables conditional modification of the resolved Critical Multiplier values before they are added to the Contribution Data. |
 | **Conditional Modifier Processor** | The Conditional Modifier Processor used to modify the resolved Critical Rate and Critical Multiplier values. |
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, with no container or signed variations — Critical Rate and Critical Multiplier are always plain Float Stats. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Crit Stats resolved through | Use case |
+| --- | --- | --- |
+| `BSContribution_CriticalHit_Int` | The **Target Stat** | Any Effect on `Health` can crit, whatever attack produced it. |
+| `ASContribution_CriticalHit_Int` | The **Attribute Stat** | `PhysicalAttack` carries its own Crit Rate, so a weapon's crit chance travels with the weapon. |
+| `MASContribution_CriticalHit_Int` | **All** Attribute Stats | An Effect using `PhysicalAttack` and `FireAttack` combines both crit rates before rolling. |
+
+The `_Float` assets are the same Processors for Float Target Stats.

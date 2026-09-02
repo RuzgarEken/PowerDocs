@@ -25,3 +25,15 @@ The CounterEffect Stat is resolved as follows:
 - For the **Source Actor**, the CounterEffect Stat is obtained directly from the **Attribute Stat's CounterEffect Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **CounterEffect Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, each in five container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain CounterEffect Stat | *Thorns Aura* — any incoming Health Effect triggers a counterattack, no matter who or what caused it. |
+| `_SrcSep` | A Source Separated Stat | *Grudge* — only hits from the Actor that applied the mark trigger the counter. Everyone else lands freely. |
+| `_SigSep` | A Signature Separated Stat | *Flame Ward* — only fire-signed Effects trigger the counter; physical hits pass silently. |
+| `_SigNSrcSep` | Signature **and** Source Separated | *Mage's Bane* — counter only the fire spells cast by the enemy who cursed you. |
+| `_Effector` | Resolved on the **Effector's Actor** | A pressure plate holds the counter. Whatever steps on it triggers the Effect, regardless of which Actor owns the trap. |

@@ -7,3 +7,12 @@ sidebar_position: 8
 You can find a video tutorial for Modifier Removers [▶ here](https://youtu.be/MZBfEd3YFDs?list=PLAVxVgoBmZhM).
 
 The **Modifier Remover** Processor processes **Modifier Remover Effects** and removes Modifiers from the target Stat according to the filtering rules defined by the **Modifier Remover Effect**.
+
+## Variations
+
+Ships in an unsigned and a signed form. Filtering itself is configured on the Modifier Remover Effect. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Removes | Use case |
+| --- | --- | --- |
+| `ModifierRemoverEffectProcessor` | Any matching Modifier | *Dispel* — clears every temporary Modifier on the target's `AttackPower`, buff or debuff alike. |
+| `ModifierRemoverEffectProcessor_Signed` | Only Modifiers whose value matches the Effect's sign | *Cleanse* — removes only the negative Modifiers, leaving the ally's buffs intact. *Purge* is the same asset pointed the other way. |

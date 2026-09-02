@@ -28,3 +28,13 @@ The resolved Stat must be:
 
 - A **Float Stat** for the **Limiter_Float** Processor.
 - An **Int Stat** for the **Limiter_Int** Processor.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, in three container variations. There is no `_SrcSep` form — a damage cap per source Actor is not a mechanic Power models. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain Limiter Stat | *Damage Cap* — no single hit may remove more than 200 `Health`, whatever the source. |
+| `_SigSep` | A Signature Separated Stat | Cap fire damage at 200 and physical at 500, from one Limiter Stat with two Inner Stats. |
+| `_Effector` | Resolved on the **Effector's Actor** | The cap belongs to the weapon — a training sword can never deal more than 1 damage, in anyone's hands. |

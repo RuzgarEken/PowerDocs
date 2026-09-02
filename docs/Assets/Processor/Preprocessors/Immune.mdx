@@ -39,3 +39,14 @@ The resolved Stat must be a **Float Stat**.
 | **Immune Relative Key** | The Relative Key used to resolve the Immune Stat. |
 | **Use Conditional Modifier** | Enables conditional modification of the resolved Immune value before it is evaluated. |
 | **Conditional Modifier** | The Conditional Modifier Processor used to modify the resolved Immune value. |
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, each in a plain and a Signature Separated form. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| *(none)* | A plain Float Stat | *Divine Shield* — immune to every incoming Health Effect for its duration. |
+| `_SigSep` | A Signature Separated Stat | *Fire Immunity* — only fire-signed Effects are blocked. Physical damage lands as usual, from the same one Stat. |
+
+The `_SigSep` form is what lets a single `Immune` Stat on `Health` hold a dozen independent resistances instead of needing a dozen Stats.

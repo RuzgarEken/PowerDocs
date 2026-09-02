@@ -1,0 +1,88 @@
+---
+sidebar_position: 6
+description: How Power's Processor assets are named — the BS/AS/MAS subject prefix, the value type, and the Normal/SrcSep/SigSep/SigNSrcSep/Effector/Signed variations.
+---
+
+# Processor Variations
+
+Every Processor in Power ships as a family of assets rather than a single one. A Reflector, for example, is not one asset — it is `BSPostcontribution_Reflect_Int_SigNSrcSep`, `ASPrecontribution_Reflect_Float_Normal`, and about thirty others.
+
+They all do the same job. What changes is **where the Processor looks for its Relative Stat** and **what kind of Stat it expects to find there**. The asset name tells you both.
+
+## Reading a Processor name
+
+```
+BS      Postcontribution   _Reflect   _Int    _SigNSrcSep
+▲       ▲                  ▲          ▲       ▲
+subject stage              behaviour  value   variation
+```
+
+Each processor page lists the variations it actually ships with. This page explains the four axes.
+
+## Subject — BS / AS / MAS
+
+The prefix says **whose Relative Stats the Processor reads**.
+
+| Prefix | Subject | Reads relations from | Typical use |
+| --- | --- | --- | --- |
+| `BS` | Base Stat | The Effect's **Target Stat** | The rule belongs to the Stat being hit — *Health* knows what can block damage to it |
+| `AS` | Attribute Stat | The Effect's single **Attribute Stat** | The rule belongs to the damage type — *PhysicalAttack* knows what resists it |
+| `MAS` | Multi Attribute Stat | **Every** Attribute Stat on the Effect, in order | The Effect carries several Attribute Stats and each one should get a say — *PhysicalAttack* **and** *FireAttack* both check for resistance |
+
+`MAS` runs the same logic once per Attribute Stat, so an Effect tagged with three Attribute Stats can be reduced three times, once by each.
+
+Not every Processor ships all three. A Processor that only makes sense against the Target Stat — `Add`, `Set`, `HitRate` in the Standard funnel — is `BS` only.
+
+## Value type
+
+`_Float` and `_Int` pick which numerable Stat type the Processor operates on. Vector Processors carry `_Vector2`, `_Vector3`, `_Vector2Int`, `_Vector3Int` instead, and a few Processors are typeless because they never touch a value (`Linker`, `Injector`, `ModifierRemover`).
+
+An `_Int` Processor must resolve an Int Stat, a `_Float` Processor a Float Stat. Mismatches are reported by asset validation.
+
+## Container variation
+
+This is the axis that produces the most assets. It says **what kind of Stat Container the resolved Relative Stat must be** — and therefore how finely the value can be split.
+
+| Variation | Expects | What it means |
+| --- | --- | --- |
+| `_Normal` | A plain Stat | One value, shared by every source and every Effect Signature |
+| `_SrcSep` | A [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) Stat | A separate value **per source Actor** |
+| `_SigSep` | A [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) Stat | A separate value **per Effect Signature** |
+| `_SigNSrcSep` | A Signature **and** Source Separated Stat | A separate value **per Signature, per source Actor** |
+
+Take a Reflector Stat with a value of `0.2`:
+
+- `_Normal` — reflect 20% of everything, back at whoever hit you.
+- `_SrcSep` — reflect 20% only of the damage a *particular* Actor deals to you. A curse cast by one boss reflects only that boss's hits.
+- `_SigSep` — reflect 20% only of Effects carrying a particular Signature. Fire damage bounces back; physical damage does not.
+- `_SigNSrcSep` — both filters at once. Reflect 20% of the fire damage *that boss* deals, and nothing else.
+
+A Processor only ever ships the variations that make sense for it. A **Limiter** stops at `_SigSep`, because a min/max cap per source Actor is not a mechanic Power models.
+
+:::info
+The variation must match the Stat you assign. A `_SigSep` Processor that resolves a plain Stat logs a validation error and skips — it does not silently fall back to `_Normal`.
+:::
+
+## Effector variation
+
+`_Effector` changes **whose Repository** is queried on the source side. Instead of reading the Stat from the source Actor, it reads it from the **Effector's Actor**.
+
+This matters when the thing dealing the Effect is not the thing that owns the stats. A turret, a thrown weapon, a summoned totem, a projectile — the Effect's source is the Actor who built it, but the rules should come from the object doing the hitting.
+
+`_Effector` variations only resolve the **Given** side of a relation; there is no Effector-side "Taken" key, because the Effector is never the target.
+
+## Signed variation
+
+`_Signed` splits a Relative Key in two: a **Positive** key and a **Negative** key. The Processor picks one based on the sign of the value it is handed, and contributes with that sign preserved.
+
+| | Unsigned | Signed |
+| --- | --- | --- |
+| Relative Keys | `ModifierTakenKey`, `ModifierGivenKey` | `ModifierPositiveTakenKey`, `ModifierPositiveGivenKey`, `ModifierNegativeTakenKey`, `ModifierNegativeGivenKey` |
+| Value of `0` | Processed normally | Skipped |
+| Behaviour | Same rule for damage and healing | Independent rules for damage and healing |
+
+Without it, a `HealingReceived` Modifier of `+50%` also amplifies incoming damage on the same Stat, because both are just "a change to Health". With `_Signed`, negative Health Effects route to one Modifier Stat and positive ones to another.
+
+Signed variations exist only inside the [Standard Processor](/docs/Assets/Processor/Processors/Standard) funnel, plus the two Processors that operate directly on Modifiers — `ModifierRemover` and `TimerModifier`. Preprocessors and Postprocessors outside the funnel run before the sign of the final value is known.
+
+`_SigSep_Signed` combines both: separated per Signature, and split by sign within each Signature.

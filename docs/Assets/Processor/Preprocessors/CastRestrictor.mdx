@@ -32,3 +32,14 @@ The resolved Stat must be an **Int Stat**.
 | **Cast Restrictor Relative Key** | The Relative Key used to resolve the Cast Restrictor Stat. |
 | **Use Conditional Modifier** | Allows the Cast Restrictor value to be conditionally modified before it is evaluated. |
 | **Conditional Modifier** | The Processor used to conditionally modify the Cast Restrictor value. |
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, each with an Effector form. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Resolves the Restrictor Stat from | Use case |
+| --- | --- | --- |
+| *(none)* | The **Source Actor** | *Silence* sets the Source's Cast Restrictor to `1`, so that Actor cannot apply Health Effects at all. |
+| `_Effector` | The **Effector's Actor** | A cursed sword carries the restriction itself. Its wielder can still cast spells and punch — but nothing swung with that blade lands. |
+
+`MAS` blocks the Effect if **any** of its Attribute Stats is restricted.

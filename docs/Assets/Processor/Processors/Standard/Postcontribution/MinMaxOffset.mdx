@@ -42,3 +42,14 @@ The resolved Stats must be:
 
 - **Float Stats** for the **MinMaxOffset_Float** Processor.
 - **Int Stats** for the **MinMaxOffset_Int** Processor.
+
+## Variations
+
+Ships as `AS` and `MAS` × `Float` `Int`. There is no `BS` form — the damage range belongs to the Attribute Stat that produced the value, not to the Stat being hit. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `ASPostcontribution_MinMaxOffset_Int` | A weapon's `PhysicalAttack` of `20` rolls in a `15`–`25` band, from Min Offset `-5` and Max Offset `+5`. |
+| `MASPostcontribution_MinMaxOffset_Int` | An Effect carrying `PhysicalAttack` and `FireAttack` rolls a separate spread for each, so the two halves vary independently. |
+
+The `_Float` assets are the same Processors for Float offsets.

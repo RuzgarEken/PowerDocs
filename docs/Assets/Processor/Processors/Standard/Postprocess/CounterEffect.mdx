@@ -18,3 +18,17 @@ The CounterEffect Stat is resolved as follows:
 - For the **Source Actor**, the CounterEffect Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's CounterEffect Relative Key**.
 
 The resolved Stat must be a **CounterEffect_Signed Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, in the four container variations, plus an Effector form for `Int`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain CounterEffect_Signed Stat | *Lifesteal* — after damage lands, heal the attacker for a share of it. Healing the target triggers nothing. |
+| `_SrcSep` | A Source Separated Stat | Only the marked enemy's hits trigger the counter, so a boss mechanic does not fire on every trash mob. |
+| `_SigSep` | A Signature Separated Stat | *Ember Feedback* — only fire damage that actually lands triggers the counter burst. |
+| `_SigNSrcSep` | Signature **and** Source Separated | Counter one enemy's fire damage after the fact, and nothing else. |
+| `_Effector` | Resolved on the **Effector's Actor** | The lifesteal belongs to the weapon rather than the wielder, so the same blade heals whoever carries it. |
+
+Running after the Effect has been applied is what makes this the right place for lifesteal, on-hit procs, and kill triggers — the value is final and the Result Attributes are known.

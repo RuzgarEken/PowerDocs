@@ -35,3 +35,13 @@ The resolved Stat must be a **Float Stat**.
 | **Use Conditional Hit Rate Modifier (Given)** | Enables conditional modification of the Source Actor's Hit Rate value before it is used. |
 | **Use Conditional Hit Rate Modifier (Taken)** | Enables conditional modification of the Target Actor's Hit Rate value before it is used. |
 | **Conditional Modifier** | The Conditional Modifier Processor used to modify the resolved Hit Rate values. |
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, with no container variations — the Hit Rate is always a plain Float Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Accuracy belongs to | Use case |
+| --- | --- | --- |
+| `BSEffectPreprocess_HitRate` | The **Target Stat** | Effects against `Health` roll to hit; Effects against `Mana` always land, because only `Health` declares a Hit Rate relation. |
+| `ASEffectPreprocess_HitRate` | The **Attribute Stat** | `PhysicalAttack` can miss against an evasive target, while `FireAttack` never does. |
+| `MASEffectPreprocess_HitRate` | **All** Attribute Stats, summed | An Effect carrying `PhysicalAttack` and `ThrownAttack` sums both Hit Rates, then rolls once. Combining Attribute Stats improves accuracy rather than stacking extra chances to miss. |

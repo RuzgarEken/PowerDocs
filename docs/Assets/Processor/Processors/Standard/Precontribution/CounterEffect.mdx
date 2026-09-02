@@ -18,3 +18,15 @@ The CounterEffect Stat is resolved as follows:
 - For the **Source Actor**, the CounterEffect Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's CounterEffect Relative Key**.
 
 The resolved Stat must be a **CounterEffect_Signed Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, in five container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain CounterEffect_Signed Stat | *Retaliation* — any incoming damage fires a counterattack before it lands, while incoming healing does not. |
+| `_SrcSep` | A Source Separated Stat | *Nemesis* — only damage from the marked enemy triggers the counter. |
+| `_SigSep` | A Signature Separated Stat | *Mana Shield* — only fire-signed damage triggers the drain; other damage passes. |
+| `_SigNSrcSep` | Signature **and** Source Separated | Counter only the fire damage dealt by one specific enemy. |
+| `_Effector` | Resolved on the **Effector's Actor** | A summoned totem carries the counter, so it fires wherever the totem is standing rather than wherever its owner is. |

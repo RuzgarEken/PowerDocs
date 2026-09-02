@@ -7,3 +7,9 @@ sidebar_position: 7
 The **Linker** Processor processes **Linker Effects** and links another Stat to the target Stat by adding the configured **Linker**.
 
 Once linked, the target Stat uses the linked Stat's value through the configured Linker whenever its **ModifiedValue** is updated.
+
+## Variations
+
+A single asset, `LinkerEffectProcessor`. Linking is structural, so it takes no type, container, or signed variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+Use case: a *Soul Bond* Effect links an ally's `Health` to the caster's, so the linked value feeds into the caster's ModifiedValue on every update.

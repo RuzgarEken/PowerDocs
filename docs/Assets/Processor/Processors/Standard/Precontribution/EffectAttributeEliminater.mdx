@@ -36,3 +36,14 @@ To eliminate one or more attributes, the Processor resolves an **Int Stat** call
 Effect Attribute elimination is evaluated separately for the **Source Actor** and the **Target Actor**.
 
 The Effect Attribute Eliminator Stat is resolved as follows:
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, with no container variations — the Eliminator is always a plain Int Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSPrecontribution_EffectAttributeEliminater_Int` | A boss's `Health` removes `Critable` from **negative** Effects only, so incoming damage never crits — but a healer's crit heal on the boss still works. |
+| `BSPrecontribution_EffectAttributeEliminater_Float` | The same rule on a Float Stat such as `MoveSpeed` or `ChargeProgress`. |
+
+The sign split is the reason to prefer this over the [Preprocess form](/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater), which cannot tell damage from healing.

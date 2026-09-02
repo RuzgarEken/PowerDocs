@@ -8,3 +8,8 @@ You can find a video tutorial for Injector Removers [▶ here](https://youtu.be/
 
 The **Injector Remover** Processor processes **Injector Remover Effects** and removes Injectors from the target Stat according to the filtering rules defined by the **Injector Remover Effect**.
 
+## Variations
+
+A single asset, `InjectorRemoverEffectProcessor`. All filtering lives on the Injector Remover Effect rather than in Processor variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+Use case: unequipping the *Ring of Vigor* fires a remover Effect that strips the Injector it added, and the wearer's `MaxHealth` drops back on the next update.

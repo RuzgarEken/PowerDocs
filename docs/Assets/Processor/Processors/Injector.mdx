@@ -7,3 +7,9 @@ sidebar_position: 6
 The **Injector** Processor processes **Injector Effects** and adds the configured **Injector** to the target Stat.
 
 Once added, the Injector becomes part of the target Stat and is applied whenever the Stat updates its **ModifiedValue**.
+
+## Variations
+
+A single asset, `InjectorEffectProcessor`. Injection is a structural operation on the Target Stat — there is no value to type, separate by Signature, or split by sign. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+Use case: a *Ring of Vigor* Effect injects a `+10% MaxHealth` Injector into the wearer's `MaxHealth` Stat. The Injector then recalculates on every update of that Stat, with no further Effects needed.

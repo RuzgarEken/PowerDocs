@@ -36,3 +36,12 @@ The Modifier Count Limit Stat is resolved as follows:
 The resolved Stat must be an **Int Stat**.
 
 This is a **Base Stat-only** Processor.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, with no container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSPrecontribution_ModifierCountLimit_Int` | `AttackPower` accepts at most three positive Modifiers, so buffs cap out — while any number of debuffs can still stack on it. |
+| `BSPrecontribution_ModifierCountLimit_Float` | The same cap on a Float Stat such as `CritRate`. |

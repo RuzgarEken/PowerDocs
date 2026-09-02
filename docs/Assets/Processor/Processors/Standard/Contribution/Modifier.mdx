@@ -25,3 +25,16 @@ The Modifier Stat is resolved as follows:
 - For the **Source Actor**, the Modifier Stat is obtained directly from the **Attribute Stat's Modifier Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **Modifier Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`. `BS` additionally ships signed and non-Stat forms. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain Modifier Stat | *Rage* — `+20%` to all outgoing damage. |
+| `_SigSep` | A Signature Separated Stat | One `DamageTaken` Modifier Stat holds separate values for fire, ice and physical, all read through the same relation. |
+| `_Effector` | Resolved on the **Effector's Actor** | The bonus lives on the weapon or turret rather than on its owner. |
+| `_Signed` | Positive/Negative Relative Keys | `BS` only. A `+50%` `HealingReceived` Modifier that boosts heals on `Health` without also boosting the damage. |
+| `_SigSep_Signed` | Signature Separated **and** signed | `+50%` to fire damage taken and `+50%` to fire-based healing, tracked independently. |
+| `NonStat_Modifier` | A constant on the Processor asset | `BS` only. A fixed global rule — a difficulty setting that scales all incoming damage — with no Stat to author or maintain. |

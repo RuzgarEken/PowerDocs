@@ -16,3 +16,15 @@ The Director Stat is resolved as follows:
 - For the **Source Actor**, the Director Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Director Relative Key**.
 
 The resolved Stat must be a **DirectorStat_Signed**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, in five container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain DirectorStat_Signed | *Sacrifice* — incoming damage is forwarded to the pact partner, while healing still lands on the original target. |
+| `_SrcSep` | A Source Separated Stat | Redirect only the damage from the Actor that placed the pact. |
+| `_SigSep` | A Signature Separated Stat | *Void Anchor* — only shadow-signed damage is siphoned away. |
+| `_SigNSrcSep` | Signature **and** Source Separated | Siphon one enemy's shadow damage and nothing else. |
+| `_Effector` | Resolved on the **Effector's Actor** | The redirect belongs to the projectile or trap that delivered the hit. |

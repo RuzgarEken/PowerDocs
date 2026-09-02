@@ -9,3 +9,12 @@ You can find a video tutorial for Timer Modifiers [▶ here](https://youtu.be/5P
 The **Effect Timer Modifier** Processor processes **Effect Timer Modifier Effects** and modifies the remaining duration of active Modifiers.
 
 A signed variant is also available. The signed Processor works with **EffectTimerModifier_Signed** Effects and only modifies Modifiers whose value sign matches the sign specified by the Effect.
+
+## Variations
+
+Ships in an unsigned and a signed form. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Affects | Use case |
+| --- | --- | --- |
+| `EffectTimerModifierProcessor` | Every matching Modifier's remaining duration | *Time Warp* — halves the remaining duration of everything currently on the target. |
+| `EffectTimerModifierProcessor_Signed` | Only Modifiers whose value sign matches the Effect's | *Second Wind* — extends the player's buffs by 3 seconds without also prolonging the poison they are standing in. |

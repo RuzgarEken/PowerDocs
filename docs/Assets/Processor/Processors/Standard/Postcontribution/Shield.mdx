@@ -32,3 +32,13 @@ The resolved Stat must be:
 
 - A **Float Stat** for the **Shield_Float** Processor.
 - An **Int Stat** for the **Shield_Int** Processor.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, with no container or signed variations — the Shield Stat is always a plain numerable Stat holding a positive pool. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | The Shield belongs to | Use case |
+| --- | --- | --- |
+| `BSPostcontribution_Shield_Int` | The **Target Stat** | A generic `HealthShield` soaks any damage to `Health`, whatever its type. |
+| `ASPostcontribution_Shield_Int` | The **Attribute Stat** | A *Fire Ward* only absorbs damage delivered through `FireAttack`; physical hits go straight to Health. |
+| `MASPostcontribution_Shield_Int` | **Every** Attribute Stat | An Effect carrying `PhysicalAttack` and `FireAttack` is drained against both the physical and the fire ward in turn. |

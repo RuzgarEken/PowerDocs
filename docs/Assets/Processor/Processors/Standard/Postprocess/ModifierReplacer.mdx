@@ -37,3 +37,14 @@ The Modifier Replacer Stat is resolved as follows:
 - For the **Source Actor**, the Modifier Replacer Stat is obtained directly from the **Attribute Stat's Modifier Replacer Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be an **Int Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, with no container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSStandardPostprocess_ModifierReplaceLimit_Int` | `Poison` allows one Modifier per source Actor. A second stack from the same enemy refreshes the debuff by replacing the old one instead of being dropped, so re-applying always feels like it did something. |
+| `BSStandardPostprocess_ModifierReplaceLimit_Float` | The same refresh behaviour on a Float Stat such as a `MoveSpeed` slow. |
+
+Being signed, it can hold separate replacement limits for buffs and debuffs on the same Stat — three stacking buffs, but only one debuff at a time.

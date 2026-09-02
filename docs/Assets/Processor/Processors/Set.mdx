@@ -19,3 +19,16 @@ Unlike Modifier-based Processors, the **Set** Processor does not create a Modifi
 - Vector3
 - Vector2Int
 - Vector3Int
+
+## Variations
+
+Ships as `BS` only, one asset per supported type. Set overwrites the Stat's RawValue and creates no Modifier, so there is nothing for container or signed variations to separate. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSEffectProcess_Set_Int` | Reset `ComboCounter` to `0` at the end of a turn. |
+| `BSEffectProcess_Set_Float` | Snap `ChargeProgress` back to `0` after a charged attack fires. |
+| `BSEffectProcess_Set_Actor` | Write the Actor found by a targeting query into a `CurrentTarget` Stat. |
+| `BSEffectProcess_Set_String` | Set a `CurrentState` Stat to `"Casting"` to drive animation or UI. |
+| `BSEffectProcess_Set_Pack` | Replace an Actor's equipped Effect Pack when a weapon is swapped. |
+| `BSEffectProcess_Set_Vector2` `_Vector3` `_Vector2Int` `_Vector3Int` | Set a `KnockbackEndPoint` or a `TilePosition` to an absolute value. |

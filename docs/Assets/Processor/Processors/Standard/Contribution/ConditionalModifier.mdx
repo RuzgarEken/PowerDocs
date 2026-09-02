@@ -23,3 +23,15 @@ The Conditional Modifier Stat is resolved as follows:
 - For the **Source Actor**, the Conditional Modifier Stat is obtained directly from the **Attribute Stat's Conditional Modifier Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **Conditional Modifier Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`. `BS` additionally ships signed forms. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| *(none)* | A plain Conditional Modifier Stat | *Executioner* — `+50%` damage while the target is below 30% Health. |
+| `_SigSep` | A Signature Separated Stat | One Conditional Modifier Stat holds a separate "below 30% Health" bonus per damage type — fire, physical, holy — instead of three Stats. |
+| `_Effector` | Resolved on the **Effector's Actor** | The condition and the bonus belong to the weapon, so the same blade behaves identically no matter who swings it. |
+| `_Signed` | Positive/Negative Relative Keys | `BS` only. *Bloodlust* amplifies damage taken by `+25%` while enraged, without also amplifying the healing you receive. |
+| `_SigSep_Signed` | Signature Separated **and** signed | Both at once: per-damage-type, and split by sign within each type. |

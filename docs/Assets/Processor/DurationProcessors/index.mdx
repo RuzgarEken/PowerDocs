@@ -21,3 +21,20 @@ See [**Duration Modifier Stats**](/docs/Assets/Stat/StatDefinition/DurationModif
 :::info
 Duration modification is performed when the Modifier is initially added. **DurationModifier Processes** do not continuously modify the duration of an existing Modifier.
 :::
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, each in a plain and a Signature Separated form. `BS` additionally ships a typeless pair that modifies durations without reading a numerable value. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain DurationModifier Stat | *Lingering Blessing* — every buff this Actor receives lasts 50% longer. |
+| `_SigSep` | A Signature Separated Stat | One DurationModifier Stat extends fire debuffs and shortens ice ones, read through the same relation. |
+
+| Subject | Reads the DurationModifier relation from | Use case |
+| --- | --- | --- |
+| `BS` | The **Target Stat** | `Stun` declares its own duration rule, so every stun on this Actor is shortened by *Tenacity*. |
+| `AS` | The **Attribute Stat** | The duration rule travels with `PoisonAttack`, applying wherever poison lands. |
+| `MAS` | **Every** Attribute Stat | An Effect carrying several Attribute Stats accumulates duration contributions from each. |
+
+`BSEffectDurationProcess_DurationModifier_Normal` and `_SigSep` are the typeless pair — they modify a Modifier's duration on Stats that carry no numerable value.

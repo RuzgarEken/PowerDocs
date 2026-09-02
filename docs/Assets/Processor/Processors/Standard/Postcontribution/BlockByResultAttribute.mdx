@@ -36,3 +36,13 @@ The Block By Result Attribute Stat is resolved as follows:
 - For the **Source Actor**, the Stat is obtained directly from the **Attribute Stat's Block By Result Attribute Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be an **Int Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, with no container or signed variations — the flag set is always a plain Int Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | The block rule belongs to | Use case |
+| --- | --- | --- |
+| `BSPostcontribution_BlockByResultAttribute_Int` | The **Target Stat** | A boss's `Health` blocks anything flagged `Critical`, so crits never land on it. |
+| `ASPostcontribution_BlockByResultAttribute_Int` | The **Attribute Stat** | `PoisonAttack` is blocked once flagged `Reflected`, preventing a reflect loop between two poisoned Actors. |
+| `MASPostcontribution_BlockByResultAttribute_Int` | **Every** Attribute Stat | The Effect is blocked as soon as any of its Attribute Stats objects to a Result Attribute. |

@@ -25,3 +25,14 @@ The CounterEffect Stat is resolved as follows:
 - For the **Source Actor**, the CounterEffect Stat is obtained directly from the **Attribute Stat's CounterEffect Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **CounterEffect Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, in four container variations. Unlike the [Standard Postprocess form](/docs/Assets/Processor/Processors/Standard/Postprocess/CounterEffect), these do not ship Effector or signed variations — they run outside the Standard funnel. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain CounterEffect Stat | *Death Rattle* — after any Health Effect resolves, check the result and detonate if the Actor died. |
+| `_SrcSep` | A Source Separated Stat | Only the tagged enemy's Effects fire the follow-up, so an escort mechanic reacts to the assassin and not the crowd. |
+| `_SigSep` | A Signature Separated Stat | *Conduction* — landing lightning damage chains to a nearby target; other damage types do not. |
+| `_SigNSrcSep` | Signature **and** Source Separated | Chain only the lightning dealt by one specific caster. |

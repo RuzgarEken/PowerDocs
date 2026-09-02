@@ -41,3 +41,14 @@ Mathf.Pow(
     Exponent
 )
 ```
+
+## Variations
+
+Ships as `AS` and `MAS` × `Float` `Int`. There is no `BS` form: the Processor's whole premise is an Attribute Stat meeting its Suppressor. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `ASContribution_MultiplierAgainstSuppressor_Int` | `PhysicalAttack` versus the target's `PhysicalDefense` — the classic attack/defense curve, resolved as a Multiplier contribution. |
+| `MASContribution_MultiplierAgainstSuppressor_Int` | An Effect carrying `PhysicalAttack` and `FireAttack` is reduced by `PhysicalDefense` **and** `FireResistance`, each through its own Suppressor relation. |
+
+The `_Float` assets are the same Processors for Float Suppressor Stats.

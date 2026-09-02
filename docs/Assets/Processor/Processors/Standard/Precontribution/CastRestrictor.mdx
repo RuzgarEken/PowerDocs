@@ -17,3 +17,12 @@ This is a **Source-side only** Processor.
 The Cast Restrictor Stat is resolved from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's Cast Restrictor Relative Key**.
 
 The resolved Stat must be an **Int Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, each with an Effector form. There is no `AS`/`MAS` form here — the check is made against the Target Stat's key on the Source Actor. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Resolves the Restrictor Stat from | Use case |
+| --- | --- | --- |
+| *(none)* | The **Source Actor** | A *Corrupted* Actor cannot apply **positive** Health Effects — it can damage allies but never heal them. |
+| `_Effector` | The **Effector's Actor** | A vampiric blade cannot heal, even in the hands of a cleric who otherwise can. |

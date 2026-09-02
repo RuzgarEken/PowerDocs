@@ -23,3 +23,13 @@ The Processor checks how many Modifiers on the **Target Stat** were applied by t
 For example, suppose a **Poison** Stat has a Source-side replacement limit of **1**.
 
 Even if the Target already has three Poison Modifiers, the new Modifier is added normally if none of them were applied by the current Source Actor. However, if one Poison Modifier already belongs to the current Source Actor, that Modifier is stopped and replaced by the incoming one.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, with no container variations — the replacement limit is always a plain Int Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | The limit belongs to | Use case |
+| --- | --- | --- |
+| `BSEffectPostprocess_ModifierReplacer` | The **Target Stat** | `Poison` holds one Modifier per source, so re-applying refreshes the debuff rather than being ignored. |
+| `ASEffectPostprocess_ModifierReplacer` | The **Attribute Stat** | The limit travels with `PoisonAttack`, so every Stat that poison touches gets the same refresh rule without repeating it. |
+| `MASEffectPostprocess_ModifierReplacer` | **Every** Attribute Stat | An Effect carrying several Attribute Stats is checked against each one's replacement limit in turn. |

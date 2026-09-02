@@ -20,3 +20,12 @@ The Hit Rate Stat is resolved as follows:
 - For the **Target Actor**, the Hit Rate Stat is obtained directly from the **Target Stat's Hit Rate Relative Stat**.
 
 The resolved Stat must be a **Float Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`, with no container variations — the Hit Rate is always a plain Float Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `BSPrecontribution_HitRate_Int` | An enemy has an evasion chance against **negative** Health Effects, while a healing Effect on the same Stat cannot miss. |
+| `BSPrecontribution_HitRate_Float` | A `MoveSpeed` slow that can be shrugged off, while speed buffs always apply. |

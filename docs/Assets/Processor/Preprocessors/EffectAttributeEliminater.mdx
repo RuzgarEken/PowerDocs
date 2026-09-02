@@ -44,3 +44,13 @@ The Effect Attribute Eliminator Stat is resolved as follows:
 - For the **Source Actor**, the Eliminator Stat is obtained directly from the **Attribute Stat's EffectAttributeEliminator Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be an **Int Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, with no container variations — the Eliminator is always a plain Int Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | The rule belongs to | Use case |
+| --- | --- | --- |
+| `BSEffectPreprocess_EffectAttributeEliminater` | The **Target Stat** | A boss's `Health` removes `Critable`, so nothing can crit it — whatever the attack. |
+| `ASEffectPreprocess_EffectAttributeEliminater` | The **Attribute Stat** | `PhysicalAttack` loses `Counterable` while the wielder is in stealth, so backstabs cannot be countered. |
+| `MASEffectPreprocess_EffectAttributeEliminater` | **Every** Attribute Stat | An Effect carrying `PhysicalAttack` and `PoisonAttack` is stripped by both — each Attribute Stat gets its own pass over the flags. |

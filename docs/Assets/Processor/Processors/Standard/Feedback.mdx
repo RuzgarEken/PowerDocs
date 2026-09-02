@@ -27,3 +27,16 @@ For example:
 ## Samples
 
 Example Feedback Processors can be found in the **Samples** package. These implementations demonstrate how to build custom Feedback Processors and can be used as a starting point for your own project.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, in a numerable and a `_Vector` form. Power Core provides the base classes; the Feedback assets themselves are project code. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Base class | Reads from | Use case |
+| --- | --- | --- |
+| `BSStandardFeedbackProcess` | The **Target Stat** | Floating damage numbers whose colour is chosen by the Stat that was hit — red for `Health`, blue for `Mana`. |
+| `ASStandardFeedbackProcess` | The **Attribute Stat** | The hit VFX follows the damage type, so `FireAttack` always burns regardless of which Stat it landed on. |
+| `MASStandardFeedbackProcess` | **All** Attribute Stats | An Effect carrying `PhysicalAttack` and `FireAttack` can spawn both feedbacks. |
+| `…_Vector` | Vector Target Stats | Feedback for knockback, displacement, and other vector Effects. |
+
+Because these run inside the Standard funnel, they are **signed**: derive from them when damage and healing need different feedback from the same Stat. Derive from the [plain Feedback Processors](/docs/Assets/Processor/FeedbackProcessors) instead when Result Attributes matter more than the sign.

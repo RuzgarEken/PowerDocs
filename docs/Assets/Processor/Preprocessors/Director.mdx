@@ -25,3 +25,15 @@ The Director Stat is resolved as follows:
 - For the **Source Actor**, the Director Stat is obtained directly from the **Attribute Stat's Director Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **Director Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`, each in five container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain Director Stat | *Bodyguard* — every Health Effect aimed at the escorted Actor is forwarded to the guard. |
+| `_SrcSep` | A Source Separated Stat | *Taunt* — only the taunted enemy's Effects are pulled onto the tank; the rest of the pack hits normally. |
+| `_SigSep` | A Signature Separated Stat | *Lightning Rod* — only lightning-signed Effects are redirected onto the rod. |
+| `_SigNSrcSep` | Signature **and** Source Separated | *Focused Taunt* — only the boss's lightning attacks are redirected, and only for the taunt's duration. |
+| `_Effector` | Resolved on the **Effector's Actor** | The redirect rule lives on the object doing the hitting: a parrying shield forwards whatever it deflects to a summoned decoy. |

@@ -23,3 +23,17 @@ The Reflector Stat is resolved as follows:
 - For the **Source Actor**, the Reflector Stat is obtained directly from the **Attribute Stat's Reflector Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **Reflector Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, in five container variations — thirty assets in all. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Normal` | A plain Reflector Stat | *Thorns* — reflect 20% of the final damage back at whoever dealt it, after Modifiers and crits. |
+| `_SrcSep` | A Source Separated Stat | *Curse of Reprisal* — reflect only the damage dealt by the boss that applied the curse; the rest of the pack is unaffected. |
+| `_SigSep` | A Signature Separated Stat | *Flame Mirror* — bounce fire damage back and let physical damage through, from a single Reflector Stat. |
+| `_SigNSrcSep` | Signature **and** Source Separated | Reflect the fire damage from one specific enemy, and nothing else. |
+| `_Effector` | Resolved on the **Effector's Actor** | A spiked shield reflects whatever it blocks. The reflection follows the shield, not the Actor holding it. |
+
+Reflecting here uses the **final** value, so crits and Modifiers are included. To reflect the raw incoming value instead, use the [Precontribution Reflector](/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector).

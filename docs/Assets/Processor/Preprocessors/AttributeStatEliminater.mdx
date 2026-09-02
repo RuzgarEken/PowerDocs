@@ -44,3 +44,12 @@ Both Eliminator Stats must be of type **SigSep_Int**.
 | **Processable By Attribute Stat Processors** | An Effect Attribute used as a requirement by Attribute Stat Processors. If all Attribute Stats are eliminated, this attribute is removed from the Effect, allowing it to continue through the processing funnel as a normal Base Stat Effect. |
 | **Use Conditional Modifier** | Allows the resolved Attribute Stat Eliminator value to be modified conditionally before it is evaluated. |
 | **Conditional Modifier** | The Processor used to conditionally modify the Eliminator value. |
+
+## Variations
+
+Ships as `AS` and `MAS` only — there is no `BS` form, because the Processor's entire job is to remove Attribute Stats. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+| Asset | Use case |
+| --- | --- |
+| `ASEffectPreprocess_AttributeStatEliminater` | The Effect carries a single `FireAttack` Attribute Stat. A *Fireproof Cloak* eliminates it, and the Effect continues as a plain Base Stat Effect with none of the fire scaling. |
+| `MASEffectPreprocess_AttributeStatEliminater` | The Effect carries `PhysicalAttack` **and** `FireAttack`. The cloak eliminates only `FireAttack`; the physical half still contributes normally. |
