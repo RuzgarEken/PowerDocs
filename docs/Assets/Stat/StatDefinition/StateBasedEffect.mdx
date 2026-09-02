@@ -16,6 +16,7 @@ It can be used to implement passive gameplay mechanics such as auras, low-health
 
 | Field | Description |
 | --- | --- |
+| **Skip Initial Evaluation** | By default the condition is evaluated as soon as the Stat is linked, so an Actor that already satisfies the condition receives the Effect immediately. Enable this to skip that first evaluation and react only to later changes. See **Initial Evaluation** below. |
 | **Use Multi Stat Check** | Evaluates the activation condition using multiple Stats instead of a single Stat. |
 | **Single Stat Check** | Defines the condition evaluated against a single Stat. |
 | **Multi Stat Check** | Defines the condition evaluated against multiple Stats. |
@@ -35,6 +36,21 @@ It can be used to implement passive gameplay mechanics such as auras, low-health
 | **Effect Source Actor Stat Key** | The **Stat Key** used to retrieve the Actor Stat. |
 | **Effect Apply Type** | Determines how the triggered Effect is applied. See **Effect Apply Types** below. |
 | **Environment Id** | The Environment Id to which the triggered Effect is sent. |
+
+## Initial Evaluation
+
+A State Based Effect describes a state, not an event: *while this condition holds, this Effect is applied*. So the condition is evaluated once when the Stat is linked. An Actor that spawns already below 50% Health gets its low-health buff immediately, without waiting for Health to change.
+
+Sometimes that isn't what you want. If the condition is already true in the Actor's **default** state, the Effect would fire on spawn for everyone.
+
+> **Example.** Glacier Pulse freezes enemies, and the thaw slow is driven by a `Frozen == 0` condition. Every enemy starts with `Frozen = 0`, so the initial evaluation would slow the whole encounter the moment it spawns. What you actually want is the *transition* — `Frozen` going from `1` back to `0`.
+
+Enable **Skip Initial Evaluation** for that case. The Stat then ignores the state it is linked in, and only reacts once a tracking Stat is updated.
+
+| Skip Initial Evaluation | Behaviour |
+| --- | --- |
+| **Disabled** (default) | Level-triggered — the Effect applies immediately if the condition is already satisfied |
+| **Enabled** | Edge-triggered — the Effect applies only when a later update makes the condition satisfied |
 
 ## Toggle On Value Types
 
