@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+description: Set up a Power world with the Quick Initializer, then build a working damage Effect from scratch.
 ---
 
 import Highlight from '@site/src/components/Highlight';
@@ -20,83 +21,241 @@ import DamagingGif from './images/DamageGif.gif';
 
 # Getting Started
 
-The **Getting Started** guide provides a quick introduction to Power and helps you get up and running.
+This guide takes you from a fresh project to a working mechanic: a real-time scene with a player and an enemy, where hitting the enemy takes five points off its health.
 
-For more detailed explanations and practical examples, check out the **Video Tutorials**. These videos cover Power's features and workflows in greater depth.
+It has three parts.
+
+1. **[The model](#1-the-model)** — the five elements of Power, and how Stats are organized.
+2. **[Setting up the world](#2-setting-up-the-world)** — the Quick Initializer, which generates the World, Diplomacy, and Actor assets for you.
+3. **[Your first Effect](#3-your-first-effect)** — building the damage Effect and delivering it.
+
+For deeper explanations of everything below, the video series covers Power's features and workflows step by step.
 
 [▶ Watch the Power Video Tutorials on YouTube](https://www.youtube.com/playlist?list=PLAVxVgoBmZhM)
 
+---
+
+## 1. The model
+
 Power flow consists of five elements: <Highlight>Actor</Highlight>, <Highlight>Stat</Highlight>, <Highlight>Effector</Highlight>, <Highlight>Effect</Highlight>, and <Highlight>Processor</Highlight>.
 
-- <Highlight>Actor</Highlight>s contain <Highlight>Stat</Highlight>s.
+- <Highlight>Actor</Highlight>s contain <Highlight>**Stat**</Highlight>s.
 - <Highlight>Effector</Highlight>s apply <Highlight >Effect</Highlight>s through <Highlight>Processor</Highlight>s to modify <Highlight>Stat</Highlight>s.
 
 <PowerFlow />
 
-The overall concept is easy to understand.
-In practice, using Power is mostly about defining relations between Power assets.
+The overall concept is easy to understand. In practice, using Power is mostly about defining relations between Power assets.
 
-All actors store their stats in a multi layered container structure.
+### How Stats are organized
 
-At the top level there is the Stat Repository. This holds the full stat definition set and is used by the Actor at runtime.
+All Actors store their Stats in a multi-layered container structure. At the top level there is the **Stat Repository** — it holds the full Stat Definition set and is what the Actor uses at runtime.
 
-The stat hierarchy is structured as follows: <Highlight color="#ffffff">Repository -> Environment -> Container -> Stat</Highlight>
+The hierarchy is: <Highlight color="#ffffff">Repository → Environment → Container → Stat</Highlight>
 
 <StatStructure />
 
 **Container**
 
 Containers group Stat Definitions of the same type.
-<img src={ContainerReference} alt="ContainerModel reference" />
+<img src={ContainerReference} alt="ContainerModel reference" style={{ margin: '1rem 0' }}/>
 For example
   - IntContainer contains Int stats
   - GeneratorFloatContainer contains GeneratorFloat stats
   - StateBasedEffectContainer contains StateBasedEffect stats
 
-**Environment** 
+**Environment**
 
-Environments group different types of stat containers together.
-<img src={EnvironmentReference} alt="EnvironmentModel reference" />
+Environments group different types of Stat Containers together.
+<img src={EnvironmentReference} alt="EnvironmentModel reference" style={{ margin: '1rem 0' }}/>
 
-**Repository** 
+**Repository**
 
-The repository holds multiple stat environments.
-<img src={RepositoryReference} alt="RepositoryModel reference" />
-In simple systems, working only with the Default Environment may be sufficient.
-However, you may also need systems that require multiple environments.
-For example, imagine a robot with multiple limbs, each having its own health.
-When we shoot the robot’s arm and its health reaches zero, we can disable that specific limb.
-In this case, we can define separate environments for each limb such as the arm and other body parts.
-This allows each environment to have different health values, damage multipliers, and unique reactions to damage events.
+The Repository holds multiple Stat Environments.
+<img src={RepositoryReference} alt="RepositoryModel reference" style={{ margin: '1rem 0' }}/>
 
-We use Effects to modify stats. Effects define the data describing how a stat should be changed. This Effect is passed through a process flow on the target, and the resulting value is applied to the stat as a modifier.
-Let’s understand this process through an example.
+In simple systems, working only with the Default Environment may be sufficient. However, you may also need systems that require multiple environments.
 
+For example, imagine a robot with multiple limbs, each having its own health. When we shoot the robot's arm and its health reaches zero, we can disable that specific limb. In this case, we can define separate environments for each limb such as the arm and other body parts. This allows each environment to have different health values, damage multipliers, and unique reactions to damage events.
 
-Let’s say we want to decrease the enemy’s health by five.
+---
+
+## 2. Setting up the world
+
+Before any Effect can run, Power needs a **World**: something to tick timers, something to decide who counts as an enemy, and a Stat Repository for your Actors to use.
+
+You could create each of those assets by hand. The **Quick Initializer** generates all of them in one pass.
+
+### Import General Expansions first
+
+Open the Power Editor from **Tools → Power → Editor**, then go to **Tools → Sample Importer** and import **General Expansions**.
+
+Do this *before* running the Initializer. The Initializer's Diplomacy Provider dropdown only lists provider types that already exist in the project, and the provider this guide uses — `PowerDiplomacyProvider_Battle` — ships with General Expansions.
+
+General Expansions also provides the **OnCollide Effector** used in [part 3](#3-your-first-effect), so one import covers both halves of this guide.
+
+### Open the Initializer
+
+In the Power Editor, go to **Tools → Initializer**. It has two sections: **Power Initializer** and **Quick World Initializer**.
+
+### Identifier Databases are already there
+
+Power's identifier databases — Stat Ids, Container Ids, Environment Ids, Relation States, and so on — are created automatically the first time the project loads, with their default values. There is nothing to do here, and nothing to click.
+
+The **Power Initializer** section's **Init Identifier Databases** button is a **reset**, not a setup step. It deletes the databases and recreates them from defaults.
+
+:::warning
+Pressing **Init Identifier Databases** on a project you have worked in **permanently deletes every custom identifier you have added**. This cannot be undone. Leave it alone unless you deliberately want to start the identifiers over.
+:::
+
+Everything below is the **Quick World Initializer** section.
+
+### Phase 1 — Updaters
+
+Updaters track the timing of Modifiers, Generators, and Effectors. The Initializer lists every Updater type in the project as a checkbox.
+
+| Updater | Pacing |
+| --- | --- |
+| `UpdaterModel_Realtime` | Durations tick in seconds. Modifiers expire on a clock, Generators fire on an interval. |
+| `UpdaterModel_Turnbased` | Durations tick in turns. Nothing advances until the game says a turn has passed. |
+
+This guide builds a real-time action scene, so tick **`UpdaterModel_Realtime`** and leave Turnbased unchecked.
+
+You can tick both. A game with real-time movement and a turn-based battle screen runs the two Updaters side by side, and each Effect chooses its pacing through its own duration settings.
+
+See [Updater](/docs/Assets/World/Updater) for the full picture.
+
+### Phase 2 — Diplomacy
+
+Diplomacy is how Power answers "is this Actor my enemy?" — which is what lets one damage Effect hurt enemies without also hurting your own team.
+
+Two fields:
+
+**Faction / team count** — set this to **2**: one team for the player, one for the enemies. The Initializer builds a relation matrix covering every pair of teams.
+
+**Diplomacy provider** — choose **`PowerDiplomacyProvider_Battle`**. It defines the five relation states this guide needs:
+
+| Relation State | Meaning |
+| --- | --- |
+| `Me` | The Actor itself |
+| `Team` | Same team number |
+| `Ally` | A different team, declared friendly |
+| `Neutral` | A different team with no declared relation — the fallback |
+| `Enemy` | A different team, declared hostile |
+
+The provider registers these into the Relation State identifier database when you press Initialize, so they become selectable on every asset that filters by relation.
+
+After initializing, open the generated **DiplomacyDefinition** asset and set the relation between **team 0** and **team 1** to **`Enemy`**. The Initializer creates the matrix but leaves the relations at their default value — declaring them is your call, not something it can guess.
+
+Each Actor's team is stored in an Int Stat called **`Stat_TeamNo`**, which the Initializer also generates. You do not author its value — the Diplomacy controller writes it at runtime when an Actor joins a team:
+
+```csharp
+PowerWorld.Diplomacy.AddMember(actor, teamId);
+```
+
+`AddMember` sets the Actor's `Stat_TeamNo` to the given team, registers the Actor as a member of that team, and keeps the two in sync afterwards — changing the Stat later moves the Actor to the new team on its own. So spawn your player with `AddMember(player, 0)` and your enemies with `AddMember(enemy, 1)`, and Diplomacy resolves them as enemies from there.
+
+Both samples do exactly this: see `PowerDemoArena.SpawnActor` in 3DCells and `GameController_SlayTheSphere` in Slay The Sphere.
+
+See [Diplomacy](/docs/Assets/World/Diplomacy) for relations, teams, and scope queries.
+
+### Phase 3 — Actor Types
+
+An **Actor Type** is a kind of Actor that needs its own Stat Repository — Player, Mob, Turret, Destructible Crate.
+
+For this guide, set the count to **1** and name it **`Character`**. Both the player and the enemy will use the same Repository, because both need the same Stats: health, a team number, and nothing else yet. They differ only in the *values* those Stats hold at runtime, not in which Stats exist.
+
+Add more Actor Types when Actors genuinely need *different Stats* — not merely different numbers.
+
+### Press Initialize
+
+| Asset | What it is |
+| --- | --- |
+| `WorldSettings` | The root asset. Points at the Updaters, Diplomacy Settings, and Log Settings below. |
+| `UpdaterModel_Realtime` | The Updater you ticked, registered into `WorldSettings.Updaters`. |
+| `DiplomacyDefinition` | The team relation matrix — one entry per team pair, awaiting your `Enemy` declaration. |
+| `DiplomacyProvider` | An instance of `PowerDiplomacyProvider_Battle`. |
+| `DiplomacySettings` | Team count, the provider, and the Team Stat Key. |
+| `Key_TeamNo` | Stat Key pointing at Default Environment → IntStat Container → TeamNo. |
+| `Stat_TeamNo` | The Int Stat Definition that holds an Actor's team number. |
+| `LogSettings` | Logging configuration for the World. |
+| `Repository_Character` | The Stat Repository for your Actor Type. |
+| `Environment_Character_Default` | Its Default Environment. |
+| `Container_Int_Character` | An Int Container inside that Environment, already holding `Stat_TeamNo`. |
+
+<RepositoryExample name="Repository_Character" stats={[
+  {key: 'Stat_TeamNo', value: 'Int'},
+]}>
+</RepositoryExample>
+
+That is a complete, valid World. Everything from here on is content you add to it.
+
+Assign `WorldSettings` to the **PowerWorld** component in your scene — see [PowerWorld](/docs/Components/PowerWorld).
+
+---
+
+## 3. Your first Effect
+
+We use Effects to modify Stats. An Effect defines the data describing how a Stat should be changed. It is passed through a process flow on the target, and the resulting value is applied to the Stat as a Modifier.
+
+Let's decrease the enemy's health by five.
 
 <DamageFlow />
 
-For this, we need a Float Health stat in the StatRepository.
-<img src={HealthStatReference} alt="HealthStat reference" />
+### The Health Stat
 
-We also need a <Highlight>FloatEffect</Highlight> with a value of minus five targeting the <Highlight>HealthStat</Highlight>.
-<img src={EffectReference} alt="Damage Effect targeting the HealthStat" />
+Add a **Float Health** Stat to `Repository_Character`.
 
-Effectors deliver their effects in Effect Packs, so we place our effect into <Highlight>Pack_Damage</Highlight>.
-<img src={PackReference} alt="EffectPack which contains the damage effect" />
+`Container_Int_Character` holds Int Stats, so Health needs a **Float Container** of its own inside `Environment_Character_Default`. Both Actors use this one Repository, so adding Health here gives it to the player and the enemy at once.
 
-To process the effect, we use a "<Highlight>Processor_Add_Float</Highlight>" Processor assigned in the <Highlight>ProcessDefinition</Highlight>.
-<img src={ProcessDefinition} alt="Process definition" />
-<img src={AddProcess} alt="Float Add Processor" />
+<img src={HealthStatReference} alt="HealthStat reference" style={{ margin: '1rem 0' }}/>
 
-As you can see, we assign the effect’s ProcessorId as **Add_Float**, matching the processor in the <Highlight>ProcessDefinition</Highlight>.
-The <Highlight>Damage</Highlight> effect is BaseStat(BS) effect without any attribute stats, so we use plain BSEffectProcess(For details about BaseStat and AttributeStat effects see the Effect Flow section)
+### The Effect
 
-After assigning the StatRepository and ProcessDefinition to the Actor, it looks like this: 
-<img src={ActorEntity} alt="ActorEntity view with ProcessDefinition and StatRepository assigned" />
+We need a <Highlight>FloatEffect</Highlight> with a value of minus five targeting the <Highlight>HealthStat</Highlight>.
 
-Finally, we use an On Collide Effector to apply the effect to the target.
-<img src={OnCollideEffector} alt="OnCollideEffector view with Damage Pack assigned" />
+<img src={EffectReference} alt="Damage Effect targeting the HealthStat" style={{ margin: '1rem 0' }}/>
+
+### The Effect Pack
+
+Effectors deliver their Effects in Effect Packs, so we place our Effect into <Highlight>Pack_Damage</Highlight>.
+
+<img src={PackReference} alt="EffectPack which contains the damage effect" style={{ margin: '1rem 0' }}/>
+
+### The Processor
+
+To process the Effect, we use a `Processor_Add_Float` Processor assigned in the <Highlight>ProcessDefinition</Highlight>.
+
+<img src={ProcessDefinition} alt="Process definition" style={{ margin: '1rem 0' }}/>
+<img src={AddProcess} alt="Float Add Processor" style={{ margin: '1rem 0' }}/>
+
+As you can see, we assign the Effect's ProcessorId as **Add_Float**, matching the Processor in the <Highlight>ProcessDefinition</Highlight>.
+
+The <Highlight>Damage</Highlight> Effect is a BaseStat (BS) Effect without any Attribute Stats, so we use the plain `BSEffectProcess`. See [Effect Flow](/docs/CoreConcepts/EffectProcessFlow) for the difference between BaseStat and AttributeStat Effects.
+
+### The Actor
+
+Assign the `Repository_Character` and the ProcessDefinition to the Actor:
+
+<img src={ActorEntity} alt="ActorEntity view with ProcessDefinition and StatRepository assigned" style={{ margin: '1rem 0' }}/>
+
+Both Actors use the same Repository and the same ProcessDefinition. What separates them is their team, and that is assigned at runtime through `PowerWorld.Diplomacy.AddMember(actor, teamId)` as described above — there is nothing team-related to set on the Actor asset.
+
+### Delivering it
+
+Finally, we use the **OnCollide Effector** from **[General Expansions](/docs/Samples/GeneralExpansions/index.mdx)** to apply the Effect to the target. The scene and character used in this example are provided by **[3DCells](/docs/Samples/3DCells/index.mdx)**.
+
+<img src={OnCollideEffector} alt="OnCollideEffector view with Damage Pack assigned" style={{ margin: '1rem 0' }}/>
+<br />
+
 And the result:
-<img src={DamagingGif} alt="Gif show how effect apply to the target" />
+
+<img src={DamagingGif} alt="Gif show how effect apply to the target" style={{ margin: '1rem 0' }}/>
+
+---
+
+## Where to go next
+
+- **[Features](/docs/Features)** — everything Power can do, grouped by concept.
+- **[Effect Process Flow](/docs/CoreConcepts/EffectProcessFlow)** — what happens between an Effect being sent and a Stat changing.
+- **[3DCells](/docs/Samples/3DCells)** — a real-time action sample with 15 weapons, built on exactly the setup above.
+- **[Slay The Sphere](/docs/Samples/SlayTheSphere)** — the same systems, paced by `UpdaterModel_Turnbased`.
