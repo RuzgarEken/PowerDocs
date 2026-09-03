@@ -146,7 +146,7 @@ The provider registers these into the Relation State identifier database when yo
 
 After initializing, open the generated **DiplomacyDefinition** asset and set the relation between **team 0** and **team 1** to **`Enemy`**. The Initializer creates the matrix but leaves the relations at their default value — declaring them is your call, not something it can guess.
 
-Each Actor's team is stored in an Int Stat called **`Stat_TeamNo`**, which the Initializer also generates. You do not author its value — the Diplomacy controller writes it at runtime when an Actor joins a team:
+Each Actor's team is stored in an Int Stat called **`Stat_TeamNo`**, which the Initializer also generates. The Diplomacy controller writes it at runtime when an Actor joins a team:
 
 ```csharp
 PowerWorld.Diplomacy.AddMember(actor, teamId);
