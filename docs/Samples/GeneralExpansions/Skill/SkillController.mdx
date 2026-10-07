@@ -1,0 +1,71 @@
+---
+sidebar_position: 5
+---
+
+# Skill Controller
+
+`ActorExtension_SkillController` is the [Actor Extension](/docs/Components/Actor#actor-extensions) that owns an Actor's Skills and runs them every frame. Skills are added to it at runtime (`AddSkill`) — by a loader, an upgrade system, an equipment change — and activators ask it to use them.
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Interrupt Stat Keys** | Int Stats that cut every running Skill short the moment they turn on (`0` → non-zero), e.g. `Dead`, `Stunned`. Use them for Stats whose Animator transitions (*Any State → Die*) leave a Skill's animation: its `CastEnd` event would never arrive and the Skill would keep holding its channels and animator layer. |
+
+## API
+
+| Member | Description |
+|-------|-------------|
+| `AddSkill(skill)` / `RemoveSkill(instanceId)` | Gives / takes a Skill. Events `SkillAdded`, `SkillRemoving`. |
+| `GetSkill(skillId)` | The Actor's Skill with that id. |
+| `Skills` | Every Skill of the Actor. |
+| `InterruptAll(reason)` | Cuts every running Skill short and drops queued requests. The cast is closed properly: animator bools / layers are handed back, **WhileCasting** Effects stop and channels are released. |
+| `GetChannelHolder(channel)` | The State currently holding a channel (debug views). |
+
+## Channels
+
+Which Skills may run at the same time is decided by **channels**, not by a single *casting* flag.
+
+A channel names a part of the Actor a Skill occupies while it runs — `Weapon`, `Locomotion`, `Facing`… (*Power Editor › Enums › SkillChannelId*). Each [Skill State](./SkillState.mdx) lists the channels it **Occupies**. Two States can run together exactly when their channel sets don't overlap: an upper-body attack (`Weapon`) can play during a dash (`Locomotion`), two attacks (`Weapon` + `Weapon`) can't.
+
+When a State needs a channel that is held, its **On Conflict** decides:
+
+| Policy | Result |
+|-------|-------------|
+| **Deny** | The use fails now. |
+| **Queue** | The request waits up to **Queue Window** seconds and starts by itself as soon as the channels free. Queued requests are served by **Priority**. |
+| **Preempt** | A holder with strictly lower **Priority** is interrupted and the channels are taken. |
+
+A State's run goes through `Idle → Requested → Windup → Active → Recovery → Idle` (or `Interrupted`). Channels are held from **Requested** until it is back to **Idle**.
+
+The casting Stat of the [Casting Model](./CastingModel.mdx) is still published for Effects, UI and input — but nothing schedules against it.
+
+### Input buffer and combos
+
+With an **Input Buffer Window**, a use pressed while the State is running is remembered and starts the moment the State goes idle — on whichever State the Skill is then on. That is how an Evolver *attack 1 → attack 2 → attack 3* combo chains without dropped presses. **Interruptible Transition** decides whether a higher-priority Skill waiting for the same channels may cut in between two combo steps.
+
+## Activators
+
+| Component | Input |
+|-------|-------------|
+| `ActorExtension_KeyMappedSkillActivator` | Unity Input System: a **Skill Action Map** (Skill Id → input action name of the `PlayerInput`). Also spawns the Skill UI elements from **Skill Element Definitions**. |
+| `ActorExtension_NumericalSkillActivator` (3D sample expansions) | number keys `1…n` in skill order. |
+| `SkillElementExtension_ButtonActivator` | a UI button on a Skill element. |
+| `ActorExtension_RepeatSkills` | a timer: uses **Repeating Skill** every **Repeat Duration** seconds (turrets, autonomous attacks). With **Toggleable Skill** it stops the Skill **Toggle Off Duration** seconds after each start. A plain MonoBehaviour pointing at the **Skill Controller**. |
+| `SkillControllerExtension_StaticLoader` | not an activator: gives the Actor every Skill of a **Skill Container** when it starts. |
+
+:::info
+Nothing in Power's Effects can *cast* a Skill. Skills are started only by activators. To react to a cast, use the Skill's own **Skill Event Effects**, or a Counter Effect on a Stat the Skill writes.
+:::
+
+## Skill UI
+
+`SkillElement` prefabs (one per Skill, chosen by a `SkillElementPrefabDictionaryModel`) show a Skill on screen. Their extensions add the parts:
+
+| Extension | Shows |
+|-------|-------------|
+| `SkillElementExtension_Icon`, `_NameDisplay`, `_HoverDescription` | icon, name, tooltip |
+| `SkillElementExtension_CooldownProgress` | a fill image driven by the Use Blocker's cooldown relation |
+| `SkillElementExtension_FadeIconByUsableState`, `_InteractableStateSetter` | greys out / disables while the Use Blocker is above `0` |
+| `SkillElementExtension_KeyboardKeyDisplay` | the key bound to the Skill |
+| `ActorElementExtension_ActiveSkillDisplayView` | lists the Skills of an Actor in a container |

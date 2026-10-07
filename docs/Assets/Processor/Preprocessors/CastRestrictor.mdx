@@ -23,13 +23,14 @@ The Cast Restrictor Stat is resolved as follows:
 - For **BS** Processors, the Restrictor Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's CastRestrictorRelativeKey**.
 - For **AS/MAS** Processors, the Restrictor Stat is obtained directly from the **Attribute Stat's CastRestrictorRelativeKey**, since the Attribute Stat already belongs to the Source Actor.
 
-The resolved Stat must be an **Int Stat**.
+The resolved Stat must be an **Int Stat**, or a **SigSep** / **SrcSep** list of them. A list checks its Stats in order and the first one above 0 restricts the cast. A restricted cast adds the **Restricted Result Key** to the Effect's result attributes.
 
 ## Fields
 
 | Field | Description |
 | --- | --- |
 | **Cast Restrictor Relative Key** | The Relative Key used to resolve the Cast Restrictor Stat. |
+| **Restricted Result Key** | The Result Attribute added when the cast is restricted. |
 | **Use Conditional Modifier** | Allows the Cast Restrictor value to be conditionally modified before it is evaluated. |
 | **Conditional Modifier** | The Processor used to conditionally modify the Cast Restrictor value. |
 

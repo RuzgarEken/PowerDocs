@@ -4,4 +4,18 @@ sidebar_position: 6
 
 # To Vector Index
 
-Assigns the input value to a specified vector component while setting all other components to `0`.
+**ValueAdapter_FloatToVector3Index** puts a Float into one component of a Vector3 and sets the others to `0`.
+
+| Field | Description |
+| --- | --- |
+| **Vector Index** | The component that receives the value: `0` = X, `1` = Y, `2` = Z. |
+
+## Example
+
+A jump height of `3` turned into an upward offset:
+
+| Vector Index | Result |
+| --- | --- |
+| `0` | `(3, 0, 0)` |
+| `1` | `(0, 3, 0)` |
+| `2` | `(0, 0, 3)` |

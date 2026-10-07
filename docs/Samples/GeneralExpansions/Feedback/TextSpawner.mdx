@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+description: Text Spawner feedback — floating numbers and words above the target, styled by target Stat, sign and Result Attributes.
+---
+
+# Text Spawner
+
+**Text Spawner** feedback spawns floating numbers and words above the target: `-12`, `Crit! 40`, `+5`, `Dodged`. It is the [Feedback](./index.mdx) family for damage numbers, heal numbers and status words.
+
+## Fields (Float / Int)
+
+| Field | Description |
+|-------|-------------|
+| **Ignore Zeroes** | Shows nothing when the applied value is `0` (a fully absorbed hit, a 0-damage tick). |
+| **Spawn Offset** | World offset above the target. |
+| **Format** | Number format of the value (`"0"`, `"0.0"`). The sign is dropped (the style's color tells damage from healing) and whole numbers are shown without decimals. |
+| **Effect Styles** | Target **Stat Id** → **Positive Styles** / **Negative Styles** (Result Attributes → style) + **Fallback Positive Style** / **Fallback Negative Style**. |
+
+## Text style
+
+| Field | Description |
+|-------|-------------|
+| **Ignore** | Shows nothing for this case. |
+| **Prefab** | The `TextMeshProUGUI` prefab spawned. |
+| **Animation Style** | How it moves (`ScaleAndSlide`, played by the matching `FeedbackAnimator` of the Text Spawn Controller). |
+| **Use Formater** / **Format** | Wraps the number in a template: `$P` is replaced by the number — `"Crit! $P"`, `"+$P"`. |
+
+Styles are looked up by the exact Result Attribute combination. See [How a case is chosen](./index.mdx#how-a-case-is-chosen).
+
+## Text Spawn Controller
+
+One `TextSpawnController_Single` in the scene spawns and pools the texts: its **Parent** (a canvas `RectTransform`), **Pool Size** and **Animators** (one `FeedbackAnimator` per animation style, e.g. `FeedbackAnimator_Slide` with a `FeedbackAnimation_Slide` asset: **Slide Amount**, **Slide Duration**).
+
+`TextSpawnController_SplitScreen` (3D sample expansions) renders the texts per split-screen camera and stacks texts from the same Actor spawned within **Stack Window** seconds by **Stack Offset**, so simultaneous numbers don't overlap.
+
+## Examples
+
+| Goal | Setup |
+|-------|-------------|
+| Red damage numbers, green heals, big yellow crits | `BSFeedback_TextSpawner_Float` in `Process_Standard_Float`'s Feedback Processors. Health → Negative: `None` = red, `Critical` = yellow; Positive: `None` = green. |
+| *Dodged!* when a hit misses | A Negative style for `Missed` with **Use Formater** and Format `"Dodged"`. Blocked Effects still run Feedback. |

@@ -1,0 +1,20 @@
+---
+sidebar_position: 15
+---
+
+# Opposite Team
+
+**StatValueAdapter_OppositeTeam** returns the other team of a two-team game: `(value + 1) % 2` — `0` becomes `1`, `1` becomes `0`.
+
+## Example
+
+In [Slay The Sphere](/docs/Samples/SlayTheSphere) turns belong to teams: the player is team `0`, the enemies team `1`. Some Generators must tick on the **other** team's turn.
+
+`Stat_WeekDecay_STS` and `Stat_PhantomVeilGenerator_STS` turn on **Use Stat Turn**, read a `TeamNo` as their **Turn Stat**, and pass it through `StatValueAdapter_OppositeTeam_STS`:
+
+| `TeamNo` read | Generator ticks on turn |
+| --- | --- |
+| `0` | `1` |
+| `1` | `0` |
+
+A deflected projectile can use the same adapter to switch its own `TeamNo` to the deflector's opposite.

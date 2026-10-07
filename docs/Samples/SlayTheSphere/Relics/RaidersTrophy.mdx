@@ -10,16 +10,34 @@ Whenever an enemy dies, gain **1 [Energy](/docs/Samples/SlayTheSphere/Keywords#e
 
 A Linker adds a CounterEffect to every enemy's <PowerRef>Key_KillCounterEffects_STS</PowerRef> — the stat that collects Effects to run when that Actor is killed:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>RaidersTrophyEffectLink</strong> — Injector</summary>
+
 <InjectorExample
-  name="Effect_RaidersTrophyEffectLink"
+  name="RaidersTrophyEffectLink"
   into="KillCounterEffects"
   condition="Enemy is killed"
   effect="RaidersTrophyKillEffects"
 />
 
+</details>
+
+</div>
+
 The linked pack then runs on the player:
 
-<PackExample name="Pack_RaidersTrophyKillEffects_STS" target="Self">
-  <EffectExample name="Effect_Draw_STS" targetStat="DrawCount" value={1} />
-  <EffectExample name="Effect_Energy_STS" targetStat="Energy" value={1} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>RaidersTrophyKillEffects</strong> — Effect Pack</summary>
+
+<PackExample name="RaidersTrophyKillEffects" target="Self">
+  <EffectExample name="Draw" targetStat="DrawCount" value={1} />
+  <EffectExample name="Energy" targetStat="Energy" value={1} />
 </PackExample>
+
+</details>
+
+</div>

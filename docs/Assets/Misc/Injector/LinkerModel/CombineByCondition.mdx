@@ -1,0 +1,32 @@
+---
+sidebar_position: 3
+---
+
+# Combine By Condition
+
+Combines a constant **Value** into the target Stat, but only while a condition is met. It replaces the separate Add / Multiply / Rate Value By Condition Linkers.
+
+Ships for `Float`, `Int`, `Vector2`, `Vector2Int`, `Vector3`, `Vector3Int` and `EffectPack` target Stats.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Contribution Type** | **Flat** adds the Value, **Rate** multiplies by (1 + Value), **Multiplier** multiplies by the Value. Vectors combine per component. |
+| **Value** | The constant to combine. `Int` / `Vector2Int` / `Vector3Int` Linkers store a float (vector) Value so Rate and Multiplier can be fractional; the result is rounded, and Flat adds the Value rounded. |
+| **Use Multi Stat Check** | Checks several Stats with a Multi Stat Condition instead of the injector Stat with a Single Stat Condition. |
+| **Use Dynamic Condition** | Uses a **Dynamic Single Stat Condition** instead of a **Single Stat Condition** (single-stat mode). |
+| **Injector Condition** / **Dynamic Condition** | The condition checked against the injector Stat (single-stat mode). |
+| **Include Injector Stat** | Checks the injector Stat as the first Stat, before the Multi Stat Checker's own Stats. On by default (multi-stat mode). |
+| **Multi Stat Checker** | The Stats to check (each a Stat From) and the **Multi Stat Condition** (or **Dynamic Multi Stat Condition**) they must satisfy (multi-stat mode). |
+
+The `EffectPack` Linker merges its Pack into the target Pack Stat, so it only supports **Flat**.
+
+Stats whose keys have no Environment are resolved in the Environment of the Stat the Linker is injected into.
+
+## Example
+
+- **Use blocker:** `Int`, Flat `1`, condition "ammo equals 0" — the skill is blocked while out of ammo.
+- **Gate:** `Float`, Multiplier `0`, condition "toggle equals 0" — a bonus stat reads 0 until its boon is active. With **Use Multi Stat Check** the same Linker can also require the status to be present.
+
+3DCells' Ravenmark Bow does the first one with `LinkerDefinition_UseBlockByAmmoCount_3DC`: Int, **Flat** `1`, condition *equals 0* on the Injector Stat `RavenmarkBow_AmmoCount`.

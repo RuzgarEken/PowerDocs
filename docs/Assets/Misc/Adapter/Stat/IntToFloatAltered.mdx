@@ -7,3 +7,19 @@ sidebar_position: 8
 Transforms an `Int` Stat into a `Float` value after applying a predefined modification.
 
 See [**Alter Stat Value Adapters**](./Alter) for more information.
+
+| Field | Description |
+| --- | --- |
+| **Modifier** | The value applied to the Int after conversion. |
+| **Modify Type** | **Flat**, **Rate** or **Multiplier** — see [Alter](./Alter). |
+
+## Example
+
+In [Kodes](/docs/Samples/Kodes), Poison deals damage per stack. `LinkerDefinition_PoisonDamageByStack_R3D` multiplies the poison damage by the Int `Poison` stack count, which first has to become a Float:
+
+| Field | Value |
+| --- | --- |
+| Adapter | `StatValueAdapter_IntStackToMultiplier_R3D` |
+| Modify Type | **Multiplier** |
+| Modifier | `1` |
+| Incoming `Poison = 3` | → `3.0` — the Linker multiplies the damage by 3 |

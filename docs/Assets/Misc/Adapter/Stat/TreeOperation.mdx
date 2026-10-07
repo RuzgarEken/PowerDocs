@@ -1,0 +1,46 @@
+---
+sidebar_position: 13
+---
+
+# Tree Operation
+
+**StatValueAdapter_TreeOperation** combines **two** Stats into one value: the incoming Stat and a **Secondary Stat**, each optionally adapted by its own branch, then merged by a two-input Value Adapter.
+
+```
+incoming Stat ── Input Stat Branch ─────┐
+                                        ├── Merge Operation ──▶ result
+Secondary Stat ── Secondary Stat Branch ┘
+```
+
+Ships for `Float` and `Vector3` (*Create › Power › Misc › Value Adapter › Stat › Tree Operation*).
+
+| Field | Description |
+| --- | --- |
+| **Input Stat Branch** | A **Chain** Stat Value Adapter of the same type applied to the incoming Stat. Empty: the incoming Stat's value is used as it is (it must then already be of the adapter's type). |
+| **Secondary Stat** | The second Stat (`Stat From`: which Actor + which key). |
+| **Secondary Stat Branch** | A **Chain** adapter applied to the Secondary Stat. Empty: its value is used as it is. |
+| **Merge Operation** | A two-input **Value Adapter** that receives the secondary value and is applied to the input value — Vector3: [Sum](../Value/Vector/Sum.mdx), [Substract](../Value/Vector/Substract.mdx), [Direction](../Value/Vector/Direction.mdx), [Dot](../Value/Vector/Dot.mdx), [Reflect](../Value/Vector/Reflect.mdx). |
+
+The branches are typed **Chain** adapters: put a single Alter, Map Value… inside a Chain's **Stat Adapter** / **Adapters** list.
+
+## Example
+
+**A point in front of the caster** (dash destination = Position + Direction × 4, flattened):
+
+| Field | Value |
+| --- | --- |
+| incoming Stat | the Source's `Direction` |
+| Input Stat Branch | Vector3 Chain → Stat Adapter: Alter Vector3 (multiply by `4,4,4`); Adapters: Project On Plane (up) |
+| Secondary Stat | the Source's `Position` |
+| Merge Operation | Sum Vector3 |
+
+**A point behind the target, away from the attacker** (knockback end point = target Position + 4 × direction from the Source):
+
+| Field | Value |
+| --- | --- |
+| incoming Stat | the Target's `Position` |
+| Input Stat Branch | Vector3 Chain → Stat Adapter: a nested Tree Operation (Secondary = the Source's `Position`, Merge = Direction Vector3); Adapters: Alter Vector3 × 4 |
+| Secondary Stat | the Target's `Position` |
+| Merge Operation | Sum Vector3 |
+
+Both are typical **End Value Adapters** of a [Tween Effect](/docs/Assets/Effect/Tween).

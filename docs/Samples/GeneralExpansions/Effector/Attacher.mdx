@@ -1,0 +1,24 @@
+---
+sidebar_position: 5
+---
+
+# Attacher
+
+`Effector_Attacher` is an [On Collide](./OnCollide.mdx) Effector that, on each hit, **spawns another Effector and attaches it to what it hit**. Use it for things that stay on the target after the hit: a sticky bomb, a burning patch on the enemy, a leech that drains over time (an attached [On Stay](./OnStay.mdx)), a mark that explodes later.
+
+It has every field of **On Collide** (its own Effect Definitions are applied on the hit as usual), plus:
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Attaching Effector** | The Effector prefab spawned on each hit. |
+| **Attaching Target Entity** | What it is parented to: **Actor Entity** (the hit Actor's transform) or **Body Part Entity** (the hit [Actor Part](/docs/Components/Actor#actor-part)). |
+| **Attachment Point** | Where it is placed: **On Attached Entity** (the parent's position) or **On Collision Point** (where this Effector was when it hit). |
+| **Attachment Offset** | An offset added to that position. |
+| **Use Pooling** | Spawns the attached Effector from a pool instead of instantiating it. |
+| **Source As** | Who becomes the Source of the attached Effector (Source, Trigger Actor, Custom…). |
+| **Use Attached Effector Initializer** | Applies an initializer pack to the attached Effector's **Actor** right after it spawns (Source = this Effector's Source) — to copy a charge, a damage snapshot, a duration. |
+| **Use Predefined Initializer Pack** / **Initializer Pack** | The pack, or (off) **Initializer Pack Stat**: an Effect Pack Stat read from an interaction Actor. |
+
+The **TitanGreaves** sample in 3DCells uses an attached Effector for its knockback wall-slam.

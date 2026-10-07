@@ -4,6 +4,13 @@ sidebar_position: 2
 
 # Parent Actor
 
-Works with `ActorEntity` values.
+**ValueAdapter_ParentActor** returns the **parent Actor** of the `ActorEntity` it receives — the Actor a body part, a spawned object or an attached Actor belongs to. It has no fields.
 
-Returns the parent Actor of the provided `ActorEntity`.
+## Example
+
+In [Scrap Tossers](/docs/Samples/3DCells/ScrapTossers), `Skill_ScrapTossers_3DC` uses `ValueAdapter_ParentActor_3DC` as the **Actor Adapter** of one of its Skill event Effects: the Actor the event resolves to is replaced by its parent, so the Effect is applied to the owning Actor instead of the child.
+
+| Received | Returned |
+| --- | --- |
+| a robot's `Arm` Actor | the `Robot` Actor |
+| an Actor with no parent | `null` |

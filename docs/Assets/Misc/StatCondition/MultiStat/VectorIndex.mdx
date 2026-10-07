@@ -1,0 +1,36 @@
+---
+sidebar_position: 6
+---
+
+# Vector Index
+
+A **Vector Index Condition** compares the selected component of the first Vector Stat with the same component of the second: `first[index] <Compare Type> second[index]`.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Comparing Index** | The vector component to compare. |
+| **Compare Type** | How the first Stat's component is compared with the second's: Equals, Lower, Lower Or Equal, Greater, Greater Or Equal, Not Equals. |
+
+### Comparing Index
+
+- **0**: X
+- **1**: Y
+- **2**: Z
+
+### Supported Types
+
+- **Vector2**
+- **Vector3**
+- **Vector2Int**
+- **Vector3Int**
+
+## Example
+
+*A plunge attack: the attacker must be above the target.* Stats: the Source's `Position`, then the Target's `Position`; **Comparing Index** `1` (Y); **Compare Type** **Greater**.
+
+| Source `Position` | Target `Position` | Compared | Passes |
+| --- | --- | --- | --- |
+| `(2, 3.5, 1)` | `(2, 0, 1)` | `3.5 > 0` | yes |
+| `(2, 0, 1)` | `(2, 0, 1)` | `0 > 0` | no |

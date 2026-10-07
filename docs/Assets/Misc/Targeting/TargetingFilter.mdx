@@ -1,0 +1,63 @@
+---
+sidebar_position: 3
+---
+
+# Targeting Filter
+
+A **Targeting Filter** narrows a list of Actors produced by a **Relation State** or **Team Flags** target (on Redirectors, State Based Effects, Effectors) or by a [Custom Targeter](./CustomTargeter.mdx) / [Custom Actor](./CustomActor.mdx). The *source* of a filter is the **Relate To** Actor of that scope.
+
+Write your own by deriving from `TargetingFilter`.
+
+*Create › Power › Misc › Targeting Filter*
+
+## Chain
+
+Runs several filters in order; each one receives the result of the previous one.
+
+| Field | Description |
+| --- | --- |
+| **Filters** | The filters, in order. |
+
+## Distance
+
+Keeps the Actors whose distance to the source passes a comparison. Ships for `Vector2`, `Vector2Int`, `Vector3`, `Vector3Int`.
+
+| Field | Description |
+| --- | --- |
+| **Position Stat Key** | The position Stat, read on the source and on each Actor. |
+| **Comparer** | The float comparison on the distance (e.g. *Lower Or Equal 5*, or a range). |
+
+## Closest In Sight
+
+Keeps **one** Actor: the closest one inside the source's view cone. Actors without the position Stat are skipped; if nobody qualifies the list is emptied. Ships for `Vector2`, `Vector2Int`, `Vector3`, `Vector3Int`.
+
+| Field | Description |
+| --- | --- |
+| **Position Stat Key** | The position Stat. |
+| **Direction Stat Key** | The source's facing direction. |
+| **Direction Threshold** | The minimum dot product between the facing and the direction to the Actor. `1` = straight ahead only, `0` = a 180° cone, `−1` = all around. |
+| **Distance Cap** | The maximum distance. |
+
+## Random Actor Except Source
+
+Keeps one random Actor that is not the source. Use it for *bounce to another enemy*, *spread to a random ally*.
+
+## Stat Based
+
+Keeps the Actors whose Stat passes a condition.
+
+| Field | Description |
+| --- | --- |
+| **Stat Key** | The Stat checked on each Actor. |
+| **Comparer** | A **Single Stat Condition** asset. |
+
+## Examples
+
+| Goal | Filter |
+| --- | --- |
+| *a random enemy within range* | `TargetingFilter_RandomFoeInRange_R3D` (Kodes) — Chain [`TargetingFilter_InRange6_R3D` (Distance ≤ 10), `TargetingFilter_RandomActorExceptSource_R3D`] |
+| *every living enemy within 8 m* | `TargetingFilter_AliveInRange8` — Chain [`TargetingFilter_Alive` (Stat Based), `TargetingFilter_InRange8` (Distance ≤ 8)] |
+| *the closest living enemy in front* | `TargetingFilter_Chain_3DC` — Chain [`TargetingFilter_IsAlive_3DC`, `TargetingFilter_ClosestInSight_3DC` (**Direction Threshold** `0.15`, **Distance Cap** `10`)] |
+| *only foes that are not poisoned yet* | Stat Based — Stat `Poison`, condition *Equals 0* |
+
+Order matters in a Chain: filter by *alive* first, then pick the closest, or Closest In Sight may pick a dead Actor and leave nothing for the next filter.

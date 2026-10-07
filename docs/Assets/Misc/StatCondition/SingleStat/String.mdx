@@ -15,3 +15,16 @@ A **String Comparer** checks whether a string value is equal to another string v
 ### Supported Types
 
 - **String**
+
+## Example
+
+Ranged Deflect turns back only projectiles, not every Actor it hits. `Condition_IsSkillshot(String)` checks the hit Actor's `Tag` String Stat:
+
+| Field | Value |
+| --- | --- |
+| **Value** | `Skillshot` |
+
+| Hit Actor's `Tag` | Passes |
+| --- | --- |
+| `Skillshot` | yes — deflected |
+| `Melee` | no |

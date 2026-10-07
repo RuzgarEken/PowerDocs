@@ -1,0 +1,31 @@
+---
+sidebar_position: 4
+---
+
+# Distance
+
+A **Distance Condition** calculates the distance between two Vector Stats and evaluates the result using a comparison condition.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Project On Plane** | Measures the distance on a plane only: the offset between the two vectors is projected on the plane before its length is taken (with the ground plane, height is ignored). |
+| **Up Vector** | The plane's normal when **Project On Plane** is on. Default `(0, 1, 0)`. |
+| **Comparer** | The **Numerable Comparer** used to evaluate the calculated distance. |
+
+### Supported Types
+
+- **Vector2**
+- **Vector3**
+- **Vector2Int**
+- **Vector3Int**
+
+## Example
+
+| Asset | Stats | Comparer | Passes when |
+| --- | --- | --- | --- |
+| `Condition_DistantFoe` (Damage Boost To Distant Enemies) | Source `Position`, Target `Position` | **Greater Or Equal** `8` | the target is at least 8 m away |
+| `Condition_IsCloseToHook_3DC` ([Chain Hook](/docs/Samples/3DCells/ChainHook)) | two `Position` Stats | **Lower Or Equal** `1.2` | the pull has arrived |
+
+Player at `(0, 0, 0)`, target at `(6, 0, 8)`: distance `10` → `Condition_DistantFoe` passes.

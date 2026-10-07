@@ -10,8 +10,13 @@ When the affected enemy dies, deal damage equal to its **[Max HP](/docs/Samples/
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_PlagueBurst</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_PlagueBurst_STS"
+  name="Card_PlagueBurst"
   stats={[
     {key: 'Poison', value: 6},
     {key: 'Energy Cost', value: 1},
@@ -19,10 +24,32 @@ When the affected enemy dies, deal damage equal to its **[Max HP](/docs/Samples/
   ]}
 />
 
+</details>
+
+</div>
+
 The card applies Poison through the shared Effect, and separately records that amount against a <PowerRef>Key_PlagueBurst</PowerRef> marker on the target:
 
-<EffectExample name="Effect_Poison_STS" targetStat="Poison" valueStat="Poison" value={6} />
+<div className="prp-packs">
 
-<EffectExample name="Effect_PlagueBurst_STS" targetStat="PlagueBurst" valueStat="Poison" />
+<details>
+<summary><strong>Poison</strong> — Effect</summary>
+
+<EffectExample name="Poison" targetStat="Poison" valueStat="Poison" value={6} />
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>PlagueBurst</strong> — Effect</summary>
+
+<EffectExample name="PlagueBurst" targetStat="PlagueBurst" valueStat="Poison" />
+
+</details>
+
+</div>
 
 A shared death trigger watches every Actor's die condition; when a marked enemy dies, <PowerRef>Effect_PlagueBurst</PowerRef> deals damage equal to that enemy's Max HP to every remaining enemy.

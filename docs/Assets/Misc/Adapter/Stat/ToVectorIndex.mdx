@@ -4,4 +4,14 @@ sidebar_position: 11
 
 # To Vector Index
 
-Assigns the value of a Stat to a specified vector component while setting all other components to `0`.
+**StatValueAdapter_FloatToVector3Index** puts a Float Stat's value into one component of a Vector3 and sets the others to `0`.
+
+| Field | Description |
+| --- | --- |
+| **Index** | The component that receives the value: `0` = X, `1` = Y, `2` = Z. |
+
+## Example
+
+3DCells' vertical movement adds gravity and jumps to the horizontal movement vector. `Linker_AddVerticalSpeedToMovementY_3DC` (Combine **Flat**) feeds the Float `VerticalSpeed` through `StatValueAdapter_FloatToVector3Y_3DC` (**Index** `1`):
+
+`VerticalSpeed = −9.8` → `(0, −9.8, 0)` → added to the movement vector, so only its Y changes.

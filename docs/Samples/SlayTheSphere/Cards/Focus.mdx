@@ -10,8 +10,13 @@ Gain **2 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)**.
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_Focus</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_Focus_STS"
+  name="Card_Focus"
   stats={[
     {key: 'Discard', value: 3},
     {key: 'Energy', value: 2},
@@ -20,10 +25,32 @@ Gain **2 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)**.
   ]}
 />
 
+</details>
+
+</div>
+
 Both effects run through their shared templates — discard from hand, then refund Energy:
 
-<EffectExample name="Effect_Discard_STS" targetStat="DiscardCount" valueStat="Discard" value={3} />
+<div className="prp-packs">
 
-<EffectExample name="Effect_EnergyGain_STS" targetStat="Energy" valueStat="Energy" value={2} />
+<details>
+<summary><strong>Discard</strong> — Effect</summary>
 
-The card's use-blocker is `Stat_UseBlocker_ByEnergy_HandCountByDiscard`, which also stops it being played when you don't hold 3 cards to discard.
+<EffectExample name="Discard" targetStat="DiscardCount" valueStat="Discard" value={3} />
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>EnergyGain</strong> — Effect</summary>
+
+<EffectExample name="EnergyGain" targetStat="Energy" valueStat="Energy" value={2} />
+
+</details>
+
+</div>
+
+The card's use-blocker is `UseBlocker_ByEnergy_HandCountByDiscard`, which also stops it being played when you don't hold 3 cards to discard.

@@ -1,0 +1,50 @@
+---
+sidebar_position: 6
+---
+
+# Skill Extensions
+
+A Skill object (`SkillEntity`) is the prefab a [Skill Shot](./TargetingModel.mdx#skill-shot) Targeter spawns. It holds the **Effectors** that deliver the Effect Packs and, optionally, an **Actor** for per-cast Stats. **Skill Extensions** are components on the same prefab that move it, limit it and end it.
+
+## Lifetime
+
+| Extension | Does |
+|-------|-------------|
+| `SkillExtension_DisposeAfterTime` | disposes the object after a duration (through a `DisposableExtension_DisposeWithDuration`, realtime or turn-based) |
+| `SkillExtension_DisposeAfterAllEffectorsDisabled` | disposes it once every Effector has used up its hits |
+| `SkillExtension_DisposeWithStatCondition` | disposes it when a single / multi Stat check passes |
+| `SkillExtension_DisposeWithToggleState` | disposes it when its Toggleable Skill is turned off |
+| `SkillExtension_HitLimit` | disables an Effector after as many hits as a Stat says (piercing that upgrades can raise) |
+| `SkillExtension_OnDisposeEffectTrigger` | applies an Effect Pack when the object is disposed, if its checks pass — `Entity` is the object, `Source` the caster. Typical: refund a consumed buff when the shot hit nothing (hit count `0`). |
+
+## Movement (3D sample expansions)
+
+| Extension | Does |
+|-------|-------------|
+| `SkillExtension_MoveAlongDirection` | flies along a fixed direction at a fixed speed (optionally local) |
+| `SkillExtension_MoveAlongDirectionWithStats` | direction and speed read from Stats |
+| `SkillExtension_MoveAlongDirectionWithGravity` | a ballistic flight that falls with **Gravity** and stops on the ground layer |
+| `SkillExtension_HomingMove` | flies forward and slowly turns toward the closest target in front of it (limited turn rate, fixed range, flat); raises `RangeReached` at the end of its flight |
+| `SkillExtension_LobFromSource` | throws the object in an arc from the caster's hand to the targeter's point (**Launch Offset**, **Flight Time**, **Arc Height**, optional spinning visual); raises `Landed` |
+| `SkillExtension_MoveToSource` | after **Delay**, lerps back to the caster over **Duration**, applies **On Reach Effect Pack** to the caster and disposes — boomerangs |
+| `SkillExtension_StickModelToHitTarget` | sticks the visual model to the Actor the Effector hit |
+| `SkillExtension_RecoverableProjectile` | a projectile you get back: it sticks into what it hits, drops when that Actor dies (or after a while, or at the end of its flight), and when the caster walks over it applies a **Collect Pack** (e.g. `+1` ammo) and disposes |
+| `SkillExtension_TelegraphedBurst` | a ground-targeted blast with a warning: highlights **Radius** for the telegraph duration, then hits everything inside once through an `OverlapSphereDetector3D`, plays a burst and disposes. Optional falling visual (meteor) or arming when a lob lands (bomb). Nothing can touch it before the blast. |
+| `SkillExtension_ProjectileRangeTracker` | disposes the projectile once it travelled the distance in its range Stat |
+| `SkillExtension_ProjectileRangeTrackerWithStats` | the same, but accumulates the travelled distance into a Stat (so Effects can extend or shorten the flight) |
+| `SkillExtension_BodyPartExtender` | binds an [Actor Part](/docs/Components/Actor#actor-part) on the object to the caster, so the object counts as a part of the caster (a shield or barrier that takes hits for it) |
+
+## Highlights (3D sample expansions)
+
+`SkillHighlightExtension_Range`, `_ProjectileRange`, `_ProjectileRangeSprite` scale range indicators from the Skill's range Stats while aiming.
+
+## Targeter helpers (3D sample expansions)
+
+The Skill Shot Targeter places the object with three swappable assets:
+
+| Kind | Options |
+|-------|-------------|
+| **Parenter** | `SkillParenter_Global`, `_Body` (a body part), `_HumanoidPart` (a humanoid bone), `_PointingTarget` |
+| **Positioner** | `SkillPositioner_OffsetToSource`, `_OffsetToSourceBodyPart`, `_OffsetToSourceByPointer`, `_OnPointerBuiltIn`, `_ClosestRelatedActor` (on the closest Actor of a relation — ground-targeted spells) |
+| **Rotator** | `SkillRotator_IsometricSourceTowardPointer`, `_OffsetToSource`, `_OffsetToSourceBodyPart`, `_ToActorStatPosition` |
+| **Projectile Layouter** | `ProjectileLayouter_Forward` (a line), `ProjectileLayouter_Radial` (a fan / ring) |

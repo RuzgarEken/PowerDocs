@@ -32,34 +32,143 @@ As you might expect, this is a multi-state skill with states such as **Hook**, *
 
 When the Hook attack collides with an enemy, we use an Effect Pack to send the hook data to ourselves.
 
-![Hook to Actor Inform Pack](./images/ChainHook_HookPack.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>HookToActor</strong> — Effect Pack</summary>
+
+<PackExample name='HookToActor'>
+  <EffectExample name='LinkHookGrapPositionToTargetPosition' label={"Linker Effect (BS)"} targetStat={"ChainHook / Vector3 / HookGrapPosition"} processor='Linker' applyType='Temporary' />
+  <EffectExample name='IncreaseEvolutionNo_1' label={"Int Stat Effect (BS)"} targetStat={"ChainHook / IntClamped / SkillEvolutionNo"} value={"1"} />
+  <EffectExample name='Hooked' label={"Int Stat Effect (BS)"} targetStat={"ChainHook / IntClamped / Hooked"} processor='Add_Int' value={"1"} applyType='Temporary' />
+</PackExample>
+
+</details>
+
+</div>
 
 At the start of the pulling state, we use a **Linker** to copy the enemy's position to the **GrapPosition** Stat. This Stat is updated whenever the enemy moves.
 
 The **Tweener** Stat then uses the **Start** and **GrapPosition** Stats to interpolate the player's position toward the enemy.
 
-![Pull Tween Stat](./images/ChainHook_PullTweenStat.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>HookPullTween</strong> — Stat (Tweener Vector3)</summary>
+
+<SpecCard kind='stat' label={"Stat (Tweener Vector3)"} name='HookPullTween'>
+  <SpecRow label='Stat Key' icon='key'>{"ChainHook / Tween_Vector3 / HookPullTween"}</SpecRow>
+  <SpecRow label={"Default"}>{"0.5"}</SpecRow>
+  <SpecRow label={"Permanent Effects Consume Modifiers First"}>{"true"}</SpecRow>
+  <SpecRow label={"Consume From Oldest"}>{"true"}</SpecRow>
+  <SpecRow label={"Max"}>{"0.5"}</SpecRow>
+  <SpecRow label={"Togglable"}>{"true"}</SpecRow>
+  <SpecRow label={"Toggle Stat Key"} icon="key"><PowerRef>Key_Hooked_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Toggle On Value Type"}>{"On Positive"}</SpecRow>
+  <SpecRow label={"Ease"}>{"In Quad"}</SpecRow>
+  <SpecRow label={"Effect Template"}><PowerRef>Effect_HookPullTweenTemplate_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 We also set the **Hooked** flag to `true`.
 
 A **StateBasedTrigger** Stat listens for the **Hooked** flag and starts the pull tween when the flag is enabled.
 
-![Hook Pull Trigger](./images/ChainHook_HookTrigger.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>TriggerHookedEffects</strong> — Stat (StateBasedEffect)</summary>
+
+<SpecCard kind='stat' label={"Stat (StateBasedEffect)"} name='TriggerHookedEffects'>
+  <SpecRow label='Stat Key' icon='key'>{"ChainHook / StateBasedEffect / TriggerHookedEffects"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is1(Int)_3DC</PowerRef></SpecRow>
+  <PackExample name='TriggerHookedEffects' label={"Default"}>
+    <EffectExample name='HookPullTween' label={"Tween Effect Model BS Vector3"} targetStat={"ChainHook / Tween_Vector3 / HookPullTween"} processor='Tween_Vector3' />
+    <EffectExample name='MovementBlock' label={"Int Stat Effect (BS)"} targetStat={"Movement / IntClamped / MovementBlocker"} processor='Add_Int' value={"1"} applyType='Temporary' />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
 
 We also have a **ConditionalModifier** assigned to **SkillEvolutionNo**.
 
-![Hook Conditional State Modifier](./images/ChainHook_EvolutionNo.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ChainHook_EvolutionNo</strong> — Stat (Clamped Int)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Int)"} name='ChainHook_EvolutionNo'>
+  <SpecRow label='Stat Key' icon='key'>{"ChainHook / IntClamped / SkillEvolutionNo"}</SpecRow>
+  <SpecRow label={"Max"}>{"4"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 This modifier checks the distance to the closest enemy and determines which state should be activated next.
 
 If the distance check passes, the modifier adds the result to the incoming Effect value. This effectively skips the **Punch** state at index `3` and activates the **Kick** state at index `4`.
 
-![Hook Conditional State Modifier](./images/ChainHook_ConditionalStateModifier.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ConditionalEvolutionNoModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='ConditionalEvolutionNoModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"ScrapTossers / ConditionalModifier / ConditionalEvolutionNoModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_NoEnemyInSight_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The closest enemy is set when we toggle off the **Pull** state by pressing the skill button again.
 
-![Pull State Toggle Off](./images/ChainHook_HookToggleOff.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ToggleOff_2</strong> — Effect Pack</summary>
+
+<PackExample name='ToggleOff_2'>
+  <EffectExample name='RemoveCastingBlock_ToggleOff' label={"Modifier Remover Effect (BS)"} targetStat={"Default / IntClamped / SkillCastingOnProgress_"} processor='ModifierRemover' />
+  <EffectExample name='SetClosestEnemyDistance_2' label={"Float Stat Effect (BS)"} targetStat={"ChainHook / Float_EdgeValue / ClosestEnemyInSightDistance"} processor='Set_Float' applyType='Temporary' />
+  <EffectExample name='RemoveHookedModifiers_State_2' label={"Modifier Remover Effect (BS)"} targetStat={"ChainHook / IntClamped / Hooked"} processor='ModifierRemover' />
+  <EffectExample name='RemoveHookGrapPositionInjectors_State_2' label={"Injector Remover Effect (BS)"} targetStat={"ChainHook / Vector3 / HookGrapPosition"} processor='InjectorRemover' />
+  <EffectExample name='IncreaseEvolutionNo_2_Conditional' label={"Conditional Effect Model"} />
+</PackExample>
+
+</details>
+
+</div>
 
 The closest enemy is then assigned using the following Effect:
 
-![Set Closest Enemy Effect](./images/ChainHook_SetClosestEnemy.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>SetClosestEnemyDistance_2</strong> — Float Stat Effect (BS)</summary>
+
+<SpecCard kind='effect' label={"Float Stat Effect (BS)"} name='SetClosestEnemyDistance_2'>
+  <SpecRow label={"Processor Id"}>{"Set_Float"}</SpecRow>
+  <SpecRow label={"Attributes"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Apply Type"}>{"Temporary"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_ClosestEnemyInSightDistance_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Use Stat Value"}>{"true"}</SpecRow>
+  <SpecRow label={"Value Stat \u203a Actor"}>{"Custom"}</SpecRow>
+  <SpecRow label={"Value Stat \u203a Custom Actor"}><PowerRef>CustomActor_ClosestInSight_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Use Value Adapter"}>{"true"}</SpecRow>
+  <SpecRow label={"Value Adapter"}><PowerRef>StatValueAdapter_DistanceBetweenSource_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

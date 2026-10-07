@@ -9,3 +9,16 @@ Injects a value into a Stat.
 To understand how injection works, see [How Stat Values Are Evaluated](/docs/CoreConcepts/HowStatValuesAreEvaluated).
 
 The injection behavior depends on the selected `InjectorModel` type.
+
+| Injector Model | Does |
+| --- | --- |
+| [Absolute Value](./AbsoluteValue.mdx) | sets the Stat to a constant |
+| [Combine](./Combine.mdx) | adds, rates or multiplies by a constant |
+| [Limit](./Limit.mdx) | clamps the Stat with a constant as min or max |
+| [Alter Modifiers](./AlterModifiers.mdx) | rewrites the Stat's Modifier values by a constant |
+
+An Injector Model is attached with an [Injector Definition](../InjectorDefinitionModel.mdx) (always on) or an [Injector Effect](/docs/Assets/Effect/Injector) (while the Effect lives). For a value that comes from **another Stat**, use a [Linker Model](../LinkerModel/index.mdx).
+
+## Example
+
+A *Frozen* status sets `MoveSpeed` to `0` for 2 seconds, whatever buffs it carries: an [Injector Effect](/docs/Assets/Effect/Injector) on `MoveSpeed`, Temporary with a duration of `2`, attaching an [Absolute Value](./AbsoluteValue.mdx) Injector Model with **Value** `0`. When the Effect's Modifier expires, the Injector is removed and `MoveSpeed` goes back to its previous value.

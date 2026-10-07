@@ -12,8 +12,13 @@ Deal **12** damage.
 
 Bloodied Shiv composes the shared Attack template with the highest base damage of any Attack card and a starting cost of `0`.
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_BloodiedShiv</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_BloodiedShiv_STS"
+  name="Card_BloodiedShiv"
   stats={[
     {key: 'Damage', value: 12},
     {key: 'Energy Cost', value: '0 (before any HP loss)'},
@@ -21,26 +26,57 @@ Bloodied Shiv composes the shared Attack template with the highest base damage o
   ]}
 />
 
+</details>
+
+</div>
+
 Damage is applied by the same generic Effect every Attack card uses, which reads the card's own Damage value rather than carrying a fixed number:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>AttackDamage</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_AttackDamage_STS"
+  name="AttackDamage"
   targetStat="Health"
   attributeStat="AttackDamage"
   valueStat="Damage"
   value={12}
 />
 
-The one card-specific piece is a cost that grows as you take damage. A **CounterEffect** on <PowerRef>Key_HealthCounterEffectsTaken</PowerRef> fires every time the player loses HP, and it runs a Linker that permanently raises this card's `EnergyCost`:
+</details>
+
+</div>
+
+The one card-specific piece is a cost that grows as you take damage. A **CounterEffect** on <PowerRef>Key_Health_ReceivingCounterEffectSigned</PowerRef> fires every time the player loses HP, and it runs a Linker that permanently raises this card's `EnergyCost`:
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>LinkDamageIncreaseEnergyCost</strong> — Injector</summary>
 
 <InjectorExample
-  name="Effect_LinkDamageIncreaseEnergyCost_STS"
+  name="LinkDamageIncreaseEnergyCost"
   into="EnergyCost (this card)"
-  condition={<>Each HP-loss CounterEffect on <PowerRef>Key_HealthCounterEffectsTaken</PowerRef></>}
-  effect="Effect_IncreaseEnergyCost"
+  condition={<>Each HP-loss CounterEffect on <PowerRef>Key_Health_ReceivingCounterEffectSigned</PowerRef></>}
+  effect="IncreaseEnergyCost"
   order={1}
 />
 
-<EffectExample name="Effect_IncreaseEnergyCost" targetStat="EnergyCost" value={1} />
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>IncreaseEnergyCost</strong> — Effect</summary>
+
+<EffectExample name="IncreaseEnergyCost" targetStat="EnergyCost" value={1} />
+
+</details>
+
+</div>
 
 So after losing HP three times in a combat, Bloodied Shiv costs `3`.

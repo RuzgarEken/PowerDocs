@@ -4,4 +4,22 @@ sidebar_position: 5
 
 # Limit
 
-Limits the Stat value according to the injected value and the configured limit definition.
+Clamps the Stat value with a constant as a bound.
+
+Ships for `Float` and `Int`.
+
+| Field | Description |
+| --- | --- |
+| **Limit By** | **Min**: the Stat can't go below **Value**. **Max**: the Stat can't go above it. |
+| **Value** | The bound. |
+
+## Example
+
+*While Exhausted, your attack speed can't exceed 1.* An [Injector Effect](/docs/Assets/Effect/Injector) attaches a Limit Float Injector on `AttackSpeed` with **Limit By** **Max** and **Value** `1`:
+
+| `AttackSpeed` built | Reads |
+| --- | --- |
+| `0.8` | `0.8` |
+| `1.6` | `1` |
+
+The [Linker version](../LinkerModel/Limit.mdx) takes the bound from another Stat (`Shield` never above `MaxShield`).

@@ -4,4 +4,22 @@ sidebar_position: 2
 
 # Direction
 
-Returns the normalized direction from the input vector to a predefined vector.
+**ValueAdapter_Direction** returns the normalized direction between the input vector and a secondary vector.
+
+| Field | Description |
+| --- | --- |
+| **Secondary Vector** | The second vector. When the adapter is the **Merge Operation** of a [Tree Operation](../../Stat/TreeOperation.mdx), it is overwritten with the secondary Stat's value. |
+| **Process Order** | **Incoming To Sec**: `(input − secondary).normalized` — the direction *from the secondary point to the input point*. **Sec To Incoming**: `(secondary − input).normalized`. |
+
+Ships for `Vector2` and `Vector3`. Inside a Tree Operation with two positions it gives *the direction from one Actor to another* (knockback away from the attacker, pull toward the hooker).
+
+## Example
+
+Knockback away from the attacker: a [Tree Operation](../../Stat/TreeOperation.mdx) with the Target's `Position` as the incoming Stat, the Source's `Position` as the Secondary Stat, and Direction as the **Merge Operation**.
+
+| Target `Position` | Source `Position` | Process Order | Result |
+| --- | --- | --- | --- |
+| `(4, 0, 3)` | `(0, 0, 0)` | **Incoming To Sec** | `(0.8, 0, 0.6)` — away from the attacker |
+| `(4, 0, 3)` | `(0, 0, 0)` | **Sec To Incoming** | `(−0.8, 0, −0.6)` — toward the attacker, for a pull |
+
+3DCells uses `ValueAdapter_Direction_3DC` this way for the Titan Greaves, Twinblade Lance and Chain Hook knockbacks.

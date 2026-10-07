@@ -1,0 +1,24 @@
+---
+sidebar_position: 14
+---
+
+# Exceeding Value By Stat
+
+**StatValueAdapter_ExceedingValueByStat_Int** returns how far the incoming Int Stat is **above** a threshold Stat: `max(0, value − threshold)`.
+
+| Field | Description |
+| --- | --- |
+| **Threshold Stat Key** | The Int Stat used as the threshold. |
+| **Threshold Stat Key From** | The interaction Actor the threshold is read from (Source, Target…). |
+
+## Example
+
+A Skill's use blockers minus the blockers it is allowed to ignore — only the *exceeding* blockers stop it:
+
+| Incoming `UseBlockers` | Threshold `IgnoredBlockers` | Result |
+| --- | --- | --- |
+| `1` | `1` | `0` — the Skill can be used |
+| `3` | `1` | `2` — still blocked |
+| `0` | `1` | `0` (never negative) |
+
+In [Slay The Sphere](/docs/Samples/SlayTheSphere), `1_Effect_SetReserveAmount_STS` reads the player's `Block` through `StatValueAdapter_ExceedingValue_STS` (threshold `BlockReserveThreshold`) and stores only the Block above the threshold in `BlockReserveAmount`, to be given back on the next turn.

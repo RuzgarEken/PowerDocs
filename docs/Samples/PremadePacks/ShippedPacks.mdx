@@ -1,0 +1,1358 @@
+---
+sidebar_position: 1
+description: Every Premade Relation Pack that ships with Power, sorted by name — what it does, how to drive it, and the Stats, relations and assets it brings.
+---
+
+# Shipped Packs
+
+The **Premade Packs** sample (`PowerSamples/PremadePacks`) ships the packs below. Import it from **Power Editor → Initializer → Sample Importer**; its Stat Ids sit in `−3000…−3999` and are merged into your identifier databases on import.
+
+Every pack loads the same way — see [Loading a PRP](/docs/Assets/Misc/PremadeRelationPack#loading-a-prp). Packs ship **switched off**: their toggle or amount Stat defaults to `0`, and the mechanic is granted by an Effect that raises it.
+
+Each pack below is folded. Open one to see:
+
+- **Mechanic / Drive / Wires / Map / Processors** — the pack's own Description: what it does, which Stat turns it on, which relations loading writes, which keys you map, and what your processing chain needs.
+- **Formula** — the mechanic in one line. `$N` is a number you choose, `$Name` the **Name** you load the pack with.
+- **Environment** — the Stats the pack creates, with their types.
+- **External relations** — the relations written onto **your** Stats.
+- **External keys** — the keys that stand for your Stats; map them on load.
+- **Assets** — the Effects, Packs, Conditions, Adapters and Processors copied with it.
+
+## Combat
+
+Damage, crits, defenses, deflects, damage over time and on-kill effects.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Attack Damage Per Max Health</strong> — +X % attack per point of max health.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/AttackDamagePerMaxHealth']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Attack damage per max health: Attack x (1 + MaxHealth x MaxHealthDamageRate), through linker effects the EffectBundle MaxHealthDamageLinker applies on init. |
+| **Drive** | MaxHealthDamageRate 0.002 = +20 % per 100 max HP (ships 0). |
+| **Map** | MaxHealth, Attack. No external relation. |
+
+```text title="Formula"
+always => Linker[Self.Attack Rate + Self.MaxHealth x $N] | Owner Self | Granted(value MaxHealthDamageRate)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='AttackDamagePerMaxHealth' stats={[{key: 'MaxHealthDamageRate', value: 'Float_Clamped'}, {key: 'MaxHealthDamageBonus', value: 'Float_Clamped'}, {key: 'MaxHealthDamageLinker', value: 'EffectBundle'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_MaxHealth_AttackDamagePerMaxHealthPRP</PowerRef> — Default / FloatClamped / MaxHealth
+- <PowerRef>Key_Attack_AttackDamagePerMaxHealthPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_MaxHealthDamageLinker</PowerRef> |
+| Effects | <PowerRef>Effect_MaxHealthDamageFromSource</PowerRef> <PowerRef>Effect_MaxHealthDamageTimesRate</PowerRef> <PowerRef>Effect_MaxHealthDamageToAttack</PowerRef> |
+| Injectors / Linkers | <PowerRef>Linker_CombineFlat_Float</PowerRef> <PowerRef>Linker_CombineMultiplier_Float</PowerRef> <PowerRef>Linker_CombineRate_Float</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Attack Inflicts</strong> — Attack inflicts X — the hit target receives a pack you fill.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/AttackInflicts']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Attack inflicts anything: a counter on the attack (target = the hit foe) that applies $NameInflict while $NameToggle = 1 (ships 0). Load it once per mechanic with **Name** = the mechanic (VenomEdge) and the Environment mapping = the owner's environment: every load gets its own StatIds ($NameInflict → VenomEdgeInflict, $NameToggle → VenomEdgeToggle), so loads share an environment without colliding. $NameInflict ships EMPTY: fill it with whatever the hit delivers - a status inflict (poison, bleed, burn, slow, stun, weak, knockback ...: pushes first, the status +1 for $N s last) or any other effects. Its effects target the foe: give them the foe's keys. |
+| **Wires** | Attack —CounterEffect_ApplyingAS→ $NameInflict (joins the attack's counter list). |
+| **Drive** | +1 on $NameToggle. |
+
+```text title="Formula"
+Source hits => Counter[Pack_$NameInflict] -> Target | Owner Source | Granted(toggle $NameToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameInflict', value: 'CounterEffect'}, {key: '$NameToggle', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_AttackInflictsPRP' relations={[{key: 'CounterEffect_ApplyingAS', value: '$NameInflict'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Attack_AttackInflictsPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_$NameInflict</PowerRef> |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Backstab</strong> — More damage when attacker and target face the same way.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/Backstab']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Damage from behind (backstab): an attack whose attacker and target face the same way (dot &gt;= 0.7) deals BackstabDamage more (Rate, ships 0.5) and adds the BackStab result attribute. |
+| **Drive** | BackstabToggle = 1 (ships 0). |
+| **Wires** | Attack —ConditionalModifier_ApplyingAS→ BackstabDamage. |
+| **Map** | Direction → your facing Direction. |
+| **Processors** | AS/MAS ConditionalModifier contribution. |
+
+```text title="Formula"
+Source hits => ConditionalModifier[Rate + $N] | IF Source.Direction . Target.Direction >= $N | Owner Source | Granted(toggle BackstabToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Backstab' stats={[{key: 'BackstabDamage', value: 'ConditionalModifier_Float'}, {key: 'BackstabToggle', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_BackstabPRP' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'BackstabDamage'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Direction_BackstabPRP</PowerRef> — Movement / Vector3 / Direction
+- <PowerRef>Key_Attack_BackstabPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_Backstab_Dispatcher</PowerRef> <PowerRef>Condition_FromBehind</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Boost Crit Rate By Condition</strong> — Extra crit chance against targets meeting a condition.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/BoostCritRateByCondition']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Crit chance bonus under a condition on the target (shipped: the target's stat &gt;= 3, e.g. poison stacks): CritRateByCondition is a conditional modifier on the attacker's crit chance. |
+| **Drive** | add the bonus (ships 0). |
+| **Wires** | CriticalHitChance —ConditionalModifier_ApplyingAS→ CritRateByCondition (load Critical Hit first). |
+| **Map** | ConditionStat → the target stat to check, CriticalHitChance → yours. |
+| **Processors** | the crit contribution must use a conditional rate modifier; the asset pack ships MASContribution_CriticalHit_Float (_useConditionalRateModifier) and ASContribution_ConditionalModifier(Float-Generic). |
+
+```text title="Formula"
+Source hits => ConditionalModifier[crit chance + $N] | IF Target.$S >= $N | Owner Source | Granted(value CritRateByCondition)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='BoostCritRateByCondition' stats={[{key: 'CritRateByCondition', value: 'ConditionalModifier_Float'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='CriticalHitChance (yours)' statKey='CriticalHitChance_BoostCritRateByConditionPRP' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'CritRateByCondition'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_ConditionStat_BoostCritRateByConditionPRP</PowerRef> — Default / IntClamped / PoisonStackCount
+- <PowerRef>Key_CriticalHitChance_BoostCritRateByConditionPRP</PowerRef> — Default / FloatClamped / CriticalHitChance
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>ASContribution_ConditionalModifier(Float-Generic)</PowerRef> <PowerRef>Condition_GTE3(Int)</PowerRef> |
+| Processors | <PowerRef>MASContribution_CriticalHit_Float</PowerRef> |
+| Asset Pack | <PowerRef>PAP_BoostCritRateByCondition</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Critical Hit</strong> — Crit chance and crit damage on the attacker.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/CriticalHit']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Critical hits: CriticalHitChance (0..1) and CriticalDamageBonus on the attacker. |
+| **Drive** | add to the two stats (ships 0 = no crit). |
+| **Wires** | Attack —CriticalRate_Applying→ CriticalHitChance, —CriticalMultiplier_Applying→ CriticalDamageBonus. |
+| **Processors** | a CriticalHit contribution processor; the attack effect needs Critable + Modifiable. |
+
+```text title="Formula"
+Source hits => CriticalHit[chance $N, bonus $N] | Owner Source | Granted(value CriticalHitChance, CriticalDamageBonus)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='CriticalHIt' stats={[{key: 'CriticalHitChance', value: 'Float_Clamped'}, {key: 'CriticalDamageBonus', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack' relations={[{key: 'CriticalRate_Applying', value: 'CriticalHitChance'}, {key: 'CriticalMultiplier_Applying', value: 'CriticalDamageBonus'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Attack</PowerRef> — Default / FloatClamped / Attack
+
+</details>
+
+<details>
+<summary><strong>Damage Boost On Next Attack</strong> — Your next attack deals +X % — actor half.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageBoostOnNextAttack/Actor']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Damage boost on the next attack, actor half: NextAttackBoost (the charge), NextAttackDamageBonus (Rate), NextAttackBoostActive (the gate). |
+| **Asset Pack** | SkillObjectInitializer (on the attack's targeter: copies the boost into the spawned skill object when charged), ConsumeNextAttackBoost (on the attack's OnTriggered), NextAttackBoostGrant (+1 charge: the re-grant when the attack missed, or any driver). Load the Skillshot half into the skill object's repository first, then this mapping its keys to that Repository. |
+
+```text title="Formula"
+<grant event> => [Source.NextAttackBoost + 1]; Source's next attack => Modifier[Rate + $N] (snapshot on the skill object), spent on use | Owner Source | Granted(value NextAttackDamageBonus)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageBoostOnNextAttack' stats={[{key: 'NextAttackBoost', value: 'Int_Clamped'}, {key: 'NextAttackBoostActive', value: 'Int_Clamped'}, {key: 'NextAttackDamageBonus', value: 'Float_Clamped'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_SkillObjectDamageBoost_DamageBoostOnNextAttackPRP</PowerRef> — Default / Modifier / SkillObjectDamageBoost
+- <PowerRef>Key_NextAttackBoost_DamageBoostOnNextAttackPRP</PowerRef> — Default / IntClamped / NextAttackBoost
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_ConsumeNextAttackBoost</PowerRef> <PowerRef>Pack_NextAttackBoostClearDamageBoost</PowerRef> <PowerRef>Pack_NextAttackBoostGrant</PowerRef> <PowerRef>Pack_NextAttackBoostSetDamageBoost</PowerRef> <PowerRef>Pack_SkillObjectInitializer</PowerRef> |
+| Effects | <PowerRef>Effect_ClearSkillObjectDamageBoost</PowerRef> <PowerRef>Effect_ClearSkillObjectNextAttackBoost</PowerRef> <PowerRef>Effect_ConsumeNextAttackBoost</PowerRef> <PowerRef>Effect_GrantNextAttackBoost</PowerRef> <PowerRef>Effect_SetSkillObjectDamageBoost</PowerRef> <PowerRef>Effect_SetSkillObjectNextAttackBoost</PowerRef> <PowerRef>Effect_SkillObjectDamageBoostInitializer</PowerRef> |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> |
+| Asset Pack | <PowerRef>PAP_DamageBoostOnNextAttack</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Boost On Next Attack (Skillshot)</strong> — Your next attack deals +X % — skill-object half.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageBoostOnNextAttack/Skillshot']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Damage boost on the next attack, skill-object half: SkillObjectDamageBoost (Rate modifier the attack reads from its effector), SkillObjectHitCount, NextAttackBoost. |
+| **Wires** | Attack —Modifier_Applying→ SkillObjectDamageBoost (Effector contribution). Load into the skill object's repository into its Default Environment; give its prefab a SkillExtension_OnDisposeEffectTrigger with NextAttackBoostUnspent_Dispatcher ([0] hit count, [1] NextAttackBoost) → the actor's NextAttackBoostGrant, so a missed attack keeps the charge. |
+
+```text title="Formula"
+skill object spawns => [Self.SkillObjectDamageBoost = Source.$N] | Owner the skill object | Innate - driven by the Actor half
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageBoostOnNextAttack_Skillshot' stats={[{key: 'SkillObjectDamageBoost', value: 'Modifier_Float'}, {key: 'SkillObjectHitCount', value: 'Int_Clamped'}, {key: 'NextAttackBoost', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_DamageBoostOnNextAttack_SkillshotPRP' relations={[{key: 'Modifier_Applying', value: 'SkillObjectDamageBoost'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Attack_DamageBoostOnNextAttack_SkillshotPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_NextAttackBoostUnspent_Dispatcher</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Boost To Distant Enemies</strong> — More damage to targets beyond 8 m.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageBoostToDistantEnemies']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | More damage to distant enemies (sharp shooter): DamageToDistant more (Rate) when the target is at least 8 m away (MultiStatCondition_DistantFoe: change Comparer.Value). |
+| **Drive** | add to DamageToDistant (ships 0). |
+| **Wires** | Attack —ConditionalModifier_ApplyingAS→ DamageToDistant. |
+| **Map** | Position → yours. |
+| **Processors** | AS/MAS ConditionalModifier contribution. |
+
+```text title="Formula"
+Source hits => ConditionalModifier[Rate + $N] | IF Distance >= $N | Owner Source | Granted(value DamageToDistant)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageBoostToDistantEnemies' stats={[{key: 'DamageToDistant', value: 'ConditionalModifier_Float'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_DamageBoostToDistantEnemiesPRP' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'DamageToDistant'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Position_DamageBoostToDistantEnemiesPRP</PowerRef> — Movement / Vector3 / Position
+- <PowerRef>Key_Attack_DamageBoostToDistantEnemiesPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_DistantFoe</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Boost To Nearby Enemies</strong> — More damage to targets within 3 m.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageBoostToNearbyEnemies']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | More damage to nearby enemies: DamageToNearby more (Rate) when the target is within 3 m (MultiStatCondition_NearbyFoe: change Comparer.Value). |
+| **Drive** | add to DamageToNearby (ships 0). |
+| **Wires** | Attack —ConditionalModifier_ApplyingAS→ DamageToNearby. |
+| **Map** | Position → yours. |
+| **Processors** | AS/MAS ConditionalModifier contribution. |
+
+```text title="Formula"
+Source hits => ConditionalModifier[Rate + $N] | IF Distance <= $N | Owner Source | Granted(value DamageToNearby)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageBoostToNearbyEnemies' stats={[{key: 'DamageToNearby', value: 'ConditionalModifier_Float'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_DamageBoostToNearbyEnemiesPRP' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'DamageToNearby'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Position_DamageBoostToNearbyEnemiesPRP</PowerRef> — Movement / Vector3 / Position
+- <PowerRef>Key_Attack_DamageBoostToNearbyEnemiesPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_NearbyFoe</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Boost To Shielded</strong> — More damage while the target's shield is up.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageBoostToShielded']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | More damage to shielded enemies (breaching slash): DamageToShielded more (Rate) while the target's Shielded flag is 1. |
+| **Drive** | add to DamageToShielded (ships 0; +1 = double). |
+| **Wires** | Attack —ConditionalModifier_ApplyingAS→ DamageToShielded. |
+| **Map** | Shielded → the target's shield-up Int flag (or point the checker at Armor with a &gt; 0 condition). |
+
+```text title="Formula"
+Source hits => ConditionalModifier[Rate + $N] | IF Target.Shielded = 1 | Owner Source | Granted(value DamageToShielded)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageBoostToShielded' stats={[{key: 'DamageToShielded', value: 'ConditionalModifier_Float'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_DamageBoostToShieldedPRP' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'DamageToShielded'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Shielded_DamageBoostToShieldedPRP</PowerRef> — Default / IntClamped / Shielded
+- <PowerRef>Key_Attack_DamageBoostToShieldedPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Boost To Undamaged</strong> — More damage to full-health targets.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageBoostToUndamaged']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | More damage to full-health targets: DamageBoostToUndamaged (conditional modifier, PercentIs100(Float) on the target's Health). |
+| **Drive** | add the bonus (ships 0). |
+| **Wires** | Health —ConditionalModifier_ApplyingNegative→ DamageBoostToUndamaged. |
+| **Processors** | a BS ConditionalModifier contribution reading -79. |
+
+```text title="Formula"
+Source hits => ConditionalModifier[Rate + $N] | IF Target.Health is full | Owner Source | Granted(value DamageBoostToUndamaged)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageToUndamaged' stats={[{key: 'DamageBoostToUndamaged', value: 'ConditionalModifier_Float'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_DamageToUndamagedPRP' relations={[{key: 'ConditionalModifier_ApplyingNegative', value: 'DamageBoostToUndamaged'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DamageToUndamagedPRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_PercentIs100(Float)</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_PercentageOfRemain</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Nearby Enemies On Hit</strong> — Retaliation: when hit, damage every enemy within 8 m.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageNearbyEnemiesOnHit']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Retaliation: when the bearer takes damage from another team, every alive enemy within 8 m takes RetaliationDamage (BS, ships -10; signed intervener, not blocking, RelationState Enemy + AliveInRange8). |
+| **Drive** | RetaliationToggle = 1 (ships 0). |
+| **Wires** | Health —IntervenerEffect_ReceivingSigned→ RetaliationCounterEffect; on a container mismatch, link it with *Stat › Link To Stat*. |
+| **Map** | TeamNo, Position. |
+
+```text title="Formula"
+Self is hit => Intervener[Health + $N] -> RelationState(Self, Enemy, Distance <= $N, Alive) | IF Source is another team | Owner Self | Granted(toggle RetaliationToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageNearbyEnemiesOnHit' stats={[{key: 'RetaliationCounterEffect', value: 'IntervenerEffect_Signed'}, {key: 'RetaliationDamage', value: 'Float_Clamped'}, {key: 'RetaliationToggle', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_DamageNearbyEnemiesOnHitPRP' relations={[{key: 'IntervenerEffect_ReceivingSigned', value: 'RetaliationCounterEffect'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DamageNearbyEnemiesOnHitPRP</PowerRef> — Default / FloatClamped / Health
+- <PowerRef>Key_Position_DamageNearbyEnemiesOnHitPRP</PowerRef> — Movement / Vector3 / Position
+- <PowerRef>Key_TeamNo_DamageNearbyEnemiesOnHitPRP</PowerRef> — Default / Int / TeamNo
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_Retaliation</PowerRef> |
+| Effects | <PowerRef>Effect_RetaliationDamage</PowerRef> |
+| Conditions | <PowerRef>Condition_DifNot0(Int)</PowerRef> <PowerRef>Condition_GT0(Float)</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_Retaliation_Dispatcher</PowerRef> |
+| Targeting | <PowerRef>TargetingFilter_Alive</PowerRef> <PowerRef>TargetingFilter_AliveInRange8</PowerRef> <PowerRef>TargetingFilter_InRange8</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Over Time</strong> — Stacking damage over time (poison, bleed, burn).</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageOverTime']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Stacking damage over time (poison, bleed, burn, decay, any DoT): $NameStack (cap $NameMaxStack) drives $NameGenerator, whose template hits Health every tick for stacks x $NameBaseDamage. Load it once per DoT with **Name** = the status (Bleed → BleedStack, BleedBaseDamage) and the Environment mapping = the bearers' environment (the foes'): every load gets its own StatIds, so several DoTs share it. |
+| **Drive** | an inflict Add_Int +1 on $NameStack for $N s (Attack Inflicts fills its pack with it). No external relation: the tick effect targets Health itself. |
+
+```text title="Formula"
+every $N s while Self.$NameStack > 0 => Generator[Self.Health + $N x stacks] -> Self | Owner Self (the bearer) | Innate - switched on by an inflict Target.$NameStack + 1 for $N s
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameGenerator', value: 'Generator_Float_Clamped'}, {key: '$NameAttack', value: 'Float_Clamped'}, {key: '$NameBaseDamage', value: 'Float_Clamped'}, {key: '$NameStack', value: 'Int_Clamped'}, {key: '$NameMaxStack', value: 'Int_Clamped'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DamageOverTimePRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Injectors / Linkers | <PowerRef>LinkerDefinition_$NameStackToGenerator</PowerRef> <PowerRef>Linker_Combine_Float</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage Reduction On Low Health</strong> — Take less damage at or below 40 % health.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageReductionOnLowHealth']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Take less damage on low health (positive outlook): at or below 40 % health, incoming damage is reduced by DamageReductionOnLowHealth (signed Rate, Negative only). |
+| **Drive** | Add_Float -0.2 = 20 % less (ships 0). No team check. |
+| **Wires** | Health —ConditionalModifier_Receiving→ DamageReductionOnLowHealth. |
+| **Processors** | signed BS ConditionalModifier contribution. |
+
+```text title="Formula"
+Self is hit => ConditionalModifier[Rate + -$N] | IF Self.Health <= 40 % | Owner Self | Granted(value DamageReductionOnLowHealth)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageReductionOnLowHealth' stats={[{key: 'DamageReductionOnLowHealth', value: 'ConditionalModifier_Float_Signed'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_DamageReductionOnLowHealthPRP' relations={[{key: 'ConditionalModifier_Receiving', value: 'DamageReductionOnLowHealth'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DamageReductionOnLowHealthPRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_PercentLTE40(Float)</PowerRef> |
+| Value Adapters | <PowerRef>StatAdapter_PercentRemaining_Float</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Damage The Attacker</strong> — Thorns: an attacker takes fixed damage back.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DamageTheAttacker']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Thorns: an attacker who hits this actor takes RepelAttackDamage back (counter effect, Negate adapter). |
+| **Drive** | set RepelAttackDamage (0 = off). |
+| **Wires** | Attack —CounterEffect_ReceivingAS→ DamageTheAttacker. Consider a Reflector instead when the returned damage is a share of the hit. |
+
+```text title="Formula"
+Self is hit => Counter[Source.Health + $N] -> Source | Owner Self | Granted(value RepelAttackDamage)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageTheAttacker' stats={[{key: 'DamageTheAttacker', value: 'CounterEffect'}, {key: 'RepelAttackDamage', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_DamageTheAttackerPRP' relations={[{key: 'CounterEffect_ReceivingAS', value: 'DamageTheAttacker'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DamageTheAttackerPRP</PowerRef> — Default / FloatClamped / Health
+- <PowerRef>Key_Attack_DamageTheAttackerPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_DamageTheAttacker</PowerRef> |
+| Effects | <PowerRef>Effect_CounterDamage(AS)</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_Negate</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Delayed Damage (Source)</strong> — Doom — attacker half: store damage on the victim.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DelayedDamage/Source']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Delayed damage (doom), attacker half: DelayedDamage and DamageDelay on the attacker; DelayedDamageMark raises the victim's mark for DamageDelay seconds. Load Delayed Damage (Target) into the victims too. |
+
+```text title="Formula"
+Source hits => Counter[Target.DelayedDamage = Source.$N, Target.DelayedDamageMark + 1 for $N s] -> Target | Owner Source | Granted(toggle); Target half: Self.DelayedDamageMark -> 0 => StateBased[Self.Health + Self.DelayedDamage] -> Self
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DelayedDamage_Source' stats={[{key: 'DelayedDamage', value: 'Float_Clamped'}, {key: 'DamageDelay', value: 'Float_Clamped'}]} />
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effects | <PowerRef>Effect_DelayedDamageMark</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Delayed Damage (Target)</strong> — Doom — victim half: take the stored damage when the mark runs out.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DelayedDamage/Target']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Delayed damage (doom), victim half: DelayedDamage, DamageDelay, DelayedDamageMark and a trigger that deals the stored damage when the mark drops to 0. The attacker's inflict writes the victim's values and raises the mark (Attack Inflicts Doom + the Source half). |
+
+```text title="Formula"
+Self.DelayedDamageMark -> 0 => StateBased[Self.Health + Self.DelayedDamage] -> Self | Owner Self (the bearer) | Innate - written and raised by the Source half
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DelayedDamage_Target' stats={[{key: 'DelayedDamage', value: 'Float_Clamped'}, {key: 'DamageDelay', value: 'Float_Clamped'}, {key: 'DelayedDamageMark', value: 'Int_Clamped'}, {key: 'DelayedDamageTrigger', value: 'StateBasedEffect'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DelayedDamagePRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_DelayedDamageTrigger</PowerRef> |
+| Effects | <PowerRef>Effect_DelayedDamage</PowerRef> |
+| Conditions | <PowerRef>Condition_Is0(Int)</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_Negate</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Dodge Chance</strong> — Dodge chance on incoming damage.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/DodgeChance']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Dodge chance: incoming BS damage with the Stoppable attribute rolls against BaseHitRate (1 = always hit). |
+| **Drive** | Add_Float -0.15 = 15 % dodge (ships 1). |
+| **Wires** | Health —HitRate_ReceivingNegative→ BaseHitRate. |
+| **Processors** | Precontribution_HitRate_Float(BS) (shipped in the asset pack) in the BS float precontributions after Immune. If the actor already has a hit-rate stat, add to it instead of loading. |
+
+```text title="Formula"
+Self is hit => HitRate[Self.BaseHitRate + -$N] | Owner Self | Granted(value BaseHitRate)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DodgeChance' stats={[{key: 'BaseHitRate', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_DodgeChancePRP' relations={[{key: 'HitRate_ReceivingNegative', value: 'BaseHitRate'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_DodgeChancePRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Processors | <PowerRef>Precontribution_HitRate_Float(BS)</PowerRef> |
+| Asset Pack | <PowerRef>PAP_DodgeChance</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Effect Hits Twice</strong> — Chance to apply a Duplicatable Effect twice.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/EffectHitsTwice']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Chance to hit twice: with DoubleHitChance, an effect carrying Duplicatable (512) is applied a second time to the same target (Director, not blocking). The DoubleHit stat requires Duplicatable (its EffectAttributeRequirement) and clears it on the copy, so the copy never doubles again; Directable stays for other directors. Give the effects that may hit twice Duplicatable (+512 on their Attributes). |
+| **Drive** | add to DoubleHitChance (0..1, ships 0). |
+| **Wires** | Attack —Director_ApplyingAS→ DoubleHit (map Attack to the stat the effect to double carries). |
+| **Processors** | a Director postprocess reading Director_ApplyingAS. |
+
+```text title="Formula"
+Source hits => Director[the same hit] -> Target | chance $N | IF the hit is Duplicatable | Owner Source | Granted(value DoubleHitChance)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='EffectHitsTwice' stats={[{key: 'DoubleHit', value: 'Director'}, {key: 'DoubleHitChance', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_EffectHitsTwicePRP' relations={[{key: 'Director_ApplyingAS', value: 'DoubleHit'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Attack_EffectHitsTwicePRP</PowerRef> — Default / FloatClamped / Attack
+
+</details>
+
+<details>
+<summary><strong>Effect On Kill (Float)</strong> — When you kill, raise a Float Stat (heal, shield…).</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/EffectOnKill/Float']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Effect on kill, float: when the bearer kills (applies Dead +1 to a target) its own float stat gets + $NameOnKillAmount (counter on the applying side, Add_Float, Responsive). The target is Target_EffectOnKillFloatPRP: it maps to Health by default (heal on kill); map it to any other float stat (shield, rage, move speed bonus). Load it once per mechanic with **Name** (Heal → HealOnKill, HealOnKillAmount; Bloodthirst → BloodthirstOnKill) and the Environment mapping = the killer's environment: every load gets its own StatIds. |
+| **Drive** | add to $NameOnKillAmount (ships 0 = off). |
+| **Wires** | Dead —CounterEffect_Applying→ $NameOnKill. |
+| **Processors** | the BS Add_Int counter postprocess must read CounterEffect_Applying (-73). |
+
+```text title="Formula"
+Target.Dead -> 1 => Counter[Source.<float stat> + $N] -> Source | Owner Source | Granted(value $NameOnKillAmount)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameOnKill', value: 'CounterEffect'}, {key: '$NameOnKillAmount', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Dead (yours)' statKey='Dead_EffectOnKillPRP' relations={[{key: 'CounterEffect_Applying', value: '$NameOnKill'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Target_EffectOnKillFloatPRP</PowerRef> — Default / FloatClamped / Health
+- <PowerRef>Key_Dead_EffectOnKillPRP</PowerRef> — Default / IntClamped / Dead
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_$NameOnKill</PowerRef> |
+| Effects | <PowerRef>Effect_$NameOnKill</PowerRef> |
+| Conditions | <PowerRef>Condition_GT0(Float)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Effect On Kill (Int)</strong> — When you kill, raise an Int Stat (gold, ammo, charges…).</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/EffectOnKill/Int']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Effect on kill, int: when the bearer kills (applies Dead +1 to a target) its own int stat gets + $NameOnKillAmount (counter on the applying side, Add_Int, Responsive). The target is Target_EffectOnKillIntPRP and has no default: map it to the int stat to raise (gold, ammo, charges, a revive count). Load it once per mechanic with **Name** (Heal → HealOnKill, HealOnKillAmount; Bloodthirst → BloodthirstOnKill) and the Environment mapping = the killer's environment: every load gets its own StatIds. |
+| **Drive** | add to $NameOnKillAmount (ships 0 = off). |
+| **Wires** | Dead —CounterEffect_Applying→ $NameOnKill. |
+| **Processors** | the BS Add_Int counter postprocess must read CounterEffect_Applying (-73). |
+
+```text title="Formula"
+Target.Dead -> 1 => Counter[Source.<int stat> + $N] -> Source | Owner Source | Granted(value $NameOnKillAmount)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameOnKill', value: 'CounterEffect'}, {key: '$NameOnKillAmount', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Dead (yours)' statKey='Dead_EffectOnKillPRP' relations={[{key: 'CounterEffect_Applying', value: '$NameOnKill'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Target_EffectOnKillIntPRP</PowerRef> — Default / IntClamped / EffectOnKillIntTarget
+- <PowerRef>Key_Dead_EffectOnKillPRP</PowerRef> — Default / IntClamped / Dead
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_$NameOnKill</PowerRef> |
+| Effects | <PowerRef>Effect_$NameOnKill</PowerRef> |
+| Conditions | <PowerRef>Condition_GT0(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Execute Health Below Threshold</strong> — A hit that leaves the target below X % kills it.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/ExecuteHealthBelow']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Execute: a hit that leaves the target below ExecuteThreshold (fraction of max) kills it (signed intervener, Execute). |
+| **Drive** | ExecuteToggle = 1 grants it, ExecuteThreshold = the fraction. |
+| **Wires** | Health —IntervenerEffect_ApplyingSigned→ ExecuteCounterEffect (the killer owns it). |
+| **Processors** | a signed BS IntervenerEffect precontribution. |
+
+```text title="Formula"
+Source hits => Intervener[Target.Dead + 1] -> Target | IF Target.Health <= $N % | Owner Source | Granted(toggle ExecuteToggle) + value ExecuteThreshold
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='ExecuteHealtBelow' stats={[{key: 'ExecuteToggle', value: 'Int_Clamped'}, {key: 'ExecuteThreshold', value: 'Float_Clamped'}, {key: 'ExecuteCounterEffect', value: 'IntervenerEffect_Signed'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_ExecuteHealthBelowThresholdPRP' relations={[{key: 'IntervenerEffect_ApplyingSigned', value: 'ExecuteCounterEffect'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_ExecuteHealthBelowThresholdPRP</PowerRef> — Default / FloatClamped / Health
+- <PowerRef>Key_Dead_ExecuteHealthBelowThresholdPRP</PowerRef> — Default / IntClamped / Dead
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_ExecuteCounterEffect</PowerRef> |
+| Effects | <PowerRef>Effect_Execute(AS)</PowerRef> |
+| Conditions | <PowerRef>Condition_IsBelowHealthThreshold</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_ValueAs_Float</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Immune Shield With Cd</strong> — A shield that blocks one hit, then recharges.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/ImmuneShieldWithCd']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Damage-immunity shield with a cooldown (divine protection): while ImmuneShieldToggle &gt; 0 and ImmuneShieldCooldown = 0 the next incoming damage is blocked (signed intervener, BlockEffect, adds Immune) and the shield breaks: ImmuneShieldBreak raises ImmuneShieldCooldown for 20 s (change its Duration). |
+| **Drive** | Add_Int +1 on ImmuneShieldToggle (ships 0). |
+| **Wires** | Health —IntervenerEffect_ReceivingSigned→ ImmuneShield; on a container mismatch, link it with *Stat › Link To Stat*. |
+| **Processors** | a signed BS IntervenerEffect precontribution. |
+
+```text title="Formula"
+Self is hit => Intervener Block[Self.ImmuneShieldCooldown + 1 for $N s] -> Self | IF Self.ImmuneShieldCooldown = 0 | Owner Self | Granted(toggle ImmuneShieldToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='ImmuneShieldWithCd' stats={[{key: 'ImmuneShield', value: 'IntervenerEffect_Signed'}, {key: 'ImmuneShieldToggle', value: 'Int_Clamped'}, {key: 'ImmuneShieldCooldown', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_ImmuneShieldWithCdPRP' relations={[{key: 'IntervenerEffect_ReceivingSigned', value: 'ImmuneShield'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_ImmuneShieldWithCdPRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_ImmuneShieldBreak</PowerRef> |
+| Effects | <PowerRef>Effect_ImmuneShieldCooldown</PowerRef> |
+| Conditions | <PowerRef>Condition_GT0(Int)</PowerRef> <PowerRef>Condition_ImmuneShieldCounterReady_Dispatcher</PowerRef> <PowerRef>Condition_Is0(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Low Health Damage Reducer</strong> — Take less damage below a health threshold Stat.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/LowHealthDamageReducer']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Take less damage below a health threshold: LowHealthDamageReducer (signed conditional modifier) gated by DamageReduceHealthThreshold (the fraction). |
+| **Drive** | set the threshold and the reduction (0 = off). |
+| **Wires** | Health —ConditionalModifier_ReceivingNegative→ LowHealthDamageReducer. Damage Reduction On Low Health is the same with a fixed 40 % condition. |
+
+```text title="Formula"
+Self is hit => ConditionalModifier[Rate + -$N] | IF Self.Health <= $N % | Owner Self | Granted(value LowHealthDamageReducer, DamageReduceHealthThreshold)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='LowHealthDamageReducerPRP' stats={[{key: 'LowHealthDamageReducer', value: 'ConditionalModifier_Float_Signed'}, {key: 'DamageReduceHealthThreshold', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_LowHealthDamageReducerPRP' relations={[{key: 'ConditionalModifier_ReceivingNegative', value: 'LowHealthDamageReducer'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_LowHealthDamageReducerPRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_LowHealthDamageReducer</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Melee Deflect</strong> — Parry by timing: send a melee hit back to the attacker.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/MeleeDeflect']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Melee deflect / parry by timing: right after the actor attacks a 0.3 s window opens; a melee hit landing in it is ignored and sent back to the attacker in full (reflector ByPercentage 1, IgnoreAll). |
+| **Drive** | DeflectToggle = 1 (ships 0) and apply the shipped OpenMeleeDeflectWindow when the actor attacks (its OnUse / OnTriggered pack). The attacker must have Tag 'Melee'. |
+| **Wires** | Health —Reflector_Receiving→ MeleeDeflectReflector. |
+| **Map** | Tag. |
+
+```text title="Formula"
+Self is hit by melee within $N s of attacking => Reflector[all of it, ignored] -> Source | Owner Self | Granted(toggle DeflectToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='MeleeDeflect' stats={[{key: 'MeleeDeflectReflector', value: 'Reflector'}, {key: 'MeleeDeflectWindow', value: 'Int_Clamped'}, {key: 'DeflectToggle', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_MeleeDeflectPRP' relations={[{key: 'Reflector_Receiving', value: 'MeleeDeflectReflector'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Tag_MeleeDeflectPRP</PowerRef> — Default / String / Tag
+- <PowerRef>Key_Health_MeleeDeflectPRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effects | <PowerRef>Effect_MeleeDeflectDamage</PowerRef> <PowerRef>Effect_OpenMeleeDeflectWindow</PowerRef> |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_IsActor(String)</PowerRef> <PowerRef>Condition_MeleeDeflect_Dispatcher</PowerRef> |
+| Asset Pack | <PowerRef>PAP_MeleeDeflect</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Move Speed Increases Attack Damage</strong> — Move speed raises attack damage.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/MoveSpeedIncreasesAttackDamage']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Move speed raises attack damage: Attack x (1 + MoveSpeed x MoveSpeedDamageRate), through three linker effects the EffectBundle MoveSpeedDamageLinker applies on init (MoveSpeed → MoveSpeedDamageBonus Flat, x MoveSpeedDamageRate Multiplier, → Attack Rate). |
+| **Drive** | add to MoveSpeedDamageRate (ships 0; 0.05 = +5 % per speed unit). |
+| **Map** | MoveSpeed, Attack. No external relation. |
+
+```text title="Formula"
+always => Linker[Self.Attack Rate + Self.MoveSpeed x $N] | Owner Self | Granted(value MoveSpeedDamageRate)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='MoveSpeedIncreasesAttackDamage' stats={[{key: 'MoveSpeedDamageRate', value: 'Float_Clamped'}, {key: 'MoveSpeedDamageBonus', value: 'Float_Clamped'}, {key: 'MoveSpeedDamageLinker', value: 'EffectBundle'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_MoveSpeed_MoveSpeedIncreasesAttackDamagePRP</PowerRef> — Movement / FloatClamped / MoveSpeed
+- <PowerRef>Key_Attack_MoveSpeedIncreasesAttackDamagePRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_MoveSpeedDamageLinker</PowerRef> |
+| Effects | <PowerRef>Effect_MoveSpeedDamageFromSource</PowerRef> <PowerRef>Effect_MoveSpeedDamageTimesRate</PowerRef> <PowerRef>Effect_MoveSpeedDamageToAttack</PowerRef> |
+| Injectors / Linkers | <PowerRef>Linker_CombineFlat_Float</PowerRef> <PowerRef>Linker_CombineMultiplier_Float</PowerRef> <PowerRef>Linker_CombineRate_Float</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>One Hit Kills You</strong> — A curse: any damage kills the bearer.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/OneHitKillsYou']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | One hit kills you (a curse): while OneHitKillsYouToggle = 1, any incoming damage also applies Dead +1 to the bearer (signed counter, TriggerOn Applied). |
+| **Drive** | OneHitKillsYouToggle = 1 (ships 0). |
+| **Wires** | Health —CounterEffect_ReceivingSigned→ DieOnDamage. |
+| **Map** | Dead. |
+
+```text title="Formula"
+Self is hit => Counter[Self.Dead + 1] -> Self | Owner Self | Granted(toggle OneHitKillsYouToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='OneHitKillsYou' stats={[{key: 'DieOnDamage', value: 'CounterEffect_Signed'}, {key: 'OneHitKillsYouToggle', value: 'Int_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Health (yours)' statKey='Health_OneHitKillsYouPRP' relations={[{key: 'CounterEffect_ReceivingSigned', value: 'DieOnDamage'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Dead_OneHitKillsYouPRP</PowerRef> — Default / IntClamped / Dead
+- <PowerRef>Key_Health_OneHitKillsYouPRP</PowerRef> — Default / FloatClamped / Health
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_DieOnDamage</PowerRef> |
+| Effects | <PowerRef>Effect_DieOnDamage</PowerRef> |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Ranged Deflect</strong> — Hit an enemy projectile to send it back — deflector half.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/RangedDeflect/Deflector']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Ranged deflect, deflector half: while DeflectToggle = 1, the actor's attack hitting a Skillshot turns it around: team swapped, content replaced by DeflectDamage (DeflectDamage, ships -30), tweened back to its shooter, Deflect = 1. |
+| **Wires** | Attack —CounterEffect_ApplyingAS→ DeflectInflict. Load the Skillshot half into the projectile first, then this one mapping its keys to the projectile's repository (its keys stand for the projectile's stats). |
+
+```text title="Formula"
+Source hits a Skillshot => Counter[Target.Team = Source.Team, Target.Damage = $N, Tween back to its shooter] -> Target | Owner Source | Granted(toggle DeflectToggle)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='RangedDeflect' stats={[{key: 'DeflectInflict', value: 'CounterEffect'}, {key: 'DeflectToggle', value: 'Int_Clamped'}, {key: 'DeflectDamage', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack_RangedDeflectPRP' relations={[{key: 'CounterEffect_ApplyingAS', value: 'DeflectInflict'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Tag_RangedDeflectPRP</PowerRef> — Default / String / Tag
+- <PowerRef>Key_TeamNo_RangedDeflectPRP</PowerRef> — Default / Int / TeamNo
+- <PowerRef>Key_EffectContent_RangedDeflectPRP</PowerRef> — Default / EffectPack / EffectContent
+- <PowerRef>Key_Health_RangedDeflectPRP</PowerRef> — Default / FloatClamped / Health
+- <PowerRef>Key_SkillSource_RangedDeflectPRP</PowerRef> — Default / Actor / SkillSource
+- <PowerRef>Key_DeflectStartPoint_RangedDeflectPRP</PowerRef> — Default / Vector3 / KnockbackStartPoint
+- <PowerRef>Key_Position_RangedDeflectPRP</PowerRef> — Default / Vector3 / Position
+- <PowerRef>Key_DeflectEndPoint_RangedDeflectPRP</PowerRef> — Default / Vector3 / KnockbackEndPoint
+- <PowerRef>Key_PositionMovement_RangedDeflectPRP</PowerRef> — Movement / Vector3 / Position
+- <PowerRef>Key_DeflectDuration_RangedDeflectPRP</PowerRef> — Default / FloatClamped / KnockbackDuration
+- <PowerRef>Key_HitCount_RangedDeflectPRP</PowerRef> — Default / IntClamped / HitCount
+- <PowerRef>Key_Deflect_RangedDeflectPRP</PowerRef> — Default / IntClamped / Knockedback
+- <PowerRef>Key_Attack_RangedDeflectPRP</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_DeflectDamage</PowerRef> <PowerRef>Pack_DeflectInflict</PowerRef> |
+| Effects | <PowerRef>Effect_DeflectDamage(AS)</PowerRef> <PowerRef>Effect_Deflect_ChangeSourceActor</PowerRef> <PowerRef>Effect_Deflect_Enable</PowerRef> <PowerRef>Effect_Deflect_ResetHitCount</PowerRef> <PowerRef>Effect_Deflect_SetDuration</PowerRef> <PowerRef>Effect_Deflect_SetEffectContent</PowerRef> <PowerRef>Effect_Deflect_SetEndPoint</PowerRef> <PowerRef>Effect_Deflect_SetStartPoint</PowerRef> <PowerRef>Effect_SetTeam</PowerRef> |
+| Conditions | <PowerRef>Condition_Dispatcher</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_IsSkillshot(String)</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_AlterVector3</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Ranged Deflect (Skillshot)</strong> — Hit an enemy projectile to send it back — projectile half.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/RangedDeflect/Skillshot']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Ranged deflect, projectile half: Deflect (on/off), DeflectTween (start → end over DeflectDuration onto Position), a complete trigger that cleans up. Load into the projectile's repository into its Default Environment (the deflector half expects these coordinates). The prefab switches from its own movement to the tween while Deflect = 1 (ActorExtension_StatBehaviourSwitch). |
+
+```text title="Formula"
+Self.Deflect -> 1 => Tween[Self.Position -> its shooter over $N s] | Owner the projectile | Innate - driven by the Deflector half
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='RangedDeflect_Skillshot' stats={[{key: 'Deflect', value: 'Int_Clamped'}, {key: 'DeflectTween', value: 'Tweener_Vector3'}, {key: 'DeflectCompleteTrigger', value: 'StateBasedEffect'}, {key: 'DeflectDuration', value: 'Float_Clamped'}, {key: 'DeflectStartPoint', value: 'Vector3'}, {key: 'DeflectEndPoint', value: 'Vector3'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Position_RangedDeflect_SkillshotPRP</PowerRef> — Default / Vector3 / Position
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_CompleteDeflect</PowerRef> |
+| Effects | <PowerRef>Effect_DeflectTweenTemplate</PowerRef> <PowerRef>Effect_RemoveDeflectModifiers</PowerRef> |
+| Conditions | <PowerRef>Condition_IsTweenComplete(WithMaxStat)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Revive</strong> — When you would die, revive with part of your health.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/Revive']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Revive: when the bearer would die, the death is blocked (intervener on Dead, BlockEffect) and part of max health comes back while ReviveCount &gt; 0; each revive consumes one. |
+| **Drive** | ReviveCount &gt; 0 grants it, ReviveRestoreHealthRate is the share (ships 0). |
+| **Wires** | Dead —IntervenerEffect_Receiving→ ReviveCounterEffect. If the load report shows a container mismatch on Dead's list, link the counter with *Stat › Link To Stat*. Add an immunity window / VFX on top as needed. |
+
+```text title="Formula"
+Self.Dead would -> 1 => Intervener Block[Self.ReviveCount + -1, Self.Health + $N % of max] -> Self | IF Self.ReviveCount > 0 | Owner Self | Granted(value ReviveCount + $N)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Revive' stats={[{key: 'ReviveCount', value: 'Int_Clamped'}, {key: 'ReviveCounterEffect', value: 'IntervenerEffect_Signed'}, {key: 'ReviveRestoreHealthRate', value: 'Float_Clamped'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Dead (yours)' statKey='Dead_RevivePRP' relations={[{key: 'IntervenerEffect_Receiving', value: 'ReviveCounterEffect'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Health_RevivePRP</PowerRef> — Default / FloatClamped / Health
+- <PowerRef>Key_Dead_RevivePRP</PowerRef> — Default / IntClamped / Dead
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_ReviveCounterEffect</PowerRef> |
+| Effects | <PowerRef>Effect_ConsumeRevive</PowerRef> <PowerRef>Effect_RestoreHealth</PowerRef> |
+| Conditions | <PowerRef>Condition_GT0(Int)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Spread Effect</strong> — A status that spreads to nearby teammates of the bearer.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/SpreadEffect']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | A status that spreads (contagion, frostbite, ignite others): every 4 s ($NameSpreadGenerator interval) a bearer of the status with $NameSpreadActive = 1 inflicts it (+1 for 6 s, $NameSpreadInflict) on teammates within 8 m that don't have it, and passes $NameSpreadActive on. Load it once per spreading mechanic, **Name** = the mechanic (Frostbite → FrostbiteSpreadActive), the Environment mapping = the bearers' environment (the foes'): every load gets its own StatIds, so several spreads share it. |
+| **Map** | Status → the status stat to spread (required), Position. |
+| **Switch** | a player grant = the player's own $NameSpreadToggle (IntClamped 0-1, not in the pack: create it) pushed by the player's inflict into the victim's $NameSpreadActive (Set_Int, ValueStat = the toggle, Actor Source); an innate spread = the inflict sets $NameSpreadActive = 1. No external relation. |
+
+```text title="Formula"
+every $N s while Self.<Status> > 0 => Generator->Counter[Target.<Status> + 1 for $N s, Target.$NameSpreadActive = Self.$NameSpreadActive] -> RelationState(Self, Team, Distance <= $N, Not <Status>) | IF Self.$NameSpreadActive = 1 | Owner Self (the bearer) | Granted(toggle $NameSpreadToggle, pushed into $NameSpreadActive) or Innate
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$NameSpread' stats={[{key: '$NameSpreadTick', value: 'Int_Clamped'}, {key: '$NameSpreadActive', value: 'Int_Clamped'}, {key: '$NameSpreadGenerator', value: 'Generator_Int'}, {key: '$NameSpreadBroadcaster', value: 'CounterEffect'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Status_SpreadEffectPRP</PowerRef> — Default / IntClamped / Poison
+- <PowerRef>Key_Position_SpreadEffectPRP</PowerRef> — Movement / Vector3 / Position
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_$NameSpread</PowerRef> |
+| Effects | <PowerRef>Effect_$NameSpreadActiveSet</PowerRef> <PowerRef>Effect_$NameSpreadInflict</PowerRef> <PowerRef>Effect_$NameSpreadTick</PowerRef> |
+| Conditions | <PowerRef>Condition_Is0(Int)</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> |
+| Targeting | <PowerRef>TargetingFilter_CloseUpTo8</PowerRef> |
+| Other | <PowerRef>Filter_$NameFoeWithoutStatusInRange8</PowerRef> <PowerRef>Filter_$NameWithoutStatus</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Weak</strong> — Weak: the bearer deals less damage.</summary>
+
+<p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/Weak']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | The Weak status: while Weak = 1 the bearer deals less damage (WeakApplyingDamageModifier, conditional modifier on IsOne(Weak)). |
+| **Drive** | an inflict Add_Int +1 on Weak with a duration (Attack Inflicts Weak). |
+| **Wires** | Attack —ConditionalModifier_ApplyingAS→ WeakApplyingDamageModifier. |
+| **Processors** | AS/MAS ConditionalModifier contribution. |
+
+```text title="Formula"
+while Self.Weak > 0 => ConditionalModifier[Self's damage Rate + -$N] | Owner Self (the bearer) | Innate - switched on by an inflict Target.Weak + 1 for $N s
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Weak' stats={[{key: 'Weak', value: 'Int_Clamped'}, {key: 'WeakApplyingDamageModifier', value: 'ConditionalModifier_Float'}]} />
+
+**External relations** — written onto your own Stats when the pack loads:
+
+<StatExample name='Attack (yours)' statKey='Attack' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'WeakApplyingDamageModifier'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Attack</PowerRef> — Default / FloatClamped / Attack
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> |
+
+</details>
+
+</div>
+
+## Movement
+
+Moving, jumping, dashing and teleporting.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Leap</strong> — Dash / leap / knockback / pull through a Tweener.</summary>
+
+<p><SpecTags items={['Movement', 'PremadeRelationPacks/Movement/Leap']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Dash / leap / knockback / pull: tweens the actor's Position from a start to an end over a duration, then cleans up. Load it once per mechanic name ($Name: Dash, Knockback); map Position_LeapPRP to your Position. |
+| **Drive** | a three-effect pack (remove modifiers, one Tween effect, +1 on $Name last); needs a Tween_Vector3 processor + BS chain entry. Reuse an instance the project already has  instead of loading again. |
+
+```text title="Formula"
+<trigger> => Tween[Self.Position -> Self.Position + Self.Direction x $N over $N s] | Owner the moving actor | Innate or Granted; toward / away from an actor = first Self.Direction = look at it, then +/- $N
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameDuration', value: 'Float_Clamped'}, {key: '$NameEndPoint', value: 'Vector3'}, {key: '$NameStartPoint', value: 'Vector3'}, {key: '$NameTween', value: 'Tweener_Vector3'}, {key: '$Name', value: 'Int_Clamped'}, {key: '$NameCompleteTrigger', value: 'StateBasedEffect'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Position_LeapPRP</PowerRef> — Movement / Vector3 / Position
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_Complete$Name</PowerRef> |
+| Effects | <PowerRef>Effect_$NameTweenTemplate</PowerRef> <PowerRef>Effect_Remove$NameModifiers</PowerRef> |
+| Conditions | <PowerRef>Condition_IsTweenComplete(WithMaxStat)</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Movement 3D</strong> — The 3D movement Stat set.</summary>
+
+<p><SpecTags items={['Movement', 'PremadeRelationPacks/Movement/Movement3D']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | The 3D movement stat set: Position, Direction, Destination, LookDestination, MoveSpeed, SpeedScaler and the *Blocker ints (root, stun, aim). Load into the Movement environment. The character controller writes Direction / Destination; slows lower SpeedScaler; stuns raise a blocker. |
+
+```text title="Formula"
+infrastructure (Position, Direction, SpeedScaler, the *Blocker ints a status raises)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Movement3D' stats={[{key: 'Position', value: 'Vector3'}, {key: 'PointerPoint', value: 'Vector3'}, {key: 'Direction', value: 'Vector3'}, {key: 'LookDestination', value: 'Vector3'}, {key: 'Destination', value: 'Vector3'}, {key: 'AimBlocker', value: 'Int_Clamped'}, {key: 'ControlBlocker', value: 'Int_Clamped'}, {key: 'MovementBlocker', value: 'Int_Clamped'}, {key: 'RotationBlocker', value: 'Int_Clamped'}, {key: 'DirectionChangeBlock', value: 'Int_Clamped'}, {key: 'AimUpdater', value: 'Generator_Vector3'}, {key: 'SpeedScaler', value: 'Float_Clamped'}, {key: 'MoveSpeed', value: 'Float_Clamped'}, {key: 'MoveSpeedModifier_Vector3', value: 'Modifier_Vector3'}]} />
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Injectors / Linkers | <PowerRef>LinkerDefinition_SpeedScaler</PowerRef> <PowerRef>LinkerDefinition_SpeedToModifierInjector</PowerRef> <PowerRef>Linker_Multiply(Float)</PowerRef> <PowerRef>Linker_SpeedToModifierInjector</PowerRef> |
+| Other | <PowerRef>Environment_Movement3D</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Teleport To Foe In Sight</strong> — Teleport behind the closest enemy in front.</summary>
+
+<p><SpecTags items={['Movement', 'PremadeRelationPacks/Movement/TeleportToFoeInSight']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Teleport to the closest foe in sight (venomfang): FindFoeInSight stores the closest enemy in front (within 10 m, dot &gt;= 0.7) in ClosestFoeInSight; TeleportToFoe turns to it and moves the actor just behind it (both in the asset pack). |
+| **Drive** | apply the two packs from the skill (find on press, teleport on use). |
+| **Map** | Position, Direction, LookDestination, Destination → your movement keys. |
+
+```text title="Formula"
+<skill event> => [Self.Direction = closest Enemy in sight <= $N, Self.Position = behind it] | Owner Self
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='TeleportToFoeInSight' stats={[{key: 'ClosestFoeInSight', value: 'Actor'}, {key: 'ClosestFoeInSightPosition', value: 'Vector3'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_Position_TeleportToFoeInSightPRP</PowerRef> — Movement / Vector3 / Position
+- <PowerRef>Key_Direction_TeleportToFoeInSightPRP</PowerRef> — Movement / Vector3 / Direction
+- <PowerRef>Key_LookDestination_TeleportToFoeInSightPRP</PowerRef> — Movement / Vector3 / LookDestination
+- <PowerRef>Key_Destination_TeleportToFoeInSightPRP</PowerRef> — Movement / Vector3 / Destination
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_FindFoeInSight</PowerRef> <PowerRef>Pack_TeleportToFoe</PowerRef> |
+| Effects | <PowerRef>1_Effect_ExtractFoePositionToStat</PowerRef> <PowerRef>2_Effect_LookAtTheFoe</PowerRef> <PowerRef>3_Effect_SetLookDestination</PowerRef> <PowerRef>4_Effect_TeleportBehindFoe</PowerRef> <PowerRef>5_Effect_SyncPositionWithDestination</PowerRef> <PowerRef>Effect_SetClosestFoeInSight</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_ExtractPositionFromActor</PowerRef> <PowerRef>StatValueAdapter_LookAtIfNotThere</PowerRef> <PowerRef>StatValueAdapter_NegativeDirectionToPosition</PowerRef> <PowerRef>StatValueAdapter_NegativeDirectionToPositionDirection</PowerRef> <PowerRef>StatValueAdapter_NegativeDirectionToPositionOffset</PowerRef> <PowerRef>ValueAdapter_Direciton</PowerRef> <PowerRef>ValueAdapter_Multiply</PowerRef> <PowerRef>ValueAdapter_NegativeDirectionToPositionSum</PowerRef> |
+| Targeting | <PowerRef>CustomActor_ClosestInSight</PowerRef> <PowerRef>TargetingFilter_ClosestInSight</PowerRef> |
+| Asset Pack | <PowerRef>PAP_TeleportToFoeInSight</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Vertical Movement 3D</strong> — Gravity, jump and grounded state.</summary>
+
+<p><SpecTags items={['Movement', 'PremadeRelationPacks/Movement/VerticalMovement']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Gravity, jump and grounded state on top of Movement 3D: Grounded, Fall, JumpPower, VerticalSpeed and their generators/linkers. The ground check writes Grounded; a jump adds to VerticalSpeed. |
+
+```text title="Formula"
+infrastructure (gravity, jump, grounded)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='VerticalMovement3D' stats={[{key: 'Grounded', value: 'Int_Clamped'}, {key: 'Fall', value: 'Int_Clamped'}, {key: 'GravityGenerator', value: 'Generator_Float'}, {key: 'JumpPower', value: 'Float_Clamped'}, {key: 'VerticalSpeed', value: 'Float_Clamped'}, {key: 'JumpPowerModifier', value: 'Modifier_Vector3'}, {key: 'VerticalMovementGenerator', value: 'Generator_Vector3'}, {key: 'ZeroVerticalSpeedOnGrounded', value: 'StateBasedEffect'}, {key: 'FallReflectors(SigSep)', value: 'SigSep_Float'}]} />
+
+**External keys** — map each to the Stat it stands for in your project:
+
+- <PowerRef>Key_CounterJumpEffects_VerticalMovementPRP</PowerRef> — Default / CounterEffect_SigSep / CounterJumpEffects
+- <PowerRef>Key_Position_VerticalMovementPRP</PowerRef> — Movement / Vector3 / Position
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_ZeroVerticalSpeedOnGrounded</PowerRef> |
+| Effects | <PowerRef>Effect_FallNegateVerticalSpeed</PowerRef> <PowerRef>Effect_GravityGeneratorEffectTemplate</PowerRef> <PowerRef>Effect_VerticalMovementGenerator</PowerRef> <PowerRef>Effect_ZeroVerticalMovementGenerator</PowerRef> |
+| Conditions | <PowerRef>Condition_Is0(Int)</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> |
+| Value Adapters | <PowerRef>StatValueAdapter_FloatToUniformVector</PowerRef> <PowerRef>StatValueAdapter_FloatToVector3Y</PowerRef> <PowerRef>StatValueAdapter_Negate</PowerRef> <PowerRef>ValueAdapter_FloatToVector3YIndex</PowerRef> |
+| Injectors / Linkers | <PowerRef>LinkerDefinition_GravityByGroundedState</PowerRef> <PowerRef>LinkerDefinition_JumpPowerToModifierInjector</PowerRef> <PowerRef>LinkerDefinition_VerticalSpeedToMovementY</PowerRef> <PowerRef>Linker_AddGravity</PowerRef> <PowerRef>Linker_AddVerticalSpeedToMovementY</PowerRef> <PowerRef>Linker_SpeedToVectorModifierInjector</PowerRef> |
+| Other | <PowerRef>Environment_VerticalMovement3D</PowerRef> |
+
+</details>
+
+</div>
+
+## Skill
+
+Skill cooldowns, charges, casting and evolution.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Skill Casting Progress</strong> — A cast-in-progress flag conditions can read.</summary>
+
+<p><SpecTags items={['Skill', 'PremadeRelationPacks/Skill/SkillCastingProgress']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | A 'cast in progress' flag (SkillCastingOnProgress) the skill's cast events raise and lower; conditions read it. |
+
+```text title="Formula"
+infrastructure (a cast-in-progress flag conditions read)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: 'SkillCastingOnProgress', value: 'Int_Clamped'}]} />
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Other | <PowerRef>Key_SkillCastingOnProgress</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Skill Charger</strong> — Hold to charge a Skill.</summary>
+
+<p><SpecTags items={['Skill', 'PremadeRelationPacks/Skill/SkillCharger']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Hold to charge a skill ($Name): $Name_Charge fills through a generator while the button is held; the cast reads it. |
+
+```text title="Formula"
+while held => Generator[Self.$Name_Charge + $N]
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$Name_Charge', value: 'Float_Clamped'}, {key: '$Name_SkillChargeGenerator', value: 'Generator_Float_Clamped'}]} />
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effects | <PowerRef>Effect_$Name_ChargeEffectTemplate</PowerRef> |
+| Other | <PowerRef>Key_$Name_Charge</PowerRef> <PowerRef>Key_$Name_SkillChargeGenerator</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Skill Evolution</strong> — The Stat that picks the active State of an Evolver Skill.</summary>
+
+<p><SpecTags items={['Skill', 'PremadeRelationPacks/Skill/SkillEvolution']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | Which node of an evolving skill is active ($Name): $Name_SkillEvolutionNo, read by SkillModel_Evolver. |
+
+```text title="Formula"
+infrastructure (which node of an evolving skill is active)
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$Name_SkillEvolutionNo', value: 'Int_Clamped'}]} />
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Other | <PowerRef>Key_$Name_SkillEvolutionNo</PowerRef> |
+
+</details>
+
+<details>
+<summary><strong>Skill Mechanism</strong> — A Skill's cooldown and use blockers.</summary>
+
+<p><SpecTags items={['Skill', 'PremadeRelationPacks/Skill/SkillMechanism']} /></p>
+
+| | |
+| --- | --- |
+| **Mechanic** | A skill's cooldown and use blockers ($Name = the skill): $Name_Cd counts down through a degenerator; $NameUBs (use blockers) is +1 while the cooldown is &gt; 0. The skill's UseBlockerStat points at $NameUBs; its OnUse pack sets $Name_Cd. Cooldown speed: change the degenerator rate. |
+
+```text title="Formula"
+Self uses the skill => [Self.$Name_Cd = $N]; while $Name_Cd > 0 => Linker[use blocker + 1]; attack speed = the degenerator rate
+```
+
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$Name_Cd', value: 'Float_Clamped'}, {key: '$Name_CdDegenerator', value: 'Generator_Float_Clamped'}, {key: '$NameUBs', value: 'Int_Clamped'}, {key: '$Name_CdDegeneratorTrigger', value: 'StateBasedEffect'}, {key: '$Name', value: 'String'}]} />
+
+**Assets**
+
+| Kind | Assets |
+| --- | --- |
+| Effect Packs | <PowerRef>Pack_$Name_CooldownDegenerator</PowerRef> |
+| Effects | <PowerRef>Effect_$Name_CdDegeneratorEffectTemplate</PowerRef> <PowerRef>Effect_$Name_CooldownDegeneratorEffect</PowerRef> |
+| Conditions | <PowerRef>Condition_GT0(Float)</PowerRef> <PowerRef>Linker_CombineByCondition_AddOneIfGT0(Int)</PowerRef> |
+| Injectors / Linkers | <PowerRef>LinkerDefinition_Add1IfCdGT0</PowerRef> |
+| Other | <PowerRef>Key_$Name</PowerRef> <PowerRef>Key_$Name_Cd</PowerRef> <PowerRef>Key_$Name_CdDegenerator</PowerRef> <PowerRef>Key_$Name_CdDegeneratorTrigger</PowerRef> <PowerRef>Key_$Name_UseBlockers</PowerRef> <PowerRef>Stat_$Name</PowerRef> <PowerRef>Stat_$NameUBs</PowerRef> <PowerRef>Stat_$Name_Cd</PowerRef> <PowerRef>Stat_$Name_CdDegenerator</PowerRef> <PowerRef>Stat_$Name_CdDegeneratorTrigger</PowerRef> |
+
+</details>
+
+</div>

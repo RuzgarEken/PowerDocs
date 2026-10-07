@@ -6,7 +6,7 @@ sidebar_position: 10
 
 You can find a video tutorial for Modifier Removers [▶ here](https://youtu.be/MZBfEd3YFDs?list=PLAVxVgoBmZhM).
 
-It removes existing Modifiers from the targeted Stat. Modifiers can be removed selectively by configuring the provided filtering options.
+It removes existing Modifiers from the targeted Stat, and can cancel delayed Effects aimed at it before they land. Modifiers can be removed selectively by configuring the provided filtering options.
 
 ## Fields
 
@@ -14,6 +14,7 @@ This Effect inherits all fields from **[Effect](./)**.
 
 | Field | Description |
 | --- | --- |
+| **Remove Scope** | Which Modifiers of the target Stat are removed. **Applied**: Modifiers already on the Stat. **Unapplied**: delayed Effects aimed at the Stat that are still waiting out their delay; removing one cancels it before it lands. Both can be selected. Defaults to **Applied**. |
 | **Filter** | Enables filtering when removing Modifiers. Only Modifiers matching the configured filter are removed. |
 | **Filter Modifiers By Their** | Determines which Actor associated with a Modifier is used for filtering. |
 | **Custom Modifier Filter Actor** | Specifies a custom Actor used for filtering. |

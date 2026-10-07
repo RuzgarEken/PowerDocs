@@ -22,8 +22,17 @@ The value is processed in the following order:
 3. Each **Value Adapter** in **Adapters** is applied in array order.
 4. The final adapter's result becomes the final adapted value.
 
-For example, if the initial Stat value is `100` and the Chain contains three Value Adapters:
-
 `Stat Value → Adapter 1 → Adapter 2 → Adapter 3 → Final Value`
 
 This allows multiple value transformations to be combined into a single **Stat Value Adapter**.
+
+## Example
+
+The Kodes melee mob dashes toward the player before it attacks. `StatValueAdapter_Adapter_MeleeDashDirectionChain_R3D` turns the mob's facing into a flat dash offset:
+
+| Field | Value |
+| --- | --- |
+| **Stat Adapter** | `StatValueAdapter_Adapter_MeleeDashDistance_R3D` — [Alter](./Alter.mdx) Vector3, **Multiplier** `(8, 8, 8)` on the facing `Direction` |
+| **Adapters** [0] | `ValueAdapter_Adapter_MeleeDashProjectPlane_R3D` — [Project On Plane](../Value/Vector/ProjectOnPlane.mdx), normal `(0, 1, 0)` |
+
+`Direction (0.5, −0.3, 0.8)` → × 8 → `(4, −2.4, 6.4)` → flattened → `(4, 0, 6.4)`: the mob dashes along the ground even when it faces slightly down.

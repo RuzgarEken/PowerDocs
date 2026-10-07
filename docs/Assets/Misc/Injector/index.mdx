@@ -6,16 +6,51 @@ sidebar_position: 5
 
 **Injectors** contribute to building a Stat's final value during the Stat update process.
 
-During each Stat update, the Stat's **Modified Value** is initialized from its **Raw Value**. The assigned Injectors are then applied sequentially according to their **Injection Order**.
+During each Stat update, the Stat's **Modified Value** is initialized from its **Raw Value** (plus Modifiers). The assigned Injectors are then applied sequentially according to their **Injection Order**. See [How Stat Values Are Evaluated](/docs/CoreConcepts/HowStatValuesAreEvaluated).
 
-Different **Injector Models** can define different behaviors. For example, an Injector can add a value, multiply a value, clamp a value, override it with a fixed value, or perform any other custom transformation.
+There are two families:
 
-Each **Injector Definition** contains an **Injection Order**, which determines when the Injector is applied relative to other Injectors.
+| Family | Value comes from | Asset | Definition asset |
+| --- | --- | --- | --- |
+| **Injector** | a constant on the asset | [Injector Model](./InjectorModel/index.mdx) | [Injector Definition](./InjectorDefinitionModel.mdx) |
+| **Linker** | another Stat (the **Injector Stat**) | [Linker Model](./LinkerModel/index.mdx) | [Linker Definition](./LinkerDefinitionModel.mdx) |
 
-For example, an Injector can multiply the **PhysicalAttack** Stat value by 2. If the Raw Value is **10**, applying the Injector results in a Modified Value of **20**.
+## Attaching them
 
-## Linkers
+| How | Lifetime |
+| --- | --- |
+| In a Stat Definition's **Injectors** list (an Injector or Linker Definition) | always, on every Actor that has the Stat |
+| With an [Injector Effect](/docs/Assets/Effect/Injector) or a [Linker Effect](/docs/Assets/Effect/Linker) | while the Effect's Modifier lives; Temporary + Managed By Code Linker Effects in an Actor's [Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle) live as long as the Actor |
 
-**Linkers** are specialized Stat Injectors that use values from other Stats instead of predefined values.
+Injectors added by Effects can be removed by tag with an [Injector Remover Effect](/docs/Assets/Effect/InjectorRemoverEffect).
 
-Like other Injectors, Linkers are applied during the Stat update process according to their **Injection Order**. The difference is that the value injected by a Linker is obtained from another Stat, allowing Stats to dynamically influence each other.
+:::info[Stat Injector → Linker]
+
+Older versions called Linkers *Stat Injectors* (`StatInjectorModel_*`, `StatInjectorDefinitionModel`). They are now `LinkerModel_*` and `LinkerDefinitionModel`. The separate *Add*, *Multiply* and *Rate* Stat Injectors were merged into [Combine](./LinkerModel/Combine.mdx), and the *Add / Multiply / Rate Value By Condition* ones into [Combine By Condition](./LinkerModel/CombineByCondition.mdx).
+
+:::
+
+## Linking Stats from the Power Editor
+
+*Power Editor › Stat › Link To Stat* links a Stat to another in one step. When both Stats are in the same Environment it adds a **Linker Definition** to the target Stat's **Injectors**. When they are in different Environments it adds a **Linker Effect** to an Effect Bundle Stat of the source Environment (`{SourceEnv}To{TargetEnv}Linker`, created when missing), so only Actors that have the source Environment get the link.
+
+## Example
+
+An Injector multiplies **PhysicalAttack** by 2, and a Linker adds **Strength** to it. Both sit in the Stat Definition's **Injectors** list, so they run in **Injection Order** on every update:
+
+<StatExample
+  name="PhysicalAttack"
+  default={10}
+  injectors={['InjectorDefinition_Double (order 0)', 'LinkerDefinition_StrengthToAttack (order 1)']}
+/>
+
+<InjectorExample name="InjectorDefinition_Double" into="PhysicalAttack" value="Combine, Multiplier 2" order={0} />
+<InjectorExample name="LinkerDefinition_StrengthToAttack" into="PhysicalAttack" value="Combine, Flat — Injector Stat: Strength" order={1} />
+
+| Step | Value |
+| --- | --- |
+| Raw Value | `10` |
+| Injector (× 2) | `20` |
+| Linker (+ Strength `5`) | `25` — the Modified Value |
+
+When Strength changes to `8`, PhysicalAttack updates on its own to `28`.

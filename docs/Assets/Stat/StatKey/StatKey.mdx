@@ -13,3 +13,13 @@ A **Stat Key Model** uniquely identifies the location of a Stat within a **Stat 
 | **Environment** | The **Environment Id** of the Stat. This specifies which Stat Environment contains the Stat. |
 | **Container** | The **Container Id** of the Stat. This specifies which Stat Container stores the Stat. |
 | **Stat** | The **Stat Id** of the Stat within its Container. |
+
+When the key's **Environment** is `None` (0), the Stat is looked up in the Environment the caller works in (the Effect's Environment). Keys used by shared relation packs and templates often leave it `None` so they work in any Environment.
+
+Power has three key types:
+
+| Key | Menu | Addresses |
+| --- | --- | --- |
+| **Stat Key Model** | *Create › Power › Stats › Key › Normal* | a Stat |
+| [StatKeyModel_SigSep](./StatKeyModel_SigSep.mdx) | *… › Key › SigSep* | one inner Stat of a SigSep list |
+| [StatKeyModel_SrcSep](./StatKeyModel_SrcSep.mdx) | *… › Key › SrcSep* | one Actor's copy inside a Source Separated Stat |

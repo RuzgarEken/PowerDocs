@@ -1,0 +1,47 @@
+---
+sidebar_position: 7
+description: Orphans — find the Power assets nothing in the project references, and clean them up.
+---
+
+# Orphans
+
+**Orphans** lists the Power assets that nothing in your project references: a Stat no Container holds, an Effect no Pack or Stat uses, a Processor no Process Definition runs. They are usually left over from experiments, renames or deleted mechanics.
+
+Open it from **Tools → Power → Orphans**, or right-click a folder and choose **Assets → Power → Find Orphans** to scan just that folder.
+
+## When to use it
+
+- **Clean up** after prototyping: the Effects and Stats from mechanics you dropped are still in the project.
+- **Find wiring you forgot:** a new Effect that shows up here isn't in any Pack or Stat yet, so it never runs.
+- **Before shipping**, to keep unused data out of the build.
+
+## How it decides
+
+**Folder** limits which Power assets are checked. Empty: all of `Assets`. References are always searched in the whole project: every scene, prefab, Animator, material and Power asset is read for what it references directly.
+
+| Option | Does |
+| --- | --- |
+| **Include unused chains** | Also lists Power assets that only other orphans reference, for example the Key of an orphaned Stat. Off: only assets nothing references at all. |
+| **Ignore Resources** | Assets in `Resources` folders count as used, because Power loads them by path (id databases, World Settings). On by default. |
+| **Ignore premade packs** | Premade Relation and Asset Packs, and everything they hold, count as used. They are loaded from the Power Editor, not referenced. On by default. |
+
+:::warning[Assets loaded by path or by code]
+
+An asset your own code loads by name or path (with `Resources.Load`, Addressables or a hard-coded path) has no reference, so it is listed even though you use it. Check the list before you delete.
+
+:::
+
+## Results
+
+Press **Scan**. The results are grouped by asset type, and the search field filters them by name.
+
+| Action | Does |
+| --- | --- |
+| Click a row | Pings the asset in the Project window. Hover to see its path. |
+| Double-click a row | Opens the asset. |
+| **×** on a row | Moves that asset to the trash, after you confirm. |
+| Checkbox, **Check All** / **Uncheck All** | Marks assets for **Delete Checked**. **Check All** marks only the listed (search-filtered) assets. |
+| **Delete Checked** | Moves every checked asset to the trash, after you confirm. |
+| **Select Listed** | Selects the listed assets in the Project window, for example to move them into an archive folder instead. |
+
+Deleted assets go to your operating system's trash, so you can still restore them from there.

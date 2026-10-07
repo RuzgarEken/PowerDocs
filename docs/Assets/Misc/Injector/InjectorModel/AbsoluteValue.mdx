@@ -4,4 +4,20 @@ sidebar_position: 2
 
 # Absolute Value
 
-Sets the Stat value to a predefined injector value.
+Sets the Stat value to a constant. Any value built before it in the Injection Order is overwritten; Injectors after it still apply.
+
+Ships for `Float` and `Int`.
+
+| Field | Description |
+| --- | --- |
+| **Value** | The value the Stat is set to. |
+
+## Example
+
+*Frozen: you can't move for 2 seconds.* An [Injector Effect](/docs/Assets/Effect/Injector) on `MoveSpeed`, Temporary with a duration of `2`, attaches an Absolute Value Float Injector with **Value** `0`:
+
+| | `MoveSpeed` |
+| --- | --- |
+| Before | `6` (base `5` + a `+1` buff) |
+| While frozen | `0` |
+| After 2 s | `6` again — the buff was never removed, only overwritten |

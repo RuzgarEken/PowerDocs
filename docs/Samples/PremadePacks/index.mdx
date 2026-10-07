@@ -1,0 +1,30 @@
+---
+sidebar_position: 6
+description: Premade Packs — the sample that ships Power's ready-made mechanics as Premade Relation Packs and Premade Asset Packs.
+---
+
+# Premade Packs
+
+`Premade Packs` (`PowerSamples/PremadePacks`) ships ready-made mechanics as data: crit, backstab, damage over time, revive, deflect, dash, skill cooldowns and more. Each one is a [Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack) (PRP) you load into an Actor's Repository in one step, instead of building and wiring a dozen assets by hand.
+
+It contains:
+
+- **40 Premade Relation Packs** in `PremadeRelationPacks/` — sorted by name, with the Stats, relations and assets each one brings, on **[Shipped Packs](/docs/Samples/PremadePacks/ShippedPacks)**.
+- **Premade Asset Packs** in `PremadeAssetPacks/` — Effects, Packs and Processors copied without wiring. See [Premade Asset Pack](/docs/Assets/Misc/PremadeAssetPack).
+- **Identifier databases** in `Data/IdentifierDatabases` — the packs' Stat Ids sit in `−3000…−3999` and are merged into your databases on import.
+
+## Packs
+
+| Category | Packs |
+| --- | --- |
+| **Combat** (32) | Attack Damage Per Max Health, Attack Inflicts, Backstab, Boost Crit Rate By Condition, Critical Hit, Damage Boost On Next Attack, Damage Boost On Next Attack (Skillshot), Damage Boost To Distant Enemies, Damage Boost To Nearby Enemies, Damage Boost To Shielded, Damage Boost To Undamaged, Damage Nearby Enemies On Hit, Damage Over Time, Damage Reduction On Low Health, Damage The Attacker, Delayed Damage (Source), Delayed Damage (Target), Dodge Chance, Effect Hits Twice, Effect On Kill (Float), Effect On Kill (Int), Execute Health Below Threshold, Immune Shield With Cd, Low Health Damage Reducer, Melee Deflect, Move Speed Increases Attack Damage, One Hit Kills You, Ranged Deflect, Ranged Deflect (Skillshot), Revive, Spread Effect, Weak |
+| **Movement** (4) | Leap, Movement 3D, Teleport To Foe In Sight, Vertical Movement 3D |
+| **Skill** (4) | Skill Casting Progress, Skill Charger, Skill Evolution, Skill Mechanism |
+
+The [Kodes](/docs/Samples/Kodes) sample is built on many of these packs, so it doubles as a working reference for loading and driving them.
+
+:::info
+
+You can import **Premade Packs** from **Power Editor → Initializer → Sample Importer** (open the Power Editor from **Tools → Power → Editor**).
+
+:::

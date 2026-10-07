@@ -21,3 +21,8 @@ This Linker inherits all fields from **[Effect](./)**.
 | **Injector Stat** | The Stat whose value is used by the Linker. |
 | **Injection Order** | Determines the execution order of the Linker. Linkers with lower values are applied first, while those with higher values are applied later during the Stat update. |
 | **Injector** | The referenced **Linker Model** that defines how the linked Stat value modifies the target Stat. |
+The **Injector Stat** is a `Stat From`: it can read the Stat from the Source, the Target or another interaction Actor, so a Linker Effect can link Stats of two different Actors or two different Environments.
+
+Linker Effects are usually **Temporary** with **Managed By Code**, placed in an Actor's [Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle) Stat, so the link lives exactly as long as the Actor. The link is removed when the Effect's Modifier ends or the Injector Stat is disposed.
+
+See [Linker Model](/docs/Assets/Misc/Injector/LinkerModel) for the available Linkers.

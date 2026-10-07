@@ -30,11 +30,15 @@ The resolved Stat must be a **Modifier Stat**.
 
 Ships as `BS`, `AS` and `MAS` × `Float` `Int`. `BS` additionally ships signed and non-Stat forms. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
 
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Rage* — `+20%` to all outgoing damage. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | One `Health_ReceivingModifier` Modifier Stat holds separate values for fire, ice and physical, all read through the same relation. |
+
 | Suffix | Expects | Use case |
 | --- | --- | --- |
-| `_Normal` | A plain Modifier Stat | *Rage* — `+20%` to all outgoing damage. |
-| `_SigSep` | A Signature Separated Stat | One `DamageTaken` Modifier Stat holds separate values for fire, ice and physical, all read through the same relation. |
 | `_Effector` | Resolved on the **Effector's Actor** | The bonus lives on the weapon or turret rather than on its owner. |
 | `_Signed` | Positive/Negative Relative Keys | `BS` only. A `+50%` `HealingReceived` Modifier that boosts heals on `Health` without also boosting the damage. |
-| `_SigSep_Signed` | Signature Separated **and** signed | `+50%` to fire damage taken and `+50%` to fire-based healing, tracked independently. |
 | `NonStat_Modifier` | A constant on the Processor asset | `BS` only. A fixed global rule — a difficulty setting that scales all incoming damage — with no Stat to author or maintain. |

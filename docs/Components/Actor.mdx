@@ -14,8 +14,35 @@ Actors are runtime entities that contain Stats and participate in Effect interac
 
 | Field | Description |
 | --- | --- |
-| **Extensions** | A dictionary of Extension components that add additional functionality to an Actor. Extensions in this dictionary are initialized automatically and can interact with each other. |
+| **Extensions** | The list of **Actor Extension** components of this Actor (see below). Extensions in this list are initialized and disposed together with the Actor and can find each other by their **Extension Id**. |
 | **Initialize On Load** | When enabled, the Actor initializes itself automatically in its `Awake` method without requiring an external initialization call. |
-| **Predefined Instance Id** | By default, Actors are assigned an incrementing **Instance Id** at runtime, starting from `0`. Enable this option to assign a specific Instance Id instead. This is primarily useful for log filtering, allowing you to view logs generated only by this Actor. |
+| **Predefined Instance Id** | By default, Actors are assigned an incrementing **Instance Id** at `Initialize`, starting from `0` (the inspector shows it in Play mode). Enable this option for a known Actor (Player, a boss…) and pick its **Actor Id** (*Power Editor > Enums > ActorId*, counting down from `-1`): the Instance Id is that value every run, so its Source Separated inner Stats keep the same key through respawns, the log filter can name it, and `PowerWorld.GetActor(actorId)` finds it. To show its name, cast the Instance Id: `(ActorId)actor.InstanceId`. From code, call `SetActorId` before `Initialize`. |
 | **Stat Repository Definition** | Defines the **Stat Repository Definition** used to initialize the Actor's Stats. |
+| **Default Value Overrides** | This Actor's own default values for Stats of its Repository, one list per value type (Float, Int, String, EffectPack, Vector2/3(Int)): a key and the value. The Stat definitions stay shared, so the Player prefab can start Health at 50 and a Mob prefab at 100 from the same Health Stat. Applied once the Actor's Stats are linked, so inner Stats of SigSep lists can be overridden too. |
 | **Effect Process Definition** | Defines the **Effect Process Definition** that determines which Processors handle Effects sent to this Actor. |
+
+## Actor Extensions
+
+An **Actor Extension** is a `MonoBehaviour` that adds behaviour to an Actor — an animator bridge, a health bar, input, a skill controller. Extensions react to Stats; they don't change how Effects are processed.
+
+- Derive from `ActorExtension`, give it an **Extension Id** (*Power Editor › Enums › ActorExtensionId*) and add it to the Actor's **Extensions** list.
+- `Initialize(actor)` is called when the Actor initializes (its Stats exist), `Dispose()` when it is disposed.
+- Other code finds an extension with its id through the Actor.
+
+Power's core ships one extension:
+
+| Extension | Does |
+| --- | --- |
+| `ActorExtension_EventProcessor` | Receives event keys from an `IEventPublisher` and runs the Actor's [Event Based Effect](/docs/Assets/Stat/StatDefinition/EventBasedEffect) Stats for that key. Call `RegisterToEventPublisher(publisher)` to listen to a publisher (a card game's play pile, a game manager). |
+
+General Expansions ships many more — see [Actor Extensions](/docs/Samples/GeneralExpansions/Actor).
+
+## Actor Part
+
+An **Actor Part** (`ActorPartEntity`) marks a sub-object of an Actor — a weak point, a shield, a limb — so that an Effector hitting it applies its Effects in a specific **Environment** of the Actor.
+
+| Field | Description |
+| --- | --- |
+| **Actor From** | Where the owning Actor comes from: **By Reference** (the **Actor** field), **Custom** (a [Custom Actor](/docs/Assets/Misc/Targeting/CustomActor)) or **World**. |
+| **Part Id** | The **Actor Part Id** (*Power Editor › Enums › ActorPartId*). |
+| **Environment Id** | The Environment Effects delivered through this part are applied in. |

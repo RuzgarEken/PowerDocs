@@ -5,3 +5,14 @@ sidebar_position: 3
 # Stat Value Adapter
 
 Transforms a Stat value into a format suitable for further processing.
+
+Stat Value Adapters are used wherever a field accepts one: a Stat Condition's **Adapter**, a Linker's **Value Adapter**, a Tween Effect's **End Value Adapter**, an Effect value read from a Stat.
+
+## Example
+
+Execute Health Below Threshold kills a target whose health drops below a fraction of its maximum. Its condition, `Condition_IsBelowHealthThreshold`, reads the target's `Health` through `StatValueAdapter_ValueAs_Float` ([Value As](./ValueAs.mdx) → **Percentage Of Remaining**):
+
+| Health | Adapted value | `≤ ExecuteThreshold (0.2)`? |
+| --- | --- | --- |
+| `80 / 100` | `0.8` | no |
+| `15 / 100` | `0.15` | yes — the target is executed |

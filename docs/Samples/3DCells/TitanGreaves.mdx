@@ -26,18 +26,92 @@ Enemies slammed into walls receive additional damage.
 
 ## Implementation
 
-On collision, the **Knockback** Pack runs on every hit enemy. `Effect_KickDamage` applies a flat `-3` to **Health**, and `Effect_RemoveCastingModifiers` interrupts whatever the enemy was casting.
+On collision, the **Knockback** Pack runs on every hit enemy. `KickDamage` applies a flat `-3` to **Health**, and `RemoveCastingModifiers` interrupts whatever the enemy was casting.
 
-![Titan Greaves Knockback Pack](./images/TitanGreaves_KnockbackPack.png)
+<div className="prp-packs">
 
-The knockback movement is a tween. `Effect_SetKnockbackEndPoint` computes the destination from the kick direction (using `ValueAdapter_Direction` → `ValueAdapter_ProjectOnPlane` → `ValueAdapter_Multiply`), `Effect_SetKnockbackDuration` sets it to `0.75` seconds, `Effect_ResetKnockbackTweenValue` restarts the tween, and `Effect_VerticalForce` adds a small upward pop.
+<details>
+<summary><strong>Knockback</strong> — Effect Pack</summary>
 
-![Titan Greaves Knockback Tween](./images/TitanGreaves_KnockbackTween.png)
+<PackExample name='Knockback'>
+  <EffectExample name='RemoveKnockbackModifiers' label={"Modifier Remover Effect (BS)"} targetStat={"Knockback / IntClamped / Knockedback"} processor='ModifierRemover' />
+  <EffectExample name='ResetKnockbackTweenValue' label={"Float Stat Effect (BS)"} targetStat={"Knockback / Tween_Vector3 / KnockbackTween"} processor='Set_Float' applyType='Temporary' />
+  <EffectExample name='SetKnockbackEndPoint' label={"Vector3 Stat Effect (BS)"} targetStat={"Knockback / Vector3 / KnockbackEndPoint"} processor='Set_Vector3' />
+  <EffectExample name='SetKnockbackDuration' label={"Float Stat Effect (BS)"} targetStat={"Knockback / FloatClamped / KnockbackDuration"} processor='Set_Float' value={"0.75"} />
+  <EffectExample name='Knockback' label={"Int Stat Effect (BS)"} targetStat={"Knockback / IntClamped / Knockedback"} value={"1"} applyType='Temporary' />
+  <EffectExample name='KickDamage' label={"Float Stat Effect (BS)"} targetStat={"Default / FloatClamped / Health"} processor='Standard_Float' value={"-3"} />
+  <EffectExample name='VerticalForce' label={"Float Stat Effect (BS)"} targetStat={"VerticalMovement / FloatClamped / VerticalSpeed"} processor='Standard_Float' value={"10"} />
+  <EffectExample name='RemoveCastingModifiers(AttackInteruption)' label={"Modifier Remover Effect (BS)"} targetStat={"Default / IntClamped / SkillCastingOnProgress_"} processor='ModifierRemover' />
+</PackExample>
 
-The kick resolves through an **attached Effector**. `Pack_EffectorInitializer` sets the Effector's **AttachedActor** Stat (a `CustomActor_FromStat`), so the knockback Effects always target the specific enemy that was kicked.
+</details>
 
-![Titan Greaves Attached Effector](./images/TitanGreaves_AttachedEffector.png)
+</div>
 
-While an enemy is being knocked back, the **WallCollision** Pack watches for it colliding with the environment. On a wall hit it applies `Effect_WallCollisionDamage` (an additional `-2` to **Health**) and `Effect_RemoveKnockedbackModifiers` to stop the tween. StatValueAdapters reverse the tween's start and end points so the enemy settles against the wall instead of clipping through it.
+The knockback movement is a tween. `SetKnockbackEndPoint` computes the destination from the kick direction (using `Direction` → `ProjectOnPlane` → `Multiply`), `SetKnockbackDuration` sets it to `0.75` seconds, `ResetKnockbackTweenValue` restarts the tween, and `VerticalForce` adds a small upward pop.
 
-![Titan Greaves Wall Collision](./images/TitanGreaves_WallCollision.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>KnockbackTween</strong> — Stat (Tweener Vector3)</summary>
+
+<SpecCard kind='stat' label={"Stat (Tweener Vector3)"} name='KnockbackTween'>
+  <SpecRow label='Stat Key' icon='key'>{"Knockback / Tween_Vector3 / KnockbackTween"}</SpecRow>
+  <SpecRow label={"Relation: MaxValue"} icon="key"><PowerRef>Key_KnockbackDuration_3D</PowerRef></SpecRow>
+  <SpecRow label={"Max \u203a Type"}>{"Stat"}</SpecRow>
+  <SpecRow label={"Max"}>{"0.75"}</SpecRow>
+  <SpecRow label={"Togglable"}>{"true"}</SpecRow>
+  <SpecRow label={"Toggle Stat Key"} icon="key"><PowerRef>Key_Knockback_3D</PowerRef></SpecRow>
+  <SpecRow label={"Toggle On Value Type"}>{"On Positive"}</SpecRow>
+  <SpecRow label={"Ease"}>{"Out Quad"}</SpecRow>
+  <SpecRow label={"Value Update Type"}>{"Add Dif"}</SpecRow>
+  <SpecRow label={"Effect Template"}><PowerRef>Effect_KnockbackTweenTemplate_3D</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+The kick resolves through an **attached Effector**. `EffectorInitializer` sets the Effector's **AttachedActor** Stat (a `FromStat`), so the knockback Effects always target the specific enemy that was kicked.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>TitanGreaves_Damager › Effector_Attacher</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"Effector_Attacher"} name={"TitanGreaves_Damager"}>
+  <SpecRow label={"Trigger Actors"}>{"Enemy"}</SpecRow>
+  <SpecRow label={"Hit Limitation Type"}>{"Unlimited"}</SpecRow>
+  <SpecRow label={"Limit Exceeded Behaviour"}>{"Dispose"}</SpecRow>
+  <SpecRow label={"Do Not Effect Target Twice"}>{"true"}</SpecRow>
+  <SpecRow label={"Attaching Effector"}>{"TitanGreaves_PushedAttachedEffector (Effector_OnCollide)"}</SpecRow>
+  <SpecRow label={"Attaching Target Entity"}>{"Actor Entity"}</SpecRow>
+  <SpecRow label={"Attachment Point"}>{"On Attached Entity"}</SpecRow>
+  <SpecRow label={"Attachment Offset"}>{"(0, 1, 0)"}</SpecRow>
+  <SpecRow label={"Effect Pack \u2192 initializer"}><PowerRef>Pack_EffectorInitializer_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+While an enemy is being knocked back, the **WallCollision** Pack watches for it colliding with the environment. On a wall hit it applies `WallCollisionDamage` (an additional `-2` to **Health**) and `RemoveKnockedbackModifiers` to stop the tween. StatValueAdapters reverse the tween's start and end points so the enemy settles against the wall instead of clipping through it.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>TitanGreaves_PushedAttachedEffector › Effector_OnCollide</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"Effector_OnCollide"} name={"TitanGreaves_PushedAttachedEffector"}>
+  <SpecRow label={"Trigger Actors"}>{"Neutral"}</SpecRow>
+  <SpecRow label={"Hit Limitation Type"}>{"By Count"}</SpecRow>
+  <SpecRow label={"Hit Limit"}>{"1"}</SpecRow>
+  <SpecRow label={"Limit Exceeded Behaviour"}>{"Dispose"}</SpecRow>
+  <SpecRow label={"Do Not Effect Target Twice"}>{"true"}</SpecRow>
+  <SpecRow label={"Effect Target"}>{"Custom: FromEffectorStat"}</SpecRow>
+  <SpecRow label={"Effect Pack (target Custom, source Source)"}><PowerRef>Pack_WallCollision_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

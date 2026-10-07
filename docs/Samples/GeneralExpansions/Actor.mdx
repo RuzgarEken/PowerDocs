@@ -1,0 +1,71 @@
+---
+sidebar_position: 5
+---
+
+# Actor Extensions
+
+[Actor Extensions](/docs/Components/Actor#actor-extensions) are components that connect an Actor's Stats to the rest of the game — the animator, colliders, transforms, input, UI. General Expansions ships the ones below. Add them to the Actor prefab and to its **Extensions** list (each with an **Extension Id**).
+
+They **react to Stats**; none of them changes how Effects are processed. Rules stay in Power assets — the extension only shows or forwards the result.
+
+## Animation and body
+
+| Extension | Fields | Does |
+|-------|-------------|-------------|
+| `ActorExtension_Animator` | **Animator** | The Actor's Animator. Skills, Animation Feedback and VFX trackers go through it; it forwards Animation Events (`SkillShot`, `CastEnd`…) to the running Skill. |
+| `ActorExtension_AnimationSpeedScaler` | **Speed Scaler Stat Key**, **Animator**, **Speed Scaler Animator Id** | Writes a Float Stat into an Animator float parameter — attack speed, slows that also slow animations. |
+| `ActorExtension_Body` | **Parts** | The Actor's named [Actor Parts](/docs/Components/Actor#actor-part) (hand, head, chest…): spawn points for VFX and skill objects, hit zones. |
+| `ActorExtension_ExternalVfxTracker` | **External Vfxs** | VFX kept on the Actor while a Stat state holds — a burning flame while `Burn > 0`, a shield bubble while `Shielded = 1`. Each pack: a single / multi Stat check + prefabs on body parts. Driven by Stat updates, so a Temporary status shows for exactly its duration. Use **one** tracker per Actor and add packs to it. |
+
+## Death
+
+| Extension | Fields | Does |
+|-------|-------------|-------------|
+| `ActorExtension_DieAnimation` | **Animator**, **Dead Stat Key**, **Die Animation Trigger Key** | Plays the die animation when the death Stat turns on. |
+| `ActorExtension_DieEventTrigger` | **Dead Stat Key**, **Die Event Stat Key**, **Event Processor Extension Id** | Sends a die event to the Actor's Event Processor, running its [Event Based Effects](/docs/Assets/Stat/StatDefinition/EventBasedEffect). |
+| `ActorExtension_DisposeAfterDie` | **Dead Stat Key**, **Duration**, **Destroy After Dispose** | When the death Stat turns on: disables the Actor, waits **Duration** seconds, disposes it (and destroys the GameObject with **Destroy After Dispose**). Give **Duration** at least the die animation's length. |
+| `ActorExtension_ColliderUpdaterByDieState` (3D) | **Dead Stat Key** | Turns the Actor's colliders off while it is dead and back on if it is revived. Without it a corpse keeps being hit: damage on the dead, hit counters running up, *did this cast hit?* answering wrong. Pool-safe. |
+| `ActorExtension_ColliderStatesByDieState` (3D) | **Dead Stat Key**, **Colliders** | The same by **layer** (`Actor` / `Disabled`) for projects where physics filters by layer. Use one of the two, never both. |
+| `ActorExtension_KillContributers` | **Health Stat Key**, **Die Stat Key** | Records how much each Actor damaged this one (`Contributions`: source id + value) until it dies — for assists, shared kill rewards. |
+
+## Transform ↔ Stats (3D sample expansions)
+
+Power moves Actors by changing **Position** / **Direction** Stats; these extensions connect those Stats to the transform.
+
+| Extension | Does |
+|-------|-------------|
+| `ActorExtension_PositionStatToTransfrom_Vector3` / `ActorExtension_DirectionStatToTransform_Vector3` | Stat → transform: the body follows the Position / faces the Direction Stat. |
+| `ActorExtension_TransformToPositionStat_Vector3` / `ActorExtension_TransformToDirectionStat_Vector3` | Transform → Stat: keep the Stat truthful while another system (physics, a rigidbody mover) drives the transform. |
+| `ActorExtension_StatBehaviourSwitch` | Hands control between two sets of behaviours by an Int Stat (one set enabled while it is `0`, the other while above `0`) — e.g. a forward mover owns a projectile's position until `Deflect` flips, then a tween does. |
+| `ActorExtension_MoveToDestination_Vector3` / `ActorExtension_LookToDestination_Vector3` | Moves / turns the Actor toward a destination Stat each frame through an Effect (so slows and roots apply). |
+| `ActorExtension_GroundedStateUpdater` | Raycasts below the feet and keeps a `Grounded` Stat up to date (with grounded / ungrounded / snap Effects). |
+| `ActorExtension_Jump` | Applies a jump Effect Pack when grounded. |
+
+## Input (3D sample expansions)
+
+| Extension | Does |
+|-------|-------------|
+| `ActorExtension_JoystickInput` | Move / look input → movement and direction Effects (aligned with the camera). |
+| `ActorExtension_ClickDestinationInput` | Click on the ground → destination and look Effects (click-to-move). |
+| `ActorExtension_PointerPointUpdater_Vector3` | Writes the pointer's ground point into a Stat — aim, ground-targeted skills. |
+| `ActorExtension_KeyMappedSkillActivator`, `ActorExtension_NumericalSkillActivator` | Input → Skill uses. See [Skill Controller](./Skill/SkillController.mdx#activators). |
+| `ActorExtension_SkillController` | Owns and runs the Actor's Skills. See [Skill Controller](./Skill/SkillController.mdx). |
+
+## Control and helpers
+
+| Extension | Does |
+|-------|-------------|
+| `ActorExtension_Lockable` | Base for extensions that a **State Check Pack** can lock (e.g. input disabled while `Stunned > 0`). |
+| `ActorExtension_ControlLocker` | Disables a list of controller behaviours while locked. |
+| `ActorExtension_LinkToEntity` | Links an extra collider / object to its Actor, so hits on it count as hits on the Actor. |
+| `ActorExtension_ClickInvoker` | Raises a static `Clicked` event with its Actor when the object is clicked — for selecting targets in card / tactics games and debug tools. |
+| `ActorExtension_StatCountIndicator` | One icon per point of an Int Stat above the Actor (e.g. one arrow per arrow stuck in an enemy), in a row that faces the camera. |
+| `ActorExtension_DisplayingStatHolder` | Lists the Stats the UI should display for this Actor. |
+| `ActorExtension_RepeatSkills` | Uses a Skill on a timer. See [Skill Controller](./Skill/SkillController.mdx#activators). |
+| `DisposableExtension_DisposeWithDuration_Realtime` / `_Turnbased` | Disposes any disposable entity (Actor, Effector, Skill object) after a duration or a number of turns, constant or from a Stat. |
+
+## World extensions
+
+| Extension | Does |
+|-------|-------------|
+| `PowerWorldExtension_TeamMemberCountSync` | On the [PowerWorld](/docs/Components/PowerWorld). Keeps one member-count Int Stat per diplomacy team in sync with the team's member list. Each team has its own Environment on the world, found by name (**Environment Name Format**, default `Team{0}` where `{0}` is the team id); the count is written to **Member Count Key**'s container and stat inside it. Re-synced on `MemberAdded`, `MemberRemoved`, `TeamAdded`, `TeamRemoved`. Use it for *while 3 or more allies are alive* rules. |

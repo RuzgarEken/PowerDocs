@@ -28,36 +28,156 @@ Restores **1 ammo** whenever an enemy is killed.
 
 **Scrap Tossers** is a multi-state Skill. State 1 acquires a target, then either State 2 (a throw that homes toward that target) or State 3 (a straight forward throw) runs.
 
-![Scrap Tossers Skil](./images/ScrapTossers_Skill.png)
+<div className="prp-packs">
 
-In State 1, `Effect_SetClosestActorInRange` writes the nearest valid enemy into the **ClosestEnemyInSight** Stat, using a `CustomActor_ClosestInSight` together with the `ClosestInSight`, `IsAlive`, and `Array` targeting filters. `Effect_IncreaseEvolutionNo` then advances the state.
+<details>
+<summary><strong>ScrapTossers</strong> — Skill Model Evolver</summary>
 
-![Scrap Tossers Targeting State](./images/ScrapTossers_Targeting.png)
+<SpecCard kind='effect' label={"Skill Model Evolver"} name='ScrapTossers'>
+  <SpecRow label={"Id \u203a Id"}>{"36"}</SpecRow>
+  <SpecRow label={"Name"}>{"Scrap Tossers"}</SpecRow>
+  <SpecRow label={"State No Stat \u203a Actor"}>{"Entity"}</SpecRow>
+  <SpecRow label={"States [0] \u203a Name"}>{"ScrapTossers_1"}</SpecRow>
+  <SpecRow label={"States [0] \u203a Queue Window"}>{"0.4"}</SpecRow>
+  <SpecRow label={"States [0] \u203a Interruptible Transition"}>{"true"}</SpecRow>
+  <SpecRow label={"States [0] \u203a Use Blocker Stat \u203a Actor"}>{"Entity"}</SpecRow>
+  <SpecRow label={"States [0] \u203a Caster"}><PowerRef>Skill_ScrapTossers_Casting_1_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [0] \u203a Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_1_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [1] \u203a Name"}>{"ScrapTossers_2"}</SpecRow>
+  <SpecRow label={"States [1] \u203a Activation Type"}>{"Without Interaction"}</SpecRow>
+  <SpecRow label={"States [1] \u203a Queue Window"}>{"0.4"}</SpecRow>
+  <SpecRow label={"States [1] \u203a Interruptible Transition"}>{"true"}</SpecRow>
+  <SpecRow label={"States [1] \u203a Use Blocker Stat \u203a Actor"}>{"Entity"}</SpecRow>
+  <SpecRow label={"States [1] \u203a Caster"}><PowerRef>Skill_ScrapTossers_Casting_2_ToTarget_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [1] \u203a Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_2_ToTarget_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [1] \u203a Skill Event Effects [0] \u203a Use Predefined Effect"}>{"true"}</SpecRow>
+  <SpecRow label={"States [1] \u203a Skill Event Effects [0] \u203a Effect Pack"}><PowerRef>Pack_OnUse_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [2] \u203a Name"}>{"ScrapTossers_3"}</SpecRow>
+  <SpecRow label={"States [2] \u203a Activation Type"}>{"Without Interaction"}</SpecRow>
+  <SpecRow label={"States [2] \u203a Queue Window"}>{"0.4"}</SpecRow>
+  <SpecRow label={"States [2] \u203a Interruptible Transition"}>{"true"}</SpecRow>
+  <SpecRow label={"States [2] \u203a Use Blocker Stat \u203a Actor"}>{"Entity"}</SpecRow>
+  <SpecRow label={"States [2] \u203a Caster"}><PowerRef>Skill_ScrapTossers_Casting_3_Forward_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [2] \u203a Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_3_Forward_3DC</PowerRef></SpecRow>
+  <SpecRow label={"States [2] \u203a Skill Event Effects [0] \u203a Use Predefined Effect"}>{"true"}</SpecRow>
+  <SpecRow label={"States [2] \u203a Skill Event Effects [0] \u203a Effect Pack"}><PowerRef>Pack_OnUse_3DC</PowerRef></SpecRow>
+</SpecCard>
 
-`Stat_ConditionalEvolutionNoModifier` decides which throw follows. When a valid closest enemy was found it resolves to the homing throw (State 2, which uses `SkillRotator_ToActor`); otherwise it falls through to the forward throw (State 3).
+</details>
 
-![Scrap Tossers Conditional Evolution Modifier](./images/ScrapTossers_ConditionalModifier.png)
+</div>
+
+In State 1, `SetClosestActorInRange` writes the nearest valid enemy into the **ClosestEnemyInSight** Stat, using a `ClosestInSight` together with the `ClosestInSight`, `IsAlive`, and `Array` targeting filters. `IncreaseEvolutionNo` then advances the state.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>ScrapTossers_Targeting_1</strong> — Skill Targeting Direct</summary>
+
+<SpecCard kind='effect' label={"Skill Targeting Direct"} name='ScrapTossers_Targeting_1'>
+  <SpecRow label={"Relation State"}>{"Me"}</SpecRow>
+  <SpecRow label={"Direct Effect"}><PowerRef>Pack_State_1_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+`ConditionalEvolutionNoModifier` decides which throw follows. When a valid closest enemy was found it resolves to the homing throw (State 2, which uses `ToActor`); otherwise it falls through to the forward throw (State 3).
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>ConditionalEvolutionNoModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='ConditionalEvolutionNoModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"ScrapTossers / ConditionalModifier / ConditionalEvolutionNoModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_NoEnemyInSight_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 ### Ammo
 
-Ammo is the **ScrapTossers_AmmoCount** Stat, clamped to `0`–`3` and defaulting to `3`. On each use, `Effect_SpendAmmo` applies `-1`.
+Ammo is the **ScrapTossers_AmmoCount** Stat, clamped to `0`–`3` and defaulting to `3`. On each use, `SpendAmmo` applies `-1`.
 
-![Scrap Tossers Ammo Stat](./images/ScrapTossers_AmmoStat.png)
+<div className="prp-packs">
 
-To block the Skill while empty, `StatInjectorDefinition_Add1_AmmoEq0` injects `+1` into the Skill's **UseBlockers** Stat whenever **AmmoCount** equals `0` — the same pattern the cooldown uses. The Skill cannot be used again until ammo is available.
+<details>
+<summary><strong>ScrapTossers_AmmoCount</strong> — Stat (Clamped Int)</summary>
 
-![Scrap Tossers Use Blocker Injector](./images/ScrapTossers_UseBlocker.png)
+<SpecCard kind='stat' label={"Stat (Clamped Int)"} name='ScrapTossers_AmmoCount'>
+  <SpecRow label='Stat Key' icon='key'>{"ScrapTossers / IntClamped / AmmoCount"}</SpecRow>
+  <SpecRow label={"Default"}>{"3"}</SpecRow>
+  <SpecRow label={"Max"}>{"3"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+To block the Skill while empty, `Add1_AmmoEq0` injects `+1` into the Skill's **UseBlockers** Stat whenever **AmmoCount** equals `0` — the same pattern the cooldown uses. The Skill cannot be used again until ammo is available.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>ScrapTossers_UBs</strong> — Stat (Clamped Int)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Int)"} name='ScrapTossers_UBs'>
+  <SpecRow label='Stat Key' icon='key'>{"ScrapTossers / IntClamped / SkillUseBlockers"}</SpecRow>
+  <SpecRow label={"Relation: Cooldown"} icon="key"><PowerRef>Key_ScrapTossers_Cd_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Injectors [0]"}><PowerRef>LinkerDefinition_Add1IfCdGT0_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Injectors [1]"}><PowerRef>LinkerDefinition_Add1_AmmoEq0_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Allow Exceed"}>{"true"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 ### Attack
 
-`EffectPack_ThorwableObjects_Attack` applies two Effects on hit: `Effect_Damage` (a flat `-50` to **Health**) and `Effect_Stun`, which adds `1` to the target's **Stun** Stat for `2` seconds.
+`ThorwableObjects_Attack` applies two Effects on hit: `Damage` (a flat `-50` to **Health**) and `Stun`, which adds `1` to the target's **Stun** Stat for `2` seconds.
 
-![Scrap Tossers Attack Pack](./images/ScrapTossers_AttackPack.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ThorwableObjects_Attack</strong> — Effect Pack</summary>
+
+<PackExample name='ThorwableObjects_Attack'>
+  <EffectExample name='Stun' label={"Int Stat Effect (BS)"} targetStat={"Default / IntClamped / Stunned"} value={"1"} applyType='Temporary' />
+  <EffectExample name='Damage' label={"Float Stat Effect (MAS)"} targetStat={"Default / FloatClamped / Health"} processor='Standard_Float' value={"-50"} />
+</PackExample>
+
+</details>
+
+</div>
 
 ### Restoring ammo on kill
 
-`Effect_KillToAmmoCounterInjector` injects a **CounterEffect** into the enemy's **CounterKillEffects** Stat through `Stat_KillToAmmoCounter`, tracking the lethal Effects dealt by this weapon. When an enemy dies, `Effect_IncreaseAmmoCount` adds `1` back to **AmmoCount**.
+`KillToAmmoCounterInjector` injects a **CounterEffect** into the enemy's **CounterKillEffects** Stat through `KillToAmmoCounter`, tracking the lethal Effects dealt by this weapon. When an enemy dies, `IncreaseAmmoCount` adds `1` back to **AmmoCount**.
 
-![Scrap Tossers Kill To Ammo Counter](./images/ScrapTossers_KillToAmmo.png)
+<div className="prp-packs">
 
-When the cast ends, `Effect_Cooldown` and `Effect_ResetEvolutionNo` reset the Skill for the next throw.
+<details>
+<summary><strong>KillToAmmoCounter</strong> — Stat (CounterEffect Signed)</summary>
+
+<SpecCard kind='stat' label={"Stat (CounterEffect Signed)"} name='KillToAmmoCounter'>
+  <SpecRow label='Stat Key' icon='key'>{"ScrapTossers / CounterEffect_Signed / KillToAmmoCounter"}</SpecRow>
+  <SpecRow label={"Targeting Environment Id"}>{"Default"}</SpecRow>
+  <SpecRow label={"Trigger On"}>{"Applied"}</SpecRow>
+  <PackExample name='KillToAmmoCounter' label={"Default"}>
+    <EffectExample name='IncreaseAmmoCount' label={"Int Stat Effect (BS)"} targetStat={"ScrapTossers / IntClamped / AmmoCount"} processor='Add_Int' value={"1"} />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
+
+When the cast ends, `Cooldown` and `ResetEvolutionNo` reset the Skill for the next throw.

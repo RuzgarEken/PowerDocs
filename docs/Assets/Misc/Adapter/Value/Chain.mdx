@@ -18,8 +18,18 @@ The value is processed sequentially through the configured adapters:
 
 `Input Value → Adapter 1 → Adapter 2 → Adapter 3 → Final Value`
 
-For example, if the input value is `100` and the Chain contains three Value Adapters, the first adapter receives `100`, the second receives the result of the first, and the third receives the result of the second. The result of the final adapter becomes the adapted value.
-
 :::info
 The **Adapters** array must contain at least one adapter, and every element in the array must be assigned.
 :::
+
+## Example
+
+A Chain of three Vector3 adapters that turns a facing direction into a flat 4 m offset:
+
+| Adapter | Receives | Returns |
+| --- | --- | --- |
+| [Alter](./Alter.mdx), **Multiplier** `(4, 4, 4)` | `(0.6, −0.3, 0.74)` | `(2.4, −1.2, 2.96)` |
+| [Project On Plane](./Vector/ProjectOnPlane.mdx), normal `(0, 1, 0)` | `(2.4, −1.2, 2.96)` | `(2.4, 0, 2.96)` |
+| [Sum](./Vector/Sum.mdx), Secondary `(0, 0.5, 0)` | `(2.4, 0, 2.96)` | `(2.4, 0.5, 2.96)` |
+
+The result of the last adapter, `(2.4, 0.5, 2.96)`, is the Chain's value.

@@ -32,30 +32,130 @@ There are three scenarios for spending and reclaiming an arrow.
 
 The first scenario is when we fire an arrow at the ground. In this case, we use a custom script to move the arrow back to its source and restore the ammo when the arrow reaches the source.
 
-![Move to Source](./images/Ravenmark_MoveToSource.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>RavenmarkBow › SkillExtension_MoveToSource</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"SkillExtension_MoveToSource"} name={"RavenmarkBow"}>
+  <SpecRow label={"Delay"}>{"2.5"}</SpecRow>
+  <SpecRow label={"Duration"}>{"0.18"}</SpecRow>
+  <SpecRow label={"Effect Pack \u2192 on reach"}><PowerRef>Pack_ReclaimArrow_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 We use a **SourceSeparated Int Stat** for **AmmoCount**, while the inner Stats track the decrease amounts associated with each actor.
 
 As shown below, the parent Stat has a range of `0` to `2`, while the inner Stat has a range of `-2` to `0`. Modifiers are added to both the inner Stat and the **SourceSeparated** parent Stat. This allows the system to track both the remaining ammo count and the decrease amounts associated with arrows for each Actor.
 
-![Ammo Stat](./images/Ravenmark_AmmoStat.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>AmmoCount(SrcSep)</strong> — Stat (SrcSep Clamped Int)</summary>
+
+<SpecCard kind='stat' label={"Stat (SrcSep Clamped Int)"} name='AmmoCount(SrcSep)'>
+  <SpecRow label='Stat Key' icon='key'>{"RavenmarkBow / Int_SrcSep / AmmoCount"}</SpecRow>
+  <SpecRow label={"Default"}>{"2"}</SpecRow>
+  <SpecRow label={"Inner Stat Definition"}><PowerRef>Stat_AmmoCount(SrcSep-Inner)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Max"}>{"2"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 When an arrow is fired, its decrease amount is initially added to the source Actor's **SourceSeparated** Stat. If the arrow does not hit any target, this decrease amount remains assigned to the source Actor.
 
 If the arrow hits a target, we remove the decrease amount from the source Actor and assign the same decrease amount to the target Actor. This allows the **SourceSeparated** Stat to track how many arrows are currently attached to each Actor.
 
-![Bind Switch](./images/Ravenmark_BindSwitch.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>RavenmarkBow › Effector_OnCollide</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"Effector_OnCollide"} name={"RavenmarkBow"}>
+  <SpecRow label={"Trigger Actors"}>{"Enemy"}</SpecRow>
+  <SpecRow label={"Hit Limitation Type"}>{"By Count"}</SpecRow>
+  <SpecRow label={"Hit Limit"}>{"1"}</SpecRow>
+  <SpecRow label={"Team From"}>{"Source"}</SpecRow>
+  <SpecRow label={"Limit Exceeded Behaviour"}>{"Passivate"}</SpecRow>
+  <SpecRow label={"Effect Pack (target Source, source Source)"}><PowerRef>Pack_UnbindAmmoFromSource_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Effect Pack (target Source, source Trigger Actor)"}><PowerRef>Pack_BindAmmoToTarget_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Effect Pack (target Trigger Actor, source Source)"}><PowerRef>Pack_RavenmarkBow_Attack_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 Although this setup is somewhat complex, it works reliably and allows us to keep track of both the fired arrows and the remaining ammo.
 
 To apply additional damage to marked targets, we use a **CounterEffect** that checks for the mark. After applying the damage, we add a cooldown to prevent the effect from triggering again immediately.
 
-![Counter Damage](./images/Ravenmark_CounterDamage.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>RavenmarkBowCounterDamage</strong> — Stat (CounterEffect Signed)</summary>
+
+<SpecCard kind='stat' label={"Stat (CounterEffect Signed)"} name='RavenmarkBowCounterDamage'>
+  <SpecRow label='Stat Key' icon='key'>{"RavenmarkBow / CounterEffect_Signed / RavenmarksBowCounterDamage"}</SpecRow>
+  <SpecRow label={"Redirection Target"}>{"Target"}</SpecRow>
+  <SpecRow label={"Redirected Effect Source"}>{"Modifier Source"}</SpecRow>
+  <SpecRow label={"State Check"}>{"true"}</SpecRow>
+  <SpecRow label={"Multi Stat Check"}>{"true"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is1(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Stats [0] \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Stats [1] \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Condition"}><PowerRef>Condition_RavenmarkBowDamageCounter_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Targeting Environment Id"}>{"Default"}</SpecRow>
+  <SpecRow label={"Trigger On"}>{"Applied"}</SpecRow>
+  <SpecRow label={"Incoming Effect Sign"}>{"Negative"}</SpecRow>
+  <PackExample name='RavenmarkBowCounterDamage' label={"Default"}>
+    <EffectExample name='MarkCounterDamageCd' label={"Int Stat Effect (BS)"} targetStat={"RavenmarkBow / IntClamped / RavenmarksBowCounterDamageCd"} processor='Add_Int' value={"1"} applyType='Temporary' />
+    <EffectExample name='MarkCounterDamage' label={"Float Stat Effect (BS)"} targetStat={"Default / FloatClamped / Health"} processor='Standard_Float' value={"-1.5"} />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
 
 To spread the mark when a marked enemy dies, we use a **StateBasedEffect**. We also use a **SourceSeparated Stat** to ensure that the mark's source is correctly preserved when it spreads.
 
-![Spread Trigger](./images/Ravenmark_SpreadTrigger.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>SpreadMarkOnDeadTrigger(SrcSep)</strong> — Stat (SrcSep EffectPack)</summary>
+
+<SpecCard kind='stat' label={"Stat (SrcSep EffectPack)"} name='SpreadMarkOnDeadTrigger(SrcSep)'>
+  <SpecRow label='Stat Key' icon='key'>{"RavenmarkBow / StateBasedEffect_SrcSep / SpreadMarkOnDeadTrigger"}</SpecRow>
+  <SpecRow label={"Inner Stat Definition"}><PowerRef>Stat_SpreadMarkOnDeadTrigger(SrcSep-Inner)_3DC</PowerRef></SpecRow>
+  <PackExample name='RavenmarkBowBundle(Default)' label={"Default"}>
+
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
 
 Finally, we use a **CustomTargeter** to find team members within the required range and apply the mark to them.
 
-![Custom Targeter](./images/Ravenmark_Targeter.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>TeamMembersInRange</strong> — Custom Targeter By Relation State Filtered</summary>
+
+<SpecCard kind='effect' label={"Custom Targeter By Relation State Filtered"} name='TeamMembersInRange'>
+  <SpecRow label={"Relate To"}>{"Target"}</SpecRow>
+  <SpecRow label={"Relation State"}>{"Team"}</SpecRow>
+  <SpecRow label={"Filter"}><PowerRef>TargetingFilter_InRange_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

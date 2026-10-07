@@ -10,8 +10,13 @@ Block is **not removed** at the start of your next turn.
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_FortifiedGuard</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_FortifiedGuard_STS"
+  name="Card_FortifiedGuard"
   stats={[
     {key: 'Block', value: 5},
     {key: 'Energy Cost', value: 1},
@@ -19,9 +24,22 @@ Block is **not removed** at the start of your next turn.
   ]}
 />
 
+</details>
+
+</div>
+
 It gains Block like Defend, then adds one extra Effect that marks the Block to survive the normal start-of-turn reset once:
 
-<PackExample name="Pack_FortifiedGuard" target="Self">
-  <EffectExample name="Effect_Block_STS" targetStat="Block" valueStat="Block" value={5} />
-  <EffectExample name="Effect_BlockExtender" targetStat="Block" value={-1} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>FortifiedGuard</strong> — Effect Pack</summary>
+
+<PackExample name="FortifiedGuard" target="Self">
+  <EffectExample name="Block" targetStat="Block" valueStat="Block" value={5} />
+  <EffectExample name="BlockExtender" targetStat="Block" value={-1} />
 </PackExample>
+
+</details>
+
+</div>

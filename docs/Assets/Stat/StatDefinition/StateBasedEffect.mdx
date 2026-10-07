@@ -36,6 +36,7 @@ It can be used to implement passive gameplay mechanics such as auras, low-health
 | **Effect Source Actor Stat Key** | The **Stat Key** used to retrieve the Actor Stat. |
 | **Effect Apply Type** | Determines how the triggered Effect is applied. See **Effect Apply Types** below. |
 | **Environment Id** | The Environment Id to which the triggered Effect is sent. |
+| **Additional Effects** | More Effects applied on the same condition, each with its own **Effect Pack**, **Effect Target** (and its fields), **Effect Source As** (and its fields) and **Environment Id**. They are applied after the Stat's own pack and, for **Apply Once** and **Refresh On Update**, removed with it when the condition is lost. Use one Stat with entries instead of several Stats that copy the same condition. |
 
 ## Initial Evaluation
 
@@ -64,5 +65,5 @@ Enable **Skip Initial Evaluation** for that case. The Stat then ignores the stat
 | Type | Description |
 | --- | --- |
 | **Apply Once** | Applies the Effect when the condition becomes true. When the condition becomes false, the applied Effect is removed. |
-| **Replace On Update** | Applies the Effect when the condition becomes true. While the condition remains true, each update removes the previously applied Effect and applies a new one. |
+| **Refresh On Update** | Applies the Effect when the condition becomes true. While the condition remains true, each update refreshes it: the previously applied Effect is removed and a new one is applied. |
 | **Persistent** | Applies the Effect every time the condition is updated while it remains true. |

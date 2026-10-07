@@ -15,13 +15,13 @@ The Hit Rate Stat is resolved as follows:
 
 ### Base Stat (BS) Processors
 
-- For the **Target Actor**, the Hit Rate Stat is obtained directly from the **Target Stat's HitRateTaken Relative Stat**.
-- For the **Source Actor**, the Hit Rate Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's HitRateGiven Relative Key**.
+- For the **Target Actor**, the Hit Rate Stat is obtained directly from the **Target Stat's HitRate_Receiving Relative Stat**.
+- For the **Source Actor**, the Hit Rate Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's HitRate_Applying Relative Key**.
 
 ### Attribute Stat (AS) / Multi Attribute Stat (MAS) Processors
 
-- For the **Target Actor**, the Hit Rate Stat is obtained from the **Target Actor** using the **Stat Key** referenced by the **Attribute Stat's HitRateTaken Relative Key**.
-- For the **Source Actor**, the Hit Rate Stat is obtained directly from the **Attribute Stat's HitRateGiven Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
+- For the **Target Actor**, the Hit Rate Stat is obtained from the **Target Actor** using the **Stat Key** referenced by the **Attribute Stat's HitRate_Receiving Relative Key**.
+- For the **Source Actor**, the Hit Rate Stat is obtained directly from the **Attribute Stat's HitRate_Applying Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
 
 The resolved Stat must be a **Float Stat**.
 
@@ -29,16 +29,16 @@ The resolved Stat must be a **Float Stat**.
 
 | Field | Description |
 | --- | --- |
-| **Hit Rate Given Key** | The Relative Key used to resolve the Source Actor's Hit Rate Stat. |
-| **Hit Rate Taken Key** | The Relative Key used to resolve the Target Actor's Hit Rate Stat. |
+| **Applying Hit Rate Key** | The Relative Key used to resolve the Source Actor's Hit Rate Stat. |
+| **Receiving Hit Rate Key** | The Relative Key used to resolve the Target Actor's Hit Rate Stat. |
 | **Missed Result Attribute** | The Result Attribute added to the Effect when the hit check fails. This can be used to drive gameplay feedback such as miss animations or UI indicators. |
-| **Use Conditional Hit Rate Modifier (Given)** | Enables conditional modification of the Source Actor's Hit Rate value before it is used. |
-| **Use Conditional Hit Rate Modifier (Taken)** | Enables conditional modification of the Target Actor's Hit Rate value before it is used. |
+| **Use Applying Conditional Hit Rate Modifier** | Enables conditional modification of the Source Actor's Hit Rate value before it is used. |
+| **Use Receiving Conditional Hit Rate Modifier** | Enables conditional modification of the Target Actor's Hit Rate value before it is used. |
 | **Conditional Modifier** | The Conditional Modifier Processor used to modify the resolved Hit Rate values. |
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS`, with no container variations — the Hit Rate is always a plain Float Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS` — the Hit Rate must be a plain Float Stat (not a Separated list). See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
 
 | Asset | Accuracy belongs to | Use case |
 | --- | --- | --- |

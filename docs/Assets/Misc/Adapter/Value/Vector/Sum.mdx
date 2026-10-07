@@ -1,0 +1,22 @@
+---
+sidebar_position: 7
+---
+
+# Sum
+
+**ValueAdapter_Sum_Vector3** adds a secondary vector to the input vector: `input + secondary`.
+
+| Field | Description |
+| --- | --- |
+| **Secondary Vector** | The vector added. When the adapter is the **Merge Operation** of a [Tree Operation](../../Stat/TreeOperation.mdx), it is overwritten with the secondary Stat's value. |
+| **Process Order** | Kept for symmetry with the other two-input adapters; a sum does not depend on the order. |
+
+Ships for `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`.
+
+## Example
+
+The last step of a knockback end point: the 4 m push offset added to the target's position. 3DCells' Titan Greaves uses `ValueAdapter_KnockbackEndPointSum_3DC` as the **Merge Operation** of a [Tree Operation](../../Stat/TreeOperation.mdx) whose Secondary Stat is the Target's `Position`:
+
+| Input (push offset) | Secondary (`Position`) | Result |
+| --- | --- | --- |
+| `(3.2, 0, 2.4)` | `(4, 0, 3)` | `(7.2, 0, 5.4)` |

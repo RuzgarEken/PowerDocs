@@ -12,8 +12,13 @@ Deal **7** damage **3 times**.
 
 Shred brings its own base cost instead of using the shared `EnergyCost` value:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_Shred</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_Shred_STS"
+  name="Card_Shred"
   stats={[
     {key: 'Damage', value: 7},
     {key: 'Energy Cost', value: 3},
@@ -22,13 +27,26 @@ Shred brings its own base cost instead of using the shared `EnergyCost` value:
   ]}
 />
 
+</details>
+
+</div>
+
 A Linker then discounts that cost as you discard. It feeds this turn's discard count into the card's `EnergyCost`, subtracting `1` per discarded card:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>UpdateEnergyByDiscardTT</strong> — Injector</summary>
+
 <InjectorExample
-  name="LinkerDefinition_UpdateEnergyByDiscardTT"
+  name="UpdateEnergyByDiscardTT"
   into="EnergyCost (this card)"
   condition={<>Per card discarded this turn (<PowerRef>Key_DiscardCountTT</PowerRef>)</>}
   value={-1}
 />
+
+</details>
+
+</div>
 
 Before the card resolves, a `BeforeUse` Effect — <PowerRef>Effect_RepeatCount_2</PowerRef> — adds `2` to its base repeat count, so the shared <PowerRef>Effect_AttackDamage_STS</PowerRef> hit lands **3 times** in total.

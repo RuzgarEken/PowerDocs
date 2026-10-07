@@ -1,0 +1,13 @@
+---
+sidebar_position: 12
+---
+
+# Just Notify
+
+Changes nothing. It only makes the target Stat **update whenever the Injector Stat changes**.
+
+Use it when the target's value depends on another Stat in a way the target computes itself — a State Based Effect, a Conditional Modifier or another Linker that reads a third Stat — and that Stat's changes would otherwise go unnoticed until the target updates for another reason.
+
+## Example
+
+A [State Based Effect](/docs/Assets/Stat/StatDefinition/StateBasedEffect) `LowHealthRage` is active while `Health ≤ 30 %`, but its condition reads `Health` inside the Stat itself. Add a Just Notify Linker to `LowHealthRage` with **Injector Stat** `Health`: every Health change now updates `LowHealthRage`, so the state switches the moment Health crosses 30 %.

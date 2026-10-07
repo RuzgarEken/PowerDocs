@@ -10,8 +10,13 @@ Deal **50** damage to **all enemies**.
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_FinalCurtain</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_FinalCurtain_STS"
+  name="Card_FinalCurtain"
   stats={[
     {key: 'Damage', value: 50},
     {key: 'Energy Cost', value: 0},
@@ -19,10 +24,19 @@ Deal **50** damage to **all enemies**.
   ]}
 />
 
+</details>
+
+</div>
+
 The damage is the same shared Effect other Attack cards use, aimed at every enemy instead of a single target:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>AttackDamage</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_AttackDamage_STS"
+  name="AttackDamage"
   targetStat="Health"
   attributeStat="AttackDamage"
   valueStat="Damage"
@@ -30,11 +44,24 @@ The damage is the same shared Effect other Attack cards use, aimed at every enem
   target="All enemies"
 />
 
+</details>
+
+</div>
+
 The "draw pile must be empty" rule is a use-block injector. It reads <PowerRef>Key_DrawPileCardCount</PowerRef> and adds a UseBlocker to the card whenever the draw pile is **not** empty, so Final Curtain only becomes playable once the pile is exhausted:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>UseBlockWhenDrawNotEmpty</strong> — Injector</summary>
+
 <InjectorExample
-  name="StatInjectorDefinition_UseBlockWhenDrawNotEmpty_STS"
+  name="UseBlockWhenDrawNotEmpty"
   into="Card UseBlockers"
   condition={<>Draw pile count &gt; 0</>}
   value={1}
 />
+
+</details>
+
+</div>

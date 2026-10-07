@@ -1,0 +1,37 @@
+---
+sidebar_position: 7
+---
+
+# 3D Sample Expansions
+
+`GeneralExpansions/SampleExpansions/3D` holds the 3D building blocks the demos share. They are generic enough to start a 3D project from.
+
+## Premade environments
+
+`SampleExpansions/3D/Data/Environments` — ready Stat Environments, built from the Movement and Leap [Premade Relation Packs](/docs/Assets/Misc/PremadeRelationPack):
+
+| Environment | Holds |
+|-------|-------------|
+| **Movement3D** | `Position`, `Direction`, `Destination`, `LookDestination`, `PointerPoint`, `MoveSpeed` (+ a Vector3 Modifier), `SpeedScaler`, and the blocker ints `MovementBlocker`, `RotationBlocker`, `DirectionChangeBlock`, `AimBlocker`, `ControlBlocker`; SigSep Counter Effect lists on Position / Dash / Knockback so mechanics can react to movement. |
+| **Dash** | a [Tweener](/docs/Assets/Stat/StatDefinition/Tweener) dash: start / end points, duration, the toggle and its complete trigger. |
+| **Knockback** | the same shape for knockbacks, with a wall-collision condition. |
+
+Map these Environments into your Actors' Repositories instead of rebuilding them. Slows lower `SpeedScaler`; stuns and roots raise a blocker.
+
+## Assets
+
+| Asset | Does |
+|-------|-------------|
+| `StatValueAdapter_LookAtIfNotThere` (*Create › Power › Misc › Value Adapter › LookAtIfNotThere*) | The incoming Stat is a **position**; returns the direction from the Source's position (**Source Position Key**) to it, or the Source's current facing (**Source Direction Key**) when the two points coincide. Use it on a Set Effect on the Source's `Direction` whose value is another Actor's position — *face the closest enemy before attacking*. |
+| `BSStandardPostcontribution_SweepTestBeforeMove_Vector3` | A Vector3 Postcontribution for Position Effects: sweeps the Actor's own collider along the move and **slides along obstacles** instead of entering them. **Skin Width** (gap kept to obstacles), **Max Iterations** (collide-and-slide passes; 3 covers corners), **Slope Limit** (steeper surfaces are walls), **Obstacle Layers** (by name). Put it in the Position chain so dashes and knockbacks stop at walls. |
+| `PowerDiplomacyProvider_Battle` (*Create › Power › World › Diplomacy › Provider › Battle*) | A diplomacy provider with the five relation states **Me**, **Team**, **Ally**, **Neutral**, **Enemy**. |
+
+## Components
+
+| Group | Components |
+|-------|-------------|
+| Actor extensions | movement, input, transform sync, colliders by death state — see [Actor Extensions](./Actor.mdx) |
+| Effector detectors | `CollisionDetector3D`, `TriggerDetector3D`, `OverlapSphereDetector3D` — see [Effector](./Effector/index.mdx#collision-detectors) |
+| Skill | `SkillTargeting_SkillShot`, parenters / positioners / rotators / layouters, movement and lifetime extensions — see [Skill Extensions](./Skill/SkillExtensions.mdx) |
+| Camera | `CameraFollow_R3D`, `CameraExtension_LockToPlayer`, `CameraExtension_DragAndMoveBehaviour`, `FaceToCamera` |
+| Split screen | `SplitScreenController` (+ `_SelectToAdd`), `SplitScreenCameraBehaviour`, split-screen variants of the pointer, click and text-spawn components — local multiplayer |

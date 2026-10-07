@@ -1,0 +1,35 @@
+---
+sidebar_position: 8
+---
+
+# Add Attribute Value By Condition
+
+Two Linkers that add a flag value to an **Int** target Stat while a condition on the Injector Stat holds:
+
+| Linker | Adds |
+| --- | --- |
+| `LinkerModel_AddEffectAttributeValueByCondition` | the selected **Effect Attributes** |
+| `LinkerModel_AddResultAttributeValueByCondition` | the selected **Effect Result Attributes** |
+
+The target is an Int Stat used as a set of flags — e.g. the value an [Effect Attribute Eliminater](/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater) or a [Block By Result Attribute](/docs/Assets/Processor/Processors/Standard/Postcontribution/BlockByResultAttribute) Processor reads. The flags are added with `+=`, so give each Linker distinct flags.
+
+| Field | Description |
+| --- | --- |
+| **Condition Comparer** | A **Single Stat Condition** checked against the Injector Stat. |
+| **Attribute(s)** | The flags added while the condition passes. |
+
+See [Effect Attributes](/docs/CoreConcepts/EffectAttributes).
+
+## Example
+
+*Bosses can't be crit while their shield is up.*
+
+| Field | Value |
+| --- | --- |
+| Target Stat | the boss's `EliminatedAttributes` (read by the [Effect Attribute Eliminater](/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater)) |
+| Linker | `LinkerModel_AddEffectAttributeValueByCondition` |
+| **Attribute(s)** | `Critable` |
+| Injector Stat | `Shield` |
+| **Condition Comparer** | `> 0` |
+
+While `Shield > 0`, incoming Effects lose `Critable` and can't crit; when the shield breaks, `EliminatedAttributes` drops back and crits work again.

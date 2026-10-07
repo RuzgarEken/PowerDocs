@@ -10,11 +10,20 @@ Prevent the **first instance of [HP](/docs/Samples/SlayTheSphere/Keywords#hp) lo
 
 On pickup, an injector adds a **Health Reflector** to the player that intercepts the first instance of HP loss each combat:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>HealthReflectorInjector</strong> — Injector</summary>
+
 <InjectorExample
-  name="Effect_HealthReflectorInjector"
+  name="HealthReflectorInjector"
   into="Health"
   condition="First HP loss each combat"
   effect="Health Reflector"
 />
+
+</details>
+
+</div>
 
 Once it absorbs a hit, <PowerRef>Effect_HelixToggleOff_STS</PowerRef> disables the reflector (value `-1`) until it is re-armed at the start of the next combat.

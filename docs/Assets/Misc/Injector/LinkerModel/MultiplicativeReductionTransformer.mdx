@@ -1,0 +1,37 @@
+---
+sidebar_position: 9
+---
+
+# Multiplicative Reduction Transformer
+
+Turns a Stat that collects **reductions** (0.2 = 20 % less) into the **remaining fraction**, so stacking reductions multiply instead of adding up — they approach 100 % but never reach it.
+
+`value = Π(1 − each temporary add) × (1 − (default + all permanent adds))`
+
+- Each **Temporary** add is its own factor: two temporary +0.2 → `0.8 × 0.8 = 0.64` (36 % reduction). When one expires the value rises again.
+- The default and every **Permanent** add are summed into one factor: two permanent +0.2 → `0.6`.
+- The two kinds multiply: permanent 0.1 and temporary 0.2 → `0.9 × 0.8 = 0.72`.
+
+Ships for `Float` only (*Linker Types › Multiplicative Redcuction Transformer › Float*).
+
+## Using it
+
+1. A **Modifier** Stat (e.g. `DamageReduction`) with **Contribution Type = Multiplier**, **default 0** (the default counts as a permanent add, so 0 means *no reduction* and the transformed value is `1`).
+2. A Linker Definition on that Stat with this Linker, **Injector Stat Key = the Stat itself**, and **nothing after it** in the Injectors list.
+3. Grants add positive fractions to it (`+0.2`). Choose the Apply Type on purpose: Temporary adds multiply, Permanent adds sum.
+
+Then a −10 hit with a 0.2 reduction becomes −8.
+
+:::warning
+Keep each add below `1` and the permanent sum below `1`. A factor of `0` or less would make the Multiplier `0` (all damage removed) or negative (damage turns into healing). On a Signed Modifier Stat the Min / Max borders are not enforced.
+:::
+
+## Example
+
+In [Kodes](/docs/Samples/Kodes), the Player's `DamageReduction` (a Modifier Stat) carries `LinkerDefinition_TransformDamageReduceToMultiplicative_R3D`, whose **Injector Stat** is `DamageReduction` itself. Upgrades add to it:
+
+| Grants | Transformed value | A −100 hit |
+| --- | --- | --- |
+| none | `1` | `−100` |
+| Bronze Skin, Temporary `+0.2` | `0.8` | `−80` |
+| + another Temporary `+0.2` | `0.8 × 0.8 = 0.64` | `−64` |

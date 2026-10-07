@@ -1,0 +1,27 @@
+---
+sidebar_position: 3
+description: Animation feedback — set an Animator trigger on the target, chosen by target Stat, sign and Result Attributes.
+---
+
+# Animation
+
+**Animation** feedback sets an Animator trigger on the target: a hit reaction, a stagger, a block. It is the [Feedback](./index.mdx) family for making Actors react to what happens to them.
+
+The target needs an `ActorExtension_Animator`.
+
+## Fields
+
+| Field | Description |
+|-------|-------------|
+| **Ignore** | Plays nothing for this case. |
+| **Trigger Key** | The Animator trigger set on the target. |
+| **Conditions** | Optional [Effect Conditions](/docs/Assets/Effect/Conditional#condition), all must pass (e.g. don't play *hit* on a dead target). |
+
+The table layout (target Stat → sign → Result Attributes → animation, with fallbacks) is the same as for [Vfx](./Vfx.mdx). See [How a case is chosen](./index.mdx#how-a-case-is-chosen).
+
+## Examples
+
+| Goal | Setup |
+|-------|-------------|
+| A stagger animation on heavy hits only | `BSFeedback_Animation_Float` with an entry for your `Stagger` Result Attribute. |
+| A hit reaction that skips dead targets | A Negative fallback with Trigger Key `Hit` and a Condition that the target's `Health` is above `0`. |

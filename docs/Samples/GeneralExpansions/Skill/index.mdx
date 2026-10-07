@@ -19,7 +19,20 @@ The difference between them is the number of States they contain.
 - A **Normal Skill** consists of a single State.
 - An **Evolver Skill** consists of multiple States.
 
-A **State** defines how a Skill behaves, including its activation conditions, casting behavior, and targeting logic.
+A **State** defines how a Skill behaves, including its activation conditions, casting behavior, and targeting logic. See [Skill State](./SkillState.mdx).
+
+## The pieces
+
+| Piece | Asset / component | Role |
+| --- | --- | --- |
+| **Skill** | `SkillModel_Normal` / `SkillModel_Evolver` (*Create › Power Demos › Skills › Types*) | The skill: its **Skill Id**, **Name** and its State(s). An Evolver also has a **State No Stat** that picks the active State. |
+| **Skill State** | inside the Skill | When it may run, which body channels it occupies, how it is cast, how it delivers its Effects, and which Effect Packs fire at each step. |
+| **Casting Model** | `SkillCasting_*` asset (*… › Skills › Casting*) | How the State is cast: an animation, a direct trigger. See [Casting Model](./CastingModel.mdx). |
+| **Targeting Model** | `SkillTargeting_*` asset (*… › Skills › Targeters*) | How the Effects reach targets: a spawned skill object (projectile, area) or directly. See [Targeting Model](./TargetingModel.mdx). |
+| **Skill Container** | `SkillContainerModel` (*… › Skills › Skill Container*) | A list of Skills given to an Actor at once. |
+| **Skill Controller** | `ActorExtension_SkillController` on the Actor | Owns and runs the Actor's Skills and decides which may run at the same time. See [Skill Controller](./SkillController.mdx). |
+| **Activators** | `ActorExtension_KeyMappedSkillActivator`, `ActorExtension_NumericalSkillActivator`, `SkillElementExtension_ButtonActivator`, `ActorExtension_RepeatSkills` | Turn input (or a timer) into skill uses. |
+| **Skill object** | `SkillEntity` prefab + [Skill Extensions](./SkillExtensions.mdx) | The spawned projectile / area, with its Effectors and behaviours. |
 
 ## Normal Skill
 
@@ -31,7 +44,9 @@ A **State** defines how a Skill behaves, including its activation conditions, ca
 
 ## State Transitions
 
-State transitions are driven entirely by the value of the `StateNoStat`.
+State transitions are driven entirely by the value of the `StateNoStat` (the Evolver's **State No Stat**).
+
+When the stat changes while the current State is still casting, the transition is **queued** and applied the moment the cast finishes, so a stat change never cuts a running animation in half (unless the Casting Model has **Allow Switch State While Casting**). A use pressed meanwhile goes to the State being switched to.
 
 Since `StateNoStat` is just another Stat, it can be modified by any logic you create with Power. This makes Evolver Skills extremely flexible and allows you to build a wide variety of gameplay mechanics.
 

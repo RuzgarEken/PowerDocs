@@ -4,4 +4,22 @@ sidebar_position: 6
 
 # Subtract
 
-Subtracts a predefined vector from the input vector and returns the result.
+**ValueAdapter_Substract_Vector3** subtracts one vector from the other.
+
+| Field | Description |
+| --- | --- |
+| **Secondary Vector** | The other vector. When the adapter is the **Merge Operation** of a [Tree Operation](../../Stat/TreeOperation.mdx), it is overwritten with the secondary Stat's value. |
+| **Process Order** | **Incoming To Sec**: `input − secondary`. **Sec To Incoming**: `secondary − input`. |
+
+Ships for `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`.
+
+## Example
+
+The offset from the attacker to the target:
+
+| Input | Secondary | Process Order | Result |
+| --- | --- | --- | --- |
+| Target `(4, 0, 3)` | Source `(1, 0, 1)` | **Incoming To Sec** | `(3, 0, 2)` — from the attacker to the target |
+| Target `(4, 0, 3)` | Source `(1, 0, 1)` | **Sec To Incoming** | `(−3, 0, −2)` — from the target to the attacker |
+
+Unlike [Direction](./Direction.mdx), the result keeps its length (here about 3.6 m).

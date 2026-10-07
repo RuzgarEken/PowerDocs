@@ -1,0 +1,46 @@
+---
+sidebar_position: 3
+---
+
+# Director
+
+The **Director** Postprocessor forwards the Effect to another Actor **after** the current Effect was processed. It is the same as the [Director Preprocessor](/docs/Assets/Processor/Preprocessors/Director), but it runs at the end of the pipeline.
+
+It resolves the **Director Stat** the same way, through the same Director relations, and applies the forwarded Effect according to its **Director Signature**.
+
+## When to use it instead of the Preprocessor
+
+A Director Preprocessor forwards the Effect before anything is applied. A Director Postprocessor forwards it once the Effect went through, so everything the Postprocessors listed **before** it did is already in place.
+
+This matters for **chains and bounces**. A chain lightning makes each victim immune and then bounces to the enemies nearby. With the Director as a Postprocessor, the bounce always comes after the victim became immune, so a neighbour can't bounce the lightning back, and the chain ends once everyone in range is hit.
+
+Make the victim immune with something the **victim** owns and that runs before the bounce:
+
+- an [Intervener Effect](/docs/Assets/Processor/Preprocessors/IntervenerEffect) Preprocessor (AS/MAS: its Receiving relation is resolved on the Target), or
+- for BS Effects, a Counter Effect Postprocessor listed **before** the Director Postprocessor.
+
+:::warning
+
+An AS/MAS Counter Effect Postprocessor resolves its Receiving relation on the **Source** (the attribute stat belongs to the attacker). A victim's immunity placed there never fires, nobody becomes immune, and two enemies hit at the same time bounce the Effect between each other until the game crashes with a stack overflow.
+
+:::
+
+## Settings
+
+| Field | Description |
+| --- | --- |
+| Receiving Director Key | The Director relation resolved on the **Target Actor**. |
+| Applying Director Key | The Director relation resolved on the **Source Actor**. |
+| Run On | The outcomes it runs for. **Applied** by default: a blocked Effect (for example, blocked by immunity) is not forwarded. |
+
+One of the two keys is enough. A key left as **None** is skipped.
+
+:::note
+
+The original Effect is already applied when the Postprocessor runs, so the Director Signature's **Block Effect** has no effect here.
+
+:::
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).

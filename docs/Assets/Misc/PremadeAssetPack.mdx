@@ -6,14 +6,39 @@ import PapReference from './images/PapReference.png'
 
 # Premade Asset Pack
 
-`Premade Asset Pack` (PAP) is an editor asset designed to simplify the creation of frequently used assets that do not contain Stat relations.
+A **Premade Asset Pack** (PAP) is an editor asset that bundles frequently used assets that are not Stat relations — Effects, Effect Packs, Linker Definitions, Stats and Processors — so they can be copied into a project in one step.
 
-Like `Premade Relation Pack` (PRP), PAPs help eliminate repetitive work by allowing you to create commonly used assets once and reuse them across projects.
-
-Create the required assets and add them to the PAP as references.
+Like a [Premade Relation Pack](./PremadeRelationPack/index.mdx) (which can reference one through its **Assets** field), a PAP removes repetitive work: create the assets once and reuse them across projects.
 
 <img src={PapReference} alt="Pap reference" />
 
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Description** | What the assets are for and how to use them. |
+| **Effect Packs** / **Effects** | Effect assets to copy. |
+| **Linker Definition** | Linker Definitions to copy. |
+| **Stats** | Stat Definitions to copy. |
+| **Processors** | Processor assets to copy (e.g. the Hit Rate Precontribution a dodge pack needs). Copied only — add them to your Process Definitions yourself. |
+
 ## Extracting Assets
 
-Use the **Extract** section to choose the destination folder where the referenced assets will be created.
+Use the **Extract** section to choose the destination folder where the referenced assets will be created. References between the copied assets are rewired to the copies.
+
+## Example
+
+Dodge Chance needs a Processor most projects don't have yet: `Precontribution_HitRate_Float(BS)`. It ships it in `PAP_DodgeChance`:
+
+| Field | Value |
+| --- | --- |
+| **Description** | What the Processor does and where it goes: the BS Float chain's Precontributions, after Immune. |
+| **Processors** | `Precontribution_HitRate_Float(BS)` |
+
+Extract it into your Processors folder, then add the copy to your Process Definition yourself — a PAP only copies.
+
+`PAP_Knockback` lists a single Effect Pack, `Pack_$Name`. Extracted with the **Name** `Knockback`, it also copies everything the pack references — its Set / Reset / Remove Effects and the Value Adapters that compute the knockback end point — fills in `$Name` (`Pack_Knockback`, `Effect_SetKnockbackEndPoint`…) and rewires the copied pack to the copies, so the new assets don't point back into the sample.
+
+## Shipped packs
+
+`PowerSamples/PremadePacks/PremadeAssetPacks`: `PAP_Knockback`, `PAP_Leap`, `PAP_LookToTheEnemyInSight`, `PAP_MovementRelated`, `PAP_SkillCastingOnProgress` (`PAP_SkillControllEffects`), `PAP_SkillUseSelfEffects`; and the asset halves of several relation packs (`PAP_DodgeChance`, `PAP_MeleeDeflect`, `PAP_TeleportToFoeInSight`, `PAP_DamageBoostOnNextAttack`, `PAP_BoostCritRateByCondition`).

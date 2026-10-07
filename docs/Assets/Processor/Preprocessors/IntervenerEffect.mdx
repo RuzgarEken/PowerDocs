@@ -1,0 +1,44 @@
+---
+sidebar_position: 4
+---
+
+# Intervener Effect
+
+The **Intervener Effect** Processor triggers another Effect **before** the current Effect is applied — and can block it.
+
+It is the pre-stage counterpart of the [Counter Effect](/docs/Assets/Processor/Postprocessors/CounterEffect) Postprocessor, which reacts *after* the Effect was processed.
+
+The triggered Effect is configured by the resolved **IntervenerEffect Stat** and is executed according to its **[IntervenerEffect Signature](/docs/Assets/Stat/StatDefinition/Redirector/IntervenerEffect)**.
+
+Intervener Effects are evaluated separately for the **Source Actor** and the **Target Actor**.
+
+The IntervenerEffect Stat is resolved as follows:
+
+### Base Stat (BS) Processors
+
+- For the **Target Actor**, the IntervenerEffect Stat is obtained directly from the **Target Stat's IntervenerEffect Relative Stat**.
+- For the **Source Actor**, the IntervenerEffect Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's IntervenerEffect Relative Key**.
+
+### Attribute Stat (AS) / Multi Attribute Stat (MAS) Processors
+
+- For the **Target Actor**, the IntervenerEffect Stat is obtained from the **Target Actor** using the **Stat Key** referenced by the **Attribute Stat's IntervenerEffect Relative Key**.
+- For the **Source Actor**, the IntervenerEffect Stat is obtained directly from the **Attribute Stat's IntervenerEffect Relative Stat**, since the Attribute Stat already belongs to the Source Actor.
+
+The resolved Stat must be a **IntervenerEffect Stat**.
+
+## Variations
+
+Ships as `BS`, `AS` and `MAS`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Thorns Aura* — any incoming Health Effect triggers a counterattack before it lands, no matter who or what caused it. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | *Grudge* — only hits from the Actor that applied the mark trigger it. Everyone else lands freely. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Flame Ward* — only fire-signed Effects trigger it; physical hits pass silently. |
+| Signature Separated list of Source Separated Stats | *Mage's Bane* — react only to the fire spells cast by the enemy who cursed you. |
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Effector` | Resolved on the **Effector's Actor** | A pressure plate holds the Intervener. Whatever steps on it triggers the Effect, regardless of which Actor owns the trap. |

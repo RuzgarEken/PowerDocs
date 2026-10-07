@@ -6,7 +6,7 @@ sidebar_position: 1
 
 The **Standard Postprocess Counter Effect** is the signed version of the **Postprocess Counter Effect** Processor.
 
-It triggers another Effect after the current Effect has been applied. The triggered Effect is configured according to the resolved **CounterEffect_Signed Stat** and executed using the **CounterEffect_Signed Signature**.
+It triggers another Effect after the current Effect was processed — applied, or blocked by a Precontribution / Contribution / Postcontribution Processor, as each Counter Effect's **Trigger On** says. The triggered Effect is configured according to the resolved **CounterEffect_Signed Stat** and executed using the **CounterEffect_Signed Signature**.
 
 Counter Effects are evaluated separately for the **Source Actor** and the **Target Actor**.
 
@@ -21,14 +21,30 @@ The resolved Stat must be a **CounterEffect_Signed Stat**.
 
 ## Variations
 
-Ships as `BS` × `Float` `Int`, in the four container variations, plus an Effector form for `Int`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS` × `Float` `Int`, plus an Effector form for `Int`. The CounterEffect Stat can be plain or a Signature / Source Separated list. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Lifesteal* — after damage lands, heal the attacker for a share of it. Healing the target triggers nothing. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | Only the marked enemy's hits trigger the counter, so a boss mechanic does not fire on every trash mob. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Ember Feedback* — only fire damage that actually lands triggers the counter burst. |
+| Signature Separated list of Source Separated Stats | Counter one enemy's fire damage after the fact, and nothing else. |
 
 | Suffix | Expects | Use case |
 | --- | --- | --- |
-| `_Normal` | A plain CounterEffect_Signed Stat | *Lifesteal* — after damage lands, heal the attacker for a share of it. Healing the target triggers nothing. |
-| `_SrcSep` | A Source Separated Stat | Only the marked enemy's hits trigger the counter, so a boss mechanic does not fire on every trash mob. |
-| `_SigSep` | A Signature Separated Stat | *Ember Feedback* — only fire damage that actually lands triggers the counter burst. |
-| `_SigNSrcSep` | Signature **and** Source Separated | Counter one enemy's fire damage after the fact, and nothing else. |
 | `_Effector` | Resolved on the **Effector's Actor** | The lifesteal belongs to the weapon rather than the wielder, so the same blade heals whoever carries it. |
 
-Running after the Effect has been applied is what makes this the right place for lifesteal, on-hit procs, and kill triggers — the value is final and the Result Attributes are known.
+Running after the Effect was processed is what makes this the right place for lifesteal, on-hit procs, and kill triggers — the value is final and the Result Attributes are known. For a blocked Effect it receives the value reached at the block.
+
+## Trigger On
+
+Each Counter Effect Stat's **Trigger On** (in its [signature](/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect)) picks the outcomes it fires for:
+
+| Trigger On | Fires when |
+| --- | --- |
+| `Applied` (default) | the Effect reached its Stat |
+| `Blocked` | a Processor blocked the Effect — combine with a **Result Attribute Check** (e.g. `Immune`) to react to one kind of block, such as consuming an immune charge |
+
+A Counter Effect can't block the Effect: it runs after the Effect was processed. To react *before* the Effect lands, or to block it, use an [Intervener Effect](/docs/Assets/Processor/Preprocessors/IntervenerEffect).

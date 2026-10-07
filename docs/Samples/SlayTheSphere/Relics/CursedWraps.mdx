@@ -10,6 +10,15 @@ Whenever you play a **Power** card, a random card in your hand costs **0 [Energy
 
 Cursed Wraps listens for Power cards being played. When one is, <PowerRef>CustomTargeter_RandomCardInHand</PowerRef> picks a random card from hand — filtered by <PowerRef>SingleCondition_IsPowerCard</PowerRef> so it can also target the Power card that was just played — and its cost is zeroed for the turn:
 
-<EffectExample name="Effect_SetEnergyCostToZero" targetStat="EnergyCost" value={-100} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>SetEnergyCostToZero</strong> — Effect</summary>
+
+<EffectExample name="SetEnergyCostToZero" targetStat="EnergyCost" value={-100} />
+
+</details>
+
+</div>
 
 The `-100` is a large negative modifier that the clamped `EnergyCost` Stat resolves to `0`.

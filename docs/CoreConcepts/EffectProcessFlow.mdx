@@ -228,7 +228,7 @@ See all processor types [here](/docs/category/processor).
 
 ### PreProcessor
 
-Runs before the Effect is applied — typically used for rules that decide whether the Effect should be blocked or continue: immunity, restrictions, direction, modifier count limits.
+Runs before the Effect is applied — typically used for rules that decide whether the Effect should be blocked or continue: immunity, restrictions, direction, modifier count limits, and Intervener Effects that react before the Effect lands.
 
 ```mermaid
 flowchart TD
@@ -253,7 +253,27 @@ Standard processors have finer-grained control via **Contribution** and **PostCo
 
 ### PostProcessor
 
-Runs after the Effect has been applied, for rules that depend on the completed contribution — e.g. triggering a counter effect.
+Runs after the Effect was processed, for rules that depend on the outcome — e.g. triggering a counter effect.
+
+A PostProcessor runs for **applied** Effects by default. Its **Run On** option (`Applied`, `Blocked`, or both) lets it also run when a Processor **blocked** the Effect, so a block can still have consequences — consuming an immune charge, starting a shield's cooldown, riposting a parried hit. Counter Effect PostProcessors always run on both and let each Counter Effect's **Trigger On** decide.
+
+### Blocked Effects
+
+A block doesn't end the funnel. When a Processor refuses the Effect — immunity, a missed hit, a restriction, a shield, an Intervener Effect with **Block Effect** — the Effect skips the apply (and the Duration Processors), but still goes through:
+
+```mermaid
+flowchart TD
+    Effect("Effect") --> Pre("PreProcessors")
+    Pre -->|Blocked| PostB("PostProcessors<br/>with Run On: Blocked")
+    Pre -->|Continue| Proc("Processor")
+    Proc -->|Blocked| PostB
+    Proc -->|Applied| PostA("PostProcessors<br/>with Run On: Applied")
+    PostA --> Dur("Duration Processors")
+    Dur --> Feedback("Feedback Processors")
+    PostB --> Feedback
+```
+
+The block's **Result Attributes** (for example `Immune`) travel with it, so PostProcessors and Feedback can tell *what* blocked the Effect. Configuration errors — a missing target Stat, no Processor for the Effect — are not blocks: nothing runs after them.
 
 ### Duration Processor
 
@@ -263,7 +283,7 @@ Used for mechanics like increasing buff duration or reducing debuff duration.
 
 ### Feedback Processor
 
-Runs after processing completes, turning the result into gameplay feedback: floating damage/healing numbers, VFX, SFX, combat log messages, UI notifications, custom gameplay events.
+Runs after processing completes — for applied and blocked Effects alike — turning the result into gameplay feedback: floating damage/healing numbers, VFX, SFX, combat log messages, UI notifications, custom gameplay events.
 
 ---
 

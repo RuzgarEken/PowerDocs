@@ -10,8 +10,13 @@ At the end of your turn, lose **1 [Dexterity](/docs/Samples/SlayTheSphere/Keywor
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_PhantomVeil</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_PhantomVeil_STS"
+  name="Card_PhantomVeil"
   stats={[
     {key: 'Intangible', value: 2},
     {key: 'Phantom Veil', value: 1},
@@ -21,10 +26,32 @@ At the end of your turn, lose **1 [Dexterity](/docs/Samples/SlayTheSphere/Keywor
   ]}
 />
 
+</details>
+
+</div>
+
 Intangibility runs through the shared Effect:
 
-<EffectExample name="Effect_Intangible_STS" targetStat="Intangible" valueStat="Intangible" value={2} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>Intangible</strong> — Effect</summary>
+
+<EffectExample name="Intangible" targetStat="Intangible" valueStat="Intangible" value={2} />
+
+</details>
+
+</div>
 
 Separately, the <PowerRef>Pack_PhantomVeilGenerator_STS</PowerRef> runs at the end of every turn while the flag is active and drains Dexterity as the downside:
 
-<EffectExample name="Effect_DexteryDecrease" targetStat="Dexterity" value={-1} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>DexteryDecrease</strong> — Effect</summary>
+
+<EffectExample name="DexteryDecrease" targetStat="Dexterity" value={-1} />
+
+</details>
+
+</div>

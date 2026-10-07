@@ -1,0 +1,22 @@
+---
+sidebar_position: 2
+---
+
+# Multi Stat
+
+**Multi Stat Conditions** are used when a condition needs to evaluate multiple Stats instead of a single Stat.
+
+The Stats are listed where the condition is used (each a `Stat From`: which Actor + which key), and the condition receives them in that order.
+
+| Condition | Reads | Typical use |
+| --- | --- | --- |
+| [Difference](./Difference.mdx) | two numbers | *the attacker is on another team* |
+| [Sum](./Sum.mdx) | two numbers | *Health + Shield ≤ 10* |
+| [Distance](./Distance.mdx) | two vectors | *the target is at least 8 m away* |
+| [Dot](./Dot.mdx) | two vectors | *hit from behind* |
+| [Vector Index](./VectorIndex.mdx) | two vectors, one component | *the attacker is above the target* |
+| [Dispatcher](./Dispatcher.mdx) | any number | several conditions that must all pass |
+
+## Example
+
+Pass the **Source** and **Target** **Position** Stats to a [Distance](./Distance.mdx) condition to check how far apart they are. Damage Boost To Distant Enemies does exactly this with `Condition_DistantFoe`: its Conditional Modifier only applies when the distance is **Greater Or Equal** `8`.

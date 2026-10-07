@@ -19,14 +19,19 @@ The resolved Stat must be a **Reflector Stat**.
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS` × `Float` `Int`, in five container variations — thirty assets in all. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, each with an `_Effector` form. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Thorns* — reflect a share of any incoming damage back at whoever dealt it. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | *Curse of Reprisal* — reflect only the damage dealt by the boss that applied the curse. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Flame Mirror* — bounce fire damage back; let physical damage through untouched. |
+| Signature Separated list of Source Separated Stats | Reflect one enemy's fire damage, and nothing else. |
 
 | Suffix | Expects | Use case |
 | --- | --- | --- |
-| `_Normal` | A plain Reflector Stat | *Thorns* — reflect a share of any incoming damage back at whoever dealt it. |
-| `_SrcSep` | A Source Separated Stat | *Curse of Reprisal* — reflect only the damage dealt by the boss that applied the curse. |
-| `_SigSep` | A Signature Separated Stat | *Flame Mirror* — bounce fire damage back; let physical damage through untouched. |
-| `_SigNSrcSep` | Signature **and** Source Separated | Reflect one enemy's fire damage, and nothing else. |
 | `_Effector` | Resolved on the **Effector's Actor** | A spiked shield reflects whatever it blocks, independent of the wielder's own Stats. |
 
 The Precontribution form reflects the **incoming** value, before Modifiers and crits are applied. Use the [Postcontribution Reflector](/docs/Assets/Processor/Processors/Standard/Postcontribution/Reflector) to reflect the final number instead.

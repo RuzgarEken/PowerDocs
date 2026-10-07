@@ -10,15 +10,14 @@ Redirectors are executed by Processors and define how an Effect is redirected, i
 
 Power provides the following Redirector types:
 
-- **Redirector**
-- **Reflector**
-- **Counter Effect**
+- **[Director](./Director.mdx)** — forwards the incoming Effect itself to other Actors.
+- **[Intervener Effect](./IntervenerEffect.mdx)** — fires its own Effect Pack *before* the incoming Effect lands, and can block it.
+- **[Counter Effect](./CounterEffect.mdx)** — fires its own Effect Pack *after* the incoming Effect was processed (applied or blocked).
+- **[Reflector](./Reflector.mdx)** — sends a share of the incoming Effect's value to other Actors or Stats.
 
 ## Redirector Signature
 
 The **Redirector Signature** defines the common configuration shared by all Redirector types.
-
-...
 
 ### Fields
 
@@ -44,6 +43,8 @@ The **Redirector Signature** defines the common configuration shared by all Redi
 | **Result Attribute Check** | Enables a condition based on the Effect's **Result Attributes**. |
 | **Result Attributes** | Defines the **Result Attributes** used by the condition. Since Result Attributes can be added throughout the processing funnel, this allows conditional redirection based on previous processing results. For example, a Redirector can redirect only **Critical** damage. |
 | **Result Attribute Check Type** | Determines how the Result Attribute condition is evaluated. See **Result Attribute Check Types** below. |
+| **Use Effect Attribute Requirement** | Adds a requirement of this Stat's own on top of the Processor's **Required Attributes**: the incoming Effect must carry **every** Effect Attribute marked in **Effect Attribute Requirement**, or this Stat is skipped. This lets one Processor serve several Redirectors with different needs — e.g. every Director requires `Directable`, a *hit twice* Director additionally requires `Duplicatable`. |
+| **Effect Attribute Requirement** | The Effect Attributes the incoming Effect must carry. See [Effect Attributes](/docs/CoreConcepts/EffectAttributes). |
 | **Override Target Environment** | Overrides the Environment of the redirected Effect. |
 | **Targeting Environment Id** | The Environment Id assigned to the redirected Effect when overriding is enabled. |
 | **Add Result Attribute If Pass** | Adds a Result Attribute to the redirected Effect after a successful redirection. |

@@ -1,0 +1,44 @@
+---
+sidebar_position: 6
+---
+
+# Stat and Actor UI
+
+General Expansions ships a small, composable UI layer that reads Power Stats. Every view is a base element plus **extensions**, each extension drawing one part — so a health bar, an inspector row and a tooltip are built from the same pieces.
+
+## Stat Display Element
+
+`StatDisplayElementBase` (core) is bound to one Stat and raises updates when it changes. `StatDisplayElementExtension_*` components (General Expansions) draw it:
+
+| Extensions | Show |
+|-------|-------------|
+| `_ValueText`, `_RawText`, `_ModifiedText`, `_CurrentMaxText`, `_MinMaxText`, `_PercentageText_Float`, `_MinMaxOffsetText_Float` / `_Int`, `_StringStatValue`, `_DefaultText` | the value in different forms |
+| `_ProgressBar_Float` / `_Int` | a fill bar between the Stat's min and max |
+| `_StatDefinitionName`, `_StatId`, `_StatIdInner`, `_StatKey`, `_Icon`, `_Icon_StringStat`, `_HostText`, `_SourceText` | which Stat it is and whose |
+| `_Modifiers`, `_Injectors`, `_RelativeStats`, `_SigSepStats`, `_SrcSepStats` | the Stat's internals: active Modifiers, Injectors / Linkers, relations, inner Stats — a runtime inspector |
+| `_UpdateTextByCondition` | switches a text when a condition passes |
+| `_StatInspectorRouter` | opens a nested inspector for a related Stat |
+
+`StatIconContainerModel` (*Create › Power Demos › Stat › Display Icon Container*) maps Stat Keys to sprites for the icon extensions.
+
+## Actor Element
+
+`ActorElement` is bound to one Actor. Its extensions:
+
+| Extension | Shows |
+|-------|-------------|
+| `ActorElementExtension_HealthView_Float` / `_Int` / `_WithShield` | a health bar (with a shield overlay) |
+| `ActorElementExtension_Name`, `_NameDisplay` | the Actor's name |
+| `ActorElementExtension_StatIndicator`, `_PredefinedStatDisplay`, `_StatDisplayLinker` | chosen Stats as Stat Display Elements |
+| `ActorElementExtension_StatPage` | pages of Stat packages — a character sheet |
+| `ActorElementExtension_HoverStateTracker` | hover state (tooltips) |
+| `ActorElementExtension_ExtendActorElement` | nests another Actor Element |
+| `ActorElementExtension_ActiveSkillDisplayView` | the Actor's Skills — see [Skill Controller](./Skill/SkillController.mdx#skill-ui) |
+
+## Localization
+
+A minimal key-based localization used by the samples: `LocalizationController` (loads the `PowerLocalizationDatabase` `LocalizationPackagesModel` from `Resources`), `LocalizedTextBehaviour` (a TextMeshPro text by key), `LocalizedText_Parameters` / `LocalizedParameterInjector` (texts with `$P`-style parameters filled in, themselves localized) and `LocalizedText_ImageEmbeded` / `TextExtension_ImageEmbeder` (inline icons). Replace it with your project's localization freely.
+
+## Log settings with skills
+
+`PowerLogSettings_WithSkill` (*Create › Power › World › Log Settings_WithSkill*) extends the [Log Settings](/docs/Assets/World/Log) with a **Filter Skills** name filter, so Skill logs can be narrowed to the Skills you are debugging.

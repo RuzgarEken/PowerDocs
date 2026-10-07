@@ -28,8 +28,8 @@ The Modifier Count Limit Stat is resolved as follows:
 
 ### Base Stat (BS) Processors
 
-- For the **Target Actor**, the Modifier Count Limit Stat is obtained directly from the **Target Stat's ModifierCountLimiterTaken Relative Stat**.
-- For the **Source Actor**, the Modifier Count Limit Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's ModifierCountLimiterGiven Relative Key**.
+- For the **Target Actor**, the Modifier Count Limit Stat is obtained directly from the **Target Stat's ModifierCountLimit_Receiving Relative Stat**.
+- For the **Source Actor**, the Modifier Count Limit Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's ModifierCountLimit_Applying Relative Key**.
 
 The resolved Stat must be an **Int Stat**.
 
@@ -38,15 +38,15 @@ The resolved Stat must be an **Int Stat**.
 
 | Field | Description |
 | --- | --- |
-| **Modifier Count Limiter Taken Key** | The Relative Key used to resolve the Target-side Modifier Count Limit Stat. |
-| **Modifier Count Limiter Given Key** | The Relative Key used to resolve the Source-side Modifier Count Limit Stat. |
+| **Receiving Modifier Count Limiter Key** | The Relative Key used to resolve the Target-side Modifier Count Limit Stat. |
+| **Applying Modifier Count Limiter Key** | The Relative Key used to resolve the Source-side Modifier Count Limit Stat. |
 | **Modifier Count Limit Result Attribute** | The Result Attribute added when an Effect is blocked because the Modifier count limit has been reached. |
 | **Use Conditional Modifier** | Enables conditional modification of the resolved Modifier Count Limit value before it is evaluated. |
 | **Conditional Modifier** | The Conditional Modifier Processor used to modify the resolved Modifier Count Limit value. |
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS`, with no container variations — the limit is always a plain Int Stat. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS` — the limit must be a plain Int Stat (not a Separated list). See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
 
 | Asset | Counts against | Use case |
 | --- | --- | --- |

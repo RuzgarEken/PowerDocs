@@ -24,12 +24,14 @@ Duration modification is performed when the Modifier is initially added. **Durat
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS` × `Float` `Int`, each in a plain and a Signature Separated form. `BS` additionally ships a typeless pair that modifies durations without reading a numerable value. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`. `BS` additionally ships a typeless pair that modifies durations without reading a numerable value. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
 
-| Suffix | Expects | Use case |
-| --- | --- | --- |
-| `_Normal` | A plain DurationModifier Stat | *Lingering Blessing* — every buff this Actor receives lasts 50% longer. |
-| `_SigSep` | A Signature Separated Stat | One DurationModifier Stat extends fire debuffs and shortens ice ones, read through the same relation. |
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Lingering Blessing* — every buff this Actor receives lasts 50% longer. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | One DurationModifier Stat extends fire debuffs and shortens ice ones, read through the same relation. |
 
 | Subject | Reads the DurationModifier relation from | Use case |
 | --- | --- | --- |
@@ -37,4 +39,4 @@ Ships as `BS`, `AS` and `MAS` × `Float` `Int`, each in a plain and a Signature 
 | `AS` | The **Attribute Stat** | The duration rule travels with `PoisonAttack`, applying wherever poison lands. |
 | `MAS` | **Every** Attribute Stat | An Effect carrying several Attribute Stats accumulates duration contributions from each. |
 
-`BSEffectDurationProcess_DurationModifier_Normal` and `_SigSep` are the typeless pair — they modify a Modifier's duration on Stats that carry no numerable value.
+`BSEffectDurationProcess_DurationModifier` is the typeless one — it modifies a Modifier's duration on Stats that carry no numerable value.

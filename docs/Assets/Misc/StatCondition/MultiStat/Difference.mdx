@@ -1,0 +1,27 @@
+---
+sidebar_position: 2
+---
+
+# Difference
+
+A **Difference Condition** subtracts the second Stat from the first (`first − second`) and evaluates the result using a comparison condition.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Comparer** | The **Numerable Comparer** used to evaluate the difference between the two Stat values. |
+
+### Supported Types
+
+- **Float**
+- **Int**
+
+## Example
+
+Damage Nearby Enemies On Hit retaliates only when the attacker is on another team. `Condition_DifNot0(Int)` receives the two `TeamNo` Stats:
+
+| Stats | Comparer | Source `TeamNo` | Target `TeamNo` | Difference | Passes |
+| --- | --- | --- | --- | --- | --- |
+| Source `TeamNo`, Target `TeamNo` | **Not Equals** `0` | `1` | `0` | `1` | yes |
+| | | `0` | `0` | `0` | no — friendly fire is ignored |

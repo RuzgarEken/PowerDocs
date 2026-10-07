@@ -8,8 +8,13 @@ At the end of your turn, [**retain up to 1 card**](/docs/Samples/SlayTheSphere/K
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_PreparedScheme</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_PreparedScheme_STS"
+  name="Card_PreparedScheme"
   stats={[
     {key: 'Retain', value: 1},
     {key: 'Exhaust', value: 1},
@@ -17,5 +22,9 @@ At the end of your turn, [**retain up to 1 card**](/docs/Samples/SlayTheSphere/K
     {key: 'Card Type', value: 'Power'},
   ]}
 />
+
+</details>
+
+</div>
 
 Prepared Scheme composes <PowerRef>Stat_Retain_1_STS</PowerRef>, which the deck system's shared end-of-turn retention check reads — up to that many cards are kept in hand instead of being discarded when the turn ends.

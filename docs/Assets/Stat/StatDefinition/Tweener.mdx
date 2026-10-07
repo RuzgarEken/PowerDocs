@@ -1,0 +1,65 @@
+---
+sidebar_position: 15
+---
+
+# Tweener
+
+A **Tweener** Stat moves another Stat from a start value to an end value over time, through the normal Effect pipeline. Use it for movement without physics — dash, leap, knockback, pull, hook — or for any value that should glide instead of jump (a bar filling up, a camera zoom).
+
+The Tweener's own value is its **progress**. While it is on, the world [Updater](/docs/Assets/World/Updater) advances the progress every tick until it reaches the Tweener's **Max** border (the duration). On every tick it computes the eased value between **Start** and **End** and applies its **Effect Template** to the **Target** Stat.
+
+A Tweener is usually (re)started with a single [Tween Effect](/docs/Assets/Effect/Tween), which writes the start and end values, the duration, resets the progress and optionally switches the toggle — all in one Effect.
+
+## Fields
+
+The Tweener is a **Clamped Float** Stat, so it also has **Min**, **Max** and **Allow Exceed** (see [Clamped](./Numerable/Clamped.mdx)).
+
+| Field | Description |
+| --- | --- |
+| **Max** | The **duration** of the tween, in the Updater's unit (seconds or turns). With **Type = Constant** the duration is fixed and can't be zero. With **Type = Stat** it is read from the Stat behind the Tweener's **Max Value** Relative Stat — this is what lets a Tween Effect override the duration. |
+| **Togglable** | Runs only while a toggle Stat is on. The toggle is what **starts** the tween. |
+| **Toggle Stat Key** | The **Int Stat** used as the toggle. |
+| **Toggle On Value Type** | **On Zero**: on while the toggle is `0`. **On Positive**: on while the toggle is above `0`. |
+| **Start Stat Key** | The Stat holding the start value (a `Stat From`: which Actor + which key). |
+| **End Stat Key** | The Stat holding the end value. |
+| **Target Stat Key** | The Stat the tween writes — e.g. the Actor's **Position**. |
+| **Ease** | The easing curve applied to the progress (Linear, In/Out/InOut Quad, Cubic, Quart, Quint, Sine, Expo, Circ, Elastic, Back, Bounce). |
+| **Value Update Type** | **Set**: each tick applies `Start + (End − Start) × ease(progress)`. **Add Dif**: each tick applies only the change since the previous tick, so other Effects can move the same Stat at the same time (only `End − Start` matters). |
+| **Use Value Adapter** / **Value Adapter** | A **Value Adapter** run on the value before it is applied (e.g. flatten a vector). |
+| **Updater** | Which Updater advances the progress (Realtime or Turnbased). |
+| **Effect Template** | The Effect applied to the Target Stat on each tick. Its value is replaced by the computed value; its Processor Id, Attributes and Apply Type are used as they are (usually a Permanent **Set** or **Add** Effect on the Position). |
+
+## Endpoints are live
+
+The Tweener reads its **Start** and **End** Stats on every tick; they are not frozen when it starts. If something keeps updating the End Stat — for example a [Linker](/docs/Assets/Effect/Linker) copying a hooked enemy's Position into it — the tween follows the moving target.
+
+## Types
+
+| Definition | Container | Value written |
+| --- | --- | --- |
+| `StatDefinitionModel_Tweener_Float` | `StatContainerModel_Tweener_Float` | `float` |
+| `StatDefinitionModel_Tweener_Int` | `StatContainerModel_Tweener_Int` | `int` |
+| `StatDefinitionModel_Tweener_Vector2` / `Vector2Int` | `StatContainerModel_Tweener_Vector2` / `Vector2Int` | `Vector2` / `Vector2Int` |
+| `StatDefinitionModel_Tweener_Vector3` / `Vector3Int` | `StatContainerModel_Tweener_Vector3` / `Vector3Int` | `Vector3` / `Vector3Int` |
+
+*Create › Power › Stats › Stats › Tweener*
+
+## Typical setup: a dash
+
+This is the **Dash** environment shipped in General Expansions (`SampleExpansions/3D/Data/Environments/Dash`):
+
+| Stat | Type | Role |
+| --- | --- | --- |
+| `Stat_DashTween_3D` | Tweener Vector3 | Start = `DashStartPoint`, End = `DashEndPoint`, Target = the Actor's `Position`, Max = Stat (`DashDuration`), Togglable on `Dash` (On Positive), Ease OutQuad, Value Update Type **Add Dif** |
+| `Stat_DashStartPoint_3D`, `Stat_DashEndPoint_3D` | Vector3 | the endpoints, written by the Tween Effect |
+| `Stat_DashDuration_3D` | Float | the duration, linked to the Tweener through its **Max Value** Relative Stat |
+| `Stat_Dash_3D` | Int Clamped 0–1 | the toggle |
+| `Stat_DashCompleteTrigger_3D` | [State Based Effect](./StateBasedEffect.mdx) | when the progress reaches the duration, applies `Pack_CompleteDash_3D`, a Modifier Remover that removes the `+1` modifier from `Dash` |
+
+The pack that dashes is: remove the toggle's modifiers → a [Tween Effect](/docs/Assets/Effect/Tween) on the Tweener (Start = the Source's Position, End = Position + Direction × distance through a [Tree Operation](/docs/Assets/Misc/Adapter/Stat/TreeOperation) adapter) → `+1` on `Dash` as a Temporary, Managed By Code Effect.
+
+Keep the toggle as a **modifier** (`+1`, Temporary) when the tween is turned off by a Modifier Remover. A toggle written raw (the Tween Effect's **Override Active**) is not removed by a Modifier Remover — turn it off with a **Set** Effect instead.
+
+:::tip
+The **Premade Asset Packs** in General Expansions (`Dash`, `Knockback`) ship a complete Tweener environment you can load instead of building one by hand. See [Premade Asset Pack](/docs/Assets/Misc/PremadeAssetPack).
+:::

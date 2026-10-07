@@ -4,4 +4,19 @@ sidebar_position: 1
 
 # Injector Definition Model
 
-Stores an `InjectorModel` and the order in which it will be injected.
+Attaches an **[Injector Model](./InjectorModel/index.mdx)** to a Stat through the Stat Definition's **Injectors** list.
+
+*Create › Power › Misc › Injector › InjectorDefinition*
+
+| Field | Description |
+| --- | --- |
+| **Order** | The **Injection Order**: Injectors with lower values run first. Several Injectors may share an order. |
+| **Injector** | The Injector Model to apply. |
+
+## Example
+
+[Kodes](/docs/Samples/Kodes) ships `InjectorDefinition_NegateValue_R3D`: it attaches `ValueInjector_NegateValue_R3D` ([Combine](./InjectorModel/Combine.mdx), **Multiplier** `−1`) at order `1`.
+
+<InjectorExample name="InjectorDefinition_NegateValue_R3D" into="the Stat that lists it" value="Combine, Multiplier −1" order={1} />
+
+Put it in a Stat Definition's **Injectors** list and the Stat reads as the negative of what its value and Modifiers build: a `HealAmount` of `20` reads `−20`, ready to be used as damage.

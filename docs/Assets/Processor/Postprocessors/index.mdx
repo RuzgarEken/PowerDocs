@@ -4,6 +4,17 @@ sidebar_position: 3
 
 # Postprocessors
 
-The **Postprocessor** stage contains all Processors that execute after an Effect has been successfully applied.
+The **Postprocessor** stage contains all Processors that execute after an Effect was processed.
 
-Processors in this stage typically perform post-processing logic based on the applied Effect, such as triggering additional mechanics.
+Processors in this stage typically perform post-processing logic based on the outcome, such as triggering additional mechanics.
+
+## Run On
+
+Every Postprocessor has a **Run On** option:
+
+| Value | Runs when |
+| --- | --- |
+| `Applied` (default) | the Effect reached its Stat |
+| `Blocked` | a Processor blocked the Effect (Immune, HitRate, a Shield, an Intervener Effect…) — the Stat didn't change, but the block's Result Attributes (e.g. `Immune`) are available |
+
+Set both to run on every outcome. **Modifier Replacer** always runs on `Applied` only (a blocked Effect has no modifier to replace); **Counter Effect** always runs on both and leaves the choice to each Counter Effect's **Trigger On**. See [Blocked Effects](/docs/CoreConcepts/EffectProcessFlow#blocked-effects).

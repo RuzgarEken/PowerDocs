@@ -1,0 +1,25 @@
+---
+sidebar_position: 5
+---
+
+# Map Dif Value
+
+Subtracts the second Stat from the first (`first − second`), maps the difference with a `ValueMapper` and returns the result as the multiplier.
+
+Ships for `Float` and `Int` (the Int variant rounds the result).
+
+| Field | Description |
+| --- | --- |
+| **Value Mapper** | **Min**, **Max**, optional **Curve**, then **Final Modifier** (Add / Multiply). See [Map Value](/docs/Assets/Misc/Adapter/Stat/MapValue) for how the mapping works. |
+
+## Example
+
+*The higher your level above the target's, the more damage.* Stats: the Source's `Level`, the Target's `Level`. **Value Mapper**: **Min** `0`, **Max** `10`, **Final Modifier** **Add**, **Final Offset** `1`.
+
+| Your level | Target level | Difference | Multiplier |
+| --- | --- | --- | --- |
+| `5` | `5` | `0` | `1` |
+| `10` | `5` | `5` | `1.5` |
+| `15` | `5` | `10` | `2` |
+
+The mapping uses the absolute distance from **Min**, so a level *below* the target's also raises the multiplier: `5` vs `10` → `1.5`. Use a **Curve** that stays at `0` on that side, or a condition, if only higher levels should count.

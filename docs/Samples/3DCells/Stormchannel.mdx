@@ -26,34 +26,166 @@ Consists of **3 States**. Critical hits begin in the second State, and remaining
 
 ## Implementation
 
-**Stormchannel** is a toggle Skill. While the input is held, a **ChargeGenerator** Stat continuously raises a **Charge** Stat over time, while `Effect_AimActivation` enables aiming and `Effect_MovementBlock` locks the player in place.
+**Stormchannel** is a toggle Skill. While the input is held, a **ChargeGenerator** Stat continuously raises a **Charge** Stat over time, while `AimActivation` enables aiming and `MovementBlock` locks the player in place.
 
-![Stormchannel Charge Generator](./images/Stormchannel_ChargeGenerator.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>Stormchannel_ChargeGenerator</strong> — Stat (Generator Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Generator Clamped Float)"} name='Stormchannel_ChargeGenerator'>
+  <SpecRow label='Stat Key' icon='key'>{"Stormchannel / Generator_FloatClamped / SkillChargeGenerator"}</SpecRow>
+  <SpecRow label={"Use Interval"}>{"true"}</SpecRow>
+  <SpecRow label={"Interval_Float"}>{"0.2"}</SpecRow>
+  <SpecRow label={"Toggle Off On Zero"}>{"true"}</SpecRow>
+  <SpecRow label={"Generating Effect Template"}><PowerRef>Effect_ChargeEffectTemplate_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Max"}>{"0.2"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The Skill's **SkillEvolutionNo** is driven by the **Charge** value through `StatInjector` definitions. When **Charge** reaches `1`, the Skill advances to State 2; when it reaches `2.2`, it advances to State 3.
 
-![Stormchannel Evolution By Charge](./images/Stormchannel_EvolutionByCharge.png)
+<div className="prp-packs">
 
-The lightning itself is an `OnStay` Effector that applies `Effect_LightningDamage` (a flat `-2` to **Health**) and `Effect_Electrocute` to every Actor inside the beam each tick.
+<details>
+<summary><strong>Stormchannel_SkillEvolutionNo</strong> — Stat (Clamped Int)</summary>
 
-![Stormchannel Lightning Damage](./images/Stormchannel_LightningDamage.png)
+<SpecCard kind='stat' label={"Stat (Clamped Int)"} name='Stormchannel_SkillEvolutionNo'>
+  <SpecRow label='Stat Key' icon='key'>{"Stormchannel / IntClamped / SkillEvolutionNo"}</SpecRow>
+  <SpecRow label={"Injectors [0]"}><PowerRef>LinkerDefinition_ChargeEvolutionNoInjector_2_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Injectors [1]"}><PowerRef>LinkerDefinition_ChargeEvolutionNoInjector_3_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Max"}>{"2"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+The lightning itself is an `OnStay` Effector that applies `LightningDamage` (a flat `-2` to **Health**) and `Electrocute` to every Actor inside the beam each tick.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Stormchannel_EnterExit_State_1</strong> — Effect Pack</summary>
+
+<PackExample name='Stormchannel_EnterExit_State_1'>
+  <EffectExample name='Electrocute' label={"Int Stat Effect (BS)"} targetStat={"Stormchannel / IntClamped / Electrocuted"} processor='Add_Int' value={"1"} applyType='Temporary' />
+</PackExample>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Stormchannel_OnStay</strong> — Effect Pack</summary>
+
+<PackExample name='Stormchannel_OnStay'>
+  <EffectExample name='LightningDamage' label={"Float Stat Effect (MAS)"} targetStat={"Default / FloatClamped / Health"} processor='Standard_Float' value={"-2"} />
+</PackExample>
+
+</details>
+
+</div>
 
 For critical hits, the **Stormchannel_AttackCritModifierByCharge** Stat conditionally modifies **CritRate** and **CritMultiplier** through the **CritProcessor**, based on the current **Charge**. This enables critical hits once the Skill has reached the second State.
 
-![Stormchannel Crit Processor](./images/CritProcessor.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>MASContribution_CriticalHit_Float</strong> — MASContribution Critical Hit Float</summary>
+
+<SpecCard kind='processor' label={"MASContribution Critical Hit Float"} name='MASContribution_CriticalHit_Float'>
+  <SpecRow label={"Required Attributes"}>{"Modibifiable|Critable|AttributeStatsProcessable"}</SpecRow>
+  <SpecRow label={"Receiving Critical Rate Key"}>{"CriticalRate_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Rate Key"}>{"CriticalRate_Applying"}</SpecRow>
+  <SpecRow label={"Receiving Critical Multiplier Key"}>{"CriticalMultiplier_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Multiplier Key"}>{"CriticalMultiplier_Applying"}</SpecRow>
+  <SpecRow label={"Critical Result Attribute"}>{"Critical"}</SpecRow>
+  <SpecRow label={"Use Conditional Rate Modifier"}>{"true"}</SpecRow>
+  <SpecRow label={"Use Conditional Multiplier Modififier"}>{"true"}</SpecRow>
+  <SpecRow label={"Conditional Modifier Processor"}><PowerRef>ASContribution_ConditionalModifier(Float-Generic)_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 While in the third State, a **ChargeSelfDamageGenerator** Stat generates recurring negative **Health** Effects on the source Actor, so holding the attack too long becomes dangerous.
 
-![Stormchannel Self Damage Generator](./images/Stormchannel_SelfDamageGenerator.png)
+<div className="prp-packs">
 
-When the Skill is interrupted or toggled off, `Effect_ResetCharge`, `Effect_Stormchannel_ZeroCharge`, and `Effect_Stormchannel_ZeroEvolutionNo` reset the state, and `Effect_Stormchannel_Cooldown` applies the cooldown.
+<details>
+<summary><strong>Stormchannel_SelfPack_State_3</strong> — Effect Pack</summary>
+
+<PackExample name='Stormchannel_SelfPack_State_3'>
+  <EffectExample name='ChargeSelfDamageGeneratorEffect' label={"Float Stat Effect (BS)"} targetStat={"Stormchannel / Generator_FloatClamped / StormchannelChargeSelfDamageGenerator"} processor='Add_Float' value={"-4"} applyType='Temporary' />
+</PackExample>
+
+</details>
+
+</div>
+
+When the Skill is interrupted or toggled off, `ResetCharge`, `Stormchannel_ZeroCharge`, and `Stormchannel_ZeroEvolutionNo` reset the state, and `Stormchannel_Cooldown` applies the cooldown.
 
 ### Water interaction
 
-Water Actors use their own **Repository_Water** Stats. When the beam touches water, its **Electrocuted** Stat is raised, and `StatInjectorDefinition_AddElectrictyReflectorIfElectrocuted` adds an electricity director so the current spreads through connected water via `Effect_Stormchannel_Water_ElectricityDirector`. The `ElectrucedAnimation` script tints electrified water.
+Water Actors use their own **Water** Stats. When the beam touches water, its **Electrocuted** Stat is raised, and `AddElectrictyReflectorIfElectrocuted` adds an electricity director so the current spreads through connected water via `Stormchannel_Water_ElectricityDirector`. The `ElectrucedAnimation` script tints electrified water.
 
-![Stormchannel Water Health](./images/Stormchannel_WaterHealth.png)
+<div className="prp-packs">
 
-![Stormchannel Water Damage Direction](./images/Stormchannel_WaterDamageDirection.png)
+<details>
+<summary><strong>Water_Health</strong> — Stat (Clamped Float)</summary>
 
-![Stormchannel Water Damage Direction](./images/Stormchannel_ElectrocuteInjector.png)
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='Water_Health'>
+  <SpecRow label='Stat Key' icon='key'>{"Default / FloatClamped / Health"}</SpecRow>
+  <SpecRow label={"Relation: Director_ReceivingAS"} icon="key"><PowerRef>Key_Water_ElectricityDirector_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Allow Exceed"}>{"true"}</SpecRow>
+  <SpecRow label={"Min"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Water_ElectricityDirector</strong> — Stat (Director)</summary>
+
+<SpecCard kind='stat' label={"Stat (Director)"} name='Water_ElectricityDirector'>
+  <SpecRow label='Stat Key' icon='key'>{"Stormchannel / Director_SrcSep / ElectricityDirector"}</SpecRow>
+  <SpecRow label={"Injectors [0]"}><PowerRef>LinkerDefinition_Add1IfElectrocuted_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Allow Exceed"}>{"true"}</SpecRow>
+  <SpecRow label={"Redirection Target"}>{"Modifier Source"}</SpecRow>
+  <SpecRow label={"State Check"}>{"true"}</SpecRow>
+  <SpecRow label={"Multi Stat Check"}>{"true"}</SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Stats [1] \u203a Actor"}>{"Modifier Source"}</SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Condition"}><PowerRef>Condition_DifNot0(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Targeting Environment Id"}>{"Default"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Add1IfElectrocuted</strong> — Linker Definition Model</summary>
+
+<SpecCard kind='injector' label={"Linker Definition Model"} name='Add1IfElectrocuted'>
+  <SpecRow label={"Injector"}><PowerRef>Linker_Add1i_IfGT0(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Injector Stat Key"} icon="key"><PowerRef>Key_Water_Electrocuted_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

@@ -8,7 +8,7 @@ The Cards, Relics, and Potions in this demo are described with deck-builder keyw
 
 ## Card types
 
-Every card composes a `Stat_CardType` value that tells the rest of the systems how to treat it.
+Every card composes a `CardType` value that tells the rest of the systems how to treat it.
 
 - **Attack** — a card that deals damage. Only Attack cards interact with effects like Void Assassin or Steel Greaves.
 - **Skill** — a utility card (block, draw, discard, debuffs) with no direct damage.
@@ -77,7 +77,7 @@ A card that would normally be discarded at the end of your turn is kept in hand 
 
 ---
 
-:::note Engine terms
+:::note[Engine terms]
 
 Terms like **Stat**, **Effect Pack**, **CounterEffect**, **Linker**, **Injector**, and **Repository** in the Implementation sections are Power engine concepts, not game keywords. See the **Core Concepts** and **Components** sections of the documentation for those.
 

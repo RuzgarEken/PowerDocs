@@ -1,0 +1,48 @@
+---
+sidebar_position: 8
+description: Build Mechanic Runs — the cost, time and token log of every /build-mechanic and /update-docs run, per agent and per step.
+---
+
+# Build Mechanic Runs
+
+**Build Mechanic Runs** shows what your AI agent runs cost. Every `/build-mechanic` and `/update-docs` run of the [agent workflow](/docs/AISupport#the-agent-workflow-optional) is recorded with its cost, time and tokens, split per agent and, for debug runs, per step.
+
+Open it from **Tools → Power → Build Mechanic Runs**.
+
+The log is `.claude/build-mechanic/runs.json` in your project's root folder, outside `Assets`. It is empty until your first run, and it stays on your machine.
+
+## When to use it
+
+- **What did that mechanic cost?** Each run shows its total, and how much went to building the mechanic and how much to improving the docs.
+- **Is it getting cheaper?** The chart shows the trend across runs, for example after a docs change or a model switch.
+- **Where does the money go?** In a debug run, see which step of which agent was the most expensive.
+
+:::tip[Per-step costs]
+
+Start the request with `--debug` (`/build-mechanic --debug <request>`) to get a cost report per step at the end of the run, in the chat. The run log then has the steps too.
+
+:::
+
+## Runs
+
+Each row is one run: **Date**, **Label**, **Kind** (`build-mechanic` or `update-docs`), **Outcome**, **Cost** and its **Build** / **Docs $** split, **Active** and **Wall** time, **API** and **Tools** calls, **New ctx** (new context tokens), **Gaps** (rounds where the builder reported a docs gap), **Cold tests**, **Fixes** (your corrections), **Debug** and the **Docs** version the run used.
+
+| Control | Does |
+| --- | --- |
+| Kind filter | Shows all runs, or only `build-mechanic` or `update-docs` runs. |
+| **Chart** | The metric the chart plots per run: cost, active minutes, API calls, new context or cache reads. Bars are split into build and docs work. |
+| Search | Filters runs by label, request and notes. |
+| **Reload** | Reads the log again. The window also reloads when you focus it after a new run. |
+| **Show JSON** | Shows `runs.json` in your file browser. |
+
+## A run's details
+
+Select a run to see its request, outcome and notes, and its **Agents**: role, model, cost and share of the run, active time, API calls, cost per call and context sizes. Select an agent to see its **Steps** (debug runs only): the step name, calls, time, tokens, cost, share of the agent's cost and the `power.py` commands it ran.
+
+Ctrl/Cmd-click two runs to compare them: the cost, the builder's cost, active time and more are shown side by side with the change in percent, above the details.
+
+:::note
+
+Costs are estimates from the agents' transcripts, priced per model from `AiFlow/build-mechanic/prices.json`. The output cost is a lower bound, because thinking isn't logged.
+
+:::

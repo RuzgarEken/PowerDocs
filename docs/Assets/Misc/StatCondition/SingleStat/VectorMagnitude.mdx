@@ -20,3 +20,12 @@ The vector's magnitude is evaluated using a **Numerable Comparer**.
 - **Vector3**
 - **Vector2Int**
 - **Vector3Int**
+
+## Example
+
+*Moving:* the length of a `MoveDirection` Stat is above `0.1`. Comparer **Greater** `0.1`.
+
+| `MoveDirection` | Magnitude | Passes |
+| --- | --- | --- |
+| `(0, 0, 0)` | `0` | no |
+| `(0.6, 0, 0.8)` | `1` | yes |

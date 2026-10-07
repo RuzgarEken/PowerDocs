@@ -1,0 +1,23 @@
+---
+sidebar_position: 1
+---
+
+# Absolute Value
+
+Sets the target Stat's value to the value of the Injector Stat — a mirror. Any value built before it in the injection order is overwritten.
+
+Ships for `Float`, `Int`, `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`.
+
+| Field | Description |
+| --- | --- |
+| **Use Value Adapter** | Runs the Injector Stat through a **Stat Value Adapter** first. Lets the Injector Stat have another type (an Int Stat feeding a Float, a direction feeding a position). |
+| **Value Adapter** | The adapter. It must return the target's type. |
+
+## Example
+
+A hook pulls the player to an enemy that keeps moving. A Linker Effect on the pull's `EndPoint` with an Absolute Value Vector3 Linker, **Injector Stat** = the hooked enemy's `Position`:
+
+| Enemy `Position` | `EndPoint` |
+| --- | --- |
+| `(5, 0, 2)` | `(5, 0, 2)` |
+| `(6, 0, 3)` (it moved) | `(6, 0, 3)` — the pull follows it |

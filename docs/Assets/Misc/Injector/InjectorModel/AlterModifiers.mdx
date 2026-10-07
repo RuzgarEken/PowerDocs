@@ -4,4 +4,23 @@ sidebar_position: 3
 
 # Alter Modifiers
 
-Modifies the modifier values applied to a Stat.
+Rewrites the values of the Modifiers on the Stat by a **constant**. The Modifiers themselves are kept; only the value they contribute changes while the Injector is attached.
+
+Ships for `Float` and `Int`. The [Linker version](../LinkerModel/AlterModifiers.mdx) reads the value from another Stat instead.
+
+| Field | Description |
+| --- | --- |
+| **Value** | The constant applied to each matching Modifier. |
+| **Modify Type** | **Flat**, **Rate** or **Multiplier**. |
+| **Target Sign** | Which Modifiers are altered: **Positive**, **Negative** or **Both**. |
+| **Filter By Caster** | Only alters Modifiers added by certain Actors. |
+| **Casted By** | Which caster to match: a Relation State (**Relation** + **Relate To**), **Team Flags** (+ **Team Key**), a **Custom** targeter, or an **Actor Stat**. |
+
+## Example
+
+*Debuffs on you are 50 % weaker.* An Alter Modifiers Float Injector on `MoveSpeed` with **Modify Type** **Multiplier**, **Value** `0.5`, **Target Sign** **Negative**:
+
+| Modifier on `MoveSpeed` | Contributes |
+| --- | --- |
+| a slow, `−2` | `−1` |
+| a haste, `+1` | `+1` (positive, untouched) |

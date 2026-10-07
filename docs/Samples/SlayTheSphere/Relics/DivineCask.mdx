@@ -10,6 +10,15 @@ Doubles the effectiveness of Potions.
 
 Divine Cask applies a multiplier Stat to the player:
 
-<EffectExample name="Effect_PotionEffectMultiplier_STS" targetStat="PotionEffectMultiplier" value={2} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>PotionEffectMultiplier</strong> — Effect</summary>
+
+<EffectExample name="PotionEffectMultiplier" targetStat="PotionEffectMultiplier" value={2} />
+
+</details>
+
+</div>
 
 Potion Effects read this multiplier through <PowerRef>Key_PotionEffectMultiplier</PowerRef> when they resolve, doubling values such as Heal Potion's restore percentage or Blast Potion's damage.

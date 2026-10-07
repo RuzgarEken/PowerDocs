@@ -2,4 +2,38 @@
 sidebar_position: 3
 ---
 
-**PowerWorld** is initialized using **PowerWorldSettings** and serves as the central hub for Power's runtime systems, such as Diplomacy, Updater, and Logging.
+# PowerWorld
+
+**PowerWorld** is the central hub for Power's runtime systems: [Diplomacy](/docs/Assets/World/Diplomacy) (teams and relations), the [Updater](/docs/Assets/World/Updater) (durations, delays, generators, tweens) and [Logging](/docs/Assets/World/Log).
+
+**Every scene that runs Power needs one.** Add the `PowerWorld` component to a GameObject, assign its settings and turn on **Initialize On Load** (it is an Actor, see below).
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Settings** | The **PowerWorldSettings** asset: the **Updaters** (one `UpdaterModel` per Updater Type, e.g. Realtime and Turnbased), the **Diplomacy Settings** and the **Log Settings**. |
+| **Diplomacy Definition** | The starting teams and relations. |
+| *Actor fields* | PowerWorld derives from [Actor](./Actor.mdx), so it also has a **Stat Repository**, an **Effect Process Definition**, **Extensions**, **Initialize On Load**… |
+
+*Create › Power › World › World Settings* creates the settings asset.
+
+## The world is an Actor
+
+PowerWorld is itself an `ActorEntity`. Give it a Stat Repository and an Effect Process Definition and it can hold Stats like any Actor. Effects reach it with the **World** Effect Target, and `Stat From` / Interaction Actor **World** read its Stats.
+
+Use it for **global state**: a match timer, a wave counter, *how many enemies are poisoned* (a count kept up to date by a State Based Effect on each poisoned Actor). The General Expansions extension **PowerWorldExtension_TeamMemberCountSync** keeps one member-count Stat per team on it.
+
+## Static API
+
+| Member | Description |
+| --- | --- |
+| `PowerWorld.Instance` | The PowerWorld of the scene. |
+| `PowerWorld.Diplomacy` | Teams and relations: `AddTeam`, `RemoveTeam`, `AddMember(actor, teamId)`, `RemoveMember`, `GetTeamMembers(teamFlags, filter)`, `UpdateDiplomacy(teamA, teamB, relation)`; events `TeamAdded`, `TeamRemoved`, `MemberAdded`, `MemberRemoved`. Only members can be found by **Relation State** and **Team Flags** targeting. |
+| `PowerWorld.Updater` | The world updater that advances durations, delays, Generators and Tweeners. |
+| `PowerWorld.GetActor(actorId)` / `TryGetActor(actorId, out actor)` | The live Actor with a static **Actor Id** (its **Predefined Instance Id**), or null. |
+| `PowerWorld.StaticActors` | Every live Actor with a static Actor Id, by id. |
+| `PowerWorld.ActorRegistered` | Raised when an Actor with a static Actor Id finished initializing. |
+| `PowerWorld.Root` / `SetRoot(transform)` | The transform spawned objects are parented to. |
+| `PowerWorld.InputCamera` / `SetInputCamera(camera)` | The camera input is read through (used by samples' pointer / targeting code). |
+| `PowerWorld.OnUpdate`, `OnClear` | Raised every world update and when the world is cleared. |

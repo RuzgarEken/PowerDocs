@@ -4,4 +4,22 @@ sidebar_position: 6
 
 # Distance By Source Vector
 
-Returns the distance between the input vector Stat and another vector retrieved from the specified source.
+**StatValueAdapter_FloatDistanceBySourceVector3** returns the distance between the incoming Vector3 Stat and a Vector3 Stat of the **Source** Actor: `Vector3.Distance(source, incoming)`.
+
+| Field | Description |
+| --- | --- |
+| **Source Stat Key** | The Vector3 Stat read on the Source Actor (usually its `Position`). |
+
+The incoming Stat must be a `Vector3` Stat. If the Source has no Stat at **Source Stat Key**, the result is `0`.
+
+## Example
+
+The [Chain Hook](/docs/Samples/3DCells/ChainHook) picks its follow-up (punch or kick) by how far the hooked enemy is. `Effect_SetClosestEnemyDistance_2_3DC` writes that distance into a Float Stat:
+
+| Field | Value |
+| --- | --- |
+| Effect | `Set_Float` on `ClosestEnemyInSightDistance` |
+| Value Stat | the hooked enemy's `Position` (a Custom Actor) |
+| Adapter | `StatValueAdapter_DistanceBetweenSource_3DC` — **Source Stat Key** = `Position` |
+
+Player at `(0, 0, 0)`, enemy at `(3, 0, 4)` → the Stat becomes `5`.

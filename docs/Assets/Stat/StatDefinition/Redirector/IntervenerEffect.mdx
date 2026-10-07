@@ -1,0 +1,36 @@
+---
+sidebar_position: 2.5
+---
+
+# Intervener Effect
+
+An **Intervener Effect** is a Redirector that triggers another Effect in response to an incoming Effect, **before** that Effect is applied — and can block it.
+
+It is read by the [Intervener Effect Preprocessor](/docs/Assets/Processor/Preprocessors/IntervenerEffect) and the [Standard Precontribution](/docs/Assets/Processor/Processors/Standard/Precontribution/IntervenerEffect). Its post-stage counterpart is the [Counter Effect](./CounterEffect).
+
+It allows gameplay mechanics such as counterattacks, retaliation, chain effects, and reactive abilities by dispatching a new Effect when its conditions are satisfied.
+
+## Intervener Effect Signature
+
+### Fields
+
+This Stat inherits all fields from **[Redirector](./)**.
+
+| Field | Description |
+| --- | --- |
+| **Use Rate** | Triggers the Intervener Effect based on probability. A random value in the range `0–1` is generated, and the Intervener Effect is triggered only if it is less than the configured rate. |
+| **Use Stat Use Rate** | Uses a Stat instead of a predefined rate value. |
+| **Use Rate Stat** | The **Float Stat** that provides the trigger probability. |
+| **Rate Value** | The predefined probability value used when **Use Stat Use Rate** is disabled. |
+| **Block Effect** | When it fires, the incoming Effect is blocked. It still reaches the Postprocessors and Feedback that take blocked Effects. Pair it with **Add Result Attribute If Pass** (e.g. `Immune`) so they can tell why. |
+| **Additional Effects** | More Effects fired on the same trigger, each with its own **Effect Pack**, target (**Redirection Target** and its fields), source (**Redirected Effect Source** and its fields) and **Override Target Environment**. The checks and the rate are evaluated once; the Stat's own pack goes out first (the incoming Effect is blocked if anything fired, with **Block Effect** on), then each entry in order. See **Several Effects On One Trigger** below. |
+
+## Several Effects On One Trigger
+
+When the same conditions should affect different Actors with different Effects — for example *shatter the struck foe and blast its allies* — use one Stat with **Additional Effects** instead of several Stats that copy the same conditions. The Stat's own Effect Pack and targeting is the first Effect; each entry adds one more with its own Effect Pack, target and source.
+
+Entries take an **Effect Pack** asset directly, so an Effect that changes the Stat's value (its own pack) does not change them.
+
+## Versions
+
+- **Signed**:

@@ -26,28 +26,135 @@ The critical damage multiplier increases based on the number of enemies hit.
 
 The **Legion Spear** skill object contains two Effectors.
 
-![Legion Spear Skill](./images/LegionSpear_Skill.png)
+The **LegionSpear** skill prefab has two children: **Damager** deals the damage, **Toucher** counts the foes it touches.
 
 The **Toucher** is initially active. Its **EnterExit** Effector increases the source Actor's **TouchCount** for each target inside the area.
 
-![Legion Spear Toucher Effector](./images/LegionSpear_ToucherEffector.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>Toucher › Effector_EnterExit</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"Effector_EnterExit"} name={"Toucher"}>
+  <SpecRow label={"Collide Detectors"}>{"Toucher (Trigger Detector 3D)"}</SpecRow>
+  <SpecRow label={"Trigger Actors"}>{"Enemy"}</SpecRow>
+  <SpecRow label={"Hit Limitation Type"}>{"Unlimited"}</SpecRow>
+  <SpecRow label={"Team From"}>{"Source"}</SpecRow>
+  <SpecRow label={"Any States"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Effect Pack (target Source, source Source)"}><PowerRef>Pack_IncreaseTouchCount_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The **Damage** Effector is activated after a `0.15` second delay. It uses an **OnCollide** Effector to apply damage to the **TriggerActors**.
 
-![Legion Spear Damage Effector](./images/LegionSpear_DamageEffector.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>Damager › Effector_OnCollide</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"Effector_OnCollide"} name={"Damager"}>
+  <SpecRow label={"Trigger Actors"}>{"Enemy"}</SpecRow>
+  <SpecRow label={"Hit Limitation Type"}>{"Unlimited"}</SpecRow>
+  <SpecRow label={"Team From"}>{"Source"}</SpecRow>
+  <SpecRow label={"Limit Exceeded Behaviour"}>{"Passivate"}</SpecRow>
+  <SpecRow label={"Do Not Effect Target Twice"}>{"true"}</SpecRow>
+  <SpecRow label={"Effect Pack (target Trigger Actor, source Source)"}><PowerRef>Pack_LegionSpear_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 To modify the **CritRate** and **CritMultiplier** values based on the number of touched targets, we use **ConditionalModifiers** with the **CritProcessor**.
 
-![Legion Spear Crit Processor](./images/CritProcessor.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>MASContribution_CriticalHit_Float</strong> — MASContribution Critical Hit Float</summary>
+
+<SpecCard kind='processor' label={"MASContribution Critical Hit Float"} name='MASContribution_CriticalHit_Float'>
+  <SpecRow label={"Required Attributes"}>{"Modibifiable|Critable|AttributeStatsProcessable"}</SpecRow>
+  <SpecRow label={"Receiving Critical Rate Key"}>{"CriticalRate_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Rate Key"}>{"CriticalRate_Applying"}</SpecRow>
+  <SpecRow label={"Receiving Critical Multiplier Key"}>{"CriticalMultiplier_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Multiplier Key"}>{"CriticalMultiplier_Applying"}</SpecRow>
+  <SpecRow label={"Critical Result Attribute"}>{"Critical"}</SpecRow>
+  <SpecRow label={"Use Conditional Rate Modifier"}>{"true"}</SpecRow>
+  <SpecRow label={"Use Conditional Multiplier Modififier"}>{"true"}</SpecRow>
+  <SpecRow label={"Conditional Modifier Processor"}><PowerRef>ASContribution_ConditionalModifier(Float-Generic)_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The **CritRate** Conditional Modifier checks whether the **TouchCount** is greater than `1`. If the condition is met, it adds `1` to the **CritRate** as a flat contribution.
 
-![Legion Spear CritRate Stat](./images/LegionSpear_CritRate.png)
+<div className="prp-packs">
 
-![Legion Spear CritRate Modifier](./images/LegionSpear_CritRateModifier.png)
+<details>
+<summary><strong>LegionSpear_CritRate</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='LegionSpear_CritRate'>
+  <SpecRow label='Stat Key' icon='key'>{"LegionSpear / FloatClamped / CritRate"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_TouchingTargetBasedCritRateModifier_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>TouchingTargetBasedCritRateModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='TouchingTargetBasedCritRateModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"LegionSpear / ConditionalModifier / CritRateModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_GTE2(Int)_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 For the **CritMultiplier**, we use a **StatScaler** to scale the **CritMultiplierModifier** based on the number of touched targets. It adds `0.25` to the **CritMultiplier** for each target.
 
-![Legion Spear CritMultiplier Stat](./images/LegionSpear_CritMultiplier.png)
+<div className="prp-packs">
 
-![Legion Spear CritMultiplier Modifier](./images/LegionSpear_CritMultiplierModifier.png)
+<details>
+<summary><strong>LegionSpear_CritMultiplier</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='LegionSpear_CritMultiplier'>
+  <SpecRow label='Stat Key' icon='key'>{"LegionSpear / FloatClamped / CritMultiplier"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_TouchingTargetBasedCritMultiplierModifier_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"5"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>TouchingTargetBasedCritMultiplierModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='TouchingTargetBasedCritMultiplierModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"LegionSpear / ConditionalModifier / CritMultiplierModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"0.25"}</SpecRow>
+  <SpecRow label={"Max"}>{"0.25"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_GTE2(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Use Scaler"}>{"true"}</SpecRow>
+  <SpecRow label={"Stat Scaler \u203a Scaler"}><PowerRef>StatToMultiplier_TouchingTargetCount_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

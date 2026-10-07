@@ -10,12 +10,21 @@ At the start of your turn, lose **15 [Block](/docs/Samples/SlayTheSphere/Keyword
 
 At the start of each turn, this Effect sets a reserve amount that the normal Block-reset stops at, so Block is clamped down to `15` instead of `0`:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>BlockReserveThreshold</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_BlockReserveThreshold"
+  name="BlockReserveThreshold"
   targetStat="BlockReserveAmount"
   valueStat="BlockReserver"
   value={15}
   duration="1 turn"
 />
+
+</details>
+
+</div>
 
 The amount comes from <PowerRef>Stat_BlockReserver_15_STS</PowerRef>.

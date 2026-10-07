@@ -8,7 +8,7 @@ Cards are the core of the demo. Every card references a Skill that runs when the
 
 ## How cards are built
 
-Every card's Skill points at a small **Repository** of Stats composed from a shared library in `Stats/Cards/General`. Generic Keys such as **Damage**, **EnergyCost**, [**Block**](/docs/Samples/SlayTheSphere/Keywords#block), or **CardType** are filled in with reusable, pre-named value Stats (`Stat_Damage_6`, `Stat_EnergyCost_1`, `Stat_CardType_Attack`, and so on). A small set of generic Effects &mdash; `Effect_AttackDamage_STS`, `Effect_Block_STS`, `Effect_EnergyCost_STS`, etc. &mdash; read those Keys dynamically and apply them, so the same Effect is reused by every card of that kind; only the composed Stats change per card. Cards that need something the shared library can't express add their own Effects and Stats on top, described in that card's **Implementation** section below.
+Every card's Skill points at a small **Repository** of Stats composed from a shared library in `Stats/Cards/General`. Generic Keys such as **Damage**, **EnergyCost**, [**Block**](/docs/Samples/SlayTheSphere/Keywords#block), or **CardType** are filled in with reusable, pre-named value Stats (`Damage_6`, `EnergyCost_1`, `CardType_Attack`, and so on). A small set of generic Effects &mdash; `AttackDamage`, `Block`, `EnergyCost`, etc. &mdash; read those Keys dynamically and apply them, so the same Effect is reused by every card of that kind; only the composed Stats change per card. Cards that need something the shared library can't express add their own Effects and Stats on top, described in that card's **Implementation** section below.
 
 ## Attack
 

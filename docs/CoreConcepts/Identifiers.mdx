@@ -1,0 +1,113 @@
+---
+sidebar_position: 0.5
+description: Identifiers — the named numbers Power uses for Stats, Containers, Environments, attributes and more, where they live and how to manage them.
+---
+
+# Identifiers
+
+Power names things with **identifiers**: `Health` is a Stat Id, `Float` a Container Id, `Critable` an Effect Attribute, `Enemy` a Relation State. Each identifier is a **number with a name**, kept in an **identifier database**, one database per kind.
+
+Assets store the number. The inspector shows the name, and you pick it from a dropdown.
+
+## Why numbers
+
+- **Renaming is safe.** Rename `Health` to `HP` and every asset follows, because they all store the id, not the name.
+- **One shared list.** Every field of a kind picks from the same list, so there are no typos and no near-duplicates like `Health` and `health`.
+- **Fast at runtime.** Stats and Containers are looked up by number, not by string.
+
+## The databases
+
+The databases are `IdentifierDatabase` assets in `Assets/Resources/Power`, named after their kind (`StatIdDatabase`, `ContainerIdDatabase`…). Power loads them from there by path, so don't move or rename them. They are created with their default values the first time the project loads.
+
+| Database | Names | Used for | Kind |
+| --- | --- | --- | --- |
+| **Stat Id** | Stats: `Health`, `Attack`, `MoveSpeed` | Every [Stat Key](/docs/Assets/Stat/StatKey) and Stat Definition. A Stat is found by its id. | Single |
+| **Container Id** | [Containers](/docs/Assets/Stat/Container): `Float`, `IntClamped`, `Float_SigSep` | Where a Stat Key looks for its Stat inside an Environment. | Single |
+| **Environment Id** | Environments: `Default`, `Player`, `Dash` | Which Environment of a Repository a Stat or Effect belongs to. | Single |
+| **Stat Tag** | Groups of Stats: `Buff`, `Debuff` | A Stat Definition's **Tags**: a Stat Effect can target every Stat with a tag, and a [Save Profile](/docs/CoreConcepts/SavingStats) can save Stats by tag. | Flags |
+| **Relative Stat** | A Stat's related values: `Parent`, `MinValue`, `MaxValue` | [Relative Stats](/docs/CoreConcepts/RelativeStatSeperation). | Single |
+| **Processor Id** | Processing routes: `Add_Float`, `Standard_Float` | An [Effect](/docs/Assets/Effect)'s **Processor Id** picks the Process Definition entry that processes it. | Single |
+| **Effect Attributes** | What may happen to an Effect: `Stoppable`, `Counterable`, `Reflectable`, `Critable`… | An Effect's attributes, which Processors check. See [Effect Attributes](/docs/CoreConcepts/EffectAttributes). | Flags |
+| **Effect Result Attributes** | What did happen: `Critical`, `Shielded`, `Missed` | Set by Processors while an Effect runs. Counter Effects and [Feedback](/docs/Samples/GeneralExpansions/Feedback) react to them. | Flags |
+| **Injector Tag** | Groups of Injectors | An [Injector Remover Effect](/docs/Assets/Effect/InjectorRemoverEffect) removes Injectors by tag. | Flags |
+| **Updater Type** | `Realtime`, `Turnbased` | Which [Updater](/docs/Assets/World/Updater) advances an Effect's duration, a Generator or a Tweener. | Single |
+| **Actor Extension Id** | Actor Extensions | Finding an extension on an [Actor](/docs/Components/Actor). | Single |
+| **Actor Part Id** | Body parts: `Body`, `Hand`, `Shield` | Where VFX spawn, what Attachers attach to, where skill objects start. | Single |
+| **Relation State** | Built in: `Me` 1, `Team` 2, `Ally` 4, `Neutral` 8, `Enemy` 16 (all five: `31`) | [Diplomacy](/docs/Assets/World/Diplomacy) and every filter that picks targets by relation. | Flags |
+| **Actor Id** | Known Actors: `Player`, a boss | A fixed id for an Actor, the same every run and through respawns, so it can be found and saved. | Single |
+
+Expansions can add databases of their own. General Expansions adds **Skill Channel Id** (`Resources/Power/SkillChannelIdDatabase`), the parts of an Actor a skill occupies while it runs.
+
+## Single and flags identifiers
+
+A **single** identifier field holds one value. Its dropdown has a search box.
+
+A **flags** identifier field can hold several values at once: an Effect can be `Critable` and `Counterable` at the same time. Its dropdown lets you tick several. Flag values are powers of two (`1`, `2`, `4`, `8`…), so a database holds at most 32 of them. `None` is `0`, and an **All** value, where the database has one, is recalculated whenever you add or delete a flag.
+
+## Managing identifiers
+
+Open the **Power Editor**, go to the **Identifiers** tab and pick a database.
+
+| To | Do |
+| --- | --- |
+| **Add** | Type the name and press **Add**. The field next to it proposes the next free value: the next number, the next power of two for flags, or the next negative number for Actor Id. |
+| **Rename** | Edit the name in the list. Every asset that uses the identifier shows the new name. |
+| **Delete** | Press **Delete** and confirm. |
+| **Find** | Type in **Filter** to narrow the list. |
+
+Identifiers that Power itself relies on, such as `None`, `Default`, `Parent`, the built-in Effect Attributes or the relation states, show **Protected** and can't be renamed or deleted.
+
+You rarely add Stat Ids by hand: creating a Stat in the Power Editor registers its id (with **CreateId** on), and loading a [Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack) adds the ids it brings. A name that already exists is reused, not added twice.
+
+:::warning[Deleting an identifier in use]
+
+Deleting an identifier doesn't change the assets that use it. They keep the old number, and their field shows **None**. A new identifier can later get the same number, and those assets then point at it without anyone noticing. Before you delete a Stat Id, check what still uses the Stat in [Relations](/docs/Interface/Relations), and run the [Validator](/docs/Interface/Validator) afterwards.
+
+:::
+
+:::note[Renaming and your own code]
+
+Assets follow a rename, but code that looks an identifier up by name, like `StatId.TryGetKey("Health", out var id)`, doesn't. Search your scripts for the old name when you rename one they use.
+
+:::
+
+## Id ranges
+
+Your own identifiers and the samples' identifiers share the same databases, so they keep to separate ranges:
+
+| Database kind | Your identifiers | Reserved for samples |
+| --- | --- | --- |
+| Single | Positive numbers, counting up. Actor Id counts down from `-1` instead, so it never meets the ids of spawned Actors (`0`, `1`, `2`…). | Negative numbers |
+| Flags | The lowest free bits | The highest bits |
+
+Avoid the reserved values when you add identifiers by hand.
+
+Each database asset also has a **New Id Range**. Select the database in `Assets/Resources/Power` to set it. When it is set, the tools that add identifiers for you (creating a Stat, loading a Premade Relation Pack, the [AI tooling](/docs/AISupport)) take new ids from the first value toward the second: `-2000` → `-2999` keeps a module's ids in a band of their own. When both values are `0`, the default, they count up. The **Add** field in the Identifiers tab doesn't follow the range, so type a value from your band there.
+
+## Samples bring their own identifiers
+
+Every sample ships its identifiers in its own databases, in `Data/IdentifierDatabases` (`StatIdDatabase_PP`, `StatIdDatabase_GE`…). When you import a sample from **Power Editor → Initializer → Sample Importer**, they are merged into your databases:
+
+- An identifier you don't have yet is added.
+- An identifier you already have, with the same name, is left as it is.
+- An id you already use **under a different name** is a **collision**.
+
+When there are collisions, a dialog lists them:
+
+| Choice | Does |
+| --- | --- |
+| **Skip Conflicts** (default) | Keeps your identifiers and merges everything else. |
+| **Overwrite Conflicts** | Replaces your identifiers with the sample's, after a second confirmation. This can't be undone. |
+| **Cancel** | Merges nothing. |
+
+Keeping your own identifiers out of the reserved ranges is what prevents collisions in the first place.
+
+## Resetting the databases
+
+**Power Editor → Initializer → Init Identifier Databases** deletes every database and recreates it with the default values.
+
+:::danger[Init Identifier Databases deletes your identifiers]
+
+Every identifier you or a sample added is lost, and assets keep numbers that no longer have names. You don't need this button to set up a project: the databases are created on their own. Use it only to start your identifiers over.
+
+:::

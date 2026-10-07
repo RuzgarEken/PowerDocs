@@ -1,0 +1,39 @@
+---
+sidebar_position: 4
+description: General Expansions' ready-made Feedback Processors — floating text, VFX and animation triggers chosen by Stat, sign and Result Attributes.
+---
+
+# Feedback
+
+Power's core ships no presentation: [Feedback Processors](/docs/Assets/Processor/FeedbackProcessors) are a base class you implement. General Expansions ships three ready-made families that react to processed Effects:
+
+| Family | Shows | On |
+|-------|-------------|-------------|
+| [Text Spawner](./TextSpawner.mdx) | floating numbers / words (`-12`, `Crit! 40`, `Dodged`) | screen space, above the target |
+| [Vfx](./Vfx.mdx) | a prefab (a hit spark, a heal glow, a shield flash) | the target, or one of its body parts |
+| [Animation](./Animation.mdx) | an Animator trigger (a hit reaction, a stagger, a block) | the target's `ActorExtension_Animator` |
+
+Every family picks what to show by the **target Stat** and the Effect's **Result Attributes** — and the value-carrying variants also by the **sign** of the applied value. So *damage to Health* and *healing to Health* can show different numbers, and *a crit*, *a shielded hit* and *a dodge* each get their own style.
+
+## Two kinds of asset
+
+Each family comes in the same two kinds:
+
+| Kind | Classes | Goes in |
+|-------|-------------|-------------|
+| **Unsigned** | `BSFeedback_TextSpawner`, `BSFeedback_Vfx`, `BSFeedback_Animation` (+ `AS…`, `MAS…`) | the Process Definition entry's general **Feedback Processors** list. Chooses by target Stat + Result Attributes. Works for any Processor, including ones without a feedback slot (Set, Linker, Remover). |
+| **Value-carrying** | `BSFeedback_TextSpawner_Float` / `_Int`, `BSFeedback_Vfx_Float` / `_Int`, `BSFeedback_Animation_Float` / `_Int` (+ `AS…`, `MAS…`) | the **Feedback Processors** list of the Processor itself (`Process_Standard_*`, `Process_Add_Int` / `_Float`). Also knows the applied value and its sign. |
+
+Validation reports a value-carrying feedback placed in the general list.
+
+## How a case is chosen
+
+The value-carrying variants share one table layout: **target Stat** → **sign** (Positive / Negative) → **Result Attributes** → what to show, with a **Fallback** per sign for combinations that have no entry. The unsigned variants skip the sign.
+
+:::warning[Entries are looked up by the exact combination]
+
+The table is keyed by the **combined** Result Attribute value. `Critical`, `Shielded` and `Critical | Shielded` are three different entries, each configured on its own. A combination with no entry uses the **Fallback** of that sign. When you add a mechanic that tags hits, add an entry for every combination it can produce.
+
+:::
+
+Blocked Effects still run Feedback, so a missed or immune hit can show its own text, VFX or animation.

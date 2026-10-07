@@ -1,0 +1,31 @@
+---
+sidebar_position: 3
+---
+
+# StatKeyModel_SrcSep
+
+A **StatKeyModel_SrcSep** addresses **one Actor's copy** inside a [Source Separated Stat](/docs/CoreConcepts/SourceSeperatedStats): the SrcSep Stat's Environment / Container / Stat, plus which Actor's inner Stat.
+
+A normal key to a SrcSep Stat reads the **combined** value and writes the **Effect Source's** copy. A SrcSep key picks the Actor:
+
+| Used as | Effect |
+| --- | --- |
+| An Effect's **Target Stat** | changes that Actor's copy — *gossip about Alex makes her angry at Alex, not at the speaker* |
+| A `Stat From` in a condition, scaler or adapter | reads that Actor's copy — *is she angry at the Source?* |
+| A **Default Value Override** on an Actor | gives a known Actor's copy its own starting value (with **Use Actor Id**) |
+
+Anything that resolves the key without an interaction (no Source / Target to pick from) gets the SrcSep Stat itself.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Environment** | The **Environment Id** of the SrcSep Stat. |
+| **Container** | The **Container Id** of the SrcSep Stat. |
+| **Stat** | The **Stat Id** of the SrcSep Stat. |
+| **Use Actor Id** | Off: the copy belongs to an interaction Actor (**Src Actor**). On: the copy belongs to the static Actor with **Actor Id** (Player, a boss…), found through `PowerWorld.GetActor`. |
+| **Actor Id** | The static Actor whose copy is addressed. Actor Ids are added in *Power Editor › Enums › ActorId* and given to an Actor with its **Predefined Instance Id**. |
+| **Src Actor** | The interaction Actor whose copy is addressed: **Source**, **Target**, **Trigger Actor**, **Effector**, **Custom**… |
+| **Src Custom Actor** | The [Custom Actor](/docs/Assets/Misc/Targeting/CustomActor) when **Src Actor** is **Custom**. |
+
+When the addressed Actor has no copy yet, one is created from the SrcSep Stat's **Inner Stat Definition** with its default value.

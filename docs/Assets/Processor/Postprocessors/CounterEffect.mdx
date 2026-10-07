@@ -6,7 +6,7 @@ sidebar_position: 2
 
 You can find a video tutorial for Counter Effects [▶ here](https://youtu.be/NY9KD_TpAJg?list=PLAVxVgoBmZhM).
 
-The **Counter Effect** Processor triggers another Effect after the current Effect has been successfully applied.
+The **Counter Effect** Processor triggers another Effect after the current Effect was processed — whether it was applied or blocked, as each Counter Effect's **Trigger On** says.
 
 The triggered Effect is configured by the resolved **CounterEffect Stat** and is executed according to its **CounterEffect Signature**.
 
@@ -28,11 +28,24 @@ The resolved Stat must be a **CounterEffect Stat**.
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS`, in four container variations. Unlike the [Standard Postprocess form](/docs/Assets/Processor/Processors/Standard/Postprocess/CounterEffect), these do not ship Effector or signed variations — they run outside the Standard funnel. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS`. Unlike the [Standard Postprocess form](/docs/Assets/Processor/Processors/Standard/Postprocess/CounterEffect), these do not ship Effector or signed variations — they run outside the Standard funnel. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
 
-| Suffix | Expects | Use case |
-| --- | --- | --- |
-| `_Normal` | A plain CounterEffect Stat | *Death Rattle* — after any Health Effect resolves, check the result and detonate if the Actor died. |
-| `_SrcSep` | A Source Separated Stat | Only the tagged enemy's Effects fire the follow-up, so an escort mechanic reacts to the assassin and not the crowd. |
-| `_SigSep` | A Signature Separated Stat | *Conduction* — landing lightning damage chains to a nearby target; other damage types do not. |
-| `_SigNSrcSep` | Signature **and** Source Separated | Chain only the lightning dealt by one specific caster. |
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Death Rattle* — after any Health Effect resolves, check the result and detonate if the Actor died. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | Only the tagged enemy's Effects fire the follow-up, so an escort mechanic reacts to the assassin and not the crowd. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Conduction* — landing lightning damage chains to a nearby target; other damage types do not. |
+| Signature Separated list of Source Separated Stats | Chain only the lightning dealt by one specific caster. |
+
+## Trigger On
+
+Each Counter Effect Stat's **Trigger On** (in its [signature](/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect)) picks the outcomes it fires for:
+
+| Trigger On | Fires when |
+| --- | --- |
+| `Applied` (default) | the Effect reached its Stat |
+| `Blocked` | a Processor blocked the Effect — combine with a **Result Attribute Check** (e.g. `Immune`) to react to one kind of block, such as consuming an immune charge |
+
+A Counter Effect can't block the Effect: it runs after the Effect was processed. To react *before* the Effect lands, or to block it, use an [Intervener Effect](/docs/Assets/Processor/Preprocessors/IntervenerEffect).

@@ -28,8 +28,8 @@ Assume the <PowerRef kind="stat">Attack</PowerRef> Stat has two different Modifi
   name="Attack"
   default={10}
   relations={[
-    {key: 'Modifier_Given', value: 'AttackModifier'},
-    {key: 'Modifier_Given_AttributeStat', value: 'AttackDamageModifier'},
+    {key: 'Modifier_Applying', value: 'AttackModifier'},
+    {key: 'Modifier_ApplyingAS', value: 'AttackDamageModifier'},
   ]}
 />
 
@@ -37,12 +37,12 @@ Both modifiers increase values by **10%**, but they serve different purposes and
 
 **1. Attack Stat as the Target Stat**
 
-The **BSModifier** Processor uses the Attack Stat as the **Target Stat**. It resolves the **Modifier_Given** Relative Stat, which points to **AttackModifier**, and increases the incoming value from **5** to **5.5** before applying it to the Attack Stat.
+The **BSModifier** Processor uses the Attack Stat as the **Target Stat**. It resolves the **Modifier_Applying** Relative Stat, which points to **AttackModifier**, and increases the incoming value from **5** to **5.5** before applying it to the Attack Stat.
 
 <Flow>
   <EffectExample targetStat="Attack" value={5} />
   <SpecCard kind="processor" name="BSModifier">
-    <SpecRow label="Resolves" icon="key">Modifier_Given</SpecRow>
+    <SpecRow label="Resolves" icon="key">Modifier_Applying</SpecRow>
   </SpecCard>
   <SpecCard kind="stat" name="Attack">
     <SpecRow label="Value">10 → 15.5</SpecRow>
@@ -53,14 +53,14 @@ The **BSModifier** Processor uses the Attack Stat as the **Target Stat**. It res
 
 Now consider a different situation. The Effect targets the enemy's <PowerRef kind="stat">HealthStat</PowerRef>, while the <PowerRef kind="stat">AttackStat</PowerRef> is used only as an **Attribute Stat**.
 
-During the **ASModifier** stage of the processing funnel, the Processor evaluates the Attribute Stats attached to the Effect. Because the Attack Stat is being used in this role, it resolves the **Modifier_Given_AttributeStat** Relative Stat, which points to **AttackDamageModifier**.
+During the **ASModifier** stage of the processing funnel, the Processor evaluates the Attribute Stats attached to the Effect. Because the Attack Stat is being used in this role, it resolves the **Modifier_ApplyingAS** Relative Stat, which points to **AttackDamageModifier**.
 
 This increases the outgoing damage from **-10** to **-11** before the Effect is applied to Health.
 
 <Flow>
   <EffectExample targetStat="Health" attributeStat="Attack" value={-10} />
   <SpecCard kind="processor" name="ASModifier">
-    <SpecRow label="Resolves" icon="key">Modifier_Given_AttributeStat</SpecRow>
+    <SpecRow label="Resolves" icon="key">Modifier_ApplyingAS</SpecRow>
   </SpecCard>
   <SpecCard kind="stat" name="Health">
     <SpecRow label="Value">100 → 89</SpecRow>
@@ -70,14 +70,14 @@ This increases the outgoing damage from **-10** to **-11** before the Effect is 
 :::warning
 **The role of a Stat determines which Relative Stat relationship should be resolved.**
 
-**Modifier_Given** is scoped to direct **Target Stat** modification. In scenario 1, **BSModifier** resolves this key and follows the relationship to **AttackModifier**.
+**Modifier_Applying** is scoped to direct **Target Stat** modification. In scenario 1, **BSModifier** resolves this key and follows the relationship to **AttackModifier**.
 
-When **Attack** is used as an **Attribute Stat**, it should not reuse **Modifier_Given**. Instead, **ASModifier** resolves **Modifier_Given_AttributeStat**, which points to the separate **AttackDamageModifier** Stat.
+When **Attack** is used as an **Attribute Stat**, it should not reuse **Modifier_Applying**. Instead, **ASModifier** resolves **Modifier_ApplyingAS**, which points to the separate **AttackDamageModifier** Stat.
 
 This separation is intentional. **AttackModifier** controls modifications to the Attack Stat itself, while **AttackDamageModifier** controls modifications to Effects that use Attack as an Attribute Stat.
 :::
 
-As shown in the samples, you will often see both **Modifier_Given** and **Modifier_Given_AttributeStat** Relative Keys.
+As shown in the samples, you will often see both **Modifier_Applying** and **Modifier_ApplyingAS** Relative Keys.
 
-- **Modifier_Given** is resolved by **BSModifier** when the Stat is used as the **Target Stat**.
-- **Modifier_Given_AttributeStat** is resolved by **ASModifier** when the same Stat is used as an **Attribute Stat** to modify the Effect value.
+- **Modifier_Applying** is resolved by **BSModifier** when the Stat is used as the **Target Stat**.
+- **Modifier_ApplyingAS** is resolved by **ASModifier** when the same Stat is used as an **Attribute Stat** to modify the Effect value.

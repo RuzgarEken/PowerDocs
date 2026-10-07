@@ -6,10 +6,31 @@ sidebar_position: 3
 
 Unlike `SingleStatCondition`, this condition does not use a predefined comparison value. Instead, both the target value and the comparison value are retrieved dynamically from Stats.
 
-### Example
+Ships for `Float` and `Int`.
+
+| Field | Description |
+| --- | --- |
+| **Use Adapter** / **Adapter** | Runs the checked Stat through a [Stat Value Adapter](/docs/Assets/Misc/Adapter/Stat) first. |
+| **Compare Type** | **Single**: compare with one Stat. **Range**: check against a min and a max Stat. |
+| **Compare Condition** | Equals, Lower, Lower Or Equal, Greater, Greater Or Equal, Not Equals (Single). |
+| **Value Stat** | The Stat compared with (`Stat From`: which Actor + which key), with an optional adapter (Single). |
+| **Range Compare Condition** | Inside or Outside (Range). |
+| **Min Value Stat** / **Max Value Stat** | The range bounds, each a `Stat From` with an optional adapter (Range). |
+
+## Example
 
 ```text
 Health > MaxHealth
 ```
 
-In this example, both `Health` and `MaxHealth` are retrieved at runtime and compared against each other.
+Both `Health` and `MaxHealth` are read at runtime and compared with each other.
+
+Execute Health Below Threshold ships a real one, `Condition_IsBelowHealthThreshold`:
+
+| Field | Value |
+| --- | --- |
+| **Adapter** | `StatValueAdapter_ValueAs_Float` — Health as **Percentage Of Remaining** |
+| **Compare Condition** | **Lower Or Equal** |
+| **Value Stat** | `ExecuteThreshold` |
+
+A target at `15 / 100` health against an `ExecuteThreshold` of `0.2`: `0.15 ≤ 0.2` passes, and the target is executed. Raise `ExecuteThreshold` with an upgrade and the condition follows, with no change to the condition asset.

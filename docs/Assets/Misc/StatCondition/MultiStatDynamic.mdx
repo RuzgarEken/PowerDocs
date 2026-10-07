@@ -5,3 +5,30 @@ sidebar_position: 4
 # Multi Stat (Dynamic)
 
 Similar to `MultiStatCondition`, but instead of using predefined comparison values, all comparison values are retrieved dynamically from Stats.
+
+No concrete Dynamic Multi Stat Condition ships with Power. Write your own by deriving from `DynamicMultiStatCondition` and overriding `IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId)`; it is then selectable wherever a **Dynamic Multi Stat Condition** is accepted, such as the **Multi Stat Checker** of a [Combine By Condition](/docs/Assets/Misc/Injector/LinkerModel/CombineByCondition) Linker.
+
+## Example
+
+*Health plus Shield is greater than the attacker's Attack* — the three Stats are passed in, the comparison value comes from one of them:
+
+```csharp
+using System.Collections.Generic;
+using Power;
+using Power.Effects;
+using Power.Stats;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "MyGame/Conditions/Sum Greater Than Last")]
+public class DynamicMultiStatCondition_SumGreaterThanLast : DynamicMultiStatCondition
+{
+    // stats[0] + stats[1] > stats[2]
+    public override bool IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId = 1)
+    {
+        if (stats.Count < 3) return false;
+        if (stats[0] is not Stat<float> a || stats[1] is not Stat<float> b || stats[2] is not Stat<float> limit)
+            return false;
+        return a.Value + b.Value > limit.Value;
+    }
+}
+```

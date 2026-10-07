@@ -1,0 +1,24 @@
+---
+sidebar_position: 5
+---
+
+# Limit
+
+Clamps the target Stat with the value of the Injector Stat as a bound.
+
+Ships for `Float` and `Int`.
+
+| Field | Description |
+| --- | --- |
+| **Limit By** | **Min**: the target can't go below the Injector Stat. **Max**: the target can't go above it. |
+| **Use Value Adapter** / **Value Adapter** | Runs the Injector Stat through a **Stat Value Adapter** first. |
+
+## Example
+
+`Shield` can never exceed `MaxShield`: a Linker Definition on `Shield` with a Limit Float Linker, **Limit By** **Max**, **Injector Stat** `MaxShield`.
+
+| `Shield` built | `MaxShield` | Reads |
+| --- | --- | --- |
+| `30` | `50` | `30` |
+| `70` | `50` | `50` |
+| `70` | `80` (raised by an upgrade) | `70` |

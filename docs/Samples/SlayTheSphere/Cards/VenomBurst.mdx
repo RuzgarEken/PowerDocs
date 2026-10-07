@@ -10,8 +10,13 @@ If the target is [**Poisoned**](/docs/Samples/SlayTheSphere/Keywords#poison), de
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_VenomBurst</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_VenomBurst_STS"
+  name="Card_VenomBurst"
   stats={[
     {key: 'Damage', value: 7},
     {key: 'Energy Cost', value: 1},
@@ -20,19 +25,41 @@ If the target is [**Poisoned**](/docs/Samples/SlayTheSphere/Keywords#poison), de
   ]}
 />
 
+</details>
+
+</div>
+
 A `BeforeUse` Effect — <PowerRef>Effect_UpdateRepeatCount</PowerRef> — resets the repeat count to its base value. A conditional modifier then checks the target's Poison and adds one extra repeat when it is present, so the shared damage Effect resolves a second time only against already-Poisoned enemies:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>RepeatCountConditionalModifier</strong> — Injector</summary>
+
 <InjectorExample
-  name="Stat_RepeatCountConditionalModifier_STS"
+  name="RepeatCountConditionalModifier"
   into="RepeatCount"
   condition={<>Target Poison &gt; 0</>}
   value={1}
 />
 
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>AttackDamage</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_AttackDamage_STS"
+  name="AttackDamage"
   targetStat="Health"
   attributeStat="AttackDamage"
   valueStat="Damage"
   value={7}
 />
+
+</details>
+
+</div>

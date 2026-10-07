@@ -4,30 +4,47 @@ sidebar_position: 4
 
 # Targeting Model
 
-A `TargetingModel` defines how a Skill delivers its Effects to the target.
+A `TargetingModel` defines how a Skill State delivers its Effects to targets.
+
+*Create › Power Demos › Skills › Targeters*
 
 ## Fields
 
 | Field | Description |
 |-------|-------------|
-| **Skill Prefab** | *(Optional)* The Skill prefab that will be spawned when the Skill is used. |
-| **Highlight Range Prefab** | *(Optional)* The prefab used to visualize the Skill's effective range. |
-| **Highlight Projectile Range Prefab** | *(Optional)* The prefab used to visualize the projectile's travel range. |
-| **Use Pooling** | When enabled, Skill objects are spawned and despawned using `GameObjectPoolController` instead of being instantiated and destroyed. |
+| **Skill Prefab** | *(Optional)* The `SkillEntity` prefab spawned when the Skill fires — a projectile, an area, a slash. |
+| **Highlight Range Prefab** | *(Optional)* A prefab visualizing the Skill's cast range. |
+| **Highlight Projectile Range Prefab** | *(Optional)* A prefab visualizing the projectile's travel range. |
+| **Use Pooling** | Spawns and despawns Skill objects through `GameObjectPoolController` instead of instantiating / destroying them. Pooled objects keep their Stats — reset them in the initializer pack. |
 
 ## Types
 
-### Skillshot
+### Skill Shot
 
-Spawns a Skill object and delivers the `EffectPack` through the Effectors attached to that object.
+`SkillTargeting_SkillShot` (3D sample expansions) — spawns the Skill object; its [Effectors](../Effector/index.mdx) deliver the Effect Packs on contact.
+
+| Field | Description |
+|-------|-------------|
+| **Use Range** / **Cast Range Parenter / Position / Rotation** | Where the cast-range highlight is placed. |
+| **Projectile Parenter** | What the object is parented to: global, the caster's body part, a humanoid bone, the pointed target. |
+| **Projectile Position** | Where it spawns: an offset to the caster or one of its body parts, the pointer, the closest related Actor… |
+| **Projectile Rotation** | How it is rotated: toward the pointer (isometric), like the caster, toward an Actor Stat's position… |
+| **Projectile Layouter** | Several projectiles at once: **Forward** (a line) or **Radial** (a fan / ring). |
+| **Use Skill Initializer Effect** | Applies **Skill Initializer Pack** to the spawned object, with the caster as Source, in **Skill Initializer Pack Environment**. |
 
 ### Direct
 
-Applies the configured `EffectPack` directly to the target without spawning a Skill object.
+`SkillTargeting_Direct` — applies the **Direct Effect** pack to targets without a projectile.
 
-## Notes
+| Field | Description |
+|-------|-------------|
+| **Use Skill Prefab As Vfx** | Spawns the Skill Prefab only as a visual. |
+| **Target Type** | **Source**, **Actor Stat**, **Relation State** (+ **Relation State**), **Team Flags** (+ **Team Flags**) or **Custom** (+ a [Custom Targeter](/docs/Assets/Misc/Targeting/CustomTargeter)). |
+| **Targeting Filter** | Narrows Relation State / Team Flags / Custom results — see [Targeting Filter](/docs/Assets/Misc/Targeting/TargetingFilter). |
+| **Use Skill Initializer Effect** / **Skill Initializer Pack** / **Skill Initializer Pack Environment** | As above, applied to the Skill object when one is spawned. |
+| **Environment Id** | The Environment the Direct Effect is applied in. |
+| **Direct Effect** | The Effect Pack applied to every target. |
 
-`TargetingModel` assets define the targeting behavior used by Skill activator behaviours such as:
+## Per-cast state on the Skill object
 
-- `ActorExtension_KeyboardSkillActivator`
-- `SkillElementExtension_ButtonActivator`
+A Skill object can carry its own **Actor** (an `ActorEntity` on the prefab, referenced by the `SkillEntity` and its Effectors). The **Skill Initializer Pack** then copies the caster's state onto it when it spawns — a charge level, a *next attack +100 %* bonus — and the object's Stats are read at hit time through `*_Effector` Processors or `Stat From` with **Actor = Effector**. Every target hit by the same cast then sees the same snapshot, even if the caster's flag was cleared in between (`OnTriggered`).

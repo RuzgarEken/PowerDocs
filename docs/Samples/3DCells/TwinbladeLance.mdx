@@ -24,18 +24,65 @@ While empowered, all attacks become critical hits for **6 seconds**.
 
 ## Implementation
 
-**Twinblade Lance** is a three-state combo Skill. Each cast ends with `Effect_IncreaseEvolutionNo`, advancing State 1 → 2 → 3, and the combo resets on the third State's cast end or while mounted. States 1 and 3 add knockback and vertical force, and State 3 re-aims to the pointer input on activation.
+**Twinblade Lance** is a three-state combo Skill. Each cast ends with `IncreaseEvolutionNo`, advancing State 1 → 2 → 3, and the combo resets on the third State's cast end or while mounted. States 1 and 3 add knockback and vertical force, and State 3 re-aims to the pointer input on activation.
 
 To track kills, a `KillComboCounterEffectsInjector` injects a **CounterEffect** into the enemy **Health** Stat that watches for lethal damage dealt by this weapon.
 
-![Twinblade Lance Kill Counter Injector](./images/TwinbladeLance_KillCounterInjector.png)
+<div className="prp-packs">
 
-On each kill, `Effect_IncreaseKillCombo` adds `1` to the **KillCombo** Stat as a temporary modifier with a **1.5 second** lifetime. The combo therefore only builds up if the next kill lands quickly.
+<details>
+<summary><strong>KillComboCounterEffectsInjector</strong> — Linker Effect (BS)</summary>
 
-![Twinblade Lance Kill Combo Stat](./images/TwinbladeLance_KillComboStat.png)
+<SpecCard kind='effect' label={"Linker Effect (BS)"} name='KillComboCounterEffectsInjector'>
+  <SpecRow label={"Processor Id"}>{"Linker"}</SpecRow>
+  <SpecRow label={"Apply Type"}>{"Temporary"}</SpecRow>
+  <SpecRow label={"Modifier Type"}>{"Managed By Code"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_CounterKillEffects_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Injector"}><PowerRef>Linker_KillComboCounterEffectsInjector_3DC</PowerRef></SpecRow>
+</SpecCard>
 
-A `StatCondition_IsGT2` check (**KillCombo** reaching `2`) drives `Key_CritBuffTrigger`. When it is met, `Effect_CritBuff` adds `1` to **CritRate** for **6 seconds**, so every hit is a guaranteed critical while the weapon is empowered.
+</details>
 
-![Twinblade Lance Crit Buff Trigger](./images/TwinbladeLance_CritBuffTrigger.png)
+</div>
+
+On each kill, `IncreaseKillCombo` adds `1` to the **KillCombo** Stat as a temporary modifier with a **1.5 second** lifetime. The combo therefore only builds up if the next kill lands quickly.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>KillComboCounter</strong> — Stat (CounterEffect Signed)</summary>
+
+<SpecCard kind='stat' label={"Stat (CounterEffect Signed)"} name='KillComboCounter'>
+  <SpecRow label='Stat Key' icon='key'>{"TwinbladeLance / CounterEffect_Signed / KillComboCounter"}</SpecRow>
+  <SpecRow label={"Targeting Environment Id"}>{"Default"}</SpecRow>
+  <SpecRow label={"Trigger On"}>{"Applied"}</SpecRow>
+  <PackExample name='KillComboCounter' label={"Default"}>
+    <EffectExample name='IncreaseKillCombo' label={"Int Stat Effect (BS)"} targetStat={"TwinbladeLance / IntClamped / KillCombo"} processor='Add_Int' value={"1"} applyType='Temporary' />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
+
+A `IsGT2` check (**KillCombo** reaching `2`) drives `CritBuffTrigger`. When it is met, `CritBuff` adds `1` to **CritRate** for **6 seconds**, so every hit is a guaranteed critical while the weapon is empowered.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>CritBuffTrigger</strong> — Stat (StateBasedEffect)</summary>
+
+<SpecCard kind='stat' label={"Stat (StateBasedEffect)"} name='CritBuffTrigger'>
+  <SpecRow label='Stat Key' icon='key'>{"TwinbladeLance / StateBasedEffect / KillComboCounterEffectsInjector"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_GTE2(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Effect Apply Type"}>{"Persistent"}</SpecRow>
+  <PackExample name='CritBuffTrigger' label={"Default"}>
+    <EffectExample name='CritBuff' label={"Float Stat Effect (BS)"} targetStat={"TwinbladeLance / FloatClamped / CritRate"} processor='Add_Float' value={"1"} applyType='Temporary' />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
 
 **TwinbladeLance_CritRate** is the Skill's own crit Attribute Stat, clamped to `0`–`1` and summed by the **CritProcessor**.

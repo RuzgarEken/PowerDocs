@@ -4,4 +4,14 @@ sidebar_position: 4
 
 # Normalize
 
-Returns the normalized version of the input vector.
+**ValueAdapter_Normalize_Vector3** returns the input vector scaled to a length of `1`, keeping its direction. It has no fields.
+
+## Example
+
+| Input | Result |
+| --- | --- |
+| `(3, 0, 4)` | `(0.6, 0, 0.8)` |
+| `(0, 10, 0)` | `(0, 1, 0)` |
+| `(0, 0, 0)` | `(0, 0, 0)` |
+
+Put it before an [Alter](../Alter.mdx) **Multiplier** to move a fixed distance along a direction, whatever the direction vector's length.

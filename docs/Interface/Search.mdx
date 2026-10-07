@@ -1,0 +1,42 @@
+---
+sidebar_position: 5
+description: Search — find Stats by name inside an Environment or a Repository, one tab per searched asset.
+---
+
+# Search
+
+**Search** finds Stats by name inside an Environment or a Repository. Each searched asset gets its own tab, so you can keep the player's Repository and a skill's Environment open side by side.
+
+Open it from **Tools → Power → Search**, then drop an Environment or a Repository into the field at the top. The **Search Stats** button above the Power Editor's inspector opens a tab for the selected Environment or Repository.
+
+## When to use it
+
+- An Actor's Repository has hundreds of Stats and you need the one called `…Crit…`.
+- You want to know which Environment and Container a Stat lives in.
+- You want every Stat about one topic (`dash cd`, `fire resist`) in one list to drag into fields.
+
+## Searching
+
+Type space-separated words. A Stat is listed when its name contains **all** of them, in any order, ignoring case: `crit dmg` finds `CriticalDamage` and `DmgCritBonus`. Inner Stats of SigSep and SrcSep lists are searched too. Press `Enter` when only one Stat is listed to open it in the Power Editor.
+
+Each result shows the **Stat**, its **Container** and, in a Repository tab, its **Environment**. Inner SigSep / SrcSep Stats show their parent's Container.
+
+## Rows
+
+| Action | Does |
+| --- | --- |
+| Click | Pings the Stat in the Project window. |
+| Double-click | Opens the Stat. |
+| **e** | Opens the Stat in the [Power Editor](./Editor). |
+| **r** | Opens the Stat in [Relations](./Relations). |
+| **+** | Pins the Stat to Quick Access in [Access](./Access). |
+
+## Tabs
+
+| Action | Does |
+| --- | --- |
+| Click a tab | Switches to it. Each tab keeps its own query. |
+| Double-click a tab | Pings the searched Environment or Repository. |
+| Middle-click a tab, or **×** | Closes it. |
+
+Tabs survive a domain reload. A tab closes on its own when its asset is deleted.

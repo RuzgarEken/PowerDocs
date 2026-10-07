@@ -1,0 +1,31 @@
+---
+sidebar_position: 7
+---
+
+# Map Value
+
+**ValueAdapter_MapValue** maps a value into a new range with a **Value Mapper** — the value-only twin of the Stat adapter [Map Value](../Stat/MapValue.mdx).
+
+Ships for `Float` and `Int`.
+
+| Field | Description |
+| --- | --- |
+| **Mapper** | **Min**, **Max**, optional **Curve Map** / **Curve**, then **Final Modifier** (**Add** a **Final Offset** or **Multiply** by a **Final Value Multiplier**). See [Map Value](../Stat/MapValue.mdx) for the mapping process. |
+
+## Example
+
+A distance in metres mapped to a damage multiplier that grows from `1` at 0 m to `2` at 10 m:
+
+| Field | Value |
+| --- | --- |
+| **Min** / **Max** | `0` / `10` |
+| **Curve Map** | off |
+| **Final Modifier** | **Add**, **Final Offset** `1` |
+
+| Input | Normalized | Result |
+| --- | --- | --- |
+| `0` | `0` | `1` |
+| `4` | `0.4` | `1.4` |
+| `10` | `1` | `2` |
+
+The `Int` version rounds the result.

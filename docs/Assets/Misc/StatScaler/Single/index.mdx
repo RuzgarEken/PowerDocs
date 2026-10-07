@@ -5,3 +5,9 @@ sidebar_position: 1
 # Single
 
 A `StatScaler` that calculates its multiplier using a single Stat.
+
+It is set on a Modifier or Conditional Modifier signature as a **Stat Scaler**: a `Stat From` (which Actor + which key) and the **Scaler** asset. Ships as [Map Value](./MapValue.mdx).
+
+## Example
+
+*The lower your health, the stronger your desperation buff.* Stat Scaler = the Target's `Health` (as **Percentage Of Missing** through the scaler's adapter), scaler Map Value `0–1` → `0–1`: at full health the buff is `× 0`, at 25 % health `× 0.75`.

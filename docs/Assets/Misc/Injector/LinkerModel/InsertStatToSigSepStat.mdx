@@ -1,0 +1,36 @@
+---
+sidebar_position: 10
+---
+
+# Insert Stat To SigSep Stat
+
+Inserts the Injector Stat into the target [SigSep](/docs/CoreConcepts/SignatureSeperatedStats) Stat as if it were one of its inner Stats. Processors that read the SigSep list then run the inserted Stat in its order, together with the list's own inner Stats.
+
+This is how an Actor adds its own rule to a list that lives in a **shared** Environment: the rule (a Counter Effect, a Reflector, a Conditional Modifier…) is defined in the Actor's own Environment and linked into the shared list — usually by a Linker Effect in the Actor's linker [Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle).
+
+Ships as `_EffectPack` (Counter / Intervener / State Based lists), `_Float` (Reflector / Modifier / Conditional Modifier lists) and `_Int` (Director / Int lists). The suffix must match the SigSep's value type.
+
+| Field | Description |
+| --- | --- |
+| **SigSep Stat Order** | The position of the inserted Stat in the list. |
+
+:::warning[Orders must be unique]
+
+The list is keyed by the inserted Stat's **Stat Id**, and **SigSep Stat Order must be free on the target list** — not used by the list's own inner Stats nor by any other Linker inserting into it on the same Actor. A duplicate order is dropped at runtime (`Given order(N) already registered`). Use a standalone Stat with its own Stat Id, not an inner Stat of another SigSep.
+
+The Linker Effect's own **Injection Order** is a different number (the slot on the target Stat) and may repeat.
+
+:::
+
+## Example
+
+Every Actor's `Health` reads its Counter Effects from one SigSep list in the shared `Default` Environment. The Player adds its own *Thorns* rule, defined in the Player's Environment, without touching the shared list:
+
+| Field | Value |
+| --- | --- |
+| Target Stat | `ReceivingHealthCounterEffects(SigSep)` (Default) |
+| Linker | Insert Stat To SigSep Stat `_EffectPack` |
+| Injector Stat | `ThornsCounterEffect` (Player) |
+| **SigSep Stat Order** | `20` — free on the list |
+
+The Linker lives in a Linker Effect of the Player's linker [Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle), so only Players get the rule; mobs keep the shared list as it is.

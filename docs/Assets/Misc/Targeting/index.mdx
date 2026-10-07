@@ -1,0 +1,49 @@
+---
+sidebar_position: 2
+---
+
+# Targeting
+
+Effects, Redirectors and Skills pick their Actors with an **Effect Target** (who receives the Effect) or an **Interaction Actor** (one Actor used as a Source, a relate-to point, a Stat owner…). Most of the time a built-in option is enough; three asset types cover the rest.
+
+| Asset | Returns | Used where the target is **Custom** |
+| --- | --- | --- |
+| [Custom Targeter](./CustomTargeter.mdx) | a **list** of Actors | `Effect Target` / `Redirection Target` = Custom, a Skill's Direct targeting |
+| [Custom Actor](./CustomActor.mdx) | **one** Actor | `Interaction Actor` = Custom: Relate To, Redirected Effect Source, a `Stat From`'s Actor, a SrcSep key's Src Actor |
+| [Targeting Filter](./TargetingFilter.mdx) | narrows a list | **Relation State** / **Team Flags** targets, and the two assets above |
+
+## Built-in targets
+
+| Effect Target | Who |
+| --- | --- |
+| **Source** | the Actor that applied the Effect |
+| **Target** | the Actor that received it |
+| **Modifier Source** | the Actor that added the Modifier being processed (useful with Source Separated Stats) |
+| **Trigger Actor** | the Actor an Effector touched |
+| **Effector** | the Effector's own Actor (a projectile, a trap) |
+| **Relation State** | every Actor with **Target Relation** (Me, Team, Ally, Neutral, Enemy) to the **Relate To** Actor, optionally filtered |
+| **Team Flags** | every Actor whose team is in the bit mask |
+| **Custom** | a Custom Targeter |
+| **World** | the [PowerWorld](/docs/Components/PowerWorld) Actor |
+| **Actor Stat** | the Actor held in an Actor Stat |
+
+:::info[Only diplomacy members]
+
+**Relation State** and **Team Flags** come from the team member lists of [Diplomacy](/docs/Assets/World/Diplomacy). An Actor is a member only after `PowerWorld.Diplomacy.AddMember` — usually called by your spawner. Projectiles, Effectors and skill objects normally aren't members.
+
+:::
+
+Targeting returns Actors to apply an Effect to; it can't count them. *"While 3 foes are poisoned"* needs the count as a Stat — e.g. on the PowerWorld Actor, kept up to date by a State Based Effect on each poisoned Actor.
+
+## Example
+
+Damage Nearby Enemies On Hit (*Retaliation*) damages every living enemy within 8 m when its bearer is hit. Its Intervener Effect targets:
+
+| Field | Value |
+| --- | --- |
+| **Effect Target** | **Relation State** |
+| **Relate To** | the bearer |
+| **Target Relation** | **Enemy** |
+| **Filter** | `TargetingFilter_AliveInRange8` — a [Chain](./TargetingFilter.mdx#chain) of `TargetingFilter_Alive` (Stat Based) and `TargetingFilter_InRange8` (Distance ≤ 8) |
+
+Of five enemies — two dead, one 12 m away — the remaining two take the damage.

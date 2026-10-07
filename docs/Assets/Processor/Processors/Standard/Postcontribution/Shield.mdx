@@ -42,3 +42,26 @@ Ships as `BS`, `AS` and `MAS` × `Float` `Int`, with no container or signed vari
 | `BSPostcontribution_Shield_Int` | The **Target Stat** | A generic `HealthShield` soaks any damage to `Health`, whatever its type. |
 | `ASPostcontribution_Shield_Int` | The **Attribute Stat** | A *Fire Ward* only absorbs damage delivered through `FireAttack`; physical hits go straight to Health. |
 | `MASPostcontribution_Shield_Int` | **Every** Attribute Stat | An Effect carrying `PhysicalAttack` and `FireAttack` is drained against both the physical and the fire ward in turn. |
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Negative Shield Relative Key** / **Positive Shield Relative Key** | The Relative Stats that point at the Shield Stat for negative (damage) and positive (healing) Effects. The sign of the incoming value picks the key. The AS / MAS Processors have a single **Shield Relative Key**, read on the Attribute Stat (typically `ShieldAS`). |
+| **Shield Block Result Attribute** | Added when the Shield absorbed the whole value and nothing reached the target Stat (usually `ShieldBlock`). Leave it **None** to add nothing. |
+| **Shielded Result Attribute** | Added whenever the Shield absorbed any part of the value (usually `Shielded`). |
+| **Inherited Result Attributes** | The Result Attributes handed down to the Effect sent to the Shield Stat. That Effect is a separate application and starts with no Result Attributes, so a `Critical` hit half-absorbed by the Shield reaches the Shield Stat untagged unless `Critical` is in this mask. Put gameplay flags here (`Critical`, your own); leave structural ones out (`Shielded`, `ShieldBlock`, `Directed`, `Countered`, `Immune`). |
+| **Shield Effect** | The Effect template used to drain the Shield Stat. |
+| **Block Remaining Value** | What happens when the Shield is smaller than the incoming value. See the table below. Default off. |
+
+### Block Remaining Value
+
+Values are compared as absolute values.
+
+| Case | Off (default) | On |
+| --- | --- | --- |
+| Shield is `0` | The value reaches the target Stat. | Same. |
+| Shield ≥ incoming value | The Shield is drained by the value, nothing reaches the target Stat (`ShieldBlock` + `Shielded`). | Same. |
+| Shield < incoming value | The Shield is emptied and **the rest continues** to the target Stat (`Shielded`). | The Shield is emptied and **the rest is dropped**: nothing reaches the target Stat (`ShieldBlock` + `Shielded`). |
+
+**On** gives *armor* that no hit can get through while any of it is left. It is a field of the Processor asset, so it applies to every Actor that uses this Processor. Later Postcontributions, Postprocessors and Feedback still run, with value `0`.

@@ -24,18 +24,97 @@ Deals critical damage to enemies that are facing the player.
 
 We use the **RustyPan_Attack** Attribute Stat to apply skill-specific behaviors.
 
-![RustyPan Effect](./images/RustyPan_Effect.png)
+<div className="prp-packs">
 
-![RustyPan Attack Stat](./images/RustyPan_Attack.png)
+<details>
+<summary><strong>RustyPanAttack</strong> — Float Stat Effect (MAS)</summary>
+
+<SpecCard kind='effect' label={"Float Stat Effect (MAS)"} name='RustyPanAttack'>
+  <SpecRow label={"Processor Id"}>{"Standard_Float"}</SpecRow>
+  <SpecRow label={"Attributes"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_Health_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Value"}>{"-5"}</SpecRow>
+  <SpecRow label={"Attribute Stat Keys [0]"} icon="key"><PowerRef>Key_Attack_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Attribute Stat Keys [1]"} icon="key"><PowerRef>Key_MeleeAttack_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Attribute Stat Keys [2]"} icon="key"><PowerRef>Key_RustyPanAttack_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>RustyPanAttack</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='RustyPanAttack'>
+  <SpecRow label='Stat Key' icon='key'>{"RustyPan / FloatClamped / Attack"}</SpecRow>
+  <SpecRow label={"Relation: CriticalRate_Applying"} icon="key"><PowerRef>Key_RustyPan_CritRate_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 As you can see, we have a **CritRate** Stat attached to the **RustyPan_Attack** Stat.
 
-![RustyPan Crit Rate](./images/RustyPan_CritRate.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>RustyPan_CritRate</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='RustyPan_CritRate'>
+  <SpecRow label='Stat Key' icon='key'>{"RustyPan / FloatClamped / CritRate"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_RustyPan_DirectionBaseCritModifier_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 By enabling **UseConditionalModifier** in the **CritProcessor**, we can conditionally modify the CritRate value based on the enemy's facing direction.
 
-![RustyPan Crit Processor](./images/CritProcessor.png)
+<div className="prp-packs">
 
-![RustyPan Crit Rate Modifier](./images/RustyPan_CritRateModifier.png)
+<details>
+<summary><strong>MASContribution_CriticalHit_Float</strong> — MASContribution Critical Hit Float</summary>
+
+<SpecCard kind='processor' label={"MASContribution Critical Hit Float"} name='MASContribution_CriticalHit_Float'>
+  <SpecRow label={"Required Attributes"}>{"Modibifiable|Critable|AttributeStatsProcessable"}</SpecRow>
+  <SpecRow label={"Receiving Critical Rate Key"}>{"CriticalRate_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Rate Key"}>{"CriticalRate_Applying"}</SpecRow>
+  <SpecRow label={"Receiving Critical Multiplier Key"}>{"CriticalMultiplier_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Multiplier Key"}>{"CriticalMultiplier_Applying"}</SpecRow>
+  <SpecRow label={"Critical Result Attribute"}>{"Critical"}</SpecRow>
+  <SpecRow label={"Use Conditional Rate Modifier"}>{"true"}</SpecRow>
+  <SpecRow label={"Use Conditional Multiplier Modififier"}>{"true"}</SpecRow>
+  <SpecRow label={"Conditional Modifier Processor"}><PowerRef>ASContribution_ConditionalModifier(Float-Generic)_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>RustyPan_DirectionBaseCritModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='RustyPan_DirectionBaseCritModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"RustyPan / ConditionalModifier / CritRateModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Use Multi Stat Check"}>{"true"}</SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Stats [1] \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Multi Stat Checker \u203a Condition"}><PowerRef>Condition_IsFacingMe_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The **CritRateModifier** Stat adds `1` to **CritRate** as a flat contribution when the dot product between the enemy's forward direction and the source Actor's forward direction is below `-0.7`, indicating that the enemy is facing the player.

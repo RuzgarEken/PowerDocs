@@ -10,11 +10,14 @@ In the Power Core, `Effector` is provided only as a base class.
 
 This is intentional, as Effector behavior can vary significantly from game to game. The base implementation allows you to extend and customize Effectors to fit your project's specific requirements.
 
-`General Expansions` provides a collision-based implementation, `Effector_CollisionBased`, which includes three built-in types:
+`General Expansions` provides a collision-based implementation, `Effector_CollisionBased`, with these built-in types:
 
-- `OnCollide`
-- `OnStay`
-- `EnterExit`
+| Type | Applies |
+|-------|-------------|
+| [On Collide](./OnCollide.mdx) | each Effect Definition once per contact |
+| [On Stay](./OnStay.mdx) | repeatedly, every interval, while a target stays inside (realtime or turn-based) |
+| [Enter Exit](./EnterExit.mdx) | a pack on enter, removed on exit — auras, zones |
+| [Attacher](./Attacher.mdx) | an On Collide that spawns another Effector attached to what it hit |
 
 ## Collision Based Effector
 
@@ -29,3 +32,26 @@ This is intentional, as Effector behavior can vary significantly from game to ga
 | **Hit Limitation Type** | Determines how many times the Effector can be triggered. Available options: `Unlimited` and `ByCount`. |
 | **Use Hit Limit Stat** | Retrieves the hit limit dynamically from a Stat instead of using a predefined value. Useful for dynamic hit limits. |
 | **Hit Limit** | Defines the predefined maximum number of times the Effector can be triggered. |
+| **Any States** | The relation value treated as *any relation*: when **Trigger Actors** equals it, every Actor can trigger the Effector, including ones with no relation to the Source. |
+
+## Collision Detectors
+
+An Effector doesn't read collisions itself: one or more **Collision Detector** components forward them. Pick the one that matches your physics:
+
+| Detector | Uses |
+|-------|-------------|
+| `CollisionDetector2D` / `TriggerDetector2D` | 2D colliders, collision or trigger callbacks |
+| `CollisionDetector3D` / `TriggerDetector3D` (3D sample expansions) | 3D colliders, collision or trigger callbacks |
+| `OverlapSphereDetector3D` (3D sample expansions) | no callbacks: reports every collider inside a sphere only when told to burst — an explosion that hits everything in the area once, with no trigger collider that other objects could touch beforehand |
+
+The detected collider must belong to an Actor — an `ActorPartEntity` (or `ActorExtension_LinkToEntity` for extra colliders) tells the Effector which Actor and Environment was hit.
+
+## Effector Extensions
+
+Components added next to an Effector (listed in its inspector's **Effector Extensions** foldout):
+
+| Extension | Does |
+|-------|-------------|
+| `EffectorExtension_DisposeAfterTime` | disposes the Effector after a duration (realtime or turn-based, through a `DisposableExtension_DisposeWithDuration`) — traps, puddles |
+| `EffectorOnCollideExtension_ChangeAnimation` | sets an Animator trigger on collide — a trap snapping shut |
+

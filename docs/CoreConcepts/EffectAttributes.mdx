@@ -1,0 +1,86 @@
+---
+sidebar_position: 6
+---
+
+# Effect Attributes and Result Attributes
+
+Power uses two families of flags while an Effect is processed:
+
+- **Effect Attributes** are set by you on the Effect asset. They say **what the Effect is allowed to go through** — can it crit, be dodged, be redirected, trigger counters…
+- **Result Attributes** are added **by the Processors** while the Effect runs. They say **what happened to it** — it missed, it crit, a Shield absorbed it…
+
+Both are bit flags, so one Effect can carry several of each.
+
+## Effect Attributes
+
+Every Processor has a **Required Attributes** field. A Processor only acts on Effects that carry **all** of its required attributes; for any other Effect it is silently skipped. This is how one Processor asset can sit in a chain shared by many Effects and still only affect the ones it was meant for — a crit roll should run for an attack, not for a Rage gain. A Processor whose **Required Attributes** is **None** runs for every Effect that reaches it.
+
+| Attribute | Value | Intended to gate |
+| --- | --- | --- |
+| **Stoppable** | 1 | Processors that can stop an Effect before it lands: Immune, Hit Rate (dodge / miss), Cast Restrictor, Modifier Count Limit. |
+| **Directable** | 2 | [Director](/docs/Assets/Processor/Preprocessors/Director) — the Effect may be forwarded to other Actors (taunt, bodyguard, chain, bounce). |
+| **Counterable** | 4 | [Counter Effect](/docs/Assets/Processor/Postprocessors/CounterEffect) — the Effect may trigger counters (thorns, on-hit procs, kill triggers). |
+| **Reflectable** | 8 | [Reflector](/docs/Assets/Processor/Processors/Standard/Postcontribution/Reflector) — a share of the value may be reflected. |
+| **Modifiable** | 16 | Modifier, Conditional Modifier and other Contribution Processors — the value may be changed. |
+| **Critable** | 32 | [Critical Hit](/docs/Assets/Processor/Processors/Standard/Contribution/CriticalHit). |
+| **Responsive** | 64 | [Intervener Effect](/docs/Assets/Processor/Preprocessors/IntervenerEffect) — the Effect may trigger interveners (revive, retaliate, parry). |
+| **Limitable** | 128 | [Limiter](/docs/Assets/Processor/Processors/Standard/Postcontribution/Limiter) — the value may be capped. |
+| **Attribute Stat Processable** | 256 | AS / MAS Processors that read the relations of the Effect's Attribute Stats. |
+| **Duplicatable** | 512 | A Director that copies the Effect while still letting the original land (*hit twice*). Required on the Director Stat itself through **Effect Attribute Requirement** (see below). |
+
+The names above are the defaults Power ships with; they are stored in the `EffectAttributes` database (*Power Editor › Enums*) and can be renamed or extended per project.
+
+:::tip
+A damage Effect that should behave like a normal attack usually carries `Stoppable | Directable | Counterable | Reflectable | Modifiable | Critable | Responsive | Limitable` — and `Attribute Stat Processable` when it is an AS / MAS Effect. A purely internal Effect (writing Rage, a cooldown, a toggle) usually carries **none**, so no gameplay Processor touches it.
+:::
+
+### Requirements on a Redirector Stat
+
+A Processor's **Required Attributes** apply to everything it reads. A Redirector Stat ([Director](/docs/Assets/Stat/StatDefinition/Redirector/Director), [Counter Effect](/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect), [Intervener Effect](/docs/Assets/Stat/StatDefinition/Redirector/IntervenerEffect), [Reflector](/docs/Assets/Stat/StatDefinition/Redirector/Reflector)) can ask for more with **Use Effect Attribute Requirement** + **Effect Attribute Requirement** on its signature. The incoming Effect must carry every flag of both.
+
+Example: one Director Processor requires `Directable`. A *bodyguard* Director Stat adds no requirement, so it forwards every directable hit. A *hit twice* Director Stat requires `Duplicatable` as well, so only Effects you marked as duplicatable can be copied.
+
+### Changing attributes at runtime
+
+- [Effect Attribute Eliminater](/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater) clears flags from an incoming Effect (e.g. remove `Critable` — *bosses can't be crit*).
+- A Director can override flags on the forwarded copy (**Attributes To Override** / **Overriden Attribute Values**).
+- The **Add Effect Attribute Value By Condition** [Linker](/docs/Assets/Misc/Injector/LinkerModel/AddAttributeValueByCondition) adds a flag value to an Int Stat while a condition holds, so the value of a flag Stat can follow game state.
+
+## Result Attributes
+
+Result Attributes are written into the Effect's result while it moves through the [processing funnel](./EffectProcessFlow). Later stages can read them: a Counter Effect that only fires on a crit, a Limiter that ignores shielded hits, a floating text that shows *Dodged!*.
+
+| Result Attribute | Value | Added by |
+| --- | --- | --- |
+| **Modifier Replaced** | 1 | Modifier Replacer, when it stopped an existing Modifier to make room. |
+| **Missed** | 2 | Hit Rate, when the roll failed. |
+| **Immune** | 4 | Immune, or an Intervener Effect with **Add Result Attribute If Pass**. |
+| **Directed** | 8 | Director. |
+| **Countered** | 16 | Counter Effect. |
+| **Reflected** | 32 | Reflector. |
+| **Critical** | 64 | Critical Hit. |
+| **Limit Block** | 128 | Limiter, when it cut the value to zero. |
+| **Shield Block** | 256 | Shield, when it absorbed the whole value. |
+| **Shielded** | 512 | Shield, when it absorbed any part of the value. |
+
+Projects add their own (`Parry`, `Backstab`…) in the `EffectResultAttributes` database. Many Processors and Stats have an **Add Result Attribute If Pass** option to tag the Effect with one of yours.
+
+### Reading them
+
+- **Redirector Stats**: **Result Attribute Check** with **Exists** / **Not Exists**.
+- **Block By Result Attribute** Postcontribution: blocks the Effect if any listed attribute is present.
+- **Conditional Modifier** and **Duration Modifier** Stats: a result-attribute check next to their stat checks.
+- **Feedback** Processors pick their text style / VFX by the exact combination of Result Attributes.
+
+A check only sees attributes that were added **earlier** in the funnel. A Counter Effect (Postprocess) sees everything the Effect collected; a Precontribution Immune check cannot see a crit that is rolled later in Contribution.
+
+### Spawned Effects start clean
+
+An Effect created by another Effect starts with **no** Result Attributes. Two places can hand a mask of attributes down:
+
+| Where | Field |
+| --- | --- |
+| [Shield](/docs/Assets/Processor/Processors/Standard/Postcontribution/Shield) Postcontribution | **Inherited Result Attributes** on the Processor asset — the Effect that drains the Shield Stat. |
+| [Reflector](/docs/Assets/Stat/StatDefinition/Redirector/Reflector) Stat | **Inherited Result Attributes** on the signature — the reflected Effect. |
+
+Counter Effects and Directors don't inherit: they fire different Effects. Gate them with their own **Result Attribute Check**, which reads the original Effect's attributes.

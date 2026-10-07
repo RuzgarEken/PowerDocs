@@ -1,0 +1,35 @@
+---
+sidebar_position: 3
+---
+
+# Linker Definition Model
+
+Attaches a **[Linker Model](./LinkerModel/index.mdx)** to a Stat through the Stat Definition's **Injectors** list. The Linker is created on every Actor that has the Stat, and is fed by the **Injector Stat** of the same Actor.
+
+*Create › Power › Misc › Injector › LinkerDefinition*
+
+| Field | Description |
+| --- | --- |
+| **Order** | The **Injection Order**: Injectors and Linkers with lower values run first. Several may share an order. |
+| **Injector** | The Linker Model to apply. |
+| **Injector Stat Key** | The Stat whose value feeds the Linker. A key without an Environment is resolved in the Environment of the Stat the Linker is attached to. |
+
+To link a Stat to a Stat of **another Environment**, or only on some Actors, use a [Linker Effect](/docs/Assets/Effect/Linker) instead.
+
+## Example
+
+The [Ravenmark Bow](/docs/Samples/3DCells/RavenmarkBow) can't fire while it has no ammo. Its use blocker Stat carries `LinkerDefinition_UseBlockByAmmoCount_3DC`:
+
+| Field | Value |
+| --- | --- |
+| **Order** | `1` |
+| **Injector** | `Linker_UseBlockByAmmoCount_3DC` — [Combine By Condition](./LinkerModel/CombineByCondition.mdx) Int, **Flat** `1` while the Injector Stat equals `0` |
+| **Injector Stat Key** | `RavenmarkBow_AmmoCount` |
+
+<StatExample
+  name="RavenmarkBow_UBs"
+  default={0}
+  injectors={['LinkerDefinition_UseBlockByAmmoCount_3DC']}
+>
+  Reads `1` (blocked) while `AmmoCount = 0`, and updates as soon as `AmmoCount` changes.
+</StatExample>

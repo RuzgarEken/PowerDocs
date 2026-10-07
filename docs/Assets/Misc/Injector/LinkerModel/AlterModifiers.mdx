@@ -1,0 +1,32 @@
+---
+sidebar_position: 7
+---
+
+# Alter Modifiers
+
+Rewrites the values of the Modifiers on the target Stat using the Injector Stat — e.g. *debuffs on you are 50 % weaker*, *buffs you cast on allies are doubled*. The Modifiers themselves are kept; only the value they contribute changes while the Linker is attached.
+
+Ships for `Float` and `Int`.
+
+| Field | Description |
+| --- | --- |
+| **Modify Type** | How the Injector Stat changes each matching Modifier: **Flat**, **Rate** or **Multiplier**. |
+| **Target Sign** | Which Modifiers are altered: **Positive**, **Negative** or **Both**. |
+| **Filter By Caster** | Only alters Modifiers added by certain Actors. |
+| **Casted By** | Which caster to match: a Relation State (**Relation** + **Relate To**), **Team Flags** (+ **Team Key**), a **Custom** targeter, or an **Actor Stat**. |
+| **Use Value Adapter** / **Value Adapter** | Runs the Injector Stat through a **Stat Value Adapter** first. |
+
+The constant variant is the Injector Model [Alter Modifiers](../InjectorModel/AlterModifiers.mdx).
+
+## Example
+
+*Your Tenacity shortens debuffs on you:* `Tenacity = 0.3` makes slows on you 30 % weaker.
+
+| Field | Value |
+| --- | --- |
+| Target Stat | `MoveSpeed` |
+| Injector Stat | `Tenacity` |
+| **Modify Type** | **Rate**, through an adapter that negates Tenacity (`−0.3`) |
+| **Target Sign** | **Negative** |
+
+A `−2` slow then contributes `−2 × (1 − 0.3) = −1.4`; a `+1` haste is untouched.

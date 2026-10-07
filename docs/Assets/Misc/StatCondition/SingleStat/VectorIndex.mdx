@@ -25,3 +25,12 @@ A **Vector Index** checks whether a specific component of a vector satisfies a c
 - **Vector3**
 - **Vector2Int**
 - **Vector3Int**
+
+## Example
+
+*Falling:* the Y component of a `Velocity` Stat is below `0`. **Comparing Index** `1`, Comparer **Lower** `0`.
+
+| `Velocity` | Y | Passes |
+| --- | --- | --- |
+| `(2, −3, 0)` | `−3` | yes |
+| `(2, 1, 0)` | `1` | no |

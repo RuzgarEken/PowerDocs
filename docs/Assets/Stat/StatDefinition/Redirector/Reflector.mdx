@@ -28,3 +28,4 @@ This Stat inherits all fields from **[Redirector](./)**.
 | **Value Adapter** | The **Value Adapter** applied to the reflected value. |
 | **Use Value Distributer** | Distributes the reflected Effect value among multiple target Actors using a **Value Distributer**. |
 | **Value Distributer** | The **Value Distributer** used to split the reflected value between multiple target Actors. Custom Value Distributers can also be implemented. |
+| **Inherited Result Attributes** | The Result Attributes of the incoming Effect handed down to the reflected Effect. The reflection is a separate application and starts with no Result Attributes; the mask is applied before the Reflector's own **Adding Attribute**. Put gameplay flags here (`Critical`, your own) and leave structural ones out (`Shielded`, `ShieldBlock`, `Directed`, `Countered`, `Immune`), or the reflected Effect would claim they already happened. Default **None**. |

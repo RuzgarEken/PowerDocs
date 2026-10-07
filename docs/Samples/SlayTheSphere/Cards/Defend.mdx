@@ -10,8 +10,13 @@ Gain **5 [Block](/docs/Samples/SlayTheSphere/Keywords#block)**.
 
 Defend is a minimal Skill card — it composes a Block value and runs it through the shared Block Effect:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_Defend</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_Defend_STS"
+  name="Card_Defend"
   stats={[
     {key: 'Block', value: 5},
     {key: 'Energy Cost', value: 1},
@@ -19,9 +24,22 @@ Defend is a minimal Skill card — it composes a Block value and runs it through
   ]}
 />
 
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Block</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_Block_STS"
+  name="Block"
   targetStat="Block"
   valueStat="Block"
   value={5}
 />
+
+</details>
+
+</div>

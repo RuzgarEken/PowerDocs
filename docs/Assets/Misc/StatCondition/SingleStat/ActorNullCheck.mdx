@@ -6,6 +6,19 @@ sidebar_position: 6
 
 An **Actor Null Check** verifies whether the Actor referenced by an **Actor Stat** exists.
 
+| Field | Description |
+| --- | --- |
+| **Require Actor** | On: passes when the Actor Stat holds an Actor. Off: passes when it is empty. |
+
 ### Supported Types
 
 - **Actor**
+
+## Example
+
+3DCells' `Condition_NotNull(Actor)_3DC` (**Require Actor** on) lets a skill continue only when it has found a target: the [Venomfang Blade](/docs/Samples/3DCells/VenomfangBlade)'s `Effect_DashOrStay_3DC` dashes only if `VenomfangBlade_ClosestEnemyInRange` holds an enemy.
+
+| Actor Stat holds | Require Actor on | Require Actor off |
+| --- | --- | --- |
+| an enemy | passes | fails |
+| nothing | fails | passes |

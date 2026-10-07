@@ -26,14 +26,25 @@ The Director Stat is resolved as follows:
 
 The resolved Stat must be a **Director Stat**.
 
+:::tip
+
+For chains and bounces, where each victim should become immune before it forwards the Effect, use the [Director Postprocessor](/docs/Assets/Processor/Postprocessors/Director) instead.
+
+:::
+
 ## Variations
 
-Ships as `BS`, `AS` and `MAS`, each in five container variations. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Bodyguard* — every Health Effect aimed at the escorted Actor is forwarded to the guard. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | *Taunt* — only the taunted enemy's Effects are pulled onto the tank; the rest of the pack hits normally. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Lightning Rod* — only lightning-signed Effects are redirected onto the rod. |
+| Signature Separated list of Source Separated Stats | *Focused Taunt* — only the boss's lightning attacks are redirected, and only for the taunt's duration. |
 
 | Suffix | Expects | Use case |
 | --- | --- | --- |
-| `_Normal` | A plain Director Stat | *Bodyguard* — every Health Effect aimed at the escorted Actor is forwarded to the guard. |
-| `_SrcSep` | A Source Separated Stat | *Taunt* — only the taunted enemy's Effects are pulled onto the tank; the rest of the pack hits normally. |
-| `_SigSep` | A Signature Separated Stat | *Lightning Rod* — only lightning-signed Effects are redirected onto the rod. |
-| `_SigNSrcSep` | Signature **and** Source Separated | *Focused Taunt* — only the boss's lightning attacks are redirected, and only for the taunt's duration. |
 | `_Effector` | Resolved on the **Effector's Actor** | The redirect rule lives on the object doing the hitting: a parrying shield forwards whatever it deflects to a summoned decoy. |

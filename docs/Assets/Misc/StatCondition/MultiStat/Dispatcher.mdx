@@ -1,0 +1,37 @@
+---
+sidebar_position: 7
+---
+
+import DispatcherRef from './images/DispatcherRef.png'
+
+# Dispatcher Condition
+
+A **Dispatcher Condition** contains multiple conditions and evaluates the incoming Stats against all of them.
+
+The evaluation succeeds only if **every condition** passes. If any condition fails, the Dispatcher returns **false**.
+
+The **Stat Index** values referenced by the conditions correspond to the indices of the incoming Stats passed to the Dispatcher.
+
+First, you define which Stats will be passed into the Dispatcher. Then, each condition references those incoming Stats by their indices. This allows multiple conditions to be evaluated together, and the Dispatcher passes only when every condition succeeds.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Single Stat Conditions** | A list of **(Stat Index, Stat Condition)** pairs. Each condition evaluates a single incoming Stat referenced by its index. |
+| **Multi Stat Conditions** | A list of **(Stat Indices, Multi Stat Condition)** pairs. Each condition evaluates multiple incoming Stats referenced by their indices. |
+
+## Example
+
+In the **3DCells** sample, the **ChainHook** skill decides whether to transition into the **Punch** or **Kick** state based on both the **Evolution No** and the **Distance**.
+
+<img src={DispatcherRef} alt="Dispather usage reference" />
+
+`Condition_ChainHook_Dispatcher_3DC` receives two Stats and checks each with its own Single Stat Condition:
+
+| Index | Stat | Condition |
+| --- | --- | --- |
+| `0` | `ChainHook_EvolutionNo` | `Condition_In1To2(Int)_3DC` — inside `1…2` |
+| `1` | `ClosestEnemyInSightDistance` | `Condition_LTE2.5(Float)_3DC` — **Lower Or Equal** `2.5` |
+
+Evolution No `2` with the enemy `1.8 m` away → both pass. With the enemy `4 m` away, the second fails and the Dispatcher returns **false**.

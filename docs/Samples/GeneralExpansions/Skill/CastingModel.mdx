@@ -4,35 +4,58 @@ sidebar_position: 3
 
 # Casting Model
 
-A `CastingModel` defines how a Skill is cast.
+A `CastingModel` defines how a Skill State is cast: what marks the Actor as *casting*, when the Targeter fires, and when the cast ends.
+
+*Create › Power Demos › Skills › Casting*
 
 ## Fields
 
 | Field | Description |
 |-------|-------------|
-| **Casting On Progress Stat Key** | Defines the Stat used to track the casting state of the Skill or its owning Actor. |
-| **Casting Stat State Controls The Casting State** | Determines whether the Skill should be interrupted when the `CastingOnProgress` Stat returns to `0` before casting is completed. |
-| **Casting On Progress Effect** | An optional Effect that increases the `CastingOnProgress` Stat when casting begins. |
-| **Control Blocker Effect** | An optional Effect applied while casting to block character input. |
-| **Switch State While Casting** | Used by `Evolver Skills`. Determines whether the Skill can switch to another State while `CastingOnProgress` is active. |
+| **Casting On Progress Stat Key** | The Stat that shows the cast is in progress (for Effects, UI and input layers). Scheduling no longer depends on it — the [Skill Controller](./SkillController.mdx) channels decide what may run. |
+| **Casting On Progress Effect** | An optional Effect applied when casting begins (usually `+1` on the casting Stat, Temporary). |
+| **Control Blocker Effect** | An optional Effect applied while casting, e.g. to block movement input. Removed at the `ControlBlockEnd` animation event or when the cast ends. |
+| **Allow Switch State While Casting** | Evolver Skills: the State may switch while this cast is running instead of waiting for it to finish. |
+| **Casting State Stat Controls The Casting State** | When the casting Effect expires (or the casting Stat returns to `0`), the cast ends with it — interrupted if `CastEnd` wasn't reached. Use it for casts whose length is the Effect's duration, and for animation canceling. On by default. |
+| **Max Cast Duration** | Safety valve, in seconds: a non-toggle cast that never receives its `CastEnd` event is force-completed after this long so it can't hold its channels forever. `0` disables it. |
 
 ## Types
 
-### Unity Animation
+### Direct Trigger
 
-Starts the casting animation when the Skill is cast.
+`SkillCasting_DirectTrigger` — fires the Targeter immediately, no animation. `OnCastEnd` follows one frame later.
 
-The `Targeter` is triggered after the animation invokes the **Cast End** callback.
+| Field | Description |
+|-------|-------------|
+| **External Vfx** | VFX spawned on body parts of the caster when the Skill fires (**Vfx Prefab**, **Origin** part, **Attach To Origin**). |
 
-### Direct
+### Unity Mecanim
 
-Triggers the `Targeter` immediately when the Skill is cast without requiring an animation.
+`SkillCasting_UnityMecanim` — plays an animation; the animation drives the Skill with **Animation Events** sent to `ActorExtension_Animator`:
 
-## Notes
+| Animation Event | Effect |
+|-------|-------------|
+| `SkillShot` | The Skill fires: the Targeter spawns / applies its Effects (`OnTriggered`). |
+| `CastEnd` | The cast is over (`OnCastEnd`); the channels are released. |
+| `ControlBlockEnd` | The Control Blocker Effect is removed early (the character can move again before the animation ends). |
+| any other key in **Event Effects** | Its Effect Pack is applied. |
 
-## Notes
+| Field | Description |
+|-------|-------------|
+| **Animation Key** | The Animator parameter that starts the animation. |
+| **Animation Type** | **Trigger** or **Boolean** (a bool held on while casting). |
+| **Interuption Animation Key** | A trigger set when the cast is interrupted. |
+| **External Vfxs** | VFX packs: started by an Animator event (**Trigger Id**, optionally **Toggleable** until **End Id**) or while a **Stat State** condition holds; each spawns prefabs on body parts. |
+| **Animator Parameter Updates** | Extra Animator parameters (Int / Float / Bool / Trigger) set **On Mount**, **On Cast** or **On Cast End**. |
+| **Use Different Layer** / **Layer Id** | Plays on another Animator layer (e.g. an upper-body layer, so the character can attack while running). |
+| **Inverse Toggle** | Sets the layer weight to `0` instead of `1` while casting. |
+| **Toggle Off Layer On Exit** | Resets the layer weight when the cast ends. |
+| **Event Effects** | Animation event name → Effect Pack (a footstep that damages, a mid-swing buff). |
 
-`CastingModel` assets are used by Skill activator behaviours such as:
+### Variants
 
-- `ActorExtension_KeyboardSkillActivator`
-- `SkillElementExtension_ButtonActivator`
+| Type | Adds |
+|-------|-------------|
+| `SkillCasting_UnityMecanim_DirectTrigger` | plays the animation but fires the Targeter immediately instead of waiting for `SkillShot` |
+| `SkillCasting_UnityMecanim_MultipleWeapons` / `_DirectTrigger_MultiWeapons` | **Weapon Id Key** + **Weapon No**: sets an Animator int so one animation set serves several weapons |
+| `SkillCasting_UnityMecanim_Repeater` | **Repeat Count Stat**: the animation repeats as many times as the Stat says (multi-shot volleys) |

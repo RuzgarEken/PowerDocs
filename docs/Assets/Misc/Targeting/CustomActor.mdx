@@ -1,0 +1,50 @@
+---
+sidebar_position: 2
+---
+
+# Custom Actor
+
+A **Custom Actor** returns **one** Actor. Select it wherever an **Interaction Actor** can be **Custom**: a Redirector's **Relate To** or **Redirected Effect Source**, a `Stat From` (to read a Stat of that Actor), a [SrcSep key](/docs/Assets/Stat/StatKey/StatKeyModel_SrcSep)'s **Src Actor**, a Source Separated Stat's **Process Scope**.
+
+Write your own by deriving from `CustomActor` and overriding `GetActor(IActorProvider actorProvider, int environmentId)`. Three ship with Power.
+
+## Closest In Sight
+
+*Create › Power › Misc › Custom Actor › Closest In Sight*
+
+The **first** Actor of a filtered relation scope — with a [Closest In Sight](./TargetingFilter.mdx#closest-in-sight) filter, the closest Actor inside the view cone. If nobody passes, a fallback Actor is returned.
+
+| Field | Description |
+| --- | --- |
+| **Relate To** | The Actor the scope is measured from. |
+| **Relation State** | Which relation (e.g. Enemy). |
+| **Filter** | The Targeting Filter that orders / narrows the scope. |
+| **Fallback Actor** | The Interaction Actor returned when the scope is empty (e.g. Source). |
+
+## From Stat
+
+*Create › Power › Misc › Custom Actor › From Stat*
+
+The Actor held in an **Actor Stat**.
+
+| Field | Description |
+| --- | --- |
+| **Stat** | The Actor Stat (`Stat From`: which Actor + which key). |
+
+## Static Actor
+
+*Create › Power › Misc › Custom Actor › Static Actor*
+
+The Actor with a static **Actor Id**, found through `PowerWorld.GetActor`.
+
+| Field | Description |
+| --- | --- |
+| **Actor Id** | The static Actor Id. |
+
+## Examples
+
+| Custom Actor | Asset | Used for |
+| --- | --- | --- |
+| Closest In Sight | `CustomActor_ClosestInSight_3DC` — **Relate To** Source, **Relation State** Enemy, **Filter** `TargetingFilter_Chain_3DC` (alive, then closest within 10 m in a wide cone) | *face the closest enemy in sight before attacking*: a Set Effect on the Source's `Direction` whose value comes from this Actor's `Position` through a look-at adapter |
+| From Stat | `CustomActor_FromEffectorStat_3DC` — **Stat** = the Effector's `AttachedActor` | the [Titan Greaves](/docs/Samples/3DCells/TitanGreaves) attach an Effector to the pushed enemy; its Effects reach the Actor it is attached to |
+| Static Actor | a Custom Actor with the Player's **Actor Id** | a Source Separated Stat whose **Process Scope** only reads the Player's copy |

@@ -4,4 +4,26 @@ sidebar_position: 2
 
 # Map Value
 
-Maps a Stat value from one range to another and returns the resulting multiplier.
+**StatScalerModel_MappedValue** maps a Stat's value with a `ValueMapper` and returns the result as the multiplier.
+
+Ships for `Float` and `Int`. If the Stat is not of the scaler's type, the scaler returns `1` (no change).
+
+| Field | Description |
+| --- | --- |
+| **Use Adapter** / **Adapter** | Runs the Stat through a [Stat Value Adapter](/docs/Assets/Misc/Adapter/Stat) first (e.g. as a percentage). |
+| **Value Mapper** | **Min**, **Max**, optional **Curve**, then **Final Modifier** (Add / Multiply). See [Map Value](/docs/Assets/Misc/Adapter/Stat/MapValue) for how the mapping works. |
+
+## Example
+
+*Poison deals more per stack, up to 5 stacks.* A poison damage Modifier scaled by the Target's `Poison` stacks:
+
+| Field | Value |
+| --- | --- |
+| Stat | the Target's `Poison` (Int) |
+| **Value Mapper** | **Min** `0`, **Max** `5`, **Final Modifier** **Add**, **Final Offset** `1` |
+
+| `Poison` | Multiplier |
+| --- | --- |
+| `0` | `1` |
+| `2` | `1.4` |
+| `5` | `2` |

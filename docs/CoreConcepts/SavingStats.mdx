@@ -1,0 +1,90 @@
+---
+sidebar_position: 8
+---
+
+# Saving and Loading Stats
+
+Power can capture the Stats of known Actors and give them back when those Actors are created again — a checkpoint, a save slot, a persistent player between scenes.
+
+What is saved is chosen by a **Save Profile** asset, never on the Stat Definitions themselves, so the same Stats can be saved by one profile (a full save) and ignored by another (a quick checkpoint).
+
+## What can be saved
+
+- **Only static Actors.** An Actor is saved by its [Actor Id](/docs/Components/Actor) (**Predefined Instance Id**). That id is how the save finds the Actor again after it is spawned. Spawned Actors without an Actor Id (mobs, projectiles) are never saved.
+- **The raw value** of a Stat — what Permanent Effects wrote into it: an upgrade bought, the current Health, the gold count.
+- **Not modifiers and not linkers.** Temporary Effects (even with duration 0) and Linkers are rebuilt by the Actor's spawn packs and the game. A grant made as a Temporary Effect has to be applied again by the game after loading.
+- **Not** Stats holding an **Effect Pack** or an **Actor**, and not **SigSep lists**.
+- **Source Separated Stats** save the copies owned by static Actors (with depth **Value And SrcSep**), keyed by their Actor Id; the total is rebuilt from them.
+
+## Save Profile
+
+*Create › Power › Save › Save Profile*
+
+| Field | Description |
+| --- | --- |
+| **All Static Actors** | Captures every static Actor alive in the world. When off, only the Actors listed in **Actors** are captured. |
+| **Actors** | The Actor Ids to capture when **All Static Actors** is off. |
+| **Rules** | Ordered rules deciding which Stats are saved. For each Stat the **first** matching rule decides. |
+| **Fallback** | What happens to Stats no rule matches. **Exclude** (default) saves only what the rules include; **Include** saves everything else too. |
+| **Fallback Depth** | The depth used when **Fallback** is **Include**. |
+
+### Rule
+
+| Field | Description |
+| --- | --- |
+| **Match** | What the rule matches: **All** Stats, an **Environment**, a **Container**, one **Stat Key**, or Stats with any of the given **Tags**. |
+| **Environment** / **Container** / **Stat Key** / **Tags** | The value matched, depending on **Match**. |
+| **Action** | **Include** saves the matched Stats; **Exclude** skips them. |
+| **Depth** | How much is saved for included Stats. **Value**: the raw value. **Value And SrcSep**: the raw value, and for a Source Separated Stat the copies that belong to static Actors. |
+
+Example — save the player's progression but not its transient state:
+
+| # | Match | Action | Depth |
+| --- | --- | --- | --- |
+| 1 | Stat Key `Key_Dead` | Exclude | |
+| 2 | Environment `Player` | Include | Value |
+| 3 | Tag `Upgrade` | Include | Value And SrcSep |
+
+Fallback: **Exclude**.
+
+## API
+
+Everything lives in the static `Power.Save.PowerSave` class.
+
+| Method | Description |
+| --- | --- |
+| `PowerSaveData Capture(SaveProfileModel profile)` | Captures the profile's static Actors that are alive now. |
+| `ActorSaveData CaptureActor(ActorEntity actor, SaveProfileModel profile)` | Captures one Actor. |
+| `void QueueRestore(PowerSaveData data)` | Holds the data until each Actor in it is created. The Actor with the matching Actor Id takes its values while its Stats initialize — once. Replaces anything queued before for the same Actors. |
+| `void ClearQueue()` / `bool HasPending(int actorId)` | Clears the queue / checks whether an Actor still waits for its values. |
+| `string ToJson(PowerSaveData data, bool pretty)` / `PowerSaveData FromJson(string json)` | Serializes with `JsonUtility`. Every id is stored as its number, so a save stays valid as long as the id databases keep their numbers. |
+| `WriteSlot(slot, data)` / `TryReadSlot(slot, out data)` / `HasSlot(slot)` / `DeleteSlot(slot)` / `SlotPath(slot)` | A JSON file named `<slot>.powersave.json` in `Application.persistentDataPath`. |
+
+Game data that is not a Stat (current level, picked upgrades, a seed) travels in the same save: `data.SetCustom(key, json)` and `data.TryGetCustom(key, out json)`.
+
+### When values are restored
+
+Restore happens **when the Actor is created**, not on a running Actor. Its `StatRepository` writes the saved values right after the Stats are linked and the prefab's **Default Value Overrides** are applied, and before the post-link and start signals. Nothing is processed as an Effect — no counters, modifiers or feedback fire — and state-based Stats see the restored values at start exactly as they would see defaults.
+
+To load into a running game: despawn the Actors, queue the save, then spawn them again.
+
+```csharp
+using Power.Save;
+
+// Save
+var data = PowerSave.Capture(profile);
+data.SetCustom("run", JsonUtility.ToJson(runState));
+PowerSave.WriteSlot("slot1", data);
+
+// Load
+if (PowerSave.TryReadSlot("slot1", out var loaded))
+{
+    DespawnPlayers();
+    PowerSave.ClearQueue();
+    PowerSave.QueueRestore(loaded);
+    SpawnPlayers();                 // the Player prefab (Actor Id: Player) takes its saved values here
+    ReapplyTemporaryGrants();       // modifiers are not part of the save
+}
+```
+
+The **[Kodes](/docs/Samples/Kodes)** sample (`Roguelite3D`) saves a checkpoint this way (`RunSave_R3D`).

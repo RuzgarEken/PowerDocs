@@ -28,34 +28,155 @@ When the freeze expires, enemies are slowed, reducing both their movement speed 
 
 This is the **GlacierPulse** attack Effect Pack.
 
-![Glacier Pulse Attack Pack](./images/GlacierPulse_Pack.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>GlacierPulse_Attack</strong> — Effect Pack</summary>
+
+<PackExample name='GlacierPulse_Attack'>
+  <EffectExample name='Damage' label={"Float Stat Effect (MAS)"} targetStat={"Default / FloatClamped / Health"} processor='Standard_Float' value={"-2"} />
+  <EffectExample name='Freeze' label={"Int Stat Effect (BS)"} targetStat={"Mob / IntClamped / Frozen"} value={"1"} applyType='Temporary' />
+  <EffectExample name='RemoveCastingModifiers(AttackInteruption)' label={"Modifier Remover Effect (BS)"} targetStat={"Default / IntClamped / SkillCastingOnProgress_"} processor='ModifierRemover' />
+</PackExample>
+
+</details>
+
+</div>
 
 The freeze attack targets the enemy's **Frozen** Stat.
 
 The **Frozen** Stat also injects its value into **ControlBlocker**, which prevents the Actor from moving or attacking while frozen.
 
-![Glacier Pulse ControlBlocker Injection](./images/GlacierPulse_ControlBlockInjection.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>FrozenToControlBlockerInjector</strong> — Linker Effect (BS)</summary>
+
+<SpecCard kind='effect' label={"Linker Effect (BS)"} name='FrozenToControlBlockerInjector'>
+  <SpecRow label={"Processor Id"}>{"Linker"}</SpecRow>
+  <SpecRow label={"Attributes"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Apply Type"}>{"Temporary"}</SpecRow>
+  <SpecRow label={"Modifier Type"}>{"Managed By Code"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_ControlBlocker_3D</PowerRef></SpecRow>
+  <SpecRow label={"Injection Order"}>{"2"}</SpecRow>
+  <SpecRow label={"Injector"}><PowerRef>Linker_FrozenToControlBlocker_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The **GlacierPulse** attack also cancels the enemy's ongoing attack by removing its **CastingOnProgress** Stat modifiers.
 
-![Glacier Pulse Attack Canceling](./images/GlacierPulse_AnimationCanceling.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>RemoveCastingModifiers(AttackInteruption)</strong> — Modifier Remover Effect (BS)</summary>
+
+<SpecCard kind='effect' label={"Modifier Remover Effect (BS)"} name='RemoveCastingModifiers(AttackInteruption)'>
+  <SpecRow label={"Processor Id"}>{"ModifierRemover"}</SpecRow>
+  <SpecRow label={"Attributes"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_CastingOnProgress_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Remove Scope"}>{"Applied"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 On the skill side, the skill casting state is tracked by the **CastingOnProgress** Stat. When its modifiers are removed externally, the Skill system can be configured to cancel the ongoing skill cast.
 
-![Glacier Pulse Skill Casting](./images/GlacierPulse_SkillCasting.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>GlacierPulse_Casting</strong> — Skill Casting Unity Mecanim Multiple Weapons</summary>
+
+<SpecCard kind='effect' label={"Skill Casting Unity Mecanim Multiple Weapons"} name='GlacierPulse_Casting'>
+  <SpecRow label={"Casting On Progress Stat Key"} icon="key"><PowerRef>Key_CastingOnProgress_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Casting On Progress Effect"}><PowerRef>Effect_CastingOnProgress_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Casting State Stat Controls The Casting State"}>{"true"}</SpecRow>
+  <SpecRow label={"Animation Key"}>{"TriggerWeapon"}</SpecRow>
+  <SpecRow label={"Weapon Id Key"}>{"ActiveWeaponId"}</SpecRow>
+  <SpecRow label={"Weapon No"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 To prevent **GlacierPulse** from dealing damage when the target is already frozen, we use a **ConditionalModifier**.
 
-![Glacier Pulse Attack Stat](./images/GlacierPulse_AttackStat.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>GlacierPulse_Attack</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='GlacierPulse_Attack'>
+  <SpecRow label='Stat Key' icon='key'>{"GlacierPulse / FloatClamped / Attack"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_GlacierPulse_ConditionalAttackModifier_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The Conditional Modifier essentially multiplies the attack value by `0` and adds an **Immune** result attribute when the target is already frozen.
 
-![Glacier Pulse Conditional Attack Modifier Stat](./images/GlacierPulse_ConditionalAttackModifier.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>GlacierPulse_ConditionalAttackModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='GlacierPulse_ConditionalAttackModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"GlacierPulse / ConditionalModifier / ConditionalAttackModifier"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is1(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Contribution Type"}>{"Multiplier"}</SpecRow>
+  <SpecRow label={"Add Result Attribute If Pass"}>{"true"}</SpecRow>
+  <SpecRow label={"Adding Attribute"}>{"Immune"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 For the slow effect after the freeze expires, we use a **StateBasedEffect** to trigger the slow effects.
 
-![Glacier Pulse Thaw Trigger](./images/GlacierPulse_ThawTrigger.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ThawSlowTrigger</strong> — Stat (StateBasedEffect)</summary>
+
+<SpecCard kind='stat' label={"Stat (StateBasedEffect)"} name='ThawSlowTrigger'>
+  <SpecRow label='Stat Key' icon='key'>{"Mob / StateBasedEffect / ThawSlowTrigger"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is0(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Effect Apply Type"}>{"Persistent"}</SpecRow>
+  <PackExample name='ThawSlowTrigger' label={"Default"}>
+    <EffectExample name='ThawSlow' label={"Float Stat Effect (BS)"} targetStat={"Movement / FloatClamped / SpeedScaler"} processor='Standard_Float' value={"-0.75"} applyType='Temporary' />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
 
 The slow effect targets the **SpeedScaler** Stat, which is used by both movement speed and animation speed.
 
-![Glacier Pulse Slow Effect](./images/GlacierPulse_SlowEffect.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ThawSlow</strong> — Float Stat Effect (BS)</summary>
+
+<SpecCard kind='effect' label={"Float Stat Effect (BS)"} name='ThawSlow'>
+  <SpecRow label={"Processor Id"}>{"Standard_Float"}</SpecRow>
+  <SpecRow label={"Apply Type"}>{"Temporary"}</SpecRow>
+  <SpecRow label={"Duration_Float"}>{"4"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_SpeedScaler_3D</PowerRef></SpecRow>
+  <SpecRow label={"Usage Type"}>{"Percentage Of Value"}</SpecRow>
+  <SpecRow label={"Value"}>{"-0.75"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

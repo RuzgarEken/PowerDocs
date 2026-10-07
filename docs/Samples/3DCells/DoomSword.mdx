@@ -26,20 +26,92 @@ Taking any damage instantly kills the player.
 
 We use **DoomSword_Attack** as the Effect Attribute Stat.
 
-![DoomSword Attack Effect](./images/DoomSword_Effect.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DoomSwordAttack</strong> — Float Stat Effect (MAS)</summary>
+
+<SpecCard kind='effect' label={"Float Stat Effect (MAS)"} name='DoomSwordAttack'>
+  <SpecRow label={"Processor Id"}>{"Standard_Float"}</SpecRow>
+  <SpecRow label={"Attributes"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_Health_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Value"}>{"-5"}</SpecRow>
+  <SpecRow label={"Attribute Stat Keys [0]"} icon="key"><PowerRef>Key_Attack_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Attribute Stat Keys [1]"} icon="key"><PowerRef>Key_DoomSword_Attack_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 This Stat has a **CritRate** relation with a value of `1`.
 
-![DoomSword Attack Stat](./images/DoomSword_Attack.png)
+<div className="prp-packs">
 
-![DoomSword CritRate Stat](./images/DoomSword_CritRate.png)
+<details>
+<summary><strong>DoomSword_Attack</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='DoomSword_Attack'>
+  <SpecRow label='Stat Key' icon='key'>{"DoomSword / FloatClamped / Attack"}</SpecRow>
+  <SpecRow label={"Relation: CriticalRate_Applying"} icon="key"><PowerRef>Key_DoomSword_CritRate_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>DoomSword_CritRate</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='DoomSword_CritRate'>
+  <SpecRow label='Stat Key' icon='key'>{"DoomSword / FloatClamped / CritRate"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 Since the **CritProcessor** sums the **CritRate** and **CritMultiplier** values from all Attribute Stats, the CritRate reaches `1`, causing every attack to be a critical hit.
 
 For the instant-death mechanic, we use a **CounterEffect** Stat injected into the **Health** Stat with negative Effect values being tracked.
 
-![DoomSword Die CounterEffect](./images/DoomSword_CounterEffect.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DieOnDamage</strong> — Stat (CounterEffect Signed)</summary>
+
+<SpecCard kind='stat' label={"Stat (CounterEffect Signed)"} name='DieOnDamage'>
+  <SpecRow label='Stat Key' icon='key'>{"DoomSword / CounterEffect / DieOnDamage"}</SpecRow>
+  <SpecRow label={"Redirection Target"}>{"Modifier Source"}</SpecRow>
+  <SpecRow label={"Redirected Effect Source"}>{"Modifier Source"}</SpecRow>
+  <SpecRow label={"Targeting Environment Id"}>{"Default"}</SpecRow>
+  <SpecRow label={"Trigger On"}>{"Applied"}</SpecRow>
+  <SpecRow label={"Incoming Effect Sign"}>{"Negative"}</SpecRow>
+  <PackExample name='DieOnDamage' label={"Default"}>
+    <EffectExample name='DieByCurse' label={"Int Stat Effect (BS)"} targetStat={"Default / IntClamped / Dead"} value={"1"} />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
 
 When the player takes damage, the **CounterEffect** detects the negative Effect and triggers the die Effect.
 
-![DoomSword Die Effect](./images/DoomSword_DieEffect.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DieByCurse</strong> — Int Stat Effect (BS)</summary>
+
+<SpecCard kind='effect' label={"Int Stat Effect (BS)"} name='DieByCurse'>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_Dead_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Value"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

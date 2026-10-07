@@ -69,3 +69,18 @@
 .mermaid-left .docusaurus-mermaid-container .edgeLabel foreignObject div {
   background-color: transparent !important;
 }
+/* Spec foldouts (Shipped Packs, sample pages) — a neutral greyish blue, apart from the site palette. */
+.prp-packs details {
+  --ifm-alert-background-color: #eef2f6;
+  --ifm-alert-background-color-highlight: rgba(84, 110, 140, 0.15);
+  --ifm-alert-foreground-color: #2b3a4a;
+  --ifm-alert-border-color: #6b8299;
+  --docusaurus-details-decoration-color: #6b8299;
+}
+[data-theme='dark'] .prp-packs details {
+  --ifm-alert-background-color: #232c36;
+  --ifm-alert-background-color-highlight: rgba(140, 165, 190, 0.15);
+  --ifm-alert-foreground-color: #d5dee8;
+  --ifm-alert-border-color: #7f97ae;
+  --docusaurus-details-decoration-color: #7f97ae;
+}

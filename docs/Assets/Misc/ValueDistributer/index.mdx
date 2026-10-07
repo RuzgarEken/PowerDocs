@@ -4,6 +4,24 @@ sidebar_position: 4
 
 # Value Distributer
 
-Used by `Reflector` processors.
+Used by [Reflector](/docs/Assets/Stat/StatDefinition/Redirector/Reflector) Stats.
 
-Determines how an effect value is distributed among the target Actors. Distribution strategies can include equal distribution, distance-based distribution, or custom implementations.
+When a Reflector sends its share of an Effect to **several** Actors (a **Redirection Target** of Relation State, Team Flags or Custom), a Value Distributer decides how much each of them gets. Turn on **Use Value Distributer** in the Reflector's signature and pick one. Without it, every target receives the full reflected value.
+
+| Distributer | Each target gets |
+| --- | --- |
+| **Equal** | the value divided by the number of targets |
+| **Stat Based** | a share proportional to its value of **Checking Stat** (a Float Stat) |
+| **Distance Based** | the value × a `ValueMapper` of its distance to an **Origin Actor** (`Position Stat Key`); targets mapped to `0` are skipped |
+
+Write your own by deriving from `ValueDistributer` and overriding `Distribute`.
+
+## Example
+
+*Shared pain: 30 % of the damage you take is spread over your allies within 8 m.* A Reflector on the player's `Health`, value `0.3`, **Redirection Target** Relation State *Team* with a range filter, **Use Value Distributer** on. The player takes `−100`, so `−30` is reflected to 3 allies:
+
+| Distributer | Ally A | Ally B | Ally C |
+| --- | --- | --- | --- |
+| none | `−30` | `−30` | `−30` |
+| **Equal** | `−10` | `−10` | `−10` |
+| **Stat Based** — `MaxHealth` `200` / `100` / `100` | `−15` | `−7.5` | `−7.5` |

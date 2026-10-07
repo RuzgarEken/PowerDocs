@@ -4,4 +4,23 @@ sidebar_position: 3
 
 # Dot
 
-Returns the dot product of the input vector and a predefined vector.
+**ValueAdapter_Dot** returns the dot product of the input vector and a secondary vector (a float).
+
+| Field | Description |
+| --- | --- |
+| **Secondary Vector** | The second vector. When the adapter is the **Merge Operation** of a [Tree Operation](../../Stat/TreeOperation.mdx), it is overwritten with the secondary Stat's value. |
+| **Process Order** | Which vector is first. A dot product does not depend on it. |
+
+Ships for `Vector2` and `Vector3`. With two facing directions it tells whether two Actors face the same way (`≈ 1`), opposite ways (`≈ −1`) or sideways (`≈ 0`).
+
+## Example
+
+The attacker's and the target's facing directions, merged with Dot:
+
+| Attacker facing | Target facing | Result | Meaning |
+| --- | --- | --- | --- |
+| `(0, 0, 1)` | `(0, 0, 1)` | `1` | same way — the attacker is behind the target |
+| `(0, 0, 1)` | `(0, 0, −1)` | `−1` | facing each other |
+| `(0, 0, 1)` | `(1, 0, 0)` | `0` | from the side |
+
+The same check as a condition is the [Dot](/docs/Assets/Misc/StatCondition/MultiStat/Dot) Multi Stat Condition (`Condition_FromBehind` in Backstab).

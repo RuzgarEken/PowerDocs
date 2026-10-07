@@ -1,0 +1,27 @@
+---
+sidebar_position: 3
+---
+
+# Sum
+
+A **Sum Condition** adds two Stat values together and evaluates the result using a comparison condition.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Comparer** | The **Numerable Comparer** used to evaluate the sum of the two Stat values. |
+
+### Supported Types
+
+- **Float**
+- **Int**
+
+## Example
+
+*A finisher works only on a nearly dead target — counting its shield.* Stats: the Target's `Health` and `Shield`; Comparer **Lower Or Equal** `10`.
+
+| Health | Shield | Sum | Passes |
+| --- | --- | --- | --- |
+| `6` | `0` | `6` | yes |
+| `6` | `20` | `26` | no |

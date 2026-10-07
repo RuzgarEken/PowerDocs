@@ -7,3 +7,23 @@ sidebar_position: 7
 Transforms a `Float` Stat into an `Int` value after applying a predefined modification.
 
 See [**Altered Stat Value Adapters**](./Alter) for more information.
+
+| Field | Description |
+| --- | --- |
+| **Modifier** | The value applied to the Float before conversion. |
+| **Modify Type** | **Flat**, **Rate** or **Multiplier** — see [Alter](./Alter). |
+
+## Example
+
+The result is rounded to the nearest Int. A Float `ChargeRatio` turned into one of 4 charge levels:
+
+| Field | Value |
+| --- | --- |
+| Modify Type | **Multiplier** |
+| Modifier | `4` |
+
+| `ChargeRatio` | Altered | Int |
+| --- | --- | --- |
+| `0.3` | `1.2` | `1` |
+| `0.6` | `2.4` | `2` |
+| `1.0` | `4.0` | `4` |

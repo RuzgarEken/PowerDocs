@@ -10,8 +10,13 @@ Deal **6** damage.
 
 Strike is the simplest Attack card in the demo. Its Repository just picks values from the shared library:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_Strike</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_Strike_STS"
+  name="Card_Strike"
   stats={[
     {key: 'Damage', value: 6},
     {key: 'Energy Cost', value: 1},
@@ -19,14 +24,27 @@ Strike is the simplest Attack card in the demo. Its Repository just picks values
   ]}
 />
 
+</details>
+
+</div>
+
 Damage is applied by the generic Effect every Attack card shares, which reads the played card's Damage value rather than carrying a fixed number:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>AttackDamage</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_AttackDamage_STS"
+  name="AttackDamage"
   targetStat="Health"
   attributeStat="AttackDamage"
   valueStat="Damage"
   value={6}
 />
+
+</details>
+
+</div>
 
 There are no card-specific Effects.

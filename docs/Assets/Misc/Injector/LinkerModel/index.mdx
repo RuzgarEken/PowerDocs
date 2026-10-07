@@ -1,0 +1,35 @@
+---
+sidebar_position: 4
+---
+
+# Linker Model
+
+A **Linker** injects the value of one Stat (the **Injector Stat**) into another Stat (the target). It is re-applied on every update of the target, and the target also updates whenever the Injector Stat changes, so the two Stats stay linked.
+
+To understand how injection works, see [How Stat Values Are Evaluated](/docs/CoreConcepts/HowStatValuesAreEvaluated).
+
+Linker Models are attached with a [Linker Definition](../LinkerDefinitionModel.mdx) (always on) or a [Linker Effect](/docs/Assets/Effect/Linker) (while the Effect lives).
+
+*Create › Power › Misc › Injector › Linker Types*
+
+| Linker | Does |
+| --- | --- |
+| [Absolute Value](./AbsoluteValue.mdx) | target = injector |
+| [Combine](./Combine.mdx) | target += / × (1 + ) / × injector (Flat / Rate / Multiplier) |
+| [Combine By Condition](./CombineByCondition.mdx) | combines a **constant** while a condition holds — blockers, gates |
+| [Limit](./Limit.mdx) | clamps the target with the injector as min or max |
+| [Eased Value](./EasedValue.mdx) | target × ease(injector / range) |
+| [Alter Modifiers](./AlterModifiers.mdx) | rewrites the target's Modifier values using the injector |
+| [Add Effect / Result Attribute Value By Condition](./AddAttributeValueByCondition.mdx) | adds an attribute flag value while a condition holds |
+| [Multiplicative Reduction Transformer](./MultiplicativeReductionTransformer.mdx) | turns stacked reductions into a remaining fraction that never reaches 0 |
+| [Insert Stat To SigSep Stat](./InsertStatToSigSepStat.mdx) | inserts the injector Stat into a SigSep list |
+| [Merge SigSep Stats](./MergeSigSepStats.mdx) | inserts every inner Stat of a SigSep into another |
+| [Just Notify](./JustNotify.mdx) | changes nothing; makes the target update when the injector changes |
+
+## Example
+
+*Every point of Strength adds 2 Attack.* A [Linker Definition](../LinkerDefinitionModel.mdx) on `Attack` with a [Combine](./Combine.mdx) **Flat** Linker, **Injector Stat** `Strength`, through an [Alter](/docs/Assets/Misc/Adapter/Stat/Alter) adapter × 2:
+
+<StatExample name="Attack" default={10} injectors={['LinkerDefinition_StrengthToAttack']}>
+  `Strength = 3` → Attack reads `16`. Raise Strength to `5` and Attack updates to `20` with no Effect on Attack.
+</StatExample>

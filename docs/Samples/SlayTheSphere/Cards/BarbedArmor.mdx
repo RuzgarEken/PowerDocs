@@ -8,8 +8,13 @@ Whenever you are attacked, deal **3** damage back to the attacker.
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_BarbedArmor</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_BarbedArmor_STS"
+  name="Card_BarbedArmor"
   stats={[
     {key: 'Thorns', value: 3},
     {key: 'Exhaust', value: 1},
@@ -18,6 +23,19 @@ Whenever you are attacked, deal **3** damage back to the attacker.
   ]}
 />
 
+</details>
+
+</div>
+
 Playing the card raises <PowerRef>Stat_Thorns_3_STS</PowerRef>. The shared <PowerRef>Pack_ThornsCounterEffect_STS</PowerRef> attaches a CounterEffect to the player's Health; whenever damage is taken it fires back at the attacker for the Thorns amount:
 
-<EffectExample name="Effect_ThornsDamage" targetStat="Health" valueStat="Thorns" />
+<div className="prp-packs">
+
+<details>
+<summary><strong>ThornsDamage</strong> — Effect</summary>
+
+<EffectExample name="ThornsDamage" targetStat="Health" valueStat="Thorns" />
+
+</details>
+
+</div>

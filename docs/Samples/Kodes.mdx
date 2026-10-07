@@ -1,0 +1,1021 @@
+---
+sidebar_position: 4
+description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 39 upgrades that each unlock a new mechanic.
+---
+
+# Kodes
+
+`Kodes` is a real-time 3D roguelite demo, shipped as the **Roguelite3D** sample (`PowerSamples/Roguelite3D`). It was made to see how Power works **on a long run**: a project that keeps growing, where every new feature has to fit into everything built before it.
+
+## Kodes and 3DCells
+
+Kodes and [3DCells](/docs/Samples/3DCells) play alike: both are demos of a real-time 3D roguelite. They differ in where the depth comes from.
+
+| | 3DCells | Kodes |
+| --- | --- | --- |
+| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 39 upgrades, each unlocking a new feature |
+| A run grows by | picking up a different weapon | stacking upgrades that change how everything else behaves |
+
+In Kodes, every upgrade unlocks something new: poison that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **39 upgrades**, and **286 distinct Stats** make them work together seamlessly, so an upgrade picked late in a run still combines with every upgrade picked before it.
+
+## Built with AI
+
+While building Kodes, it became clear that an AI agent can use Power to build mechanics as well. That led to **power-skill**, Power's Claude skill, made to make building with an agent easier and cheaper. Many of Kodes' features were implemented with this AI workflow.
+
+See [AI Support](/docs/AISupport) to set it up for your own project.
+
+## What's inside
+
+| Part | Contents |
+| --- | --- |
+| **Player** | Attack (a combo), Special Attack, Cast, Dash and Rage Skills; Health and a rage bar. |
+| **Mobs** | Melee, Tank Melee, Ranged, Bomber and Nova Mage mobs, each with its own Skill and AI. |
+| **Encounters** | Rooms that spawn waves of mobs, with lava and spike hazards. |
+| **Upgrades** | 39 upgrades in an upgrade pool, offered between encounters. |
+| **Save** | A run checkpoint saved with Power's [Saving Stats](/docs/CoreConcepts/SavingStats) (`RunSave`). |
+
+The Player's Repository shows how the mechanics are split into Environments:
+
+<RepositoryExample
+  name="Player"
+  stats={[
+    {key: 'Default', value: 'Health, Attack, statuses and the upgrade Stats shared with mobs', icon: 'environment'},
+    {key: 'Player', value: 'the Player-only Stats', icon: 'environment'},
+    {key: 'Attack', value: 'the Attack Skill', icon: 'environment'},
+    {key: 'SpecialAttack', value: 'the Special Attack Skill', icon: 'environment'},
+    {key: 'Dash', value: 'the Dash Skill', icon: 'environment'},
+    {key: 'Dash', value: 'the Dash tween (from General Expansions)', icon: 'environment'},
+    {key: 'Movement', value: 'Position, Direction, MoveSpeed… (from General Expansions)', icon: 'environment'},
+  ]}
+/>
+
+Many upgrades are [Premade Relation Packs](/docs/Samples/PremadePacks/ShippedPacks) loaded into these Environments — Backstab, Damage Over Time, Spread Effect, Effect Hits Twice, Melee and Ranged Deflect, Revive and more — so the Kodes data is also a working reference for every shipped pack.
+
+## Upgrades
+
+After every cleared encounter, `UpgradeOfferController` offers 3 upgrades from `Upgrades/UpgradePool_R3D`. Each upgrade is an `UpgradeOption` in `Upgrades/Options/<Element>/<Upgrade>/` with a title, a description and an Effect Pack. Taking one applies the pack to the player as **Temporary** Effects, so it can be taken off again.
+
+Most packs only switch a toggle Stat on, or raise a value. The mechanic itself is already wired into the player's or the Attack skill's Stats, and waits for that toggle. Each upgrade below shows the pack it applies and the Stats that make it work.
+
+### General
+
+Upgrades with no element.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Armor Breaker</strong> — +100 % Attack damage to shielded foes.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/ArmorBreaker']} /></p>
+
+Raises a Conditional Modifier on your attack damage that only applies while the target's `Shielded` Stat is `1`.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='ArmorBreaker' target='Player'>
+  <EffectExample name='DamageBoostToArmor' targetStat='DamageToArmor' target='Player' value='1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageToArmor' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToArmor' max='2' condition='Shielded = 1'>
+  Contribution: **Rate**.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Assault</strong> — +10 % damage to foes at full health.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/Assault']} /></p>
+
+Raises a Conditional Modifier on your attack damage that checks the target's `Health` is at 100 %.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Assault' target='Player'>
+  <EffectExample name='DamageToUndamage' targetStat='DamageBoostToUndamaged' target='Player' value='0.1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageToUndamaged' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageBoostToUndamaged' max='2' condition='Health = 100 %'>
+  Contribution: **Rate**.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Backstab</strong> — More damage to foes attacked from behind.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/Backstab']} /></p>
+
+The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the Attack skill. The upgrade switches its toggle on; a Conditional Modifier then compares your facing `Direction` with the target's and, from behind, adds 50 % damage and the `BackStab` Result Attribute.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='BackstabActive' target='Player'>
+  <EffectExample name='BackstabActive' targetStat='BackstabToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_BackstabDamage' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / BackstabDamage' default='0.5' max='2' condition='Attack_BackstabToggle, Direction through BackStab_Dispatcher'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='Attack_BackstabToggle' type='Int (Clamped)' statKey='Attack / IntClamped / BackstabToggle' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Echo Strike</strong> — Your Attack has a 20 % chance to hit twice.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/EchoStrike']} /></p>
+
+Adds 0.2 to `DoubleHitChance`. A Director on your Attack reads it as its use rate and sends a copy of every `Duplicatable` attack Effect to the same target.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='EchoStrike' target='Player'>
+  <EffectExample name='EchoStrikeOn' targetStat='DoubleHitChance' target='Player' value='0.2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DoubleHit' type='Director' statKey='Player / Director_Normal / DoubleHit' default='1' max='1' condition='Effect is Duplicatable' />
+
+<StatExample name='DoubleHitChance' type='Float (Clamped)' statKey='Player / FloatClamped / DoubleHitChance' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Empty Hands</strong> — While you have no Cast Ammo, take 10 % less damage and deal more.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/EmptyHands']} /></p>
+
+Switches on a State-Based Effect that watches `CastAmmo`: while it is `0`, the effect's pack is applied, and it is removed again once you pick ammo back up.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='EmptyHands' target='Player'>
+  <EffectExample name='EmptyHandsActive' targetStat='EmptyHandsActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='EmptyHands' type='State-Based Effect' statKey='Player / StateBasedEffect / EmptyHands' condition='CastAmmo, EmptyHandsToggle through EmptyHands_Dispatcher'>
+  Applies <PowerRef>Pack_EmptyHands_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='EmptyHandsToggle' type='Int (Clamped)' statKey='Player / IntClamped / EmptyHandsActive' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Lingering Guard</strong> — Revive makes you Impervious 2 seconds longer.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/LingeringGuard']} /></p>
+
+Adds 2 to `ReviveImperviousDurationBonus`, which a Linker adds to the Impervious duration the Revive applies.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='LingeringGuard' target='Player'>
+  <EffectExample name='ReviveImperviousBonus' targetStat='ReviveImperviousDurationBonus' target='Player' value='2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='ReviveImperviousDurationBonus' type='Float (Clamped)' statKey='Player / FloatClamped / ReviveImperviousDurationBonus' max='999'>
+  Used by <PowerRef>LinkerDefinition_ReviveImperviousDurationBonus_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Nimble</strong> — 10 % chance to Dodge.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/Nimble']} /></p>
+
+Lowers your `BaseHitRate` by 0.1. `Health` reads it as its receiving Hit Rate, so 10 % of incoming hits miss.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Nimble' target='Player'>
+  <EffectExample name='NimbleOn' targetStat='BaseHitRate' target='Default' value='-0.1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='BaseHitRate' type='Float (Clamped)' statKey='Default / FloatClamped / BaseHitRate' default='1' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Pain Fuel</strong> — The rage bar charges when you take damage.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/PainFuel']} /></p>
+
+Raises a Reflector on your `Health` that turns part of the damage you take into Rage, while Rage isn't already active.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='PainFuel' target='Player'>
+  <EffectExample name='RageCharge' targetStat='ReceivingDamageToRageReflector' target='Player' value='0.0001' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='ReceivingDamageToRageReflector' type='Reflector' statKey='Player / Reflector_SigSep / DamageReflectors(SigSep) / ReceivingDamageToRageReflector' default='0' max='1' condition='RageToggle = 0'>
+  Reflects through <PowerRef>Effect_DamageToRageTemplate_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReceivingDamageToRageLinker_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Punisher</strong> — +20 % damage to Punished foes (foes with more than 2 curses).</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/Punisher']} /></p>
+
+Switches on a Conditional Modifier on your attack damage that checks the target's `Punished` Stat.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Punisher' target='Player'>
+  <EffectExample name='Punisher' targetStat='PunisherToggle' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageToPunished' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToPunished' default='0.2' max='1' condition='Punished, PunisherToggle through Punisher_Dispatcher'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='PunisherToggle' type='Int (Clamped)' statKey='Player / IntClamped / PunisherToggle' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Rebound</strong> — After you take damage, Dash quickly to recover up to 50 % of the life lost.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/Rebound']} /></p>
+
+Raises a Reflector on your `Health` that stashes half of each hit as a fresh wound; a Dash inside the recovery window heals it back.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Rebound' target='Player'>
+  <EffectExample name='ReboundRateBoost' targetStat='ReboundRate' target='Player' value='0.5' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='ReboundRate' type='Reflector' statKey='Player / Reflector / ReboundRate' max='1'>
+  Reflects through <PowerRef>Effect_StashFreshWound_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReboundRateLinker_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Shard Hunter</strong> — +10 % Attack damage to foes with your Cast Ammo in them.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/ShardHunter']} /></p>
+
+Raises a Conditional Modifier on the Attack skill that checks the target's `CastMarked` Stat.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='BonusToCastMark' target='Player'>
+  <EffectExample name='DmgBonusToCastMark' targetStat='DamageToCastMarked' target='Attack' value='0.1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DamageToCastMarked' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / DamageToCastMarked' default='0.5' max='9999' condition='CastMarked > 0'>
+  Contribution: **Rate**.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Sharpshooter</strong> — +10 % damage to distant foes.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/SharpShooter']} /></p>
+
+Raises a Conditional Modifier on your attack damage that compares your `Position` with the target's and applies beyond the distance its condition sets.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='SharpShooter' target='Player'>
+  <EffectExample name='DamageToDistant' targetStat='DamageToDistant' target='Player' value='0.1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageToDistant' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToDistant' max='2' condition='Position through DistantFoe'>
+  Contribution: **Rate**.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Trap Sense</strong> — −60 % damage from traps.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/TrapSense']} /></p>
+
+Switches on a Conditional Modifier in your trap-damage list that takes 60 % off while its toggle is `1`.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='TrapSense' target='Player'>
+  <EffectExample name='TrapResist' targetStat='TrapResistActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='TrapDamageResist' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / TrapDamageConditionalModifiers(SigSep) / TrapDamageResist' default='-0.6' min='-1' max='1' condition='TrapResistToggle = 1'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='TrapResistToggle' type='Int (Clamped)' statKey='Player / IntClamped / TrapResistActive' max='1' />
+
+</details>
+
+</div>
+
+### Shadow
+
+Weakening foes and making their deaths hurt their allies.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Death Echo</strong> — Slain foes damage nearby foes and inflict Weak.</summary>
+
+<p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/DeathEcho']} /></p>
+
+Switches on an Intervener Effect in your applying `Dead` list: when your hit kills a foe, its pack hits the dead foe's living teammates within 5 m.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='DeathEcho' target='Player'>
+  <EffectExample name='DeathBurst' targetStat='DeathBurstActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DeathBurstCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / DeathBurstCounterEffect' condition='DeathBurstToggle = 1'>
+  Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_AliveTeammateInRange5_R3D</PowerRef>. Applies <PowerRef>Pack_DeathBurst_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_DeathBurstLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='DeathBurstToggle' type='Int (Clamped)' statKey='Player / IntClamped / DeathBurstActive' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Shadow Strike</strong> — Your Attack inflicts Weak.</summary>
+
+<p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/ShadowStrike']} /></p>
+
+Switches on a Counter Effect in the Attack's counter-effect list that applies Weak to the target whenever the Attack lands.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='ShadowStrike' target='Player'>
+  <EffectExample name='WeakToggle' targetStat='WeakToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_WeakInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / WeakInflict' condition='Attack_WeakToggle = 1'>
+  Applies <PowerRef>Pack_WeakInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_WeakToggle' type='Int (Clamped)' statKey='Attack / IntClamped / WeakToggle' max='1' />
+
+</details>
+
+</div>
+
+### Fire
+
+Delayed damage and bursts of power after a kill.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Kindled Fury</strong> — After slaying a foe, your next Attack or Special deals +100 % damage.</summary>
+
+<p><SpecTags items={['Fire', 'Upgrades/Options/Fire/KindledFury']} /></p>
+
+Switches on an Intervener Effect in your applying `Dead` list that grants the bonus when your hit kills a foe of the other team, and adds 1 to `SlayDamageBonus`, the size of that bonus. The next Attack or Special consumes it.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='KindledFury' target='Player'>
+  <EffectExample name='KindledFury' targetStat='KindledFuryActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='SlayDamageBonus' targetStat='SlayDamageBonus' target='Player' value='1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, KindledFuryToggle, TeamNo through SlayBoost_Dispatcher'>
+  Applies <PowerRef>Pack_SlayBoostGrant_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_SlayBoostLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='KindledFuryToggle' type='Int (Clamped)' statKey='Player / IntClamped / KindledFuryActive' max='1' />
+
+<StatExample name='SlayDamageBonus' type='Float (Clamped)' statKey='Player / FloatClamped / SlayDamageBonus' max='10' />
+
+</details>
+
+<details>
+<summary><strong>Smoldering Strike</strong> — Your Attack inflicts Doom: 30 damage when the curse runs out.</summary>
+
+<p><SpecTags items={['Fire', 'Upgrades/Options/Fire/SmolderingStrike']} /></p>
+
+Switches on a Counter Effect in the Attack's counter-effect list that applies Doom on hit, and sets `DoomDamage` to −30, the damage dealt when Doom expires.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='SmolderingStrike' target='Player'>
+  <EffectExample name='DoomToggle' targetStat='Attack_DoomToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='DoomDamage' targetStat='DoomDamage' target='Player' value='-30' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DoomInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DoomInflict' condition='Attack_DoomToggle = 1'>
+  Applies <PowerRef>Pack_Attack_DoomInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_DoomToggle' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_DoomToggle' max='1' />
+
+<StatExample name='DoomDamage' type='Float (Clamped)' statKey='Mob / FloatClamped / DoomDamage' min='-9999' />
+
+</details>
+
+</div>
+
+### Wind
+
+Critical hits and marking foes.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Cutting Wind</strong> — Critical hits deal +200 % damage to shielded foes.</summary>
+
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/CuttingWind']} /></p>
+
+Raises a Conditional Modifier in your critical-damage list that only applies while the target's `Shielded` Stat is `1`.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='CuttingWind' target='Player'>
+  <EffectExample name='CuttingWindAddCritDamage' targetStat='CuttingWindCritDamage' target='Player' value='2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='CuttingWindCritDamage' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / CritDamageConditionalModifiers / CuttingWindCritDamage' max='9999' condition='Shielded = 1' />
+
+</details>
+
+<details>
+<summary><strong>Gale Strike</strong> — +15 % chance to deal Critical damage, and a stronger Attack.</summary>
+
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/GaleStrike']} /></p>
+
+Adds 0.15 to `CriticalHitChance`, which `Attack` reads as its applying critical rate, and raises the Attack's damage rate modifier.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='GaleStrike' target='Player'>
+  <EffectExample name='CritChance' targetStat='CriticalHitChance' target='Player' value='0.15' processor='Add_Float' applyType='Temporary' />
+  <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='CriticalHitChance' type='Float (Clamped)' statKey='Player / FloatClamped / CriticalHitChance' max='1' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'CritChanceConditionalModifiers'}]} />
+
+</details>
+
+<details>
+<summary><strong>Windmark</strong> — After you deal Critical damage to a foe, a foe near it is Marked.</summary>
+
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/Windmark']} /></p>
+
+Switches on a Counter Effect in your attack counter-effect list. It fires only on hits with the `Critical` Result Attribute and redirects its Mark pack to a random teammate of the hit foe in range.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Windmark' target='Player'>
+  <EffectExample name='Windmark' targetStat='WindmarkActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='WindmarkToggle = 1; result is Critical'>
+  Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_RandomFoeInRange_R3D</PowerRef>. Applies <PowerRef>Pack_MarkOnCriticalAttack_R3D</PowerRef>. Linked into <PowerRef>AttackCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_MarkOnCriticalAttackLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='WindmarkToggle' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkActive' max='1' />
+
+</details>
+
+</div>
+
+### Earth
+
+Damage reduction, protection and deflecting.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Bedrock Barrier</strong> — Negates incoming damage; 20 seconds cooldown.</summary>
+
+<p><SpecTags items={['Earth', 'Upgrades/Options/Earth/BedrockBarrier']} /></p>
+
+Unlocks an Intervener Effect on your `Health` that cancels the next negative Effect while its cooldown is ready, then starts the cooldown.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='BedrockBarrier' target='Player'>
+  <EffectExample name='Protection' targetStat='ProtectionUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Protection' type='Intervener Effect (Signed)' statKey='Player / IntervenerEffect_Signed / Protection' condition='ProtectionCooldown, ProtectionUnlocked through ProtectionCounterReady_Dispatcher'>
+  Applies <PowerRef>Pack_ProtectionBreak_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthPreCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_ProtectionCounterEffectLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='ProtectionUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / ProtectionUnlocked' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Boulder Strike</strong> — Your Attack is stronger and can Deflect.</summary>
+
+<p><SpecTags items={['Earth', 'Upgrades/Options/Earth/BoulderStrike']} /></p>
+
+Switches on the Attack's deflect toggle, which arms a Reflector on your `Health` and a Counter Effect that turns projectiles back, and raises the Attack's damage rate modifier.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='BoulderStrike' target='Player'>
+  <EffectExample name='Deflect' targetStat='DeflectToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='MeleeDeflectReflector' type='Reflector' statKey='Player / Reflector / MeleeDeflectReflector' default='1' max='1' condition='Attack_DeflectToggle, MeleeDeflectWindow, Tag through MeleeDeflect_Dispatcher'>
+  Reflects through <PowerRef>Effect_MeleeDeflectDamage_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_MeleeDeflectReflectorLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_DeflectInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DeflectInflict' condition='Attack_DeflectToggle, Tag through Dispatcher'>
+  Applies <PowerRef>Pack_DeflectInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='Attack_DeflectToggle' type='Int (Clamped)' statKey='Attack / IntClamped / DeflectToggle' max='1' relations={[{key: 'CounterEffect_ApplyingAS', value: 'DeflectCounterEffects(SigSep)'}]} />
+
+</details>
+
+<details>
+<summary><strong>Granite Hide</strong> — −20 % damage taken.</summary>
+
+<p><SpecTags items={['Earth', 'Upgrades/Options/Earth/GraniteHide']} /></p>
+
+Adds 0.2 to `DamageReduction`, a signed Multiplier Modifier on your `Health`. Two copies multiply (×0.8 × 0.8) instead of adding up.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='GraniteHide' target='Player'>
+  <EffectExample name='GraniteHide' targetStat='DamageReduction' target='Player' value='0.2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageReduction' type='Modifier (Float, Signed)' statKey='Player / Modifier / DamageReduction' max='1'>
+  Contribution: **Multiplier**. Used by <PowerRef>LinkerDefinition_TransformDamageReduceToMultiplicative_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Last Bastion</strong> — −20 % damage taken while at 40 % life or below.</summary>
+
+<p><SpecTags items={['Earth', 'Upgrades/Options/Earth/LastBastion']} /></p>
+
+Lowers a signed Conditional Modifier on your receiving damage that only applies while your `Health` is at 40 % or less.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='LastBastion' target='Player'>
+  <EffectExample name='LastBastionAddReduction' targetStat='DamageReductionBelow40Percent' target='Player' value='-0.2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageReductionBelow40Percent' type='Conditional Modifier (Float, Signed)' statKey='Player / ConditionalModifier / DamageReductionBelow40Percent' min='-1' max='1' condition='Health ≤ 40 %'>
+  Contribution: **Rate**. Linked into <PowerRef>ReceivingHealthConditionalModifiers(SigSep)</PowerRef> by <PowerRef>Effect_DamageReductionBelow40PercentLinker_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Tremor Guard</strong> — Your abilities that can Deflect also make foes Exposed.</summary>
+
+<p><SpecTags items={['Earth', 'Upgrades/Options/Earth/TremorGuard']} /></p>
+
+Switches on a Counter Effect in your deflect counter-effect list that applies Exposed to the foe whose projectile you deflect.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='TremorGuard' target='Player'>
+  <EffectExample name='TremorGuard' targetStat='TremorGuardActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DeflectAlsoExpose' type='Counter Effect' statKey='Player / CounterEffect_SigSep / DeflectCounterEffects(SigSep) / DeflectAlsoExpose' condition='TremorGuardToggle = 1'>
+  Applies <PowerRef>Pack_DeflectAlsoExpose_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='TremorGuardToggle' type='Int (Clamped)' statKey='Player / IntClamped / TremorGuardActive' max='1' />
+
+</details>
+
+</div>
+
+### Frost
+
+Chill, and what Chill leads to.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Ice Burst</strong> — Applying 3 stacks of Chill causes a 50-damage blast and clears the Chill.</summary>
+
+<p><SpecTags items={['Frost', 'Upgrades/Options/Frost/IceBurst']} /></p>
+
+Switches on `IceBurstActive`.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='IceBurst' target='Player'>
+  <EffectExample name='IceBurstActive' targetStat='IceBurstActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='IceBurstToggle' type='Int (Clamped)' statKey='Player / IntClamped / IceBurstActive' default='1' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Permafrost</strong> — Chill-afflicted foes shatter at 10 % health, dealing area damage and inflicting Chill nearby.</summary>
+
+<p><SpecTags items={['Frost', 'Upgrades/Options/Frost/Permafrost']} /></p>
+
+Switches on a signed Counter Effect on your applying `Health` list. When your hit leaves a Chilled foe at 10 % or less, it shatters the foe and hits its teammates within 8 m.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Permafrost' target='Player'>
+  <EffectExample name='PermafrostActive' targetStat='PermafrostActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='PermafrostShatter' type='Counter Effect (Signed)' statKey='Player / CounterEffect_Signed / PermafrostShatter' condition='Chill, Health, PermafrostToggle through PermafrostShatter_Dispatcher'>
+  Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_AliveTeammateInRange8_R3D</PowerRef>. Applies <PowerRef>Pack_PermafrostNearby_R3D</PowerRef>. Linked into <PowerRef>ApplyingHealthCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_PermafrostShatterLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='PermafrostToggle' type='Int (Clamped)' statKey='Player / IntClamped / PermafrostActive' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Rime Strike</strong> — Your Attack inflicts Chill and is stronger.</summary>
+
+<p><SpecTags items={['Frost', 'Upgrades/Options/Frost/RimeStrike']} /></p>
+
+Switches on an Intervener Effect in the Attack's damage list that applies Chill, and raises the Attack's damage rate modifier.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='RimeStrike' target='Player'>
+  <EffectExample name='ChillToggle' targetStat='ChillToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_ChillInflict' type='Intervener Effect' statKey='Attack / IntervenerEffect_SigSep / DamageIntervernerEffects(SigSep) / ChillInflict' condition='Attack_ChillToggle = 1'>
+  Applies <PowerRef>Pack_Attack_ChillInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_ChillToggle' type='Int (Clamped)' statKey='Attack / IntClamped / ChillToggle' max='1' />
+
+<StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
+  Contribution: **Rate**.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Whiteout</strong> — When all foes are Chill-afflicted, they become Slow and Decay.</summary>
+
+<p><SpecTags items={['Frost', 'Upgrades/Options/Frost/Whiteout']} /></p>
+
+Unlocks a State-Based Effect that compares the enemy team's member count with its Chill count on the world, and applies its pack while they are equal.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Whiteout' target='Player'>
+  <EffectExample name='WhiteoutUnlock' targetStat='WhiteoutUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='WhiteoutDetector' type='State-Based Effect' statKey='Player / StateBasedEffect / WhiteoutDetector' condition='ChillCount_Team1, MemberCount_Team1, WhiteoutUnlocked through Whiteout_Dispatcher'>
+  Applies <PowerRef>Pack_WhiteoutDetected_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='WhiteoutUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / WhiteoutUnlocked' max='1' />
+
+</details>
+
+</div>
+
+### Venom
+
+Poison and how it spreads.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Contagion</strong> — Poisoned foes spread Poison to other nearby foes every 4 seconds.</summary>
+
+<p><SpecTags items={['Venom', 'Upgrades/Options/Venom/Contagion']} /></p>
+
+Switches on the foes' `PoisonSpreadActive`. A Counter Effect on each foe then passes Poison to an unpoisoned teammate within 8 m.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Contagion' target='Player'>
+  <EffectExample name='Contagion' targetStat='PoisonSpreadActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='PoisonSpreadBroadcaster' type='Counter Effect' statKey='Mob / CounterEffect / PoisonSpreadBroadcaster' condition='PoisonSpreadActive = 1'>
+  Redirected to the Team of the target, filtered by <PowerRef>Filter_UnpoisonedFoeInRange8_R3D</PowerRef>. Applies <PowerRef>Pack_PoisonSpread_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='PoisonSpreadActive' type='Int (Clamped)' statKey='Mob / IntClamped / PoisonSpreadActive' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Frail Blood</strong> — Poison stacks 3 more times against Weak foes.</summary>
+
+<p><SpecTags items={['Venom', 'Upgrades/Options/Venom/FrailBlood']} /></p>
+
+Switches on the foes' copy of the toggle, which a Linker Definition uses as the gate for the extra Poison stacks.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='FrailBlood' target='Player'>
+  <EffectExample name='FrailBlood' targetStat='FrailBloodActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='FrailBloodToggle' type='Int (Clamped)' statKey='Mob / IntClamped / FrailBloodActive' max='1'>
+  Used by <PowerRef>LinkerDefinition_FrailBloodGate_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Numbing Venom</strong> — Poison also slows foes by 15 %.</summary>
+
+<p><SpecTags items={['Venom', 'Upgrades/Options/Venom/NumbingVenom']} /></p>
+
+Switches on the foes' copy of the toggle, which a Linker Definition uses as the gate for the slow.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='NumbingVenom' target='Player'>
+  <EffectExample name='NumbingVenom' targetStat='NumbingVenomActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='NumbingVenomToggle' type='Int (Clamped)' statKey='Mob / IntClamped / NumbingVenomActive' max='1'>
+  Used by <PowerRef>LinkerDefinition_NumbingVenomGate_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Venom Frenzy</strong> — Deal +30 % damage while 3 or more foes are Poisoned.</summary>
+
+<p><SpecTags items={['Venom', 'Upgrades/Options/Venom/VenomFrenzy']} /></p>
+
+Raises a Conditional Modifier on the Attack that reads the enemy team's `PoisonCount` on the world and applies at 3 or more.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='VenomFrenzy' target='Player'>
+  <EffectExample name='VenomFrenzyOn' targetStat='DamageWhile3FoesPoisoned' target='Attack' value='0.3' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DamageWhile3FoesPoisoned' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / DamageWhile3FoesPoisoned' max='9999' condition='PoisonCount_Team1 ≥ 3'>
+  Contribution: **Rate**.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Venom Strike</strong> — Your Attack inflicts Poison.</summary>
+
+<p><SpecTags items={['Venom', 'Upgrades/Options/Venom/VenomStrike']} /></p>
+
+Switches on a Counter Effect in the Attack's counter-effect list that applies Poison whenever the Attack lands.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='VenomStrike' target='Player'>
+  <EffectExample name='PoisonToggle' targetStat='Attack_PoisonToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_PoisonInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / PoisonInflict' condition='Attack_PoisonToggle = 1'>
+  Applies <PowerRef>Pack_Attack_PoisonInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_PoisonToggle' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_PoisonToggle' max='1' />
+
+</details>
+
+</div>
+
+### Water
+
+Knocking foes away.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Riptide</strong> — Knock-away effects also Rupture foes.</summary>
+
+<p><SpecTags items={['Water', 'Upgrades/Options/Water/Riptide']} /></p>
+
+Switches on a Counter Effect linked into the knockback counter-effect list, so every knockback also applies Rupture.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Riptide' target='Player'>
+  <EffectExample name='KnockbackAlsoRupture' targetStat='KnockbackRuptureFlag' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='KnockbackToRupture' type='Counter Effect' statKey='Player / CounterEffect / KnockbackToRupture' condition='KnockbackRuptureFlag = 1'>
+  Applies <PowerRef>Pack_KnockbackToRupture_R3D</PowerRef>. Linked into <PowerRef>KnockbackApplyingCounterEffects(SigSep)_3D</PowerRef> by <PowerRef>Effect_KnockbackToRuptureLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='KnockbackRuptureFlag' type='Int (Clamped)' statKey='Player / IntClamped / KnockbackRuptureFlag' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Wave Strike</strong> — Your Attack knocks foes away and is stronger.</summary>
+
+<p><SpecTags items={['Water', 'Upgrades/Options/Water/WaveStrike']} /></p>
+
+Switches on the Attack's knockback Counter Effect and raises the Attack's damage rate modifier.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='WaveStrike' target='Player'>
+  <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
+  <EffectExample name='Knockaway' targetStat='Knockaway' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_KnockbackInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / KnockInflict' condition='Attack_KnockbackToggle = 1'>
+  Applies <PowerRef>Pack_KnockbackInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='Attack_KnockbackToggle' type='Int (Clamped)' statKey='Attack / IntClamped / Knockaway' max='1' />
+
+</details>
+
+</div>
+
+### Lightning
+
+Lightning on hit and on being hit.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Backlash</strong> — After you take damage, the attacker is struck by lightning.</summary>
+
+<p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/Backlash']} /></p>
+
+Switches on a signed Intervener Effect on your `Health` that answers a hit from the other team with a lightning strike on the attacker.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Backlash' target='Player'>
+  <EffectExample name='RevengeLightning' targetStat='RevengeLightning' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='RevengeLightningCounterEffect' type='Intervener Effect (Signed)' statKey='Player / IntervenerEffect_Signed / RevengeLightningCounterEffect' condition='RevengeLightning, TeamNo through RevengeLightning_Dispatcher'>
+  Applies <PowerRef>Pack_RevengeLightning_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthPreCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_RevengeLightningLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='RevengeLightning' type='Int (Clamped)' statKey='Player / IntClamped / RevengeLightning' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Overload</strong> — Your lightning also makes foes Jolted: their next attack hurts them and nearby foes.</summary>
+
+<p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/Overload']} /></p>
+
+Switches on a Counter Effect in your lightning counter-effect list that applies Jolted whenever your lightning lands.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Overload' target='Player'>
+  <EffectExample name='JoltToggleOn' targetStat='JoltToggle' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='JoltInflict' type='Counter Effect' statKey='Player / CounterEffect_SigSep / LightningCounterEffects(SigSep) / JoltInflict' condition='JoltToggle = 1'>
+  Applies <PowerRef>Pack_JoltInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='JoltToggle' type='Int (Clamped)' statKey='Player / IntClamped / JoltToggle' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Storm Strike</strong> — Your Attack emits chain lightning when it damages a foe.</summary>
+
+<p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/StormStrike']} /></p>
+
+Switches on a Counter Effect in the Attack's counter-effect list that starts the chain lightning on hit.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='StormStrike' target='Player'>
+  <EffectExample name='LightningToggle' targetStat='LightningToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_LightningInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / LightningInflict' condition='Attack_LightningToggle = 1'>
+  Applies <PowerRef>Pack_LightningInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_LightningToggle' type='Int (Clamped)' statKey='Attack / IntClamped / LightningToggle' max='1' />
+
+</details>
+
+</div>
+
+:::info
+
+You can import **Roguelite3D** (Kodes) from **Power Editor → Initializer → Sample Importer** (open the Power Editor from **Tools → Power → Editor**). Import **General Expansions** and **Premade Packs** first.
+
+:::

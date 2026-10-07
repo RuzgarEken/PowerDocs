@@ -8,8 +8,13 @@ During your next turn, your **Attack** cards deal [**double damage**](/docs/Samp
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_VoidAssassin</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_VoidAssassin_STS"
+  name="Card_VoidAssassin"
   stats={[
     {key: 'Void Assassin', value: 1},
     {key: 'Energy Cost', value: 1},
@@ -17,11 +22,24 @@ During your next turn, your **Attack** cards deal [**double damage**](/docs/Samp
   ]}
 />
 
+</details>
+
+</div>
+
 Void Assassin doesn't modify damage directly — it raises a persistent <PowerRef>Stat_VoidAssassin_1_STS</PowerRef> trigger. A shared converter pack listens for the next Attack card played during your next turn:
 
-<PackExample name="Pack_VoidAssassinToDoubleDamageConverter_STS" target="Next Attack card">
-  <EffectExample name="Effect_DoubleDamage" targetStat="DamageMultiplier" value={1} duration="1 use" />
-  <EffectExample name="Effect_ResetVoidAssassin" targetStat="VoidAssassin" value={0} />
+<div className="prp-packs">
+
+<details>
+<summary><strong>VoidAssassinToDoubleDamageConverter</strong> — Effect Pack</summary>
+
+<PackExample name="VoidAssassinToDoubleDamageConverter" target="Next Attack card">
+  <EffectExample name="DoubleDamage" targetStat="DamageMultiplier" value={1} duration="1 use" />
+  <EffectExample name="ResetVoidAssassin" targetStat="VoidAssassin" value={0} />
 </PackExample>
 
-`Effect_ResetVoidAssassin` clears the trigger straight after, so only that one attack is doubled.
+</details>
+
+</div>
+
+`ResetVoidAssassin` clears the trigger straight after, so only that one attack is doubled.

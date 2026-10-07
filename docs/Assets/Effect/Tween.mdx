@@ -1,0 +1,61 @@
+---
+sidebar_position: 12
+---
+
+# Tween
+
+A **Tween Effect** restarts a [Tweener](/docs/Assets/Stat/StatDefinition/Tweener) Stat in one Effect. Without it you would need separate Effects to write the start point, the end point and the duration, reset the progress and switch the toggle; the Tween Effect carries all of them.
+
+Its **Target Stat** is the **Tweener Stat itself**. Its Processor ([Tween Processor](/docs/Assets/Processor/Processors/Tween)) writes the values into the Tweener's own Start / End Stats, the Stat behind its **Max Value** relation and its toggle.
+
+## Fields
+
+This Effect inherits all fields from **[Effect](./)**.
+
+### Start / End
+
+The same four fields exist for **Start** and for **End**.
+
+| Field | Description |
+| --- | --- |
+| **Start Use Stat Value** / **End Use Stat Value** | Off: use the constant **Start Value** / **End Value**. On: read the value from a Stat when the Effect is applied. |
+| **Start Value** / **End Value** | The constant endpoint. |
+| **Start Value Stat** / **End Value Stat** | The Stat to read (`Stat From`: which Actor + which key), e.g. the Source's `Position`. |
+| **Start Use Value Adapter** / **End Use Value Adapter** | Runs the Stat through a **Stat Value Adapter** first. |
+| **Start Value Adapter** / **End Value Adapter** | The adapter. It must return the Tweener's value type (a `Vector3` adapter for a Vector3 Tweener). Typical: *Direction × 4, flattened, + Position* as one [Tree Operation](/docs/Assets/Misc/Adapter/Stat/TreeOperation) adapter. Without an adapter the Stat must already have the Tweener's value type. |
+
+### Tween
+
+| Field | Description |
+| --- | --- |
+| **Override Duration** / **Tween Duration** | Writes the duration into the Stat behind the Tweener's **Max Value** Relative Stat. Only works when the Tweener's **Max** border is Stat-based; with a Constant border it is ignored (and logged). |
+| **Reset Progress** | Sets the progress back to `0`, so the tween plays from the start. On by default. |
+| **Override Active** / **Active** | Switches the Tweener's toggle on or off. Only works when the Tweener is **Togglable**. The toggle is written **raw**, not as a Modifier, so a Modifier Remover won't turn it off later — see the note below. |
+
+Everything the Tween Effect writes is a raw set, and its expiry undoes nothing: use it as a **Permanent** Effect.
+
+## When it does nothing
+
+The Effect returns **Blocked** without restarting the tween (and logs one line) when:
+
+- the Target Stat is not a Tweener of the same value type,
+- **Use Stat Value** is on and the Stat can't be found on the chosen Actor,
+- an adapter is missing or returns a different value type.
+
+A dash that never moves with such a line in the Console is almost always a wrong `Stat From` Actor or a wrong adapter type — not a processing-chain problem.
+
+## Toggle: modifier or raw?
+
+Tweener environments are usually switched off by a *complete* trigger that removes the toggle's `+1` **modifier** (a Modifier Remover). Two consistent setups:
+
+1. Leave **Override Active** off, and turn the toggle on with its own `+1` Temporary / Managed By Code Effect placed **after** the Tween Effect in the pack. *(What the General Expansions Dash / Knockback environments expect.)*
+2. Turn **Override Active** on, and turn the toggle off with a **Set** Effect to `0` instead of a Modifier Remover.
+
+## Variants
+
+| Class | Menu |
+| --- | --- |
+| `TweenEffectModel_BS_Float` / `_Int` / `_Vector2` / `_Vector2Int` / `_Vector3` / `_Vector3Int` | *Create › Power › Effects › Types › Tweens › … (BS)* |
+| `TweenEffectModel_AS_*`, `TweenEffectModel_MAS_*` | the same, with **Attribute Stat Key(s)** — only to route the Effect through an AS / MAS chain; the tween itself ignores the Attribute Stats |
+
+The Effect needs a **Processor Id** whose chain entry holds a [Tween Processor](/docs/Assets/Processor/Processors/Tween) of the same value type.

@@ -42,11 +42,14 @@ The resolved Stat must be a **Float Stat**.
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS`, each in a plain and a Signature Separated form. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
 
-| Suffix | Expects | Use case |
-| --- | --- | --- |
-| *(none)* | A plain Float Stat | *Divine Shield* — immune to every incoming Health Effect for its duration. |
-| `_SigSep` | A Signature Separated Stat | *Fire Immunity* — only fire-signed Effects are blocked. Physical damage lands as usual, from the same one Stat. |
+The Relative Stat can be any shape — one Processor reads all of them:
 
-The `_SigSep` form is what lets a single `Immune` Stat on `Health` hold a dozen independent resistances instead of needing a dozen Stats.
+| Stat shape | Use case |
+| --- | --- |
+| Plain Int Stat | *Divine Shield* — immune to every incoming Health Effect for its duration. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Fire Immunity* — only fire-signed Effects are blocked. Physical damage lands as usual, from the same one Stat. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | Each Actor that granted immunity keeps its own copy; the target is immune while any copy is above 0. |
+
+A Signature Separated list is what lets a single `Immune` Stat on `Health` hold a dozen independent resistances instead of needing a dozen Stats.

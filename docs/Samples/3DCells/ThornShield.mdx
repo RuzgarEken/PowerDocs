@@ -26,26 +26,98 @@ Reflects incoming ranged attacks back at enemies.
 
 ## Implementation
 
-**Thorn Shield** is a toggle Skill. While it is toggled on, `Pack_WhileToggleOn` applies four Effects: `Effect_ActivateAim`, `Effect_MoveBlock` (the player cannot move while blocking), `Effect_Shield` (raises the **Shielded** flag), and `Effect_Parry` (raises the **Parry** flag for a short `0.4` second window at the start of the block).
+**Thorn Shield** is a toggle Skill. While it is toggled on, `WhileToggleOn` applies four Effects: `ActivateAim`, `MoveBlock` (the player cannot move while blocking), `Shield` (raises the **Shielded** flag), and `Parry` (raises the **Parry** flag for a short `0.4` second window at the start of the block).
 
-![Thorn Shield Skill](./images/ThornShield_Skill.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>ThornShield</strong> — Skill Model Normal</summary>
+
+<SpecCard kind='effect' label={"Skill Model Normal"} name='ThornShield'>
+  <SpecRow label={"Id \u203a Id"}>{"61"}</SpecRow>
+  <SpecRow label={"Name"}>{"Thorn Shield"}</SpecRow>
+  <SpecRow label={"State \u203a Name"}>{"Thorn Shield"}</SpecRow>
+  <SpecRow label={"State \u203a Use Type"}>{"Toggleable"}</SpecRow>
+  <SpecRow label={"State \u203a Queue Window"}>{"0.4"}</SpecRow>
+  <SpecRow label={"State \u203a Interruptible Transition"}>{"true"}</SpecRow>
+  <SpecRow label={"State \u203a Caster"}><PowerRef>Skill_ThornShield_Casting_3DC</PowerRef></SpecRow>
+  <SpecRow label={"State \u203a Targeter"}><PowerRef>Skill_ThornShield_Targeting_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 ### Blocking and parry
 
 While **Shielded**, the **ThornShield_ConditionalAttackDamageModifier** Stat is injected into incoming attack damage to reduce it. It is signature-separated, so each attacker is tracked independently.
 
-![Thorn Shield Block Damage Modifier](./images/ThornShield_BlockDamageModifier.png)
+<div className="prp-packs">
 
-During the **Parry** window, the **ThornShield_AttackDamageImmune** Stat grants full immunity, negating all damage and emitting an **Immune** result. The parry also drives skill-specific **CritRate** and **CritMultiplier** conditional modifiers so the counter hit lands critically, and applies `Effect_ParryDamage` back to the attacker.
+<details>
+<summary><strong>BlockDamageModifier</strong> — Stat (ConditionalModifier Float)</summary>
 
-![Thorn Shield Parry Stats](./images/ThornShield_ParryStats.png)
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='BlockDamageModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"ThornShield / ConditionalModifier_SigSep / ConditionalDamageModifier / BlockDamageModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"0.25"}</SpecRow>
+  <SpecRow label={"Max"}>{"0.25"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is1(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Contribution Type"}>{"Multiplier"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+During the **Parry** window, the **ThornShield_AttackDamageImmune** Stat grants full immunity, negating all damage and emitting an **Immune** result. The parry also drives skill-specific **CritRate** and **CritMultiplier** conditional modifiers so the counter hit lands critically, and applies `ParryDamage` back to the attacker.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Parry</strong> — Stat (Clamped Int)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Int)"} name='Parry'>
+  <SpecRow label='Stat Key' icon='key'>{"ThornShield / Int_SigSep / AttackDamageImmune / Parry"}</SpecRow>
+  <SpecRow label={"Relation: CriticalRate_Applying"} icon="key"><PowerRef>Key_Parry_CritRate_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Relation: CriticalMultiplier_Applying"} icon="key"><PowerRef>Key_Parry_CritMultiplier_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Allow Exceed"}>{"true"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 ### Countering attacks
 
-`BlockMeleeCounterEffects` absorbs the CounterEffects carried by received melee attacks while blocking, again signature-separated per attacker.
+`BlockMeleeCounterEffects` is an **[Intervener Effect](/docs/Assets/Stat/StatDefinition/Redirector/IntervenerEffect)** list: it reacts to received melee attacks while blocking, before they land, again signature-separated per attacker (relation `IntervenerEffect_ReceivingAS` on the attack's attribute stat).
 
-For ranged attacks, `BlockRangedCounterEffects` runs a set of Effects on the blocked projectile: `Effect_ReverseDirection` flips its travel vector, `Effect_ChangeTeam` switches its team so it now damages enemies, and `Effect_ResetHitCount` / `Effect_ResetTravelDistance` restore its range — sending the shot back the way it came.
+For ranged attacks, the `BlockRangedCounterEffects` Intervener runs a set of Effects on the blocked projectile: `ReverseDirection` flips its travel vector, `ChangeTeam` switches its team so it now damages enemies, and `ResetHitCount` / `ResetTravelDistance` restore its range — sending the shot back the way it came.
 
-![Thorn Shield Ranged Reflect](./images/ThornShield_RangedReflect.png)
+<div className="prp-packs">
 
-When the Skill is toggled off, `Pack_OnToggleOff` syncs the movement and look destination and removes the casting block. A `SkillExtension_BodyPartExtender` script binds the block to a body-part Actor so it originates from the correct bone.
+<details>
+<summary><strong>BlockRangedCounterEffects</strong> — Stat (IntervenerEffect)</summary>
+
+<SpecCard kind='stat' label={"Stat (IntervenerEffect)"} name='BlockRangedCounterEffects'>
+  <SpecRow label='Stat Key' icon='key'>{"ThornShield / IntervenerEffect_SigSep / IntervenerReceivingRangedAttacks / BlockRangedCounterEffects"}</SpecRow>
+  <SpecRow label={"Redirection Target"}>{"Effector"}</SpecRow>
+  <SpecRow label={"Redirected Effect Source"}>{"Target"}</SpecRow>
+  <SpecRow label={"State Check"}>{"true"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Target"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is1(Int)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Targeting Environment Id"}>{"Default"}</SpecRow>
+  <PackExample name='BlockRangedCounterEffects' label={"Default"}>
+    <EffectExample name='ReverseDirection' label={"Vector3 Stat Effect (BS)"} targetStat={"Movement / Vector3 / Direction"} processor='Set_Vector3' />
+    <EffectExample name='ResetTravelDistance' label={"Float Stat Effect (BS)"} targetStat={"Default / FloatClamped / TravelDistance"} processor='Set_Float' />
+    <EffectExample name='ResetHitCount' label={"Int Stat Effect (BS)"} targetStat={"Default / IntClamped / HitCount"} processor='Set_Int' value={"-1"} />
+    <EffectExample name='ChangeTeam' label={"Int Stat Effect (BS)"} targetStat={"Default / Int / TeamNo"} processor='Set_Int' value={"-1"} />
+  </PackExample>
+</SpecCard>
+
+</details>
+
+</div>
+
+When the Skill is toggled off, `OnToggleOff` syncs the movement and look destination and removes the casting block. A `SkillExtension_BodyPartExtender` script binds the block to a body-part Actor so it originates from the correct bone.

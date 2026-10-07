@@ -10,12 +10,21 @@ Whenever an Attack would deal **4 or less** [unblocked damage](/docs/Samples/Sla
 
 This Effect raises the floor on the unblocked Attack damage the player deals:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>ApplyingAttackDamageLimiterMin</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_GivenAttackDamageLImiterMin_STS"
-  targetStat="GivenAttackDamageMin"
-  valueStat="GivenAttackDamageMin"
+  name="ApplyingAttackDamageLimiterMin"
+  targetStat="ApplyingAttackDamageMin"
+  valueStat="ApplyingAttackDamageMin"
   value={5}
   duration="1 turn"
 />
 
-Any hit of `4` or less is clamped up to `5` before it lands. The minimum comes from <PowerRef>Stat_GivenAttackDamageMin_5_STS</PowerRef>.
+</details>
+
+</div>
+
+Any hit of `4` or less is clamped up to `5` before it lands. The minimum comes from <PowerRef>Stat_ApplyingAttackDamageMin_5_STS</PowerRef>.

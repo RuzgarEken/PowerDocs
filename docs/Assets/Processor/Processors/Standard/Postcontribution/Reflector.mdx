@@ -26,14 +26,19 @@ The resolved Stat must be a **Reflector Stat**.
 
 ## Variations
 
-Ships as `BS`, `AS` and `MAS` × `Float` `Int`, in five container variations — thirty assets in all. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+Ships as `BS`, `AS` and `MAS` × `Float` `Int`, each with an `_Effector` form. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Thorns* — reflect 20% of the final damage back at whoever dealt it, after Modifiers and crits. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | *Curse of Reprisal* — reflect only the damage dealt by the boss that applied the curse; the rest of the pack is unaffected. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Flame Mirror* — bounce fire damage back and let physical damage through, from a single Reflector Stat. |
+| Signature Separated list of Source Separated Stats | Reflect the fire damage from one specific enemy, and nothing else. |
 
 | Suffix | Expects | Use case |
 | --- | --- | --- |
-| `_Normal` | A plain Reflector Stat | *Thorns* — reflect 20% of the final damage back at whoever dealt it, after Modifiers and crits. |
-| `_SrcSep` | A Source Separated Stat | *Curse of Reprisal* — reflect only the damage dealt by the boss that applied the curse; the rest of the pack is unaffected. |
-| `_SigSep` | A Signature Separated Stat | *Flame Mirror* — bounce fire damage back and let physical damage through, from a single Reflector Stat. |
-| `_SigNSrcSep` | Signature **and** Source Separated | Reflect the fire damage from one specific enemy, and nothing else. |
 | `_Effector` | Resolved on the **Effector's Actor** | A spiked shield reflects whatever it blocks. The reflection follows the shield, not the Actor holding it. |
 
 Reflecting here uses the **final** value, so crits and Modifiers are included. To reflect the raw incoming value instead, use the [Precontribution Reflector](/docs/Assets/Processor/Processors/Standard/Precontribution/Reflector).

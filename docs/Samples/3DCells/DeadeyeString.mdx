@@ -32,37 +32,177 @@ Therefore, we attach the charge value to each arrow. For this, we use ActorEntit
 
 The arrow also has other Stats for properties such as direction, speed, and distance.
 
-![Arrow stats](./images/DeadeyeString_ArrowStats.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>Arrow_Default</strong> — Environment</summary>
+
+<RepositoryExample kind='environment' name='Arrow_Default' stats={[{key: "DeadeyeString_ArrowCharge", value: "Clamped Float"}, {key: "DeadeyeString_Arrow_TravelDistance", value: "Clamped Float"}, {key: "DeadeyeString_Arrow_MoveSpeed", value: "Clamped Float"}, {key: "DeadeyeString_Arrow_Direction", value: "Vector3"}, {key: "SourceActor", value: "Actor"}, {key: "HitCount", value: "Clamped Int"}, {key: "TeamNo", value: "Int"}]} />
+
+</details>
+
+</div>
 
 Our Skill Targeter contains a SkillInitializer Effect Pack that applies the required initialization effects to the arrow's ActorEntity.
 
-![Arrow initializer](./images/DeadeyeString_Targeting.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_Targeting_2</strong> — Skill Targeting Skill Shot</summary>
+
+<SpecCard kind='effect' label={"Skill Targeting Skill Shot"} name='DeadeyeString_Targeting_2'>
+  <SpecRow label={"Skill Prefab"}><PowerRef>DeadeyeString</PowerRef></SpecRow>
+  <SpecRow label={"Projectile Parenter"}><PowerRef>SkillParenter_Global_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Projectile Position"}><PowerRef>SkillPositioner_OffsetToSourceBody_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Projectile Rotation"}><PowerRef>SkillRotator_OffsetToSourceBody_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Projectile Layouter"}><PowerRef>SkillProjectileLayouter_Forward_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Use Skill Initializer Effect"}>{"true"}</SpecRow>
+  <SpecRow label={"Skill Initializer Pack"}><PowerRef>Pack_DeadeyeString_SkillInitializer_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 Now, let's see what the Deadeye String skill delivers to its target.
 
-![Deadeye String effect](./images/DeadeyeString_AttackEffect.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_Attack</strong> — Float Stat Effect (MAS)</summary>
+
+<SpecCard kind='effect' label={"Float Stat Effect (MAS)"} name='DeadeyeString_Attack'>
+  <SpecRow label={"Processor Id"}>{"Standard_Float"}</SpecRow>
+  <SpecRow label={"Attributes"}>{"Everything"}</SpecRow>
+  <SpecRow label={"Target Stat"} icon="key"><PowerRef>Key_Health_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Value"}>{"-5"}</SpecRow>
+  <SpecRow label={"Attribute Stat Keys [0]"} icon="key"><PowerRef>Key_Attack_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Attribute Stat Keys [1]"} icon="key"><PowerRef>Key_DeadeyeString_Attack_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Attribute Stat Keys [2]"} icon="key"><PowerRef>Key_RangedAttack_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 We use the DeadeyeString_Attack Stat to apply skill specific behaviors. Let's take a look at its configuration.
 
-![Deadeye String Attack Stat](./images/DeadeyeString_AttackStat.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_Attack</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='DeadeyeString_Attack'>
+  <SpecRow label='Stat Key' icon='key'>{"DeadEyeString / FloatClamped / Attack"}</SpecRow>
+  <SpecRow label={"Relation: CriticalRate_Applying"} icon="key"><PowerRef>Key_DeadeyeString_CritRate_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Relation: CriticalMultiplier_Applying"} icon="key"><PowerRef>Key_DeadeyeString_CritMultiplier_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"100"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 As you can see, we have skill specific CritRate and CritMultiplier Stats.
 
 We want both of these values to change based on the arrow's charge value. Therefore, we enable UseConditionalModifier for both CritRate and CritMultiplier in the CritProcessor, allowing their values to be conditionally modified.
 
-![Deadeye String Crit Processor](./images/CritProcessor.png)
+<div className="prp-packs">
 
-We also need to add ConditionalModifier_Given_AttributeStat relations to the CritRate and CritMultiplier Stats.
+<details>
+<summary><strong>MASContribution_CriticalHit_Float</strong> — MASContribution Critical Hit Float</summary>
 
-![Deadeye String Crit Rate](./images/DeadeyeCritRate.png)
+<SpecCard kind='processor' label={"MASContribution Critical Hit Float"} name='MASContribution_CriticalHit_Float'>
+  <SpecRow label={"Required Attributes"}>{"Modibifiable|Critable|AttributeStatsProcessable"}</SpecRow>
+  <SpecRow label={"Receiving Critical Rate Key"}>{"CriticalRate_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Rate Key"}>{"CriticalRate_Applying"}</SpecRow>
+  <SpecRow label={"Receiving Critical Multiplier Key"}>{"CriticalMultiplier_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Multiplier Key"}>{"CriticalMultiplier_Applying"}</SpecRow>
+  <SpecRow label={"Critical Result Attribute"}>{"Critical"}</SpecRow>
+  <SpecRow label={"Use Conditional Rate Modifier"}>{"true"}</SpecRow>
+  <SpecRow label={"Use Conditional Multiplier Modififier"}>{"true"}</SpecRow>
+  <SpecRow label={"Conditional Modifier Processor"}><PowerRef>ASContribution_ConditionalModifier(Float-Generic)_3DC</PowerRef></SpecRow>
+</SpecCard>
 
-![Deadeye String Crit Multiplier](./images/DeadeyeCritMultiplier.png)
+</details>
+
+</div>
+
+We also need to add ConditionalModifier_ApplyingAS relations to the CritRate and CritMultiplier Stats.
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_CritRate</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='DeadeyeString_CritRate'>
+  <SpecRow label='Stat Key' icon='key'>{"DeadEyeString / FloatClamped / CritRate"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_DeadeyeString_CritRateModifierByCharge_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Allow Exceed"}>{"true"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_CritMultiplier</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='DeadeyeString_CritMultiplier'>
+  <SpecRow label='Stat Key' icon='key'>{"DeadEyeString / FloatClamped / CritMultiplier"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_DeadeyeString_CritMultiplierModifierByCharge_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Allow Exceed"}>{"true"}</SpecRow>
+  <SpecRow label={"Max"}>{"3"}</SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The CritRateModifier Stat adds 1 to CritRate as a flat contribution when the charge value is between 0.41 and 0.59.
 
-![Deadeye String Crit Rate Modifier](./images/DeadeyeCritRateModifier.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_CritRateModifierByCharge</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='DeadeyeString_CritRateModifierByCharge'>
+  <SpecRow label='Stat Key' icon='key'>{"DeadEyeString / ConditionalModifier / CritRateModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Effector"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_In0.41To0.59(Float)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Stat Scaler \u203a Stat \u203a Actor"}>{"Effector"}</SpecRow>
+  <SpecRow label={"Stat Scaler \u203a Scaler"}><PowerRef>StatToMultiplier_ArrowCritMultiplierModifierByCharge_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The CritMultiplierModifier Stat scales the CritMultiplier value based on the charge value's closeness to 0.41.
 
-![Deadeye String Crit Multiplier Modifier](./images/DeadeyeCritMultiplierModifier.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>DeadeyeString_CritMultiplierModifierByCharge</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='DeadeyeString_CritMultiplierModifierByCharge'>
+  <SpecRow label='Stat Key' icon='key'>{"DeadEyeString / ConditionalModifier / CritMultiplierModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Effector"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_In0.41To0.59(Float)_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Use Scaler"}>{"true"}</SpecRow>
+  <SpecRow label={"Stat Scaler \u203a Stat \u203a Actor"}>{"Effector"}</SpecRow>
+  <SpecRow label={"Stat Scaler \u203a Scaler"}><PowerRef>StatToMultiplier_ArrowCritMultiplierModifierByCharge_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 

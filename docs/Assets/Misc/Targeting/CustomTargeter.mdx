@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+---
+
+# Custom Targeter
+
+A **Custom Targeter** returns a list of Actors. Select it wherever an Effect Target can be **Custom** — a Redirector's **Redirection Target**, a State Based Effect's **Effect Target**, an Effector's definition, a Skill's Direct targeting.
+
+Write your own by deriving from `CustomTargeter` and overriding `GetTargets(IActorProvider actorProvider, int environmentId)`. Two ship with Power.
+
+## By Relation State (Filtered)
+
+*Create › Power › Misc › Custom Targeter › By Relation State (Filtered)*
+
+The same scope as a **Relation State** target, as a reusable asset — handy when the same filtered scope is used from several places.
+
+| Field | Description |
+| --- | --- |
+| **Relate To** | The Interaction Actor the relation is measured from (Source, Target…). |
+| **Relation State** | Which relation: Me, Team, Ally, Neutral, Enemy (flags, so several can be combined). |
+| **Filter** | An optional [Targeting Filter](./TargetingFilter.mdx). |
+
+## Static Actors
+
+*Create › Power › Misc › Custom Targeter › Static Actors*
+
+The live Actors with the given **Actor Ids** (Player, a boss…), found through `PowerWorld.GetActor`. Ids with no live Actor are skipped.
+
+| Field | Description |
+| --- | --- |
+| **Actor Ids** | The static Actor Ids to return. |
+
+## Examples
+
+| Custom Targeter | Asset | Returns |
+| --- | --- | --- |
+| By Relation State (Filtered) | `CustomTargeter_TeamMembersInRange_3DC` — **Relate To** Target, **Relation State** Team, a range filter | the [Ravenmark Bow](/docs/Samples/3DCells/RavenmarkBow)'s mark spreads from a dying enemy to its teammates in range |
+| By Relation State (Filtered) | `CustomTargeter_EnemiesNearTarget_R3D` (Kodes) — **Relate To** Target, **Relation State** Team, `TargetingFilter_InRange6_R3D` | the foes near the one that was hit, for chain lightning |
+| Static Actors | **Actor Ids** = the Player | the Player, for a Skill whose Direct targeting always hits it |
+
+Slay The Sphere adds its own targeter by code: `CustomTargeter_RandomCardInHand_STS` returns a random card Actor from the hand.

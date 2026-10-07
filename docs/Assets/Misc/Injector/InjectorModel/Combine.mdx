@@ -4,7 +4,14 @@ sidebar_position: 4
 
 # Combine
 
-Modifies the Stat value using the injected value according to the selected `ContributionType`.
+Combines a constant into the Stat value according to the **Contribution Type**.
+
+Ships for `Float`, `Int`, `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`.
+
+| Field | Description |
+| --- | --- |
+| **Contribution Type** | How the **Value** is combined. See below. |
+| **Value** | The constant to combine. |
 
 ### Contribution Types
 
@@ -13,3 +20,15 @@ Modifies the Stat value using the injected value according to the selected `Cont
 | **Flat** | Adds the injected value directly. |
 | **Rate** | Applies the injected value as a percentage. The value should be between `0` and `1`. |
 | **Multiplier** | Multiplies the Stat value by the injected value. |
+
+## Example
+
+With a Stat value of `40`:
+
+| Contribution Type | Value | Result |
+| --- | --- | --- |
+| **Flat** | `10` | `50` |
+| **Rate** | `0.25` | `40 × 1.25 = 50` |
+| **Multiplier** | `−1` | `−40` |
+
+The last row is [Kodes](/docs/Samples/Kodes)' `ValueInjector_NegateValue_R3D`: it turns a positive amount into its negative.

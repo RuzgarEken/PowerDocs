@@ -14,9 +14,10 @@ Applies Effects when a collision occurs.
 
 | Field | Description |
 |-------|-------------|
-| **Limit Exceeded Behaviour** | Determines what happens when the hit limit is reached. Available options: `Dispose` and `Passivate`. |
+| **Limit Exceeded Behaviour** | What happens when the hit limit is reached: **Dispose** the Effector (and its object), or **Passivate** it — it stops applying Effects but stays alive (a projectile that sticks into its target, then drops). |
 | **Do Not Effect Target Twice** | Prevents the same target from receiving the Effect multiple times after repeated collisions. |
-| **Track Hit Count With Stat** | Stores the hit count as a Stat instead of tracking it internally. |
+| **Track Hit Count With Stat** | Also writes the hit count into an Int Stat of the Effector's Actor, so Effects can read it (*pierce: crit the second target*, *refund if it hit nothing*). |
+| **Hit Count Stat Key** | The Int Stat that receives the hit count. |
 | **Effect Definitions** | Defines which Effects are applied, who applies them, and who receives them when the Effector is triggered. |
 
 ## Effect Definition Fields
@@ -27,5 +28,7 @@ Applies Effects when a collision occurs.
 | **Effect Pack** | The predefined `EffectPack` that will be applied to the target. |
 | **Pack Stat** | Defines where the `EffectPackStat` is retrieved from and which key is used. |
 | **Pack Stat Environment** | Defines the Environment from which the `EffectPackStat` is retrieved. |
-| **Effect Target** | Determines which Actor receives the Effect. |
-| **Effect Source** | Determines which Actor is assigned as the Effect Source. |
+| **Effect Target** | Which Actor receives the pack: **Trigger Actor** (default — the Actor that touched the Effector), **Source**, **Effector**, **World**, **Custom** (+ **Custom Target**, a [Custom Actor](/docs/Assets/Misc/Targeting/CustomActor)) or **Actor Stat** (+ **Target Actor Stat From**, **Target Actor Stat Key**, **Target Actor Stat Environment**). |
+| **Effect Source** | Which Actor is the Source of the Effects: **Source** (default — the caster), or any of the options above with their **Source …** fields. |
+
+Each definition is independent, so one Effector can damage the Trigger Actor *and* give the caster a resource on the same contact.

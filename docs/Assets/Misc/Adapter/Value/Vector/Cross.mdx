@@ -4,4 +4,18 @@ sidebar_position: 1
 
 # Cross
 
-Returns the cross product of the input vector and a predefined vector.
+**ValueAdapter_Cross_Vector3** returns the cross product of the input vector and a secondary vector: a vector perpendicular to both.
+
+| Field | Description |
+| --- | --- |
+| **Secondary Vector** | The second vector. When the adapter is the **Merge Operation** of a [Tree Operation](../../Stat/TreeOperation.mdx), it is overwritten with the secondary Stat's value. |
+| **Process Order** | **Incoming To Sec**: `Cross(input, secondary)`. **Sec To Incoming**: `Cross(secondary, input)` — the same vector, pointing the other way. |
+
+## Example
+
+A sideways knockback: the hit pushes the target to the attacker's side instead of straight back.
+
+| Input (attacker's facing) | Secondary Vector | Process Order | Result |
+| --- | --- | --- | --- |
+| `(0, 0, 1)` | `(0, 1, 0)` | **Incoming To Sec** | `(−1, 0, 0)` — to the left |
+| `(0, 0, 1)` | `(0, 1, 0)` | **Sec To Incoming** | `(1, 0, 0)` — to the right |

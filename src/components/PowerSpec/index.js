@@ -77,32 +77,41 @@ const TYPE_PREFIXES = [
   ['Effect_', 'effect'],
   ['Stat_', 'stat'],
   ['Key_', 'key'],
+  ['Condition_', undefined],
+  ['TargetingFilter_', undefined],
+  ['Filter_', undefined],
+  ['CustomActor_', undefined],
+  ['CustomTargeter_', undefined],
 ];
+
+// Sample assets end in their sample's tag (`_R3D`, `_3DC`, `_STS`…); the page already says which sample it is.
+const SAMPLE_SUFFIX = /_(3DC|R3D|STS|GE|3D|PP|VN|PDS)$/;
 
 // Guess the asset kind from a `Type_Name` identifier.
 function inferKind(name) {
   if (typeof name !== 'string') return undefined;
   for (const [prefix, kind] of TYPE_PREFIXES) {
-    if (name.startsWith(prefix)) return kind;
+    if (kind && name.startsWith(prefix)) return kind;
   }
   if (/Injector/.test(name)) return 'injector';
   return undefined;
 }
 
-// Drop the redundant `Type_` prefix — the icon already says what it is.
+// Drop the redundant `Type_` prefix — the icon already says what it is — and the sample tag.
 function displayName(name) {
   if (typeof name !== 'string') return name;
+  let shown = name.replace(SAMPLE_SUFFIX, '');
   for (const [prefix] of TYPE_PREFIXES) {
-    if (name.startsWith(prefix)) return name.slice(prefix.length);
+    if (shown.startsWith(prefix)) return shown.slice(prefix.length);
   }
-  return name;
+  return shown;
 }
 
 /**
  * Inline reference to a Power asset, with its icon. The redundant `Type_`
  * prefix is dropped from the label (pass `full` to keep it).
  *
- *   <PowerRef>Key_HealthCounterEffectsTaken</PowerRef>  → 🔑 HealthCounterEffectsTaken
+ *   <PowerRef>Key_Health_ReceivingCounterEffectSigned</PowerRef>  → 🔑 Health_ReceivingCounterEffectSigned
  *   <PowerRef kind="stat">Health</PowerRef>             → explicit kind
  *   <PowerRef full>Effect_AttackDamage_STS</PowerRef>   → keep the full name
  */
@@ -367,10 +376,12 @@ export function PackExample({name, label = 'Effect Pack', target, children}) {
  *   ]} />
  *
  * Each entry defaults to the `stat` icon; pass `icon` on an entry to override.
+ * Pass `kind="environment"` (or `container`) to show an Environment / Container
+ * the same way.
  */
-export function RepositoryExample({name, label, stats, children}) {
+export function RepositoryExample({name, label, stats, kind = 'repository', children}) {
   return (
-    <SpecCard kind="repository" label={label} name={name}>
+    <SpecCard kind={kind} label={label} name={name}>
       {stats && stats.length > 0 && (
         <ul className={styles.list}>
           {stats.map((s, i) => (

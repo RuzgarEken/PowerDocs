@@ -1,0 +1,37 @@
+---
+sidebar_position: 2
+---
+
+# Intervener Effect
+
+The **Intervener Effect** is the signed version of the **[Preprocess Intervener Effect](/docs/Assets/Processor/Preprocessors/IntervenerEffect)** Processor.
+
+It triggers another Effect before the current Effect is applied, and can block it (**Block Effect**). The triggered Effect is configured according to the resolved **IntervenerEffect_Signed Stat** and executed using the **IntervenerEffect_Signed Signature**. Running before Contribution, it sees the raw incoming value — before modifiers, reflectors and armor.
+
+Intervener Effects are evaluated separately for the **Source Actor** and the **Target Actor**.
+
+The IntervenerEffect Stat is resolved as follows:
+
+### Base Stat (BS) Processors
+
+- For the **Target Actor**, the IntervenerEffect Stat is obtained directly from the **Target Stat's IntervenerEffect Relative Stat**.
+- For the **Source Actor**, the IntervenerEffect Stat is obtained from the **Source Actor** using the **Stat Key** referenced by the **Target Stat's IntervenerEffect Relative Key**.
+
+The resolved Stat must be a **IntervenerEffect_Signed Stat**.
+
+## Variations
+
+Ships as `BS` × `Float` `Int`. See the [Processor naming scheme](/docs/Assets/Processor/ProcessorVariations).
+
+The Relative Stat can be any shape — one Processor reads all of them:
+
+| Stat shape | Use case |
+| --- | --- |
+| Plain Stat | *Retaliation* — any incoming damage fires a counterattack before it lands, while incoming healing does not. |
+| [Source Separated](/docs/CoreConcepts/SourceSeperatedStats) | *Nemesis* — only damage from the marked enemy triggers it. |
+| [Signature Separated](/docs/CoreConcepts/SignatureSeperatedStats) list | *Mana Shield* — only fire-signed damage triggers the drain; other damage passes. |
+| Signature Separated list of Source Separated Stats | React only to the fire damage dealt by one specific enemy. |
+
+| Suffix | Expects | Use case |
+| --- | --- | --- |
+| `_Effector` | Resolved on the **Effector's Actor** | A summoned totem carries the Intervener, so it fires wherever the totem is standing rather than wherever its owner is. |

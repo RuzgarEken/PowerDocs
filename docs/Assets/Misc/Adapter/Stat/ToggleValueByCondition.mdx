@@ -1,0 +1,27 @@
+---
+sidebar_position: 16
+---
+
+# Toggle Value By Condition
+
+**StatValueAdapter_ToggleValueByCondition** turns a condition into a toggle value: `1` when the incoming Stat passes the condition, `0` otherwise.
+
+| Field | Description |
+| --- | --- |
+| **Single Condition** | The **Single Stat Condition** checked against the incoming Stat. |
+
+## Example
+
+A Linker that writes `IsLowHealth = 1` while `Health ≤ 30 %`, for UI, animation or other conditions to read:
+
+| Field | Value |
+| --- | --- |
+| Target Stat | `IsLowHealth` (Int) |
+| Linker | [Absolute Value](../../Injector/LinkerModel/AbsoluteValue.mdx), **Use Value Adapter** on |
+| Injector Stat | `Health` |
+| Adapter | Toggle Value By Condition — **Single Condition**: Health as Percentage Of Remaining `≤ 0.3` |
+
+| Health | `IsLowHealth` |
+| --- | --- |
+| `80 / 100` | `0` |
+| `25 / 100` | `1` |

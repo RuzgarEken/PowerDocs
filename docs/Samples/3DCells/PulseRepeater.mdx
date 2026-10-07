@@ -28,26 +28,111 @@ We need to track the hit count to determine when to deal critical damage. Howeve
 
 Therefore, we use **ActorEntity** for the arrow and add a **HitCount** Stat to it.
 
-![Arrow Stats](./images/PulseRepeater_ArrowStats.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>PulseRepeater_Arrow</strong> — Stat Repository</summary>
+
+<RepositoryExample kind='environment' name='Arrow_Default' stats={[{key: "Arrow_HitCount", value: "Clamped Int"}]} />
+
+</details>
+
+</div>
 
 The Effector contains two Effect Definitions: one for damaging the enemy and another for increasing the arrow's **HitCount**.
 
 To increase the **HitCount**, the **Target** option is set to the **Effector**, which is the arrow's **ActorEntity**.
 
-![Effector](./images/PulseRepeater_Effector.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>PulseRepeater › Effector_OnCollide</strong> — Prefab component</summary>
+
+<SpecCard kind='effect' label={"Effector_OnCollide"} name={"PulseRepeater"}>
+  <SpecRow label={"Trigger Actors"}>{"Enemy"}</SpecRow>
+  <SpecRow label={"Hit Limitation Type"}>{"By Count"}</SpecRow>
+  <SpecRow label={"Hit Limit"}>{"5"}</SpecRow>
+  <SpecRow label={"Team From"}>{"Source"}</SpecRow>
+  <SpecRow label={"Limit Exceeded Behaviour"}>{"Dispose"}</SpecRow>
+  <SpecRow label={"Do Not Effect Target Twice"}>{"true"}</SpecRow>
+  <SpecRow label={"Effect Pack (target Target, source Source)"}><PowerRef>Effect_OnCollide_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Effect Pack (target Effector, source Source)"}><PowerRef>Pack_IncreaseHitCount_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The **PulseRepeater_Attack** Stat has its own **CritRate** Stat to define the conditions for modifying the critical hit chance.
 
-![Attack Stat](./images/PulseRepeater_Attack.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>PulseRepeater_Attack</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='PulseRepeater_Attack'>
+  <SpecRow label='Stat Key' icon='key'>{"PulseRepeater / FloatClamped / Attack"}</SpecRow>
+  <SpecRow label={"Relation: CriticalRate_Applying"} icon="key"><PowerRef>Key_PulseRepeater_CritRate_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 To modify the **CritRate** value based on the hit count, we use **ConditionalModifiers** with the **CritProcessor**.
 
-![Crit Processor](./images/CritProcessor.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>MASContribution_CriticalHit_Float</strong> — MASContribution Critical Hit Float</summary>
+
+<SpecCard kind='processor' label={"MASContribution Critical Hit Float"} name='MASContribution_CriticalHit_Float'>
+  <SpecRow label={"Required Attributes"}>{"Modibifiable|Critable|AttributeStatsProcessable"}</SpecRow>
+  <SpecRow label={"Receiving Critical Rate Key"}>{"CriticalRate_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Rate Key"}>{"CriticalRate_Applying"}</SpecRow>
+  <SpecRow label={"Receiving Critical Multiplier Key"}>{"CriticalMultiplier_Receiving"}</SpecRow>
+  <SpecRow label={"Applying Critical Multiplier Key"}>{"CriticalMultiplier_Applying"}</SpecRow>
+  <SpecRow label={"Critical Result Attribute"}>{"Critical"}</SpecRow>
+  <SpecRow label={"Use Conditional Rate Modifier"}>{"true"}</SpecRow>
+  <SpecRow label={"Use Conditional Multiplier Modififier"}>{"true"}</SpecRow>
+  <SpecRow label={"Conditional Modifier Processor"}><PowerRef>ASContribution_ConditionalModifier(Float-Generic)_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 We can now modify the **CritRate** through the **CritRateModifier** Stat.
 
-![CritRate Stat](./images/PulseRepeater_CritRate.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>PulseRepeater_CritRate</strong> — Stat (Clamped Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (Clamped Float)"} name='PulseRepeater_CritRate'>
+  <SpecRow label='Stat Key' icon='key'>{"PulseRepeater / FloatClamped / CritRate"}</SpecRow>
+  <SpecRow label={"Relation: ConditionalModifier_ApplyingAS"} icon="key"><PowerRef>Key_CritRateModifier_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>
 
 The **CritRateModifier** adds `1` to **CritRate** only when the arrow's **HitCount** is `1`.
 
-![CritRate Modifier](./images/PulseRepeater_CritRateModifier.png)
+<div className="prp-packs">
+
+<details>
+<summary><strong>PulseRepeater_CritRateModifier</strong> — Stat (ConditionalModifier Float)</summary>
+
+<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='PulseRepeater_CritRateModifier'>
+  <SpecRow label='Stat Key' icon='key'>{"PulseRepeater / ConditionalModifier / CritRateModifier"}</SpecRow>
+  <SpecRow label={"Default"}>{"1"}</SpecRow>
+  <SpecRow label={"Max"}>{"1"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Stat \u203a Actor"}>{"Effector"}</SpecRow>
+  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_Is1(Int)_3DC</PowerRef></SpecRow>
+</SpecCard>
+
+</details>
+
+</div>

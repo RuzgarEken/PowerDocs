@@ -5,3 +5,19 @@ sidebar_position: 2
 # Distance
 
 Calculates the distance between two vector Stats, maps the result using a `ValueMapper`, and returns the resulting multiplier.
+
+Ships for `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`. With fewer than two Stats, or Stats of another type, it returns `1`.
+
+| Field | Description |
+| --- | --- |
+| **Value Mapper** | **Min**, **Max**, optional **Curve**, then **Final Modifier** (Add / Multiply). See [Map Value](/docs/Assets/Misc/Adapter/Stat/MapValue) for how the mapping works. |
+
+## Example
+
+*Sharpshooter: up to double damage at long range.* Stats: the Source's `Position`, the Target's `Position`. **Value Mapper**: **Min** `0`, **Max** `16`, **Final Modifier** **Add**, **Final Offset** `1`.
+
+| Distance | Multiplier |
+| --- | --- |
+| `0 m` | `1` |
+| `8 m` | `1.5` |
+| `16 m` | `2` |

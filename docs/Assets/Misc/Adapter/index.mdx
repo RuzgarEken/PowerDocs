@@ -7,3 +7,23 @@ sidebar_position: 3
 Converts a Stat value between different types or modifies it into a format required by the target processor or injector.
 
 Used by various processors and injectors.
+
+There are two families:
+
+| Family | Input | Output |
+| --- | --- | --- |
+| [Stat Value Adapter](./Stat/index.mdx) | a **Stat** | a value |
+| [Value Adapter](./Value/index.mdx) | a **value** | a value |
+
+## Example
+
+A Dash moves the Actor to a point 4 m in front of it. No Stat holds that point, so the Tween Effect's **End Value** builds it with adapters, using the [3DCells](/docs/Samples/3DCells) and [Kodes](/docs/Samples/Kodes) dash setup:
+
+| Step | Adapter | Value |
+| --- | --- | --- |
+| 1 | the Source's `Direction` Stat | `(0.6, 0.2, 0.77)` |
+| 2 | [Alter](./Stat/Alter.mdx) Vector3, Multiplier `(4, 4, 4)` | `(2.4, 0.8, 3.08)` |
+| 3 | [Project On Plane](./Value/Vector/ProjectOnPlane.mdx), normal `(0, 1, 0)` | `(2.4, 0, 3.08)` |
+| 4 | [Sum](./Value/Vector/Sum.mdx) with the Source's `Position` `(10, 0, 5)` | `(12.4, 0, 8.08)` |
+
+Steps 2–4 are one [Tree Operation](./Stat/TreeOperation.mdx): a Stat Value Adapter that reads `Direction`, runs it through a [Chain](./Stat/Chain.mdx) of Value Adapters, and merges it with `Position`.

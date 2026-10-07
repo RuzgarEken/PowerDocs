@@ -1,0 +1,39 @@
+---
+sidebar_position: 2
+description: Vfx feedback — spawn a VFX prefab on the target or one of its body parts, chosen by target Stat, sign, Result Attributes and Attribute Stat.
+---
+
+# Vfx
+
+**Vfx** feedback spawns a prefab on the target, or on one of its body parts: a hit spark, a heal glow, a shield flash. It is the [Feedback](./index.mdx) family for particle effects and other visuals.
+
+## Vfx feedback
+
+| Field | Description |
+|-------|-------------|
+| **Ignore** | Spawns nothing for this case. |
+| **Prefab** | The VFX prefab. |
+| **Origin** | The body part (Actor Part Id) it spawns at. None, or a part the Actor doesn't have, uses the Actor's own transform. |
+| **Attach To Origin** | Parents it to the origin so it follows the Actor. |
+| **Offset** | World-space offset from the origin. |
+| **Lifetime** | Seconds before it is destroyed. `0` leaves it to the prefab (a particle system with *Stop Action: Destroy*). |
+| **Conditions** | Optional [Effect Conditions](/docs/Assets/Effect/Conditional#condition), all must pass; `Target` is the Actor the VFX spawns on (e.g. skip a dead target). |
+
+A prefab that needs to know the Effect that spawned it — a beam from the attacker to the victim, a chain-lightning arc — implements `IEffectVfxSpawnListener` on its root and gets the Source, Target, Effector and Environment.
+
+## Variants
+
+| Variant | Adds |
+|-------|-------------|
+| **Value-carrying** (`_Float`, `_Int`) | **Ignore Zeroes** and per target Stat **Positive Vfxs** / **Negative Vfxs** + **Fallback Positive Vfx** / **Fallback Negative Vfx**. |
+| **AS** | Picks a VFX per Attribute Stat: **Default Vfx** + **Attribute Stat Specific Vfxs** — a fire hit and an ice hit on the same Health. |
+| **MAS** | Matches the exact ordered list of Attribute Stats. |
+
+Entries are looked up by the exact Result Attribute combination. See [How a case is chosen](./index.mdx#how-a-case-is-chosen).
+
+## Examples
+
+| Goal | Setup |
+|-------|-------------|
+| A spark on every hit, a blue flash when a shield absorbs it | `BSFeedback_Vfx_Float`: Health → Negative: `None` = spark, `ShieldBlock` = shield flash, `Shielded` = both visuals in one prefab. |
+| Fire hits burn, ice hits freeze | An **AS** Vfx feedback on Health: **Attribute Stat Specific Vfxs** with `Fire` = flames, `Ice` = frost, **Default Vfx** = spark. |

@@ -5,3 +5,21 @@ sidebar_position: 3
 # Dot
 
 Calculates the dot product between two vector Stats, maps the result using a `ValueMapper`, and returns the resulting multiplier.
+
+Ships for `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`. With fewer than two Stats, or Stats of another type, it returns `1`.
+
+| Field | Description |
+| --- | --- |
+| **Value Mapper** | **Min**, **Max**, optional **Curve**, then **Final Modifier** (Add / Multiply). See [Map Value](/docs/Assets/Misc/Adapter/Stat/MapValue) for how the mapping works. |
+
+## Example
+
+*A backstab that grows the more directly you hit from behind.* Stats: the Source's `Direction`, the Target's `Direction` (dot `1` = same facing, `−1` = face to face). **Value Mapper**: **Min** `−1`, **Max** `1`, **Final Modifier** **Add**, **Final Offset** `1`.
+
+| Dot | Normalized | Multiplier |
+| --- | --- | --- |
+| `−1` (face to face) | `0` | `1` |
+| `0` (from the side) | `0.5` | `1.5` |
+| `1` (from behind) | `1` | `2` |
+
+For an on/off backstab instead of a smooth one, use a [Dot condition](/docs/Assets/Misc/StatCondition/MultiStat/Dot) (Backstab).

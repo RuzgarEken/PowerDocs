@@ -1,0 +1,25 @@
+---
+sidebar_position: 4
+---
+
+# Map Sum Value
+
+Adds up the values of all its Stats, maps the total with a `ValueMapper` and returns the result as the multiplier.
+
+Ships for `Float` and `Int` (the Int variant rounds the result).
+
+| Field | Description |
+| --- | --- |
+| **Value Mapper** | **Min**, **Max**, optional **Curve**, then **Final Modifier** (Add / Multiply). See [Map Value](/docs/Assets/Misc/Adapter/Stat/MapValue) for how the mapping works. |
+
+If any Stat is not of the scaler's type, the scaler returns `1` (no change).
+
+## Example
+
+*+5 % damage per stack of Poison, Bleed and Burn combined, up to +100 %.* Stats: the Target's `Poison`, `Bleed` and `Burn` stack counters. **Value Mapper**: **Min** `0`, **Max** `20`, **Final Modifier** **Add**, **Final Offset** `1`.
+
+| Poison | Bleed | Burn | Sum | Multiplier |
+| --- | --- | --- | --- | --- |
+| `2` | `0` | `0` | `2` | `1.1` |
+| `4` | `3` | `3` | `10` | `1.5` |
+| `10` | `6` | `4` | `20` | `2` |

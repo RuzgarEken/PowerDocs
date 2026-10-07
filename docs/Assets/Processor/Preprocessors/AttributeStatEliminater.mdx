@@ -30,8 +30,8 @@ Attribute Stat elimination is evaluated separately for the **Source Actor** and 
 
 For **AS** and **MAS** Processors:
 
-- The **Target Actor's** Eliminator Stat is obtained using the **Stat Key** referenced by the **Attribute Stat's** **EliminaterTakenRelativeKey**.
-- The **Source Actor's** Eliminator Stat is obtained directly from the **Attribute Stat's** **EliminaterGivenRelativeKey**, since the Attribute Stat already belongs to the Source Actor.
+- The **Target Actor's** Eliminator Stat is obtained using the **Stat Key** referenced by the **Attribute Stat's** **ReceivingEliminaterRelativeKey**.
+- The **Source Actor's** Eliminator Stat is obtained directly from the **Attribute Stat's** **ApplyingEliminaterRelativeKey**, since the Attribute Stat already belongs to the Source Actor.
 
 Both Eliminator Stats must be of type **SigSep_Int**.
 
@@ -39,8 +39,8 @@ Both Eliminator Stats must be of type **SigSep_Int**.
 
 | Field | Description |
 | --- | --- |
-| **Eliminater Taken Relative Key** | The Relative Key used to resolve the Attribute Stat Eliminator on the Target Actor. |
-| **Eliminater Given Relative Key** | The Relative Key used to resolve the Attribute Stat Eliminator on the Source Actor. |
+| **Receiving Eliminater Relative Key** | The Relative Key used to resolve the Attribute Stat Eliminator on the Target Actor. |
+| **Applying Eliminater Relative Key** | The Relative Key used to resolve the Attribute Stat Eliminator on the Source Actor. |
 | **Processable By Attribute Stat Processors** | An Effect Attribute used as a requirement by Attribute Stat Processors. If all Attribute Stats are eliminated, this attribute is removed from the Effect, allowing it to continue through the processing funnel as a normal Base Stat Effect. |
 | **Use Conditional Modifier** | Allows the resolved Attribute Stat Eliminator value to be modified conditionally before it is evaluated. |
 | **Conditional Modifier** | The Processor used to conditionally modify the Eliminator value. |

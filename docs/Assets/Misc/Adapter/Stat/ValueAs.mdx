@@ -16,8 +16,14 @@ sidebar_position: 12
 **Percentage Of Remaining** and **Percentage Of Missing** require the target Stat to be a **Clamped Stat**, since these calculations use its **Min Value** and **Max Value**.
 :::
 
-For example, if a Clamped Stat has a **Min Value** of `0`, a **Max Value** of `100`, and a current value of `75`:
+## Example
 
-- **Constant** → `75`
-- **Percentage Of Remaining** → `0.75`
-- **Percentage Of Missing** → `0.25`
+A Clamped `Health` Stat with **Min Value** `0`, **Max Value** `100` and a current value of `75`:
+
+| Value As | Result |
+| --- | --- |
+| **Constant** | `75` |
+| **Percentage Of Remaining** | `0.75` |
+| **Percentage Of Missing** | `0.25` |
+
+Damage Boost To Undamaged uses **Percentage Of Remaining** in `Condition_PercentIs100(Float)` to boost damage only against targets at `1` (full health), and Execute Health Below Threshold uses it to compare health with a fraction.

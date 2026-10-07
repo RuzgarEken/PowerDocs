@@ -49,6 +49,7 @@ For example, if three different Actors each apply a poison Modifier to the same 
 | Field | Description |
 | --- | --- |
 | **Inner Stat Definition** | Defines the Stat Definition used to create the per-source inner Stats. When values from different source Actors are received, they are stored in separate inner Stats created from this definition. |
+| **Process Scope** | Which inner Stats Processors use when they read this Stat through a Relative Stat. **All Sources** (default): every source's inner Stat. **One Actor**: only the inner Stat of one interaction Actor — usually the **Source** of the incoming Effect. |
 
 ## Using Source Separated Stats
 
@@ -73,3 +74,47 @@ The same rule applies to all Stat types. For example, **CounterEffect** uses the
     {icon: 'container', label: 'Container_SrcSep_EffectPack'},
   ]}
 />
+
+## Using one Actor's value
+
+By default a Source Separated Stat acts as a whole: an Immune Stat blocks if **any** source's inner Stat is above 0, a
+Modifier adds up every source's value. Often the rule is personal instead — *she is tired of **your** flirting*, *she is
+angry at **him***. Two tools pick one Actor's inner Stat:
+
+| Where | Tool | Example |
+| --- | --- | --- |
+| Processing | **Process Scope** = One Actor on the Source Separated Stat | `LoveImmune` scoped to the **Source**: an Immune Processor only checks the speaker's own copy, so one rude remark silences that speaker and nobody else. |
+| Reading | A **SrcSep Stat Key** in a Stat check, scaler or value adapter | A conditional line checks `Key_Anger_Source` (the target's `Anger` toward the **Source**): above 2, she scoffs instead of blushing. |
+| Writing | A **SrcSep Stat Key** as an Effect's Target Stat | *Gossip* is sent by Bora about Alex (the **Trigger Actor**) and targets `Key_Anger_TriggerActor`: she gets angry at Alex, not at Bora. |
+
+A **SrcSep Stat Key** is a Stat Key with a fourth field, **Src Actor**: the interaction Actor whose inner Stat it
+addresses (Source, Target, Trigger Actor, Effector, Custom…). A normal key to the same Stat still reads the combined
+value and writes the Effect Source's inner Stat.
+
+Instead of an interaction Actor, the key can point at a **static Actor**: turn on **Use Actor Id** and pick an
+**Actor Id** (for example `Player`). Actor Ids are added in *Power Editor > Enums > ActorId*; they count down from -1 so
+they never clash with the ids of spawned Actors. Give an Actor its Actor Id in its inspector (**Predefined Instance Id**,
+or `SetActorId` before `Initialize` from code): it becomes the Actor's Instance Id, so its inner Stats keep the same key even after it respawns,
+and `PowerWorld.GetActor(actorId)` finds it. The **Static Actor** Custom Actor (*Misc > Custom Actor > Static Actor*)
+picks the same Actor wherever an Interaction Actor can be **Custom**, e.g. a Process Scope that only reads the Player's
+inner Stat. The **Static Actors** Custom Targeter (*Misc > Custom Targeter > Static Actors*) takes a list of Actor Ids and
+returns the live Actors with them, wherever a Custom Targeter is used (e.g. a Skill's Direct targeting set to Custom).
+
+When the picked Actor has no inner Stat yet, one is created from the **Inner Stat Definition** with its default value, so
+a default above 0 applies to everyone until changed.
+
+### Starting values for known Actors
+
+To start one Actor's inner Stat at its own value (*she already likes the Player: 5*), add a **Default Value Override**
+on that Actor (its prefab's **Default Value Overrides** foldout) whose key is a **SrcSep Stat Key** with **Use Actor Id** (e.g. `Key_Affection_Player`, Actor Id
+`Player`). Stats initialize with no interaction to pick an Actor from, so only Actor Ids work here. If the Player is alive,
+its inner Stat is created right away; otherwise the Stat waits for an Actor with that Actor Id to be initialized and
+creates it then. That inner Stat always counts toward the total, even at its starting value.
+
+Turn on **Keep Value On Source Dispose** on the Source Separated Stat to keep a known Actor's inner Stat when it is
+disposed: the next Actor with the same Actor Id (a respawned Player) takes it over with its value. With it off, the
+inner Stat is removed and, if it has a starting value, created again when that Actor returns. Actors without an Actor
+Id are always removed.
+
+The **[Visual Novel](/docs/Samples/VisualNovel)** sample (`PowerSamples/VisualNovelSrcSep`) plays a short scene with all three: open its scene
+and press Play, the transcript is printed to the Console.

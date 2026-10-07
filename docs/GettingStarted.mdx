@@ -87,7 +87,7 @@ You could create each of those assets by hand. The **Quick Initializer** generat
 
 ### Import General Expansions first
 
-Open the Power Editor from **Tools → Power → Editor**, then go to **Tools → Sample Importer** and import **General Expansions**.
+Open the Power Editor from **Tools → Power → Editor**, then go to **Initializer → Sample Importer** and import **General Expansions**.
 
 Do this *before* running the Initializer. The Initializer's Diplomacy Provider dropdown only lists provider types that already exist in the project, and the provider this guide uses — `PowerDiplomacyProvider_Battle` — ships with General Expansions.
 
@@ -95,11 +95,11 @@ General Expansions also provides the **OnCollide Effector** used in [part 3](#3-
 
 ### Open the Initializer
 
-In the Power Editor, go to **Tools → Initializer**. It has two sections: **Power Initializer** and **Quick World Initializer**.
+In the Power Editor, open the **Initializer** tab. It has two sections: **Power Initializer** and **Quick World Initializer**.
 
 ### Identifier Databases are already there
 
-Power's identifier databases — Stat Ids, Container Ids, Environment Ids, Relation States, and so on — are created automatically the first time the project loads, with their default values. There is nothing to do here, and nothing to click.
+Power's identifier databases — Stat Ids, Container Ids, Environment Ids, Relation States, and so on — are created automatically the first time the project loads, with their default values. There is nothing to do here, and nothing to click. See [Identifiers](/docs/CoreConcepts/Identifiers) for what they are.
 
 The **Power Initializer** section's **Init Identifier Databases** button is a **reset**, not a setup step. It deletes the databases and recreates them from defaults.
 
@@ -142,7 +142,7 @@ Two fields:
 | `Neutral` | A different team with no declared relation — the fallback |
 | `Enemy` | A different team, declared hostile |
 
-The provider registers these into the Relation State identifier database when you press Initialize, so they become selectable on every asset that filters by relation.
+These five are built into the Relation State identifier database, and the Battle provider uses them by default, so they are selectable on every asset that filters by relation.
 
 After initializing, open the generated **DiplomacyDefinition** asset and set the relation between **team 0** and **team 1** to **`Enemy`**. The Initializer creates the matrix but leaves the relations at their default value — declaring them is your call, not something it can guess.
 
@@ -189,7 +189,14 @@ Add more Actor Types when Actors genuinely need *different Stats* — not merely
 
 That is a complete, valid World. Everything from here on is content you add to it.
 
-Assign `WorldSettings` to the **PowerWorld** component in your scene — see [PowerWorld](/docs/Components/PowerWorld).
+:::warning[Every scene needs a PowerWorld]
+
+Before any Actor runs, the scene needs a **PowerWorld** component using your `WorldSettings` (with **Initialize On Load**
+on). It installs the Updaters (without them durations, delays and generators never tick), the Diplomacy, and the Log
+Settings — the `LogSettings` come with the `WorldSettings`, so there is nothing to assign per script. Do this first in
+every new scene, test scenes included. See [PowerWorld](/docs/Components/PowerWorld).
+
+:::
 
 ---
 

@@ -4,4 +4,15 @@ sidebar_position: 2
 
 # Multi
 
-Calculates and returns a multiplier using multiple Stats.
+Calculates and returns a multiplier from **several** Stats. A Multi Stat Scaler is used through a `Multi Stat Scaler` field (on Modifier and Conditional Modifier signatures): its **Stats** (`Stat From` each — Source, Target, Effector…) and the **Scaler** asset.
+
+| Scaler | Reads | Typical use |
+| --- | --- | --- |
+| [Distance](./Distance.mdx) | two vectors | more damage the farther the target |
+| [Dot](./Dot.mdx) | two vectors | more damage from behind |
+| [Map Sum Value](./MapSumValue.mdx) | any number of numbers | scale by a combined count |
+| [Map Dif Value](./MapDifValue.mdx) | two numbers | scale by a difference (level, armor vs. pierce) |
+
+## Example
+
+*More damage the farther the target, from 1× at 0 m to 1.5× at 10 m.* On the attacker's damage Modifier Stat: **Use Scaler** and **Use Multi Stat Scaler** on, **Stats** = the Source's `Position`, the Target's `Position`, **Scaler** = a [Distance](./Distance.mdx) scaler with **Min** `0`, **Max** `20`, **Final Modifier** **Add**, **Final Offset** `1`. A target 10 m away → `1 + 10 / 20 = 1.5`.

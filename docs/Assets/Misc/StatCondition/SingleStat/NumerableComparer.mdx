@@ -42,3 +42,12 @@ It supports comparing a value against either a **single value** or a **value ran
 
 - **Float**
 - **Int**
+
+## Example
+
+| Asset | Compare Type | Setting | `0.3` | `0.5` | `3` |
+| --- | --- | --- | --- | --- | --- |
+| `Condition_GTE3(Int)` | **Single** | **Greater Or Equal** `3` | — | — | passes |
+| `Condition_In0.41To0.59(Float)_3DC` | **Range** | **Inside** `0.41…0.59` | fails | passes | — |
+
+`Condition_In0.41To0.59(Float)_3DC` is the perfect-timing window of the [Deadeye String](/docs/Samples/3DCells/DeadeyeString): released between 41 % and 59 % of its charge, the shot gets bonus crit rate and crit damage.

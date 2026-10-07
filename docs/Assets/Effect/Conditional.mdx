@@ -1,0 +1,48 @@
+---
+sidebar_position: 13
+---
+
+# Conditional
+
+A **Conditional Effect** is control flow inside an Effect Pack: when it is applied it checks its conditions and applies its **Then** pack or its **Else** pack to the same target, with the same Source, Trigger Actor, Effector and custom Actors.
+
+Use it whenever the **outcome** of one Effect depends on a condition — *dash toward a foe if one is in sight, otherwise stay*, *set the bonus only if the caster is empowered, otherwise reset it to 0*. It needs no extra Stat, no relation and no chain entry.
+
+*Create › Power › Effects › Types › Conditional*
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Apply Type** | **Permanent** (default): the chosen pack is applied once and lives on its own. **Temporary**: the chosen pack is stopped together with this Effect's Modifier, so a Conditional can sit in a pack that is removed later (a skill's *while casting* pack, an aura). |
+| **Match** | **All**: every condition must pass. **Any**: at least one must pass. |
+| **Conditions** | The checks, evaluated in order and stopping as soon as the result is known. No conditions means **Then**. See **Condition** below. |
+| **Then** | The Effect Pack applied when the conditions pass. Optional. |
+| **Else** | The Effect Pack applied when they fail. Optional. |
+
+A Conditional Effect has **no Processor Id** and needs no entry in any Process Definition: the Effect Controller resolves it directly.
+
+### Condition
+
+| Field | Description |
+| --- | --- |
+| **Use Multi Stat Check** | Off: check one Stat with a **Single Stat Checker**. On: check several Stats with a **Multi Stat Checker**. |
+| **Single Stat Checker** | **Stat** (`Stat From`: which Actor — Source, Target, Trigger Actor, Effector, World, Custom… — and which key) and a **Single Stat Condition** (or a **Dynamic** one, whose threshold comes from another Stat). |
+| **Multi Stat Checker** | **Stats** (several `Stat From`) and a **Multi Stat Condition** (Distance, Dot, Sum, Dif, Dispatcher…). |
+| **Invert** | Passes when the check fails. |
+
+See [Stat Condition](/docs/Assets/Misc/StatCondition) for the condition assets.
+
+## Things to know
+
+- **Order inside the pack matters.** Effects placed before the Conditional in the same pack have already been applied, so a condition can read a Stat they just wrote.
+- **Branches are packs**, so a branch can hold any number of Effects — including another Conditional. Nesting is limited to 16 levels: a branch that leads back to its own Conditional is cut there and logged.
+- A **missing Stat fails** the check (and then **Invert** turns it into a pass).
+
+## Examples
+
+| Goal | Setup |
+| --- | --- |
+| *Dash to the closest foe in sight, otherwise stay* | Condition: `Actor Null Check` on an Actor Stat filled by a [Custom Actor](/docs/Assets/Misc/Targeting/CustomActor) (Closest In Sight). Then: the face-and-tween pack. Else: nothing. |
+| *Copy the caster's "next attack" bonus onto the projectile, or reset it* | In the projectile's initializer pack. Condition: Source `NextAttackBoost > 0`. Then: Set the projectile's bonus Stat to the Source's value. Else: Set it to `0` (pooled projectiles keep old values). |
+| *Heal if below half health, otherwise gain a shield* | Condition: Target `Health` with a Float condition `≤ 0.5` whose adapter is a [Value As](/docs/Assets/Misc/Adapter/Stat/ValueAs) (Percentage Of Remain). Then: heal pack. Else: shield pack. |

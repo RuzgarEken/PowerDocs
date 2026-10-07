@@ -10,8 +10,13 @@ Apply **99 [Vulnerable](/docs/Samples/SlayTheSphere/Keywords#vulnerable)**.
 
 ## Implementation
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Card_ExposeWeakness</strong> — Repository</summary>
+
 <RepositoryExample
-  name="Repository_Card_ExposeWeakness_STS"
+  name="Card_ExposeWeakness"
   stats={[
     {key: 'Vulnerable', value: 99},
     {key: 'Energy Cost', value: 1},
@@ -20,13 +25,26 @@ Apply **99 [Vulnerable](/docs/Samples/SlayTheSphere/Keywords#vulnerable)**.
   ]}
 />
 
+</details>
+
+</div>
+
 The card applies its own long Vulnerable through the shared Effect:
 
+<div className="prp-packs">
+
+<details>
+<summary><strong>Vulnerable</strong> — Effect</summary>
+
 <EffectExample
-  name="Effect_Vulnerable_STS"
+  name="Vulnerable"
   targetStat="Vulnerable"
   valueStat="Vulnerable"
   value={99}
 />
+
+</details>
+
+</div>
 
 `Exhaust` is a composed flag — <PowerRef>Stat_Exhaust_1_STS</PowerRef> — that the deck system reads when the card leaves play, removing it for the rest of combat instead of sending it to the discard pile.

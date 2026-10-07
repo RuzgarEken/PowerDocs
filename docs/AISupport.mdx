@@ -1,0 +1,117 @@
+---
+sidebar_position: 2.5
+description: Power ships power-skill, an Agent Skill and command-line toolkit that lets an AI coding agent build, wire and debug Power mechanics inside your Unity project.
+---
+
+# AI Support
+
+Power mechanics are data: every rule is an asset, and a mechanic is a set of assets connected by relations. An AI agent can build that just as well as a person can, and often faster, as long as it knows the rules for connecting them.
+
+Power ships that knowledge as **power-skill**, a skill for AI coding agents. With it, you can describe a mechanic in plain words (*"when the player slays a foe, it damages the other foes within 4 m"*) and the agent creates and wires the Stats, Effects, Processors and relations in your project.
+
+:::info[Supported agents]
+
+power-skill follows the open [Agent Skills](https://agentskills.io) format (a `SKILL.md` with `references/` and `scripts/`), so any agent that reads skills can use it: [Claude Code](https://claude.com/claude-code), [OpenAI Codex](https://developers.openai.com/codex/skills), GitHub Copilot, Gemini CLI, Cursor and others.
+
+The optional [agent workflow](#the-agent-workflow-optional) (two cooperating agents and a guard hook) is built for Claude Code.
+
+:::
+
+## How it started
+
+[Kodes](/docs/Samples/Kodes) was built to see how Power holds up on a long project. Partway through, it became clear that an AI agent could use Power to build mechanics too: a Kodes upgrade is a set of connected assets, which is exactly the kind of work an agent is good at.
+
+power-skill grew out of that, to make building with an agent **easier and cheaper**. Many of Kodes' features were then implemented with this AI workflow.
+
+## What's in the skill
+
+Everything for AI agents ships in `Assets/Plugins/Power/Editor/AiFlow`. The skill itself is `Assets/Plugins/Power/Editor/AiFlow/power-skill`.
+
+| Part | What it does |
+| --- | --- |
+| `SKILL.md` | The entry point the agent reads first. It explains how to turn a request into a Power **formula** (*what triggers it, which hook runs, whom it reaches, who owns it, how it is switched on*) and how that formula maps to a build. |
+| `references/` | The full catalogue: every Power mechanism and when to use it, the [Premade Relation Packs](/docs/Samples/PremadePacks/ShippedPacks) and the formula each one covers, step-by-step recipes, processing chains, signatures, and common pitfalls. |
+| `scripts/power.py` | A command-line toolkit the agent runs. It looks things up in your project, creates and wires assets, loads Premade Relation Packs, and validates the result. |
+
+### power.py works through the Unity Editor
+
+When the Unity Editor is open, `power.py` sends its work to **PowerBridge**, a Power Editor script. Assets are then created by the Power Editor's own code, the same way they are when you click through the [Power Editor](/docs/Interface/Editor): the same naming conventions, save folders, defaults and identifier database registration.
+
+It can also answer questions about your project:
+
+```bash
+P() { python3 Assets/Plugins/Power/Editor/AiFlow/power-skill/scripts/power.py "$@"; }   # the shorthand the skill uses
+
+P ask stat Health                # every Environment, Container and SigSep list that holds Health
+P ask refs Stat_Poison           # who references an asset, and through which relation
+P ask chain <ProcessDefinition>  # what the processing chain runs, per Effect kind
+P prp list backstab              # Premade Relation Packs whose description mentions a word
+P validate --under MyGame        # Power's asset validation for one folder
+```
+
+With the Editor closed, lookups and simple edits still work offline. Creating Stats and Containers needs the Editor.
+
+## Setting it up
+
+**Requirements:** Python 3, and the Unity Editor open on your project while the agent creates assets.
+
+### Claude Code
+
+1. Make the skill visible to Claude Code. Either link it into your project's skills folder:
+
+   ```bash
+   mkdir -p .claude/skills && ln -s ../../Assets/Plugins/Power/Editor/AiFlow/power-skill .claude/skills/power-skill
+   ```
+
+   or copy `Assets/Plugins/Power/Editor/AiFlow/power-skill` to `.claude/skills/power-skill` (or to `~/.claude/skills/` for every project).
+
+2. Start Claude Code in the project's root folder.
+3. Ask for a mechanic. The skill is picked up whenever a request touches Power: Stats, Effects, Processors, Counter Effects, *"make attacks also do X"*, *"why doesn't this Effect fire"*, and so on.
+
+### Codex and other agents
+
+Put the `power-skill` folder where your agent looks for skills. For Codex that is `~/.codex/skills/` (see the [Codex skills docs](https://developers.openai.com/codex/skills) for the project-level folder):
+
+```bash
+mkdir -p ~/.codex/skills && ln -s "$PWD/Assets/Plugins/Power/Editor/AiFlow/power-skill" ~/.codex/skills/power-skill
+```
+
+Other agents use their own skills folder; the skill itself needs nothing agent-specific. Start the agent in the project's root folder, so `power.py` finds the project.
+
+:::tip[Start from what Power ships]
+
+The agent reaches for a [Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack) whenever one covers the request, and builds by hand only what no pack covers. Import the **Premade Packs** sample so it has them to load.
+
+:::
+
+## The agent workflow (optional)
+
+Next to the skill, `Assets/Plugins/Power/Editor/AiFlow` ships a two-agent workflow for **Claude Code** that builds a mechanic and improves the docs whenever the builder gets stuck:
+
+| Part | What it does |
+| --- | --- |
+| `agents/mechanic-builder.md` | Builds the requested mechanic with `power.py`. When the docs don't say how, it stops and reports the gap instead of guessing. |
+| `agents/skill-builder.md` | Fills the reported gap in the power-skill docs. |
+| `agents/doc-tester.md` | Plans a mechanic from the docs alone, with dry runs only, and reports every place it had to guess. |
+| `build-mechanic/` | The `/build-mechanic <request>` command that runs the builder and the skill-builder together. |
+| `update-docs/` | The `/update-docs <information>` command that hands what you know to the skill-builder. |
+| `hooks/agent_guard.py` | Keeps each agent in its lane: the builder can't edit the docs, the doc-tester can't write files. |
+| `tools/csmap.py` | Lets the skill-builder read C# member by member instead of whole files. |
+
+Link the agents and commands into `.claude` the same way as the skill:
+
+```bash
+mkdir -p .claude/agents .claude/skills
+for a in Assets/Plugins/Power/Editor/AiFlow/agents/*.md; do ln -s "../../$a" .claude/agents/; done
+ln -s ../../Assets/Plugins/Power/Editor/AiFlow/build-mechanic .claude/skills/build-mechanic
+ln -s ../../Assets/Plugins/Power/Editor/AiFlow/update-docs .claude/skills/update-docs
+```
+
+Every `/build-mechanic` and `/update-docs` run is logged with its cost, time and tokens per agent. See them in **Tools → Power → [Build Mechanic Runs](/docs/Interface/BuildMechanicRuns)**. Start a request with `--debug` (`/build-mechanic --debug <request>`) to also get a cost report per step at the end of the run.
+
+## Working with the agent
+
+- **Describe the mechanic, not the assets.** *"Your Attack has a 20 % chance to hit twice"* is enough; the agent works out that it is a Director on the Attack Stat and that Effect Hits Twice already ships it.
+- **Read the formula it gives you.** Before building, the agent writes the request as a one-line formula, for example `Source hits => Director[the same hit] -> Target | chance $N | Owner Source | Granted(value DoubleHitChance)`. If the formula is wrong, the build will be too, so this is the cheapest place to correct it.
+- **Let it validate.** After each mechanic, the agent runs asset validation over the folders it touched and fixes what it reports.
+- **Check it in Play Mode.** The agent wires data. Playing the scene is still how you confirm the mechanic feels right.

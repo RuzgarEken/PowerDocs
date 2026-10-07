@@ -40,4 +40,22 @@ The evaluated value is then modified according to **Final Modifier**:
 - **Add** → `Final Offset + Evaluated Value`
 - **Multiply** → `Final Value Multiplier × Evaluated Value`
 
-For example, with **Min** = `0`, **Max** = `100`, and an input value of `75`, the normalized value is `0.75`. If **Curve Map** is disabled and **Final Modifier** is **Multiply** with a **Final Value Multiplier** of `2`, the resulting value is `1.5`.
+The normalized value is not clamped: inputs outside **Min**–**Max** give values below `0` or above `1`.
+
+## Example
+
+*Rage adds up to +50 % damage*: map a `Rage` Stat of `0–100` to a multiplier of `1–1.5`.
+
+| Field | Value |
+| --- | --- |
+| **Min** / **Max** | `0` / `100` |
+| **Curve Map** | off |
+| **Final Modifier** | **Add**, **Final Offset** `1` |
+
+| Rage | Normalized | Add `1` |
+| --- | --- | --- |
+| `0` | `0` | `1` |
+| `50` | `0.5` | `1.5` |
+| `100` | `1` | `2` |
+
+To reach `1.5` at full rage instead of `2`, turn on **Curve Map** with a curve from `(0, 0)` to `(1, 0.5)`.

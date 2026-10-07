@@ -20,4 +20,14 @@ The adapter performs the following steps:
 2. Uses **Stat Key** to find the corresponding **Stat** within the Actor.
 3. Returns the current value of the extracted Stat.
 
-For example, if the incoming Stat represents an Actor and **Stat Key** references its `Health` Stat, the adapter returns the Actor's current Health value.
+## Example
+
+The [Venomfang Blade](/docs/Samples/3DCells/VenomfangBlade) teleports to the closest enemy. Its skill first stores that enemy in the Actor Stat `VenomfangBlade_ClosestEnemyInRange`; then `1_Effect_ExtractEnemyPositionToStat_3DC` copies the enemy's position into a Vector3 Stat of the player:
+
+| Field | Value |
+| --- | --- |
+| Effect | `Set_Vector3` on `VenomfangBlade_ClosestEnemyInRangePosition` |
+| Value Stat | the Source's `VenomfangBlade_ClosestEnemyInRange` (an Actor Stat) |
+| Adapter | `StatValueAdapter_ExtractPositionFromActor_3DC` — **Stat Key** = `Position` |
+
+The Actor Stat holds the enemy; the adapter returns that enemy's `Position`, so the player's Stat receives a Vector3, not an Actor.

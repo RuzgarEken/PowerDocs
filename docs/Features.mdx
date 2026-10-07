@@ -64,7 +64,9 @@ These stats *do* something rather than just holding a number.
 | **[Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle)** | Applies its Effect Pack to its host on initialization, and removes it cleanly | Equipping a weapon injects the weapon's whole stat system into the character |
 | **[Director](/docs/Assets/Stat/StatDefinition/Redirector/Director)** | Redirects the **whole Effect** to other Actors before processing | Taunt, redirect incoming healing to the whole team |
 | **[Reflector](/docs/Assets/Stat/StatDefinition/Redirector/Reflector)** | Redirects the **final value** after processing | 5% life steal, thorns, splash damage to nearby enemies |
-| **[Counter Effect](/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect)** | Triggers a *different* Effect in response to an incoming one | "Slow whoever attacks me", retaliation, chain reactions |
+| **[Counter Effect](/docs/Assets/Stat/StatDefinition/Redirector/CounterEffect)** | Triggers a *different* Effect after an incoming one was applied — or blocked | "Slow whoever attacks me", "break the shield when it blocks", chain reactions |
+| **[Intervener Effect](/docs/Assets/Stat/StatDefinition/Redirector/IntervenerEffect)** | Triggers a *different* Effect before an incoming one lands, and can block it | Parry and riposte, revive instead of dying |
+| **[Tweener](/docs/Assets/Stat/StatDefinition/Tweener)** | Moves another Stat from a start to an end value over time, with easing | Dash, leap, knockback, pull toward a hooked enemy |
 
 #### Generators are more than regen
 
@@ -155,7 +157,8 @@ For a target Stat with **Value 15**, **Min 10**, **Max 30**, and an Effect value
 | --- | --- | --- |
 | **Single Stat** | Targets one Stat by key | Health |
 | **Tagged Stats** | Targets **every** Stat matching a tag, container and environment filter | "Reduce all elemental defences by 50%", "Strip every stat tagged `Debuff`" |
-| **Effect Attributes** | Flags carried by the Effect that Processors key off of | Only Effects marked `Critable` can crit |
+| **[Effect Attributes](/docs/CoreConcepts/EffectAttributes)** | Flags carried by the Effect that Processors key off of | Only Effects marked `Critable` can crit |
+| **[Custom Targeters, Custom Actors, Targeting Filters](/docs/Assets/Misc/Targeting)** | Reusable targeting assets: filtered relation scopes, the closest foe in sight, static Actors, random picks | "Bounce to a random enemy within 6 m" |
 
 ### Specialized Effects
 
@@ -167,6 +170,8 @@ For a target Stat with **Value 15**, **Min 10**, **Max 30**, and an Effect value
 | **[Injector Remover](/docs/Assets/Effect/InjectorRemoverEffect)** | Removes Injectors by tag and source Actor | End an aura when the caster dies |
 | **[Effect Timer Modifier](/docs/Assets/Effect/EffectTimerModifier)** | Changes the **remaining time** on active Modifiers | "Killing an enemy reduces your cooldowns by 0.2 seconds" |
 | **[Effect Pack](/docs/Assets/Effect/EffectPack)** | Bundles several Effects so they travel and apply together | One "hit" pack = damage + stun + VFX trigger |
+| **[Tween](/docs/Assets/Effect/Tween)** | Restarts a Tweener in one Effect: endpoints, duration, progress and toggle | "Dash 4 m forward over 0.2 s" |
+| **[Conditional](/docs/Assets/Effect/Conditional)** | Applies a **Then** or an **Else** pack depending on stat checks — control flow without a script | "Dash to the closest foe in sight, otherwise stay" |
 
 Removers filter by **Relation**, **Team**, a **Custom Targeter**, or a specific **Actor Stat** — so "dispel only what my ally cast on me" is a filter setting.
 
@@ -189,7 +194,7 @@ Effect (BS / AS / MAS) → PreProcess → Process → PostProcess → DurationPr
 | **[Hit Rate](/docs/Assets/Processor/Preprocessors/HitRate)** | Rolls accuracy vs. dodge and can miss | `80% Hit Rate` |
 | **[Modifier Count Limit](/docs/Assets/Processor/Preprocessors/ModifierCountLimit)** | Caps how many Modifiers can stack | "An enemy can't have more than one Poison" — and it can count *per source* |
 | **[Director](/docs/Assets/Processor/Preprocessors/Director)** | Forwards the whole Effect elsewhere | Taunt, guard, redirect healing to the team |
-| **[Counter Effect](/docs/Assets/Processor/Preprocessors/CounterEffect)** | Fires a different Effect *before* this one lands | Retaliate on being hit |
+| **[Intervener Effect](/docs/Assets/Processor/Preprocessors/IntervenerEffect)** | Fires a different Effect *before* this one lands, and can block it | Retaliate on being hit, parry |
 | **[Attribute Stat Eliminator](/docs/Assets/Processor/Preprocessors/AttributeStatEliminater)** | Removes selected Attribute Stats from processing without blocking the Effect | "Ignore the Fire part of this attack, keep the Physical part" |
 | **[Effect Attribute Eliminator](/docs/Assets/Processor/Preprocessors/EffectAttributeEliminater)** | Strips Effect Attributes to disable specific mechanics | "Orc attacks cannot critically hit" — remove `Critable` |
 
@@ -257,7 +262,7 @@ This is the idea the whole framework rests on: a Stat doesn't contain its rules,
 | **[Target Stat vs Attribute Stat separation](/docs/CoreConcepts/RelativeStatSeperation)** | The same Stat can behave differently depending on the role it plays in an Effect |
 | **Source / Target resolution** | Every relationship is resolved separately for the attacker and the defender, and combined |
 
-**Why the role separation matters.** `Attack` used as a **Target Stat** ("+5 Attack buff") resolves `Modifier_Given` → `AttackModifier`. The same `Attack` used as an **Attribute Stat** ("deal damage using Attack") resolves `Modifier_Given_AttributeStat` → `AttackDamageModifier`. Two different modifiers, two different intents, one stat — with no chance of an Attack buff accidentally inflating outgoing damage.
+**Why the role separation matters.** `Attack` used as a **Target Stat** ("+5 Attack buff") resolves `Modifier_Applying` → `AttackModifier`. The same `Attack` used as an **Attribute Stat** ("deal damage using Attack") resolves `Modifier_ApplyingAS` → `AttackDamageModifier`. Two different modifiers, two different intents, one stat — with no chance of an Attack buff accidentally inflating outgoing damage.
 
 ---
 
@@ -296,18 +301,22 @@ Modifiers expire. **Injectors** are persistent transformations applied on every 
 | **[Limit](/docs/Assets/Misc/Injector/InjectorModel/Limit)** | Clamps the stat value |
 | **[Alter Modifiers](/docs/Assets/Misc/Injector/InjectorModel/AlterModifiers)** | Rewrites the Modifier values applied to the stat — "reduce all debuff values by 50%" |
 
-### Stat Injector Models — inject another Stat's value
+### Linker Models — inject another Stat's value
 
 | Model | Behaviour |
 | --- | --- |
-| **[Add](/docs/Assets/Misc/Injector/StatInjectorModel/Add)** / **[Multiply](/docs/Assets/Misc/Injector/StatInjectorModel/Multiply)** / **[Rate](/docs/Assets/Misc/Injector/StatInjectorModel/Rate)** | Combine one stat into another |
-| **[Add / Multiply / Rate By Condition](/docs/Assets/Misc/Injector/StatInjectorModel/AddValueByCondition)** | Same, but only while a condition holds |
-| **[Absolute Value](/docs/Assets/Misc/Injector/StatInjectorModel/AbsoluteValue)** | Overrides the target with the source stat's value |
-| **[Limit](/docs/Assets/Misc/Injector/StatInjectorModel/Limit)** | Clamps using another stat as the bound |
-| **[Eased Value](/docs/Assets/Misc/Injector/StatInjectorModel/EasedValue)** | Uses the source value as an easing duration — non-physics movement, pulls and dashes |
-| **[Insert / Merge SigSep Stats](/docs/Assets/Misc/Injector/StatInjectorModel/InserStatToSigSepStat)** | Compose Signature Separated stats at runtime |
+| **[Combine](/docs/Assets/Misc/Injector/LinkerModel/Combine)** | Combines one stat into another — Flat / Rate / Multiplier |
+| **[Combine By Condition](/docs/Assets/Misc/Injector/LinkerModel/CombineByCondition)** | Adds / rates / multiplies by a constant, but only while a condition holds (on the injector Stat or several Stats) |
+| **[Absolute Value](/docs/Assets/Misc/Injector/LinkerModel/AbsoluteValue)** | Overrides the target with the source stat's value |
+| **[Limit](/docs/Assets/Misc/Injector/LinkerModel/Limit)** | Clamps using another stat as the bound |
+| **[Eased Value](/docs/Assets/Misc/Injector/LinkerModel/EasedValue)** | Multiplies by an eased curve of the source stat |
+| **[Alter Modifiers](/docs/Assets/Misc/Injector/LinkerModel/AlterModifiers)** | Rewrites the target's Modifier values by another stat |
+| **[Multiplicative Reduction Transformer](/docs/Assets/Misc/Injector/LinkerModel/MultiplicativeReductionTransformer)** | Stacked reductions multiply instead of adding — they never reach 100 % |
+| **[Add Attribute Value By Condition](/docs/Assets/Misc/Injector/LinkerModel/AddAttributeValueByCondition)** | Adds Effect / Result Attribute flags while a condition holds |
+| **[Insert](/docs/Assets/Misc/Injector/LinkerModel/InsertStatToSigSepStat)** / **[Merge SigSep Stats](/docs/Assets/Misc/Injector/LinkerModel/MergeSigSepStats)** | Compose Signature Separated stats at runtime |
+| **[Just Notify](/docs/Assets/Misc/Injector/LinkerModel/JustNotify)** | Only makes the target update when the source changes |
 
-A common pattern: `StatInjectorDefinition_Add1IfCdGT0` injects `+1` into a skill's `UseBlockers` while its cooldown is above zero. That single injector *is* the cooldown gate.
+A common pattern: a **Combine By Condition** Linker Definition injects `+1` into a skill's `UseBlockers` while its cooldown is above zero. That single injector *is* the cooldown gate.
 
 ---
 
@@ -331,7 +340,7 @@ The connective tissue that keeps everything data-driven.
 
 ### Stat Scalers
 
-**[Stat Scalers](/docs/Assets/Misc/StatScaler)** return a multiplier derived from stats — including [Map Value](/docs/Assets/Misc/StatScaler/Single/MapValue) (remap one range onto another), [Distance](/docs/Assets/Misc/StatScaler/Multi/Distance) and [Dot](/docs/Assets/Misc/StatScaler/Multi/Dot).
+**[Stat Scalers](/docs/Assets/Misc/StatScaler)** return a multiplier derived from stats — including [Map Value](/docs/Assets/Misc/StatScaler/Single/MapValue) (remap one range onto another), [Distance](/docs/Assets/Misc/StatScaler/Multi/Distance), [Dot](/docs/Assets/Misc/StatScaler/Multi/Dot), [Map Sum Value](/docs/Assets/Misc/StatScaler/Multi/MapSumValue) and [Map Dif Value](/docs/Assets/Misc/StatScaler/Multi/MapDifValue).
 
 > Deadeye String in [3DCells](/docs/Samples/3DCells/DeadeyeString) uses this to scale the critical multiplier by how close the release was to the perfect window.
 
@@ -339,7 +348,7 @@ The connective tissue that keeps everything data-driven.
 
 [Value](/docs/Assets/Misc/Adapter/Value) and [Stat](/docs/Assets/Misc/Adapter/Stat) Adapters convert and transform values in flight — including type conversion, so a Float stat can drive a Vector effect.
 
-Vector operations available out of the box: **Direction**, **Normalize**, **Dot**, **Cross**, **Reflect**, **Project On Plane**, **Subtract**, **To Uniform Vector**, **To Vector Index**. Adapters can be **[chained](/docs/Assets/Misc/Adapter/Value/Chain)**, so a knockback destination is built from a direction, projected onto the ground plane, then multiplied — with no script.
+Vector operations available out of the box: **Direction**, **Normalize**, **Dot**, **Cross**, **Reflect**, **Project On Plane**, **Sum**, **Subtract**, **To Uniform Vector**, **To Vector Index**. Adapters can be **[chained](/docs/Assets/Misc/Adapter/Value/Chain)**, and a **[Tree Operation](/docs/Assets/Misc/Adapter/Stat/TreeOperation)** merges two stats — so a dash destination (*Position + Direction × 4, flattened*) is one adapter, with no script.
 
 ---
 
@@ -362,6 +371,8 @@ The proof ships with the plugin: **[3DCells](/docs/Samples/3DCells)** is real-ti
 | **[Diplomacy](/docs/Assets/World/Diplomacy)** | Teams and relations — every targeting and filtering option reads from it |
 | **[Updater](/docs/Assets/World/Updater)** | Time and turn progression |
 | **[Log](/docs/Assets/World/Log)** | Runtime logging with category and per-object filtering |
+| **[PowerWorld](/docs/Components/PowerWorld)** | The world Actor: global stats, static Actor lookup, the home of Diplomacy and the Updater |
+| **[Save](/docs/CoreConcepts/SavingStats)** | Save Profiles capture static Actors' stats to JSON and restore them when the Actors spawn again |
 | **[Actor](/docs/Components/Actor)** | Runtime entity holding Stats, extendable via Extensions |
 | **[Effector](/docs/Components/Effector)** | Delivers Effect Packs to targets |
 
@@ -375,7 +386,11 @@ Power is a framework you live in daily, so it ships with editor tooling that res
 | --- | --- |
 | **[Power Editor](/docs/Interface/Editor)** | One window to create, organize and manage every Power asset |
 | **[Power Flow](/docs/Interface/Flow)** | Runtime debugger showing an Effect's complete journey — every Processor that ran and what it produced. Plus a **Trigger** tab to fire Effects from the editor before any gameplay exists to fire them |
-| **[Access Helper](/docs/Interface/AccessHelper)** | Pin frequently used assets and jump back through recent history |
+| **[Relations](/docs/Interface/Relations)** | A Stat's relation graph: every Stat and Effect that references it, before you change it |
+| **[Search](/docs/Interface/Search)** | Find Stats by name inside an Environment or Repository |
+| **[Validator](/docs/Interface/Validator)** | Catch setup mistakes (missing Keys, misplaced Processors, SigSep collisions) before Play mode |
+| **[Orphans](/docs/Interface/Orphans)** | Find and clean up Power assets nothing references |
+| **[Access](/docs/Interface/Access)** | Pin frequently used assets and jump back through recent history |
 | **[Log Filtering](/docs/CoreConcepts/LogFiltering)** | Narrow logs to one system, or one Actor instance |
 
 **Power Flow is the answer to the usual complaint about data-driven systems.** When a number comes out wrong, you don't guess — you open the flow and read exactly which Processor changed it.
@@ -466,7 +481,7 @@ Every mechanic below is achievable by configuring assets. No custom code require
 | Ammo that refills on kill | Clamped Int Stat + Counter Effect |
 | Charge meters that build while held | Generator with Toggle Stat |
 | Absolute overrides — "set Defense to 50,000 for 5s" | Absolute Value Injector, temporary |
-| Knockback, pulls, jumps without physics | Vector Stats + Tweeners + Eased Value Injector |
+| Knockback, pulls, dashes without physics | [Tweener](/docs/Assets/Stat/StatDefinition/Tweener) + one [Tween Effect](/docs/Assets/Effect/Tween) |
 | Facing-based mechanics — "crit enemies facing you" | Dot Condition |
 | Proximity mechanics | Distance Condition |
 
@@ -492,7 +507,8 @@ Power is deliberately unopinionated about your game. Every system has an extensi
 - Custom **Feedback Processors** for your presentation layer
 - Custom **Targeters**, **Value Distributers**, **Value Adapters**, **Conditions** and **Scalers**
 - Custom **Actor Extensions**
-- **Injector** and **Stat Injector** models of your own
+- **Injector** and **Linker** models of your own
+- Custom **Custom Actors** and **Targeting Filters**
 
 And Power stays in its lane — it operates within a well-defined scope and never asks you to route your whole game through it.
 

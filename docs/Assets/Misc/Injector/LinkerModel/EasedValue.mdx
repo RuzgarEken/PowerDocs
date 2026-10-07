@@ -1,0 +1,27 @@
+---
+sidebar_position: 6
+---
+
+# Eased Value
+
+Multiplies the target Stat by an eased curve of the Injector Stat: `target *= ease(injector / Ease Range)`. With an Injector Stat that runs from `0` to **Ease Range**, the target fades in along the chosen curve.
+
+Ships for `Float`, `Int`, `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`.
+
+| Field | Description |
+| --- | --- |
+| **Ease Type** | Linear, In / Out / InOut × Quad, Cubic, Quart, Quint, Sine, Expo, Circ, Elastic, Back, Bounce. |
+| **Ease Range** | The Injector Stat value that counts as the end of the curve (default `1`). |
+| **Use Value Adapter** / **Value Adapter** | Runs the Injector Stat through a **Stat Value Adapter** first. |
+
+For moving a value from A to B over time, the [Tweener](/docs/Assets/Stat/StatDefinition/Tweener) Stat is the dedicated tool.
+
+## Example
+
+*Damage ramps up as a charge fills.* `ChargeDamage` (base `50`) with an Eased Value Linker, **Injector Stat** `ChargeTime`, **Ease Range** `2`, **Ease Type** InQuad:
+
+| `ChargeTime` | `ease(t / 2)` | `ChargeDamage` |
+| --- | --- | --- |
+| `0` | `0` | `0` |
+| `1` | `0.25` | `12.5` |
+| `2` | `1` | `50` |

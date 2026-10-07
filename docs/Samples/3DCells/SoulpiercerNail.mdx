@@ -16,15 +16,15 @@ Landing a downward attack on an enemy causes the player to bounce upward.
 
 {/* ![Soulpiercer Nail Skill States](./images/SoulpiercerNail_SkillStates.png) */}
 
-The direction is chosen through **SkillEvolutionNo** ConditionalModifiers. A `StatComparer_IsNotGrounded` check gates the aerial variants: while the player is grounded, the horizontal attack (State 1) is used.
+The direction is chosen through **SkillEvolutionNo** ConditionalModifiers. A `IsNotGrounded` check gates the aerial variants: while the player is grounded, the horizontal attack (State 1) is used.
 
 {/* ![Soulpiercer Nail Evolution Dispatch](./images/SoulpiercerNail_EvolutionDispatch.png) */}
 
-While airborne, a dispatcher inspects the Actor's vertical speed. If it is positive, `Effect_EvolutionNoToUpward` adds `1` and the Upward attack (State 2) runs. If it is negative, `Effect_EvolutionNoToDownward` adds `2` and the Downward attack (State 3) runs.
+While airborne, a dispatcher inspects the Actor's vertical speed. If it is positive, `EvolutionNoToUpward` adds `1` and the Upward attack (State 2) runs. If it is negative, `EvolutionNoToDownward` adds `2` and the Downward attack (State 3) runs.
 
 {/* ![Soulpiercer Nail Vertical Speed Comparers](./images/SoulpiercerNail_VerticalSpeedComparers.png) */}
 
-The Downward attack applies its bounce on collision. `Effect_ZeroVerticalSpeed` first cancels the falling velocity, then `Effect_Bounce` sets the Actor's vertical speed to a positive value, launching the player back up. A self `Effect_MoveBlock` briefly locks movement during the strike.
+The Downward attack applies its bounce on collision. `ZeroVerticalSpeed` first cancels the falling velocity, then `Bounce` sets the Actor's vertical speed to a positive value, launching the player back up. A self `MoveBlock` briefly locks movement during the strike.
 
 {/* ![Soulpiercer Nail Bounce Effect](./images/SoulpiercerNail_BounceEffect.png) */}
 

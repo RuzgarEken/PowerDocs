@@ -1,0 +1,25 @@
+---
+sidebar_position: 2
+---
+
+# Combine
+
+Combines the value of the Injector Stat into the target Stat according to the **Contribution Type**. It replaces the former *Add*, *Multiply* and *Rate* Stat Injectors.
+
+Ships for `Float`, `Int`, `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int`.
+
+| Field | Description |
+| --- | --- |
+| **Contribution Type** | **Flat**: `target += injector`. **Rate**: `target *= 1 + injector` (0.2 = +20 %). **Multiplier**: `target *= injector`. |
+| **Use Value Adapter** | Runs the Injector Stat through a **Stat Value Adapter** first (e.g. scale it, or convert Int to Float). |
+| **Value Adapter** | The adapter. It must return the target's type. |
+
+## Example
+
+| Goal | Setup |
+| --- | --- |
+| *Strength adds to Attack* | `Attack` ← Combine Flat, Injector Stat `Strength` |
+| *+1 % damage per point of Fury* | `AttackRate` ← Combine Flat, Injector Stat `Fury` through an Alter adapter × 0.01 |
+| *Move speed raises damage* | `Attack` ← Combine Rate, Injector Stat `MoveSpeed` through an adapter that scales it |
+
+In [Kodes](/docs/Samples/Kodes), `LinkerDefinition_PoisonDamageByStack_R3D` multiplies the poison tick damage by the number of `Poison` stacks: Combine **Multiplier**, Injector Stat `Poison`, through `StatValueAdapter_IntStackToMultiplier_R3D` (Int → Float). Three stacks of a `−4` tick deal `−12`.

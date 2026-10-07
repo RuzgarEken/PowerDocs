@@ -5,3 +5,16 @@ sidebar_position: 2
 # Value Adapter
 
 Transforms an input value into a format suitable for further processing.
+
+Value Adapters do not read Stats themselves. They are used inside a [Chain](./Chain.mdx), a Stat [Chain](../Stat/Chain.mdx) or a [Tree Operation](../Stat/TreeOperation.mdx), and wherever a field takes a Value Adapter (a Skill event's **Actor Adapter**, for example).
+
+## Example
+
+A knockback pushes the target 4 m away from the attacker. A [Tree Operation](../Stat/TreeOperation.mdx) reads both positions; Value Adapters do the vector maths:
+
+| Step | Value Adapter | Value |
+| --- | --- | --- |
+| 1 | the Target's `Position` and the Source's `Position` | `(4, 0, 3)` and `(0, 0, 0)` |
+| 2 | [Direction](./Vector/Direction.mdx) (Incoming To Sec) | `(0.8, 0, 0.6)` |
+| 3 | [Alter](./Alter.mdx) Vector3, **Multiplier** `(4, 4, 4)` | `(3.2, 0, 2.4)` |
+| 4 | [Sum](./Vector/Sum.mdx) with the Target's `Position` | `(7.2, 0, 5.4)` — the knockback end point |

@@ -1,0 +1,24 @@
+---
+sidebar_position: 11
+---
+
+# Merge SigSep Stats
+
+Inserts **every** inner Stat of the Injector SigSep Stat into the target SigSep Stat, keeping their orders. Use it to merge a whole list of rules from one Environment into a shared list in one Linker.
+
+Ships as `_EffectPack`, `_Float` and `_Int` (*Linker Types › Insert Stat to SigSepStat › … SigSepStats*). The suffix must match both lists' value type.
+
+The orders of the merged inner Stats must not collide with the target list's own orders, or the colliding ones are dropped — see [Insert Stat To SigSep Stat](./InsertStatToSigSepStat.mdx).
+
+## Example
+
+3DCells' [Thorn Shield](/docs/Samples/3DCells/ThornShield) blocks melee attacks with its own Intervener list, `ThornShield_IntervenerReceivingMeleeAttacks(SigSep)`. The list also has to run every rule the Actor already has for received melee attacks, which live in the shared `Default` Environment.
+
+| Field | Value |
+| --- | --- |
+| Target Stat | `ThornShield_IntervenerReceivingMeleeAttacks(SigSep)` |
+| Linker Definition | `LinkerDefinition_DefaultToMeleeBlockCounterEffects_3DC` |
+| Linker | `Linker_DefaultToMeleeBlockCounterEffects_3DC` — Merge SigSep Stats `_EffectPack` |
+| Injector Stat | `CounterReceivingMeleeAttacks` (Default) |
+
+Every inner Stat of the Default list is inserted into the Thorn Shield list at its own order, so the shield runs the shared rules and its own block rules together.

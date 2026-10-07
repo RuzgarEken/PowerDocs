@@ -1,0 +1,72 @@
+---
+sidebar_position: 9
+description: Every Power keyboard shortcut and menu item — the Tools menu, the Project and Hierarchy right-click menus and the inspector menus.
+---
+
+# Shortcuts and Menu Items
+
+## Keyboard shortcuts
+
+| Shortcut | Does |
+| --- | --- |
+| `Ctrl/Cmd + E` | Opens the [Power Editor](./Editor). |
+| `Ctrl/Cmd + G` | Opens the selected asset in the Power Editor (*Assets → Open in Power Editor*). |
+| `Ctrl/Cmd + L` | Opens the newest [Access](./Access) History entry in the Power Editor. |
+| `Cmd + Y` (macOS), `Ctrl + Shift + Y` (Windows, Linux) | **Update Root Path**: sets the Save Folders root to the folder selected in the Project window. A selected asset counts as its folder. |
+| `Ctrl + 1` … `8` (macOS), `Alt + Shift + 1` … `8` (Windows, Linux) | Opens the Power Editor on a tab: Stat, Effect, Processor, Misc, Identifiers, World, Initializer, Settings. |
+
+Rebind any of them in **Edit → Shortcuts** (**Unity → Shortcuts** on macOS): the menu shortcuts are under **Main Menu**, the others under **Power**.
+
+Inside windows:
+
+| Where | Key | Does |
+| --- | --- | --- |
+| [Search](./Search) | `Enter` | Opens the only result in the Power Editor. |
+| [Search](./Search) | Middle-click a tab | Closes the tab. |
+
+## Tools menu
+
+The Power windows open from **Tools → Power**:
+
+| Item | Opens |
+| --- | --- |
+| **Access** | [Access](./Access): pinned assets and recent history. |
+| **Build Mechanic Runs** | [Build Mechanic Runs](./BuildMechanicRuns): the cost of your AI agent runs. |
+| **Editor** (`Ctrl/Cmd + E`) | The [Power Editor](./Editor). |
+| **Flow** | [Flow](./Flow): how Effects run through the Processors at runtime, and the Trigger tab. |
+| **Orphans** | [Orphans](./Orphans): Power assets nothing references. |
+| **Relations** | [Relations](./Relations): a Stat's relation graph. |
+| **Search** | [Search](./Search): Stats by name in an Environment or Repository. |
+| **Validator** | [Validator](./Validator): validates Power assets, prefabs and scenes. |
+
+## Project window (Assets menu)
+
+Right-click an asset or a folder in the Project window, or use the **Assets** menu. Items appear only when the selection fits.
+
+| Item | Selection | Does |
+| --- | --- | --- |
+| **Open in Power Editor** (`Ctrl/Cmd + G`) | Any Power asset | Opens it in the Power Editor. |
+| **Power → Open in Flow Trigger** | An Effect or Effect Pack | Opens it in [Flow](./Flow)'s Trigger tab, ready to apply in Play mode. |
+| **Power → Add to Flow Tracking** | One or more Effects or Effect Packs | Adds them to [Flow](./Flow)'s tracking list. |
+| **Power → Show Relations** | A Stat Definition or Stat Key | Opens it in [Relations](./Relations). |
+| **Power → Reorganize Power Assets** | One folder | Moves the folder's Power assets into the **Save Folders** layout (Power Editor → Settings). References are kept, and folders left empty are deleted. You see the planned moves and confirm first. |
+| **Power → Find External Usages** | A folder | Lists the assets outside the folder that the assets inside it reference. Use it to check that a sample or a pack you want to share is self-contained. |
+| **Power → Find Orphans** | A folder | Opens [Orphans](./Orphans) and scans that folder. |
+
+## Hierarchy (GameObject menu)
+
+| Item | Selection | Does |
+| --- | --- | --- |
+| **Power → Open in Flow Trigger** | A GameObject with an Actor | Opens the Actor in [Flow](./Flow)'s Trigger tab. The Trigger tab works in Play mode. |
+
+## Inspector menus
+
+In the ⋮ menu at the top right of an inspector:
+
+| Inspector | Item | Does |
+| --- | --- | --- |
+| Stat Key | **Open in Power Editor** | Opens the Key in the Power Editor. |
+| Stat Key | **Open Stat Definition** | Opens the Stat that uses the Key. With no Stat or several, opens the Key with its references. |
+| Stat Key, Stat Definition | **Show Relations** | Opens the Stat in [Relations](./Relations). |
+
+Key fields in any inspector have their own buttons: one opens the Stat that uses the Key, and **r** opens it in Relations.

@@ -1,0 +1,50 @@
+---
+sidebar_position: 6
+description: Validator — validate every Power asset, prefab and scene in chosen folders and list each problem with a way to open it.
+---
+
+# Validator
+
+**Validator** checks your Power setup for mistakes that would otherwise only show up at runtime, and lists every problem with a button to open the asset.
+
+Open it from **Tools → Power → Validator** and press **Validate All**.
+
+## When to use it
+
+- **Before you enter Play mode** after wiring a new mechanic: a missing Key or a Processor in the wrong table is easier to fix here than to debug.
+- **After a big change:** a rename, a conversion (Normal ↔ SigSep, BS ↔ AS), deleting Stats, moving folders.
+- **After importing** a sample or a Premade Relation Pack.
+- **Before a build or a commit**, as a final check.
+
+## What it checks
+
+Every asset that knows how to validate itself is checked:
+
+- **ScriptableObjects** in the folders, including sub-assets: Stats, Keys, Containers, Environments, Effects, Packs, Processors, Process Definitions, Conditions, Adapters and the rest.
+- **Prefabs** in the folders: every component on them that validates itself (Actors, Effectors, extensions…).
+- **Scenes** in the folders. Loaded scenes are checked as they are, unsaved edits included.
+
+Typical problems: a missing Key or Container, a Stat registered in the wrong Container, colliding SigSep orders, a Processor in the wrong table of a Process Definition, a value-carrying Feedback in the general Feedback list. A validator that throws is reported as an error too, and the scan goes on.
+
+## Options
+
+| Option | Does |
+| --- | --- |
+| **Folders** | The folders to scan. Empty: all of `Assets`. Package content is never scanned. |
+| **Excluded Folders** | Folders to skip, even inside a scanned folder (third-party content, archived prototypes). |
+| **Excluded Assets** | Single assets to skip (a known work-in-progress asset). |
+| **Show Warnings** | Lists warnings (yellow) as well as errors (red). Off: only errors. |
+| **Include Closed Scenes** | Opens every scene in the folders additively to check it, then closes it again. Off: only the loaded scenes are checked. Not available in Play mode. |
+
+The window remembers its folders and exclusions.
+
+## Results
+
+The summary shows how many assets, prefabs and scenes were scanned and how many problems were found. Each problem row shows the asset and where it is, with its messages under it:
+
+- An asset row works like a row in [Access](./Access): click to ping, **e** to open it in the Power Editor, **r** for [Relations](./Relations) on Stats and Keys.
+- An object in a scene that was opened only for the scan gets an **Open** button, which opens the scene and selects the object.
+
+:::tip
+AI agents run the same checks through `power.py`, which asks Unity to validate the assets, and `power.py validate` adds an offline check of the data. See [AI Support](/docs/AISupport).
+:::

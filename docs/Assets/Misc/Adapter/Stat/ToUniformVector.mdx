@@ -4,4 +4,10 @@ sidebar_position: 10
 
 # To Uniform Vector
 
-Converts the value of a Stat into a uniform vector, where all components are assigned the same value.
+**StatValueAdapter_FloatToUniformVector3** converts a Float Stat into a vector with the same value in every component: `v → (v, v, v)`.
+
+## Example
+
+Movement Speed is one Float, but the movement modifier it feeds is a Vector3 Stat. `LinkerDefinition_SpeedToModifierInjector_3D` (General Expansions) links `MoveSpeed` into `MoveSpeedModifier_Vector3` with a Combine **Flat** Linker that reads it through `StatValueAdapter_FloatToUniformVector_3D`:
+
+`MoveSpeed = 6` → `(6, 6, 6)` → added to `MoveSpeedModifier_Vector3` on every axis.

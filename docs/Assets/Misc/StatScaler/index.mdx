@@ -7,3 +7,15 @@ sidebar_position: 1
 Returns a multiplier calculated from one or more Stats.
 
 Used by `Modifier` and `ConditionalModifier` processors.
+
+A Modifier or Conditional Modifier Stat turns on **Use Scaler** in its signature, then picks a [Single](./Single/index.mdx) **Stat Scaler** (one Stat + a scaler) or, with **Use Multi Stat Scaler**, a [Multi](./Multi/index.mdx) one. The Modifier's value is multiplied by the scaler's result before it is applied.
+
+## Example
+
+*+20 % damage, scaled by how full the rage bar is.* A Modifier Stat `RageDamageBonus` with value `0.2` (Rate), **Use Scaler** on, Stat Scaler = the Source's `Rage` through a [Map Value](./Single/MapValue.mdx) scaler (`0–100` → `0–1`):
+
+| `Rage` | Scaler | Bonus applied |
+| --- | --- | --- |
+| `0` | `0` | `+0 %` |
+| `50` | `0.5` | `+10 %` |
+| `100` | `1` | `+20 %` |

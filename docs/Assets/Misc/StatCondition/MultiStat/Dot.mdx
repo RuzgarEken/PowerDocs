@@ -1,0 +1,31 @@
+---
+sidebar_position: 5
+---
+
+# Dot
+
+A **Dot Condition** calculates the dot product of two Vector Stats and evaluates the result using a comparison condition.
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Comparer** | The **Numerable Comparer** used to evaluate the calculated dot product. |
+
+### Supported Types
+
+- **Vector2**
+- **Vector3**
+- **Vector2Int**
+- **Vector3Int**
+
+## Example
+
+Two facing directions, compared with Dot:
+
+| Asset | Stats | Comparer | Passes when |
+| --- | --- | --- | --- |
+| `Condition_FromBehind` (Backstab) | Source `Direction`, Target `Direction` | **Greater Or Equal** `0.5` | both face the same way — the hit comes from behind |
+| `Condition_IsFacingMe_3DC` ([Rusty Pan](/docs/Samples/3DCells/RustyPan)) | Target `Direction`, Source `Direction` | **Lower Or Equal** `−0.7` | they face each other |
+
+Attacker facing `(0, 0, 1)`, target facing `(0, 0, 1)`: dot `1` → backstab. Target facing `(0, 0, −1)`: dot `−1` → Rusty Pan's crit.
