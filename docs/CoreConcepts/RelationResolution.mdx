@@ -1,0 +1,55 @@
+---
+sidebar_position: 5.5
+sidebar_label: Which Actor Resolves a Relation
+---
+
+# Which Actor Resolves a Relation
+
+A relation (a **Relative Stat Key** on a Stat, such as `CounterEffect_Receiving → ReceivingHealthCounterEffects`) names another Stat by its **Stat Key**. A key is only an address: it is looked up in **one Actor's** Stat Repository. Which Actor that is depends on the **Processor** that reads the relation — not on the relation's name.
+
+Getting this wrong is the most common reason a mechanic "never fires": the Stat exists, the relation is set, the Processor runs, but it looks on the other Actor and finds nothing.
+
+## Source and Target
+
+Every Effect has two Actors:
+
+| Actor | Who it is |
+| --- | --- |
+| **Source** | The Actor that applied the Effect — the attacker, the healer, the one whose Effector hit. |
+| **Target** | The Actor that receives it — the one whose Stat changes. |
+
+A Base Stat (BS) Effect only has a **Target Stat**, so its relations come from the Target Stat. Attribute Stat (AS / MAS) Effects also carry **Attribute Stats** (*this is an Attack*), and Attribute Stats are always resolved **on the Source** — they describe the attack, so they live with the attacker. See [Effect Process Flow](./EffectProcessFlow).
+
+## The rule
+
+| Where the relation is read | `Receiving…` relations resolve on | `Applying…` relations resolve on |
+| --- | --- | --- |
+| BS Preprocessors and Postprocessors (relations on the Target Stat) | **Target** | **Source** |
+| AS / MAS Preprocessors and the Standard Processor stages (relations on the Attribute Stat) | **Target** | **Source** |
+| AS / MAS **Postprocess** Counter Effect | **Source** | **Source** |
+
+In short: `Receiving` means *the rule belongs to whoever is hit*, `Applying` means *the rule belongs to whoever hits* — with one exception. An AS / MAS Counter Effect **Postprocessor** reads both of its relations from the Attribute Stat on the Source, so it can only run the attacker's rules.
+
+:::warning[A victim reacting to an attack needs a Preprocessor]
+
+"When the player is hit by an Attack, do X" is the **player's** rule. If the incoming Effect is an AS / MAS attack, an AS / MAS **post** Counter Effect resolves on the attacker and never sees it. Use the **Intervener Effect** Preprocessor (it runs before the hit lands and resolves `Receiving` on the Target), or hang the rule on the Target Stat itself (`Health`) through a BS relation.
+
+:::
+
+## Decide the owner first
+
+The relation's direction follows from **who owns the rule** — whose ability or nature it is:
+
+| The rule belongs to | Put its Stat in | Use |
+| --- | --- | --- |
+| The Actor being hit (its thorns, its immunity, its revive) | that Actor's Repository | a `Receiving…` relation |
+| The Actor hitting (its poison on hit, its lifesteal, its execute) | the attacker's Repository | an `Applying…` relation |
+
+A status on a foe is still the foe's rule when it is about the foe (*a Weak foe deals less damage*), but an upgrade the player took is the player's rule even when it affects foes (*my attacks poison*).
+
+## Two more things to know
+
+- **Attribute Stats follow the Source.** When a [Director](/docs/Assets/Processor/Postprocessors/Director) bounces an AS / MAS Effect and makes the victim the new Source, the Attribute Stats are now looked up on the victim — the attacker's modifiers and relations no longer apply. Keep the original attacker as the Source when bouncing.
+- **"RelativeStat is not found … possibly on interacted actors"** is logged once per key when an Actor spawns if a relation points at a Stat this Actor doesn't have. For relations that are meant to resolve on the *other* Actor this is expected.
+
+The names `Receiving` and `Applying` are a convention: what decides is the key field on the Processor. A Processor's documentation page says which Actor each of its keys is read on.

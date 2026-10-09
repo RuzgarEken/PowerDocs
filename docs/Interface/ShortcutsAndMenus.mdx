@@ -33,9 +33,10 @@ The Power windows open from **Tools → Power**:
 | **Access** | [Access](./Access): pinned assets and recent history. |
 | **Build Mechanic Runs** | [Build Mechanic Runs](./BuildMechanicRuns): the cost of your AI agent runs. |
 | **Editor** (`Ctrl/Cmd + E`) | The [Power Editor](./Editor). |
+| **External Usages** | External Usages: the assets outside a folder that the assets inside it reference (also **Assets → Power → Find External Usages**). |
 | **Flow** | [Flow](./Flow): how Effects run through the Processors at runtime, and the Trigger tab. |
 | **Orphans** | [Orphans](./Orphans): Power assets nothing references. |
-| **Relations** | [Relations](./Relations): a Stat's relation graph. |
+| **Relations** | [Relations](./Relations): the relation graph of one or more Stats. |
 | **Search** | [Search](./Search): Stats by name in an Environment or Repository. |
 | **Validator** | [Validator](./Validator): validates Power assets, prefabs and scenes. |
 
@@ -48,7 +49,8 @@ Right-click an asset or a folder in the Project window, or use the **Assets** me
 | **Open in Power Editor** (`Ctrl/Cmd + G`) | Any Power asset | Opens it in the Power Editor. |
 | **Power → Open in Flow Trigger** | An Effect or Effect Pack | Opens it in [Flow](./Flow)'s Trigger tab, ready to apply in Play mode. |
 | **Power → Add to Flow Tracking** | One or more Effects or Effect Packs | Adds them to [Flow](./Flow)'s tracking list. |
-| **Power → Show Relations** | A Stat Definition or Stat Key | Opens it in [Relations](./Relations). |
+| **Power → Show Relations** | One or more Stat Definitions or Stat Keys | Opens them in [Relations](./Relations), as the roots of one graph. |
+| **Power → Add To Relations** | One or more Stat Definitions or Stat Keys | Adds them to the graph already open in [Relations](./Relations). |
 | **Power → Reorganize Power Assets** | One folder | Moves the folder's Power assets into the **Save Folders** layout (Power Editor → Settings). References are kept, and folders left empty are deleted. You see the planned moves and confirm first. |
 | **Power → Find External Usages** | A folder | Lists the assets outside the folder that the assets inside it reference. Use it to check that a sample or a pack you want to share is self-contained. |
 | **Power → Find Orphans** | A folder | Opens [Orphans](./Orphans) and scans that folder. |

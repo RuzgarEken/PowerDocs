@@ -1,0 +1,35 @@
+---
+sidebar_position: 6.6
+sidebar_label: Child Actors
+---
+
+# Child Actors
+
+An Actor can be initialized with a **parent Actor**. Its own Repository stays small — only what belongs to the child — and everything it doesn't have is looked up on the parent.
+
+Typical children are the things an Actor owns or spawns: a weapon, a relic, a potion, a card in hand, a projectile, a body part. In **Slay The Sphere**, every relic, potion and card is a child of the player:
+
+```csharp
+Actor.Initialize(item.Repository, source);   // the item's own Stats, with the player as parent
+```
+
+The overloads are `Initialize(StatRepositoryModel repository, ActorEntity parentActor)` and `Initialize(ActorEntity parentActor)`.
+
+## What falls back to the parent
+
+| Lookup on the child | If the child doesn't have it |
+| --- | --- |
+| A Stat whose **Environment** is not in the child's Repository | looked up on the parent |
+| A Stat whose Environment exists but the **Container** or the **Stat** is missing | first the Environment's [Parent Environment](/docs/Assets/Stat/Environment) chain, then the parent Actor |
+| **Effect Process Definition** not assigned | the parent's, taken when the child initializes |
+| An **Actor Extension** the child doesn't have | the parent's extension with that id |
+
+So a weapon only defines its own Stats — its cooldown, its charge, its damage bonus — and still reads the player's `Health`, `Dead` or team through the same keys. Leave a Stat out of the child entirely when it should come from the parent: if the child has its own copy, its own copy wins.
+
+Every lookup on the child goes through these rules, including the **Attribute Stats** of Effects the child sends. A weapon's attack can carry the player's Attack Stat as its Attribute Stat as long as the weapon doesn't define one.
+
+## Things to keep in mind
+
+- **The Source is the child.** An Effect a weapon applies has the weapon as its Source, not the player. Relations resolved on the Source ([Which Actor Resolves a Relation](./RelationResolution)) are looked up on the weapon first and reach the player through the fallback.
+- **Reaching the owner on purpose.** To make an Effect target the owner of a child, use the [Parent Actor](/docs/Assets/Misc/Adapter/Value/ParentActor) Value Adapter as the Actor Adapter.
+- **Teams.** A child is not a Diplomacy member unless you add it (`PowerWorld.Diplomacy.AddMember`). Relation State and Team Flag targeting only sees members, so a spawned child is not found as an enemy or a teammate on its own.

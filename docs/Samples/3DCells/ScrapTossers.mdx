@@ -26,75 +26,72 @@ Restores **1 ammo** whenever an enemy is killed.
 
 ## Implementation
 
-**Scrap Tossers** is a multi-state Skill. State 1 acquires a target, then either State 2 (a throw that homes toward that target) or State 3 (a straight forward throw) runs.
+**Scrap Tossers** is a one-state Skill. While it is cast it locks onto the closest enemy in sight and throws at it; with nobody in sight it throws where you aim. Clicks still move the character during the cast.
 
 <div className="prp-packs">
 
 <details>
-<summary><strong>ScrapTossers</strong> — Skill Model Evolver</summary>
+<summary><strong>ScrapTossers</strong> — Skill Model Normal</summary>
 
-<SpecCard kind='effect' label={"Skill Model Evolver"} name='ScrapTossers'>
-  <SpecRow label={"Id \u203a Id"}>{"36"}</SpecRow>
-  <SpecRow label={"Name"}>{"Scrap Tossers"}</SpecRow>
-  <SpecRow label={"State No Stat \u203a Actor"}>{"Entity"}</SpecRow>
-  <SpecRow label={"States [0] \u203a Name"}>{"ScrapTossers_1"}</SpecRow>
-  <SpecRow label={"States [0] \u203a Queue Window"}>{"0.4"}</SpecRow>
-  <SpecRow label={"States [0] \u203a Interruptible Transition"}>{"true"}</SpecRow>
-  <SpecRow label={"States [0] \u203a Use Blocker Stat \u203a Actor"}>{"Entity"}</SpecRow>
-  <SpecRow label={"States [0] \u203a Caster"}><PowerRef>Skill_ScrapTossers_Casting_1_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [0] \u203a Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_1_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [1] \u203a Name"}>{"ScrapTossers_2"}</SpecRow>
-  <SpecRow label={"States [1] \u203a Activation Type"}>{"Without Interaction"}</SpecRow>
-  <SpecRow label={"States [1] \u203a Queue Window"}>{"0.4"}</SpecRow>
-  <SpecRow label={"States [1] \u203a Interruptible Transition"}>{"true"}</SpecRow>
-  <SpecRow label={"States [1] \u203a Use Blocker Stat \u203a Actor"}>{"Entity"}</SpecRow>
-  <SpecRow label={"States [1] \u203a Caster"}><PowerRef>Skill_ScrapTossers_Casting_2_ToTarget_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [1] \u203a Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_2_ToTarget_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [1] \u203a Skill Event Effects [0] \u203a Use Predefined Effect"}>{"true"}</SpecRow>
-  <SpecRow label={"States [1] \u203a Skill Event Effects [0] \u203a Effect Pack"}><PowerRef>Pack_OnUse_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [2] \u203a Name"}>{"ScrapTossers_3"}</SpecRow>
-  <SpecRow label={"States [2] \u203a Activation Type"}>{"Without Interaction"}</SpecRow>
-  <SpecRow label={"States [2] \u203a Queue Window"}>{"0.4"}</SpecRow>
-  <SpecRow label={"States [2] \u203a Interruptible Transition"}>{"true"}</SpecRow>
-  <SpecRow label={"States [2] \u203a Use Blocker Stat \u203a Actor"}>{"Entity"}</SpecRow>
-  <SpecRow label={"States [2] \u203a Caster"}><PowerRef>Skill_ScrapTossers_Casting_3_Forward_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [2] \u203a Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_3_Forward_3DC</PowerRef></SpecRow>
-  <SpecRow label={"States [2] \u203a Skill Event Effects [0] \u203a Use Predefined Effect"}>{"true"}</SpecRow>
-  <SpecRow label={"States [2] \u203a Skill Event Effects [0] \u203a Effect Pack"}><PowerRef>Pack_OnUse_3DC</PowerRef></SpecRow>
+<SpecCard kind='effect' label={"Skill Model Normal"} name='ScrapTossers'>
+  <SpecRow label={"Caster"}><PowerRef>Skill_ScrapTossers_Casting_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Targeter"}><PowerRef>Skill_ScrapTossers_Targeting_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Use Blocker Stat"} icon="key"><PowerRef>Key_ScrapTossers_UseBlockers_3DC</PowerRef></SpecRow>
+  <SpecRow label={"On Use"}><PowerRef>Pack_OnUse_3DC</PowerRef></SpecRow>
+  <SpecRow label={"While Casting"}><PowerRef>Pack_WhileCasting_3DC</PowerRef></SpecRow>
+  <SpecRow label={"On Cast End"}><PowerRef>Pack_OnCastEnd_3DC</PowerRef></SpecRow>
 </SpecCard>
 
 </details>
 
 </div>
 
-In State 1, `SetClosestActorInRange` writes the nearest valid enemy into the **ClosestEnemyInSight** Stat, using a `ClosestInSight` together with the `ClosestInSight`, `IsAlive`, and `Array` targeting filters. `IncreaseEvolutionNo` then advances the state.
+The targeter is a skill shot that spawns the throw from the body, facing the way the body faces, so the throw goes wherever the cast turned the character.
 
 <div className="prp-packs">
 
 <details>
-<summary><strong>ScrapTossers_Targeting_1</strong> — Skill Targeting Direct</summary>
+<summary><strong>ScrapTossers_Targeting</strong> — Skill Targeting Skill Shot</summary>
 
-<SpecCard kind='effect' label={"Skill Targeting Direct"} name='ScrapTossers_Targeting_1'>
-  <SpecRow label={"Relation State"}>{"Me"}</SpecRow>
-  <SpecRow label={"Direct Effect"}><PowerRef>Pack_State_1_3DC</PowerRef></SpecRow>
+<SpecCard kind='effect' label={"Skill Targeting Skill Shot"} name='ScrapTossers_Targeting'>
+  <SpecRow label={"Skill Prefab"}>{"ScrapTossers_Forward"}</SpecRow>
+  <SpecRow label={"Use Pooling"}>{"true"}</SpecRow>
+  <SpecRow label={"Projectile Position"}>{"OffsetToSourceBody"}</SpecRow>
+  <SpecRow label={"Projectile Rotation"}>{"OffsetToSourceBody"}</SpecRow>
+  <SpecRow label={"Projectile Layouter"}>{"Forward"}</SpecRow>
 </SpecCard>
 
 </details>
 
 </div>
 
-`ConditionalEvolutionNoModifier` decides which throw follows. When a valid closest enemy was found it resolves to the homing throw (State 2, which uses `ToActor`); otherwise it falls through to the forward throw (State 3).
+While casting, the Skill picks its target and turns toward it. `SetLockOnTarget` writes the closest living enemy in sight into **LockOnTarget** (nobody: empty). A Conditional Effect then locks on when there is a target, and otherwise aims at the pointer. `RotationInputBlock` keeps the facing from changing while you walk. All three are Temporary, so they stop with the cast.
 
 <div className="prp-packs">
 
 <details>
-<summary><strong>ConditionalEvolutionNoModifier</strong> — Stat (ConditionalModifier Float)</summary>
+<summary><strong>WhileCasting</strong> — Effect Pack</summary>
 
-<SpecCard kind='stat' label={"Stat (ConditionalModifier Float)"} name='ConditionalEvolutionNoModifier'>
-  <SpecRow label='Stat Key' icon='key'>{"ScrapTossers / ConditionalModifier / ConditionalEvolutionNoModifier"}</SpecRow>
-  <SpecRow label={"Default"}>{"1"}</SpecRow>
-  <SpecRow label={"Max"}>{"1"}</SpecRow>
-  <SpecRow label={"Single Stat Checker \u203a Condition"}><PowerRef>Condition_NoEnemyInSight_3DC</PowerRef></SpecRow>
+<PackExample name='WhileCasting'>
+  <EffectExample name='SetLockOnTarget' label={"Actor Stat Effect (BS)"} targetStat={"Movement / Actor / LockOnTarget"} processor='Set_Actor' />
+  <EffectExample name='IfLockOnTarget_LockOnElseAimToPointer' label={"Conditional Effect"} applyType='Temporary' />
+  <EffectExample name='RotationInputBlock' label={"Int Stat Effect (BS)"} targetStat={"Movement / IntClamped / RotationInputBlocker"} processor='Add_Int' value={"1"} applyType='Temporary' />
+</PackExample>
+
+</details>
+
+</div>
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>IfLockOnTarget_LockOnElseAimToPointer</strong> — Conditional Effect</summary>
+
+<SpecCard kind='effect' label={"Conditional Effect"} name='IfLockOnTarget_LockOnElseAimToPointer'>
+  <SpecRow label={"Condition"}>{"LockOnTarget is not null"}</SpecRow>
+  <SpecRow label={"Then"}><PowerRef>Pack_LockOn_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Else"}><PowerRef>Pack_AimToPointer_3DC</PowerRef></SpecRow>
+  <SpecRow label={"Apply Type"}>{"Temporary"}</SpecRow>
 </SpecCard>
 
 </details>
@@ -180,4 +177,4 @@ To block the Skill while empty, `Add1_AmmoEq0` injects `+1` into the Skill's **U
 
 </div>
 
-When the cast ends, `Cooldown` and `ResetEvolutionNo` reset the Skill for the next throw.
+When the cast ends, `Cooldown` adds `0.5` seconds to the Skill's cooldown.

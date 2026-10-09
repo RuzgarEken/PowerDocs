@@ -1,0 +1,47 @@
+---
+sidebar_position: 6.5
+sidebar_label: Rules on Shared Stats
+---
+
+# One Actor Type's Rule on a Shared Stat
+
+Some Environments are on **every** Actor. The usual one is **Default**: it holds `Health`, `Dead`, `TeamNo`, and the SigSep lists those Stats read their rules from — the Counter Effects, Reflectors and Modifiers that run when `Health` changes.
+
+Now the player gets *Thorns*: "when I take damage, the attacker takes 5". That is a Counter Effect on `Health`. Where should it go?
+
+## Don't define it in the shared Environment
+
+If the Counter Effect is added to the Default Environment's `ReceivingHealthCounterEffects` list, **every** Actor that uses Default gets Thorns — every mob, every destructible. Worse, if the rule checks a Stat only the player has (a `ThornsUnlocked` switch, a `ThornsDamage` amount), every hit on an Actor without it logs a warning.
+
+A shared Environment should hold what every Actor shares. Rules that belong to one Actor type are **linked in** at spawn instead.
+
+## Link it in
+
+1. **Define the rule in the owner's Environment.** Create the Counter Effect as a standalone Stat (its own Stat Id and a plain Stat Key) in the Player Environment, next to the Player's other Stats.
+2. **Create a Linker Effect** that inserts it into the shared list:
+
+   | Field | Value |
+   | --- | --- |
+   | Effect | [Linker](/docs/Assets/Effect/Linker) Effect, Processor Id **Linker**, Apply Type **Temporary**, Modifier Type **Managed By Code** |
+   | Target Stat | the shared list — `ReceivingHealthCounterEffects(SigSep)` in Default |
+   | Injector Stat | the Player's Thorns Stat (read from the **Source**) |
+   | Linker | [Insert Stat To SigSep Stat](/docs/Assets/Misc/Injector/LinkerModel/InsertStatToSigSepStat) — `_EffectPack` for Counter / Intervener / State Based lists, `_Float` for Reflector / Modifier lists, `_Int` for Director lists |
+   | SigSep Stat Order | a number **not yet used** on that list |
+
+3. **Put the Linker Effect into the owner's linker [Effect Bundle](/docs/Assets/Stat/StatDefinition/EffectBundle).** An Effect Bundle applies its pack to its own Actor when the Actor starts and removes it when the Actor is disposed — so every Player gets Thorns inserted into its own `Health` list, and mobs keep the shared list as it is.
+
+The shared list never changes as an asset; each Player's runtime copy gains one more entry.
+
+:::warning[SigSep Stat Orders must be unique on the list]
+
+The list is keyed by its inner Stats, ordered by **SigSep Stat Order**. That order must not be used by the list's own inner Stats **nor by any other Linker inserting into the same list**. A duplicate order drops the Stat when the Actor spawns, and the mechanic silently never runs.
+
+Before picking one, look at the list's own **Stat Orders** and at every Linker that targets it. The Linker Effect's **Injection Order** is a different number (its slot on the Target Stat) and may repeat.
+
+:::
+
+## When you don't need this
+
+- **Every Actor should have the rule** (all Actors die at 0 Health): define it in the shared list directly.
+- **The rule only reads a value** another Actor type never has a reason to change (a `DamageReduction` Modifier the player owns): it can stay a Stat in the owner's Environment, read through a relation that resolves on the owner — see [Which Actor Resolves a Relation](./RelationResolution).
+- **The whole Environment is the owner's** (a Player Environment only Players have): add the rule to that Environment's own lists; nothing else sees them.

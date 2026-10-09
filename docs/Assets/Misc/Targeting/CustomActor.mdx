@@ -12,14 +12,15 @@ Write your own by deriving from `CustomActor` and overriding `GetActor(IActorPro
 
 *Create › Power › Misc › Custom Actor › Closest In Sight*
 
-The **first** Actor of a filtered relation scope — with a [Closest In Sight](./TargetingFilter.mdx#closest-in-sight) filter, the closest Actor inside the view cone. If nobody passes, a fallback Actor is returned.
+The **first** Actor of a filtered relation scope — with a [Closest In Sight](./TargetingFilter.mdx#closest-in-sight) filter, the closest Actor inside the view cone. If nobody passes, it returns a fallback Actor, or nothing.
 
 | Field | Description |
 | --- | --- |
 | **Relate To** | The Actor the scope is measured from. |
 | **Relation State** | Which relation (e.g. Enemy). |
 | **Filter** | The Targeting Filter that orders / narrows the scope. |
-| **Fallback Actor** | The Interaction Actor returned when the scope is empty (e.g. Source). |
+| **No Fallback** | Returns nothing when the scope is empty, so a not-null check on the result tells whether anyone is in sight. |
+| **Fallback Actor** | The Interaction Actor returned when the scope is empty (e.g. Source). Hidden while **No Fallback** is on. |
 
 ## From Stat
 
@@ -45,6 +46,6 @@ The Actor with a static **Actor Id**, found through `PowerWorld.GetActor`.
 
 | Custom Actor | Asset | Used for |
 | --- | --- | --- |
-| Closest In Sight | `CustomActor_ClosestInSight_3DC` — **Relate To** Source, **Relation State** Enemy, **Filter** `TargetingFilter_Chain_3DC` (alive, then closest within 10 m in a wide cone) | *face the closest enemy in sight before attacking*: a Set Effect on the Source's `Direction` whose value comes from this Actor's `Position` through a look-at adapter |
+| Closest In Sight | `CustomActor_ClosestInSight_3DC` — **Relation State** Enemy, **Filter** `TargetingFilter_Chain_3DC` (alive, then closest in sight), **No Fallback** on | [Scrap Tossers](/docs/Samples/3DCells/ScrapTossers) writes it into `LockOnTarget` while casting, then locks on only when it isn't empty and aims at the pointer otherwise |
 | From Stat | `CustomActor_FromEffectorStat_3DC` — **Stat** = the Effector's `AttachedActor` | the [Titan Greaves](/docs/Samples/3DCells/TitanGreaves) attach an Effector to the pushed enemy; its Effects reach the Actor it is attached to |
 | Static Actor | a Custom Actor with the Player's **Actor Id** | a Source Separated Stat whose **Process Scope** only reads the Player's copy |

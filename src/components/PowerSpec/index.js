@@ -273,8 +273,9 @@ export function StatExample({
         {statKey}
       </SpecRow>
       {type !== undefined && <SpecRow label="Type">{type}</SpecRow>}
+      {/* A missing min is the stat's default bound 0 (the examples leave it out), not −∞ */}
       {hasRange && (
-        <SpecRow label="Range">{`${min ?? '−∞'} → ${max ?? '∞'}`}</SpecRow>
+        <SpecRow label="Range">{`${min ?? 0} → ${max ?? '∞'}`}</SpecRow>
       )}
       {defaultValue !== undefined && (
         <SpecRow label="Default">{defaultValue}</SpecRow>

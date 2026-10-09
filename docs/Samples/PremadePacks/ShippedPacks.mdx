@@ -63,15 +63,15 @@ always => Linker[Self.Attack Rate + Self.MaxHealth x $N] | Owner Self | Granted(
 
 | | |
 | --- | --- |
-| **Mechanic** | Attack inflicts anything: a counter on the attack (target = the hit foe) that applies $NameInflict while $NameToggle = 1 (ships 0). Load it once per mechanic with **Name** = the mechanic (VenomEdge) and the Environment mapping = the owner's environment: every load gets its own StatIds ($NameInflict → VenomEdgeInflict, $NameToggle → VenomEdgeToggle), so loads share an environment without colliding. $NameInflict ships EMPTY: fill it with whatever the hit delivers - a status inflict (poison, bleed, burn, slow, stun, weak, knockback ...: pushes first, the status +1 for $N s last) or any other effects. Its effects target the foe: give them the foe's keys. |
+| **Mechanic** | Attack inflicts anything: a counter on the attack (target = the hit foe) that applies $NameInflict while $NameUnlocked = 1 (ships 0). Load it once per mechanic with **Name** = the mechanic (VenomEdge) and the Environment mapping = the owner's environment: every load gets its own StatIds ($NameInflict → VenomEdgeInflict, $NameUnlocked → VenomEdgeUnlocked), so loads share an environment without colliding. $NameInflict ships EMPTY: fill it with whatever the hit delivers - a status inflict (poison, bleed, burn, slow, stun, weak, knockback ...: pushes first, the status +1 for $N s last) or any other effects. Its effects target the foe: give them the foe's keys. |
 | **Wires** | Attack —CounterEffect_ApplyingAS→ $NameInflict (joins the attack's counter list). |
-| **Drive** | +1 on $NameToggle. |
+| **Drive** | +1 on $NameUnlocked. |
 
 ```text title="Formula"
-Source hits => Counter[Pack_$NameInflict] -> Target | Owner Source | Granted(toggle $NameToggle)
+Source hits => Counter[Pack_$NameInflict] -> Target | Owner Source | Granted(toggle $NameUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameInflict', value: 'CounterEffect'}, {key: '$NameToggle', value: 'Int_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$Name' stats={[{key: '$NameInflict', value: 'CounterEffect'}, {key: '$NameUnlocked', value: 'Int_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -98,16 +98,16 @@ Source hits => Counter[Pack_$NameInflict] -> Target | Owner Source | Granted(tog
 | | |
 | --- | --- |
 | **Mechanic** | Damage from behind (backstab): an attack whose attacker and target face the same way (dot &gt;= 0.7) deals BackstabDamage more (Rate, ships 0.5) and adds the BackStab result attribute. |
-| **Drive** | BackstabToggle = 1 (ships 0). |
+| **Drive** | BackstabUnlocked = 1 (ships 0). |
 | **Wires** | Attack —ConditionalModifier_ApplyingAS→ BackstabDamage. |
 | **Map** | Direction → your facing Direction. |
 | **Processors** | AS/MAS ConditionalModifier contribution. |
 
 ```text title="Formula"
-Source hits => ConditionalModifier[Rate + $N] | IF Source.Direction . Target.Direction >= $N | Owner Source | Granted(toggle BackstabToggle)
+Source hits => ConditionalModifier[Rate + $N] | IF Source.Direction . Target.Direction >= $N | Owner Source | Granted(toggle BackstabUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Backstab' stats={[{key: 'BackstabDamage', value: 'ConditionalModifier_Float'}, {key: 'BackstabToggle', value: 'Int_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Backstab' stats={[{key: 'BackstabDamage', value: 'ConditionalModifier_Float'}, {key: 'BackstabUnlocked', value: 'Int_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -406,15 +406,15 @@ Source hits => ConditionalModifier[Rate + $N] | IF Target.Health is full | Owner
 | | |
 | --- | --- |
 | **Mechanic** | Retaliation: when the bearer takes damage from another team, every alive enemy within 8 m takes RetaliationDamage (BS, ships -10; signed intervener, not blocking, RelationState Enemy + AliveInRange8). |
-| **Drive** | RetaliationToggle = 1 (ships 0). |
+| **Drive** | RetaliationUnlocked = 1 (ships 0). |
 | **Wires** | Health —IntervenerEffect_ReceivingSigned→ RetaliationCounterEffect; on a container mismatch, link it with *Stat › Link To Stat*. |
 | **Map** | TeamNo, Position. |
 
 ```text title="Formula"
-Self is hit => Intervener[Health + $N] -> RelationState(Self, Enemy, Distance <= $N, Alive) | IF Source is another team | Owner Self | Granted(toggle RetaliationToggle)
+Self is hit => Intervener[Health + $N] -> RelationState(Self, Enemy, Distance <= $N, Alive) | IF Source is another team | Owner Self | Granted(toggle RetaliationUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageNearbyEnemiesOnHit' stats={[{key: 'RetaliationCounterEffect', value: 'IntervenerEffect_Signed'}, {key: 'RetaliationDamage', value: 'Float_Clamped'}, {key: 'RetaliationToggle', value: 'Int_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='DamageNearbyEnemiesOnHit' stats={[{key: 'RetaliationCounterEffect', value: 'IntervenerEffect_Signed'}, {key: 'RetaliationDamage', value: 'Float_Clamped'}, {key: 'RetaliationUnlocked', value: 'Int_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -734,15 +734,15 @@ Target.Dead -> 1 => Counter[Source.<int stat> + $N] -> Source | Owner Source | G
 | | |
 | --- | --- |
 | **Mechanic** | Execute: a hit that leaves the target below ExecuteThreshold (fraction of max) kills it (signed intervener, Execute). |
-| **Drive** | ExecuteToggle = 1 grants it, ExecuteThreshold = the fraction. |
+| **Drive** | ExecuteUnlocked = 1 grants it, ExecuteThreshold = the fraction. |
 | **Wires** | Health —IntervenerEffect_ApplyingSigned→ ExecuteCounterEffect (the killer owns it). |
 | **Processors** | a signed BS IntervenerEffect precontribution. |
 
 ```text title="Formula"
-Source hits => Intervener[Target.Dead + 1] -> Target | IF Target.Health <= $N % | Owner Source | Granted(toggle ExecuteToggle) + value ExecuteThreshold
+Source hits => Intervener[Target.Dead + 1] -> Target | IF Target.Health <= $N % | Owner Source | Granted(toggle ExecuteUnlocked) + value ExecuteThreshold
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='ExecuteHealtBelow' stats={[{key: 'ExecuteToggle', value: 'Int_Clamped'}, {key: 'ExecuteThreshold', value: 'Float_Clamped'}, {key: 'ExecuteCounterEffect', value: 'IntervenerEffect_Signed'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='ExecuteHealtBelow' stats={[{key: 'ExecuteUnlocked', value: 'Int_Clamped'}, {key: 'ExecuteThreshold', value: 'Float_Clamped'}, {key: 'ExecuteCounterEffect', value: 'IntervenerEffect_Signed'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -771,16 +771,16 @@ Source hits => Intervener[Target.Dead + 1] -> Target | IF Target.Health <= $N % 
 
 | | |
 | --- | --- |
-| **Mechanic** | Damage-immunity shield with a cooldown (divine protection): while ImmuneShieldToggle &gt; 0 and ImmuneShieldCooldown = 0 the next incoming damage is blocked (signed intervener, BlockEffect, adds Immune) and the shield breaks: ImmuneShieldBreak raises ImmuneShieldCooldown for 20 s (change its Duration). |
-| **Drive** | Add_Int +1 on ImmuneShieldToggle (ships 0). |
+| **Mechanic** | Damage-immunity shield with a cooldown (divine protection): while ImmuneShieldUnlocked &gt; 0 and ImmuneShieldCooldown = 0 the next incoming damage is blocked (signed intervener, BlockEffect, adds Immune) and the shield breaks: ImmuneShieldBreak raises ImmuneShieldCooldown for 20 s (change its Duration). |
+| **Drive** | Add_Int +1 on ImmuneShieldUnlocked (ships 0). |
 | **Wires** | Health —IntervenerEffect_ReceivingSigned→ ImmuneShield; on a container mismatch, link it with *Stat › Link To Stat*. |
 | **Processors** | a signed BS IntervenerEffect precontribution. |
 
 ```text title="Formula"
-Self is hit => Intervener Block[Self.ImmuneShieldCooldown + 1 for $N s] -> Self | IF Self.ImmuneShieldCooldown = 0 | Owner Self | Granted(toggle ImmuneShieldToggle)
+Self is hit => Intervener Block[Self.ImmuneShieldCooldown + 1 for $N s] -> Self | IF Self.ImmuneShieldCooldown = 0 | Owner Self | Granted(toggle ImmuneShieldUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='ImmuneShieldWithCd' stats={[{key: 'ImmuneShield', value: 'IntervenerEffect_Signed'}, {key: 'ImmuneShieldToggle', value: 'Int_Clamped'}, {key: 'ImmuneShieldCooldown', value: 'Int_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='ImmuneShieldWithCd' stats={[{key: 'ImmuneShield', value: 'IntervenerEffect_Signed'}, {key: 'ImmuneShieldUnlocked', value: 'Int_Clamped'}, {key: 'ImmuneShieldCooldown', value: 'Int_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -841,15 +841,15 @@ Self is hit => ConditionalModifier[Rate + -$N] | IF Self.Health <= $N % | Owner 
 | | |
 | --- | --- |
 | **Mechanic** | Melee deflect / parry by timing: right after the actor attacks a 0.3 s window opens; a melee hit landing in it is ignored and sent back to the attacker in full (reflector ByPercentage 1, IgnoreAll). |
-| **Drive** | DeflectToggle = 1 (ships 0) and apply the shipped OpenMeleeDeflectWindow when the actor attacks (its OnUse / OnTriggered pack). The attacker must have Tag 'Melee'. |
+| **Drive** | DeflectUnlocked = 1 (ships 0) and apply the shipped OpenMeleeDeflectWindow when the actor attacks (its OnUse / OnTriggered pack). The attacker must have Tag 'Melee'. |
 | **Wires** | Health —Reflector_Receiving→ MeleeDeflectReflector. |
 | **Map** | Tag. |
 
 ```text title="Formula"
-Self is hit by melee within $N s of attacking => Reflector[all of it, ignored] -> Source | Owner Self | Granted(toggle DeflectToggle)
+Self is hit by melee within $N s of attacking => Reflector[all of it, ignored] -> Source | Owner Self | Granted(toggle DeflectUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='MeleeDeflect' stats={[{key: 'MeleeDeflectReflector', value: 'Reflector'}, {key: 'MeleeDeflectWindow', value: 'Int_Clamped'}, {key: 'DeflectToggle', value: 'Int_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='MeleeDeflect' stats={[{key: 'MeleeDeflectReflector', value: 'Reflector'}, {key: 'MeleeDeflectWindow', value: 'Int_Clamped'}, {key: 'DeflectUnlocked', value: 'Int_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -909,16 +909,16 @@ always => Linker[Self.Attack Rate + Self.MoveSpeed x $N] | Owner Self | Granted(
 
 | | |
 | --- | --- |
-| **Mechanic** | One hit kills you (a curse): while OneHitKillsYouToggle = 1, any incoming damage also applies Dead +1 to the bearer (signed counter, TriggerOn Applied). |
-| **Drive** | OneHitKillsYouToggle = 1 (ships 0). |
+| **Mechanic** | One hit kills you (a curse): while OneHitKillsYouUnlocked = 1, any incoming damage also applies Dead +1 to the bearer (signed counter, TriggerOn Applied). |
+| **Drive** | OneHitKillsYouUnlocked = 1 (ships 0). |
 | **Wires** | Health —CounterEffect_ReceivingSigned→ DieOnDamage. |
 | **Map** | Dead. |
 
 ```text title="Formula"
-Self is hit => Counter[Self.Dead + 1] -> Self | Owner Self | Granted(toggle OneHitKillsYouToggle)
+Self is hit => Counter[Self.Dead + 1] -> Self | Owner Self | Granted(toggle OneHitKillsYouUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='OneHitKillsYou' stats={[{key: 'DieOnDamage', value: 'CounterEffect_Signed'}, {key: 'OneHitKillsYouToggle', value: 'Int_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='OneHitKillsYou' stats={[{key: 'DieOnDamage', value: 'CounterEffect_Signed'}, {key: 'OneHitKillsYouUnlocked', value: 'Int_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -946,14 +946,14 @@ Self is hit => Counter[Self.Dead + 1] -> Self | Owner Self | Granted(toggle OneH
 
 | | |
 | --- | --- |
-| **Mechanic** | Ranged deflect, deflector half: while DeflectToggle = 1, the actor's attack hitting a Skillshot turns it around: team swapped, content replaced by DeflectDamage (DeflectDamage, ships -30), tweened back to its shooter, Deflect = 1. |
+| **Mechanic** | Ranged deflect, deflector half: while DeflectUnlocked = 1, the actor's attack hitting a Skillshot turns it around: team swapped, content replaced by DeflectDamage (DeflectDamage, ships -30), tweened back to its shooter, Deflect = 1. |
 | **Wires** | Attack —CounterEffect_ApplyingAS→ DeflectInflict. Load the Skillshot half into the projectile first, then this one mapping its keys to the projectile's repository (its keys stand for the projectile's stats). |
 
 ```text title="Formula"
-Source hits a Skillshot => Counter[Target.Team = Source.Team, Target.Damage = $N, Tween back to its shooter] -> Target | Owner Source | Granted(toggle DeflectToggle)
+Source hits a Skillshot => Counter[Target.Team = Source.Team, Target.Damage = $N, Tween back to its shooter] -> Target | Owner Source | Granted(toggle DeflectUnlocked)
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='RangedDeflect' stats={[{key: 'DeflectInflict', value: 'CounterEffect'}, {key: 'DeflectToggle', value: 'Int_Clamped'}, {key: 'DeflectDamage', value: 'Float_Clamped'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='RangedDeflect' stats={[{key: 'DeflectInflict', value: 'CounterEffect'}, {key: 'DeflectUnlocked', value: 'Int_Clamped'}, {key: 'DeflectDamage', value: 'Float_Clamped'}]} />
 
 **External relations** — written onto your own Stats when the pack loads:
 
@@ -1060,10 +1060,10 @@ Self.Dead would -> 1 => Intervener Block[Self.ReviveCount + -1, Self.Health + $N
 | --- | --- |
 | **Mechanic** | A status that spreads (contagion, frostbite, ignite others): every 4 s ($NameSpreadGenerator interval) a bearer of the status with $NameSpreadActive = 1 inflicts it (+1 for 6 s, $NameSpreadInflict) on teammates within 8 m that don't have it, and passes $NameSpreadActive on. Load it once per spreading mechanic, **Name** = the mechanic (Frostbite → FrostbiteSpreadActive), the Environment mapping = the bearers' environment (the foes'): every load gets its own StatIds, so several spreads share it. |
 | **Map** | Status → the status stat to spread (required), Position. |
-| **Switch** | a player grant = the player's own $NameSpreadToggle (IntClamped 0-1, not in the pack: create it) pushed by the player's inflict into the victim's $NameSpreadActive (Set_Int, ValueStat = the toggle, Actor Source); an innate spread = the inflict sets $NameSpreadActive = 1. No external relation. |
+| **Switch** | a player grant = the player's own $NameSpreadUnlocked (IntClamped 0-1, not in the pack: create it) pushed by the player's inflict into the victim's $NameSpreadActive (Set_Int, ValueStat = the toggle, Actor Source); an innate spread = the inflict sets $NameSpreadActive = 1. No external relation. |
 
 ```text title="Formula"
-every $N s while Self.<Status> > 0 => Generator->Counter[Target.<Status> + 1 for $N s, Target.$NameSpreadActive = Self.$NameSpreadActive] -> RelationState(Self, Team, Distance <= $N, Not <Status>) | IF Self.$NameSpreadActive = 1 | Owner Self (the bearer) | Granted(toggle $NameSpreadToggle, pushed into $NameSpreadActive) or Innate
+every $N s while Self.<Status> > 0 => Generator->Counter[Target.<Status> + 1 for $N s, Target.$NameSpreadActive = Self.$NameSpreadActive] -> RelationState(Self, Team, Distance <= $N, Not <Status>) | IF Self.$NameSpreadActive = 1 | Owner Self (the bearer) | Granted(toggle $NameSpreadUnlocked, pushed into $NameSpreadActive) or Innate
 ```
 
 <RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$NameSpread' stats={[{key: '$NameSpreadTick', value: 'Int_Clamped'}, {key: '$NameSpreadActive', value: 'Int_Clamped'}, {key: '$NameSpreadGenerator', value: 'Generator_Int'}, {key: '$NameSpreadBroadcaster', value: 'CounterEffect'}]} />

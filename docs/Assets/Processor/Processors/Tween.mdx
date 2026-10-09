@@ -15,7 +15,7 @@ It returns **Blocked** without touching the Tweener when the Effect is not a Twe
 Tween Effects have no built-in Processor Id. Once per value type:
 
 1. Add a Processor Id (e.g. `Tween_Vector3`) in *Power Editor › Enums › ProcessorId*.
-2. Create the Processor asset — *Create › Power › Processors › Process › Tween › Vector3* (`BSEffectProcess_Tween_Vector3`).
+2. Create the Processor asset — *Create › Power › Processors › Process › Tween › Vector3 (BS)* (`BSEffectProcess_Tween_Vector3`).
 3. Add an entry with that Processor Id and Processor to the **BS** table of every [Effect Process Definition](/docs/CoreConcepts/EffectProcessFlow) whose Actors receive the tween. The entry needs no Pre/Post/Duration/Feedback Processors.
 4. Set the Tween Effect's **Processor Id** to it.
 

@@ -16,9 +16,9 @@ Press Play, pick a scenario at the top of the screen and step through it with **
 <RepositoryExample
   name="Repository_VisualNovel_VN"
   stats={[
-    {key: 'Stat_VN_Affection(SrcSep)', value: 'Int, one value per speaker'},
-    {key: 'Stat_VN_Anger(SrcSep)', value: 'Int, one value per speaker'},
-    {key: 'Stat_VN_LoveImmune(SrcSep)', value: 'Int, one value per speaker'},
+    {key: 'Stat_Affection(SrcSep)_VN', value: 'Int, one value per speaker'},
+    {key: 'Stat_Anger(SrcSep)_VN', value: 'Int, one value per speaker'},
+    {key: 'Stat_LoveImmune(SrcSep)_VN', value: 'Int, one value per speaker'},
   ]}
 />
 
@@ -30,25 +30,25 @@ Every line a speaker says is an Effect whose **Source** is that speaker. The Sou
 
 A rude remark makes Mira immune to that speaker's charm: from then on that speaker's compliments stop working, while the other speaker's still land.
 
-<EffectExample name="Effect_VN_RudeRemark" targetStat="Key_VN_LoveImmune(SrcSep)" value={1} />
-<EffectExample name="Effect_VN_Compliment" targetStat="Key_VN_Affection" value={2} />
+<EffectExample name="Effect_RudeRemark_VN" targetStat="Key_LoveImmune(SrcSep)_VN" value={1} />
+<EffectExample name="Effect_Compliment_VN" targetStat="Key_Affection_VN" value={2} />
 
-<PowerRef>Stat_VN_LoveImmune(SrcSep)</PowerRef> is read by the Immune Preprocessor (<PowerRef kind="processor">Preprocess_LoveImmune_VN</PowerRef>) on Affection. Its **Process Scope** is *One Actor / Source*, so the Preprocessor reads only the copy that belongs to the speaker of the current line.
+<PowerRef>Stat_LoveImmune(SrcSep)_VN</PowerRef> is read by the Immune Preprocessor (<PowerRef kind="processor">Preprocess_LoveImmune_VN</PowerRef>) on Affection. Its **Process Scope** is *One Actor / Source*, so the Preprocessor reads only the copy that belongs to the speaker of the current line.
 
 ### 2. Anger toward the speaker
 
 An insult raises Mira's Anger **at that speaker**; an apology lowers it again.
 
-<EffectExample name="Effect_VN_Insult" targetStat="Key_VN_Anger(SrcSep)" value={3} />
-<EffectExample name="Effect_VN_Apology" targetStat="Key_VN_Anger(SrcSep)" value={-3} />
+<EffectExample name="Effect_Insult_VN" targetStat="Key_Anger(SrcSep)_VN" value={3} />
+<EffectExample name="Effect_Apology_VN" targetStat="Key_Anger(SrcSep)_VN" value={-3} />
 
-The compliment line, <PowerRef>Effect_VN_ComplimentLine</PowerRef>, is a [Conditional Effect](/docs/Assets/Effect/Conditional). It checks Mira's Anger through the SrcSep key <PowerRef>Key_VN_AngerAt_Source</PowerRef> (*Anger, the copy of the line's Source*): above 2 (<code>Condition_GT2(Int)_VN</code>) she scoffs (<PowerRef>Pack_VN_Scoff</PowerRef>, Affection −1) instead of blushing (<PowerRef>Pack_VN_Compliment</PowerRef>).
+The compliment line, <PowerRef>Effect_ComplimentLine_VN</PowerRef>, is a [Conditional Effect](/docs/Assets/Effect/Conditional). It checks Mira's Anger through the SrcSep key <PowerRef>Key_AngerAt_Source_VN</PowerRef> (*Anger, the copy of the line's Source*): above 2 (<code>Condition_GT2(Int)_VN</code>) she scoffs (<PowerRef>Pack_Scoff_VN</PowerRef>, Affection −1) instead of blushing (<PowerRef>Pack_Compliment_VN</PowerRef>).
 
 ### 3. Gossip about someone else
 
-Bora talks about Alex. <PowerRef>Effect_VN_Gossip</PowerRef> targets the SrcSep key <PowerRef>Key_VN_AngerAt_TriggerActor</PowerRef>, so the Effect's Source is Bora but the copy that changes is the one for the **Trigger Actor**, Alex: Mira gets angry at Alex.
+Bora talks about Alex. <PowerRef>Effect_Gossip_VN</PowerRef> targets the SrcSep key <PowerRef>Key_AngerAt_TriggerActor_VN</PowerRef>, so the Effect's Source is Bora but the copy that changes is the one for the **Trigger Actor**, Alex: Mira gets angry at Alex.
 
-<EffectExample name="Effect_VN_Gossip" targetStat="Key_VN_AngerAt_TriggerActor" value={2} />
+<EffectExample name="Effect_Gossip_VN" targetStat="Key_AngerAt_TriggerActor_VN" value={2} />
 
 The popups that show each change come from a Feedback Processor (`BSFeedback_VisualNovelStatChange`) in the `Add_Int` chain.
 

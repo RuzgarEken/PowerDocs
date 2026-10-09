@@ -51,11 +51,31 @@ The Player's Repository shows how the mechanics are split into Environments:
 
 Many upgrades are [Premade Relation Packs](/docs/Samples/PremadePacks/ShippedPacks) loaded into these Environments — Backstab, Damage Over Time, Spread Effect, Effect Hits Twice, Melee and Ranged Deflect, Revive and more — so the Kodes data is also a working reference for every shipped pack.
 
+## Status Effects
+
+Statuses are Int (Clamped) Stats on the foe (`Mob` Environment, Stagger in `Default`), raised by an inflict and lowered when it ends. Each one only switches a state on; the foe's own Stats read it (a slow, a damage over time, a skill blocker). Some come with the Attack itself, others only through an upgrade below. A looping VFX shows each one while it is on (`ActorExtension_ExternalVfxTracker` on every mob prefab).
+
+| Status | What it does | Applied by |
+|---|---|---|
+| **Stagger** | For 1 s the foe's AI is locked, its skills can't start, a running cast is interrupted and a melee foe's dash is cancelled. | Your Attack hits |
+| **Knockback** | Pushes the foe away (0.3 s tween). While pushed it carries the slam effectors: **Wall Slam** when it hits a wall, **Body Slam** when it hits another foe. | Wave Strike |
+| **Weak** | A curse. Frail Blood lets Poison stack 3 more times on a Weak foe. Lasts 4 s. | Shadow Strike, Death Echo |
+| **Marked** | A curse, shown as a red reticle. Lasts 6 s. | Windmark |
+| **Chill** | Stacks; each stack slows the foe. Ice Burst, Permafrost and Whiteout build on it. Lasts 8 s. | Rime Strike, Permafrost |
+| **Poison** | Stacks; deals damage over time that grows with the stacks. Lasts 6 s. | Venom Strike, Contagion |
+| **Doom** | A countdown curse: when it ends, the foe takes your `DoomDamage`. | Smoldering Strike |
+| **Decay** | Damage over time. | Whiteout |
+| **Exposed** | A curse: a Backstab against an Exposed foe deals ×1.5 damage. | Tremor Guard (on Deflect) |
+| **Jolted** | For 10 s, or until the foe attacks: its next attack also strikes it and nearby foes with lightning. | Overload |
+| **Ruptured** | For 3 s the foe takes Rupture damage. | Riptide |
+| **Stunned** | Counts as a curse. | — |
+| **Punished** | On while the foe carries more than 2 curses (`CurseCount`: Weak, Marked, Chill, Poison, Doom, Decay, Exposed, Jolted, Stunned, Ruptured). | Any 3 curses; Punisher deals +20 % to it |
+
 ## Upgrades
 
 After every cleared encounter, `UpgradeOfferController` offers 3 upgrades from `Upgrades/UpgradePool_R3D`. Each upgrade is an `UpgradeOption` in `Upgrades/Options/<Element>/<Upgrade>/` with a title, a description and an Effect Pack. Taking one applies the pack to the player as **Temporary** Effects, so it can be taken off again.
 
-Most packs only switch a toggle Stat on, or raise a value. The mechanic itself is already wired into the player's or the Attack skill's Stats, and waits for that toggle. Each upgrade below shows the pack it applies and the Stats that make it work.
+Most packs only switch an `…Unlocked` Stat on, or raise a value. The mechanic itself is already wired into the player's or the Attack skill's Stats, and waits for that Stat. Each upgrade below shows the pack it applies and the Stats that make it work.
 
 ### General
 
@@ -110,21 +130,21 @@ Raises a Conditional Modifier on your attack damage that checks the target's `He
 
 <p><SpecTags items={['General', 'Upgrades/Options/General/Backstab']} /></p>
 
-The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the Attack skill. The upgrade switches its toggle on; a Conditional Modifier then compares your facing `Direction` with the target's and, from behind, adds 50 % damage and the `BackStab` Result Attribute.
+The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the Attack skill. The upgrade switches its `BackstabUnlocked` on; a Conditional Modifier then compares your facing `Direction` with the target's and, from behind, adds 50 % damage and the `BackStab` Result Attribute.
 
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='BackstabActive' target='Player'>
-  <EffectExample name='BackstabActive' targetStat='BackstabToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+<PackExample name='Backstab' target='Player'>
+  <EffectExample name='BackstabUnlock' targetStat='BackstabUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_BackstabDamage' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / BackstabDamage' default='0.5' max='2' condition='Attack_BackstabToggle, Direction through BackStab_Dispatcher'>
+<StatExample name='Attack_BackstabDamage' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / BackstabDamage' default='0.5' max='2' condition='Attack_BackstabUnlocked, Direction through BackStab_Dispatcher'>
   Contribution: **Rate**.
 </StatExample>
 
-<StatExample name='Attack_BackstabToggle' type='Int (Clamped)' statKey='Attack / IntClamped / BackstabToggle' max='1' />
+<StatExample name='Attack_BackstabUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / BackstabUnlocked' max='1' />
 
 </details>
 
@@ -159,16 +179,16 @@ Switches on a State-Based Effect that watches `CastAmmo`: while it is `0`, the e
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='EmptyHands' target='Player'>
-  <EffectExample name='EmptyHandsActive' targetStat='EmptyHandsActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='EmptyHandsUnlock' targetStat='EmptyHandsUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='EmptyHands' type='State-Based Effect' statKey='Player / StateBasedEffect / EmptyHands' condition='CastAmmo, EmptyHandsToggle through EmptyHands_Dispatcher'>
+<StatExample name='EmptyHands' type='State-Based Effect' statKey='Player / StateBasedEffect / EmptyHands' condition='CastAmmo, EmptyHandsUnlocked through EmptyHands_Dispatcher'>
   Applies <PowerRef>Pack_EmptyHands_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='EmptyHandsToggle' type='Int (Clamped)' statKey='Player / IntClamped / EmptyHandsActive' max='1' />
+<StatExample name='EmptyHandsUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / EmptyHandsUnlocked' max='1' />
 
 </details>
 
@@ -227,7 +247,7 @@ Raises a Reflector on your `Health` that turns part of the damage you take into 
 
 **Stats**
 
-<StatExample name='ReceivingDamageToRageReflector' type='Reflector' statKey='Player / Reflector_SigSep / DamageReflectors(SigSep) / ReceivingDamageToRageReflector' default='0' max='1' condition='RageToggle = 0'>
+<StatExample name='ReceivingDamageToRageReflector' type='Reflector' statKey='Player / Reflector_SigSep / DamageReflectors(SigSep) / ReceivingDamageToRageReflector' default='0' max='1' condition='RageActive = 0'>
   Reflects through <PowerRef>Effect_DamageToRageTemplate_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReceivingDamageToRageLinker_R3D</PowerRef>.
 </StatExample>
 
@@ -243,16 +263,16 @@ Switches on a Conditional Modifier on your attack damage that checks the target'
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Punisher' target='Player'>
-  <EffectExample name='Punisher' targetStat='PunisherToggle' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='Punisher' targetStat='PunisherUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='DamageToPunished' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToPunished' default='0.2' max='1' condition='Punished, PunisherToggle through Punisher_Dispatcher'>
+<StatExample name='DamageToPunished' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToPunished' default='0.2' max='1' condition='Punished, PunisherUnlocked through Punisher_Dispatcher'>
   Contribution: **Rate**.
 </StatExample>
 
-<StatExample name='PunisherToggle' type='Int (Clamped)' statKey='Player / IntClamped / PunisherToggle' max='1' />
+<StatExample name='PunisherUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / PunisherUnlocked' max='1' />
 
 </details>
 
@@ -324,21 +344,21 @@ Raises a Conditional Modifier on your attack damage that compares your `Position
 
 <p><SpecTags items={['General', 'Upgrades/Options/General/TrapSense']} /></p>
 
-Switches on a Conditional Modifier in your trap-damage list that takes 60 % off while its toggle is `1`.
+Switches on a Conditional Modifier in your trap-damage list that takes 60 % off while `TrapResistUnlocked` is `1`.
 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='TrapSense' target='Player'>
-  <EffectExample name='TrapResist' targetStat='TrapResistActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='TrapResist' targetStat='TrapResistUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='TrapDamageResist' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / TrapDamageConditionalModifiers(SigSep) / TrapDamageResist' default='-0.6' min='-1' max='1' condition='TrapResistToggle = 1'>
+<StatExample name='TrapDamageResist' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / TrapDamageConditionalModifiers(SigSep) / TrapDamageResist' default='-0.6' min='-1' max='1' condition='TrapResistUnlocked = 1'>
   Contribution: **Rate**.
 </StatExample>
 
-<StatExample name='TrapResistToggle' type='Int (Clamped)' statKey='Player / IntClamped / TrapResistActive' max='1' />
+<StatExample name='TrapResistUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / TrapResistUnlocked' max='1' />
 
 </details>
 
@@ -360,16 +380,16 @@ Switches on an Intervener Effect in your applying `Dead` list: when your hit kil
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='DeathEcho' target='Player'>
-  <EffectExample name='DeathBurst' targetStat='DeathBurstActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='DeathBurst' targetStat='DeathBurstUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='DeathBurstCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / DeathBurstCounterEffect' condition='DeathBurstToggle = 1'>
+<StatExample name='DeathBurstCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / DeathBurstCounterEffect' condition='DeathBurstUnlocked = 1'>
   Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_AliveTeammateInRange5_R3D</PowerRef>. Applies <PowerRef>Pack_DeathBurst_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_DeathBurstLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='DeathBurstToggle' type='Int (Clamped)' statKey='Player / IntClamped / DeathBurstActive' max='1' />
+<StatExample name='DeathBurstUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / DeathBurstUnlocked' max='1' />
 
 </details>
 
@@ -383,16 +403,16 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies We
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='ShadowStrike' target='Player'>
-  <EffectExample name='WeakToggle' targetStat='WeakToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='WeakUnlock' targetStat='WeakUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_WeakInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / WeakInflict' condition='Attack_WeakToggle = 1'>
+<StatExample name='Attack_WeakInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / WeakInflict' condition='Attack_WeakUnlocked = 1'>
   Applies <PowerRef>Pack_WeakInflict_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_WeakToggle' type='Int (Clamped)' statKey='Attack / IntClamped / WeakToggle' max='1' />
+<StatExample name='Attack_WeakUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / WeakUnlocked' max='1' />
 
 </details>
 
@@ -414,17 +434,17 @@ Switches on an Intervener Effect in your applying `Dead` list that grants the bo
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='KindledFury' target='Player'>
-  <EffectExample name='KindledFury' targetStat='KindledFuryActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='KindledFury' targetStat='KindledFuryUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
   <EffectExample name='SlayDamageBonus' targetStat='SlayDamageBonus' target='Player' value='1' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, KindledFuryToggle, TeamNo through SlayBoost_Dispatcher'>
+<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, KindledFuryUnlocked, TeamNo through SlayBoost_Dispatcher'>
   Applies <PowerRef>Pack_SlayBoostGrant_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_SlayBoostLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='KindledFuryToggle' type='Int (Clamped)' statKey='Player / IntClamped / KindledFuryActive' max='1' />
+<StatExample name='KindledFuryUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / KindledFuryUnlocked' max='1' />
 
 <StatExample name='SlayDamageBonus' type='Float (Clamped)' statKey='Player / FloatClamped / SlayDamageBonus' max='10' />
 
@@ -440,17 +460,17 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies Do
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='SmolderingStrike' target='Player'>
-  <EffectExample name='DoomToggle' targetStat='Attack_DoomToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='DoomUnlock' targetStat='Attack_DoomUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
   <EffectExample name='DoomDamage' targetStat='DoomDamage' target='Player' value='-30' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_DoomInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DoomInflict' condition='Attack_DoomToggle = 1'>
+<StatExample name='Attack_DoomInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DoomInflict' condition='Attack_DoomUnlocked = 1'>
   Applies <PowerRef>Pack_Attack_DoomInflict_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_DoomToggle' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_DoomToggle' max='1' />
+<StatExample name='Attack_DoomUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_DoomUnlocked' max='1' />
 
 <StatExample name='DoomDamage' type='Float (Clamped)' statKey='Mob / FloatClamped / DoomDamage' min='-9999' />
 
@@ -517,16 +537,16 @@ Switches on a Counter Effect in your attack counter-effect list. It fires only o
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Windmark' target='Player'>
-  <EffectExample name='Windmark' targetStat='WindmarkActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='Windmark' targetStat='WindmarkUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='WindmarkToggle = 1; result is Critical'>
+<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='WindmarkUnlocked = 1; result is Critical'>
   Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_RandomFoeInRange_R3D</PowerRef>. Applies <PowerRef>Pack_MarkOnCriticalAttack_R3D</PowerRef>. Linked into <PowerRef>AttackCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_MarkOnCriticalAttackLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='WindmarkToggle' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkActive' max='1' />
+<StatExample name='WindmarkUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkUnlocked' max='1' />
 
 </details>
 
@@ -566,22 +586,22 @@ Unlocks an Intervener Effect on your `Health` that cancels the next negative Eff
 
 <p><SpecTags items={['Earth', 'Upgrades/Options/Earth/BoulderStrike']} /></p>
 
-Switches on the Attack's deflect toggle, which arms a Reflector on your `Health` and a Counter Effect that turns projectiles back, and raises the Attack's damage rate modifier.
+Switches on the Attack's `DeflectUnlocked`, which arms a Reflector on your `Health` and a Counter Effect that turns projectiles back, and raises the Attack's damage rate modifier.
 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='BoulderStrike' target='Player'>
-  <EffectExample name='Deflect' targetStat='DeflectToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='Deflect' targetStat='DeflectUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
   <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='MeleeDeflectReflector' type='Reflector' statKey='Player / Reflector / MeleeDeflectReflector' default='1' max='1' condition='Attack_DeflectToggle, MeleeDeflectWindow, Tag through MeleeDeflect_Dispatcher'>
+<StatExample name='MeleeDeflectReflector' type='Reflector' statKey='Player / Reflector / MeleeDeflectReflector' default='1' max='1' condition='Attack_DeflectUnlocked, MeleeDeflectWindow, Tag through MeleeDeflect_Dispatcher'>
   Reflects through <PowerRef>Effect_MeleeDeflectDamage_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_MeleeDeflectReflectorLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_DeflectInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DeflectInflict' condition='Attack_DeflectToggle, Tag through Dispatcher'>
+<StatExample name='Attack_DeflectInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DeflectInflict' condition='Attack_DeflectUnlocked, Tag through Dispatcher'>
   Applies <PowerRef>Pack_DeflectInflict_R3D</PowerRef>.
 </StatExample>
 
@@ -589,7 +609,7 @@ Switches on the Attack's deflect toggle, which arms a Reflector on your `Health`
   Contribution: **Rate**.
 </StatExample>
 
-<StatExample name='Attack_DeflectToggle' type='Int (Clamped)' statKey='Attack / IntClamped / DeflectToggle' max='1' relations={[{key: 'CounterEffect_ApplyingAS', value: 'DeflectCounterEffects(SigSep)'}]} />
+<StatExample name='Attack_DeflectUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / DeflectUnlocked' max='1' relations={[{key: 'CounterEffect_ApplyingAS', value: 'DeflectCounterEffects(SigSep)'}]} />
 
 </details>
 
@@ -645,16 +665,16 @@ Switches on a Counter Effect in your deflect counter-effect list that applies Ex
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='TremorGuard' target='Player'>
-  <EffectExample name='TremorGuard' targetStat='TremorGuardActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='TremorGuard' targetStat='TremorGuardUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='DeflectAlsoExpose' type='Counter Effect' statKey='Player / CounterEffect_SigSep / DeflectCounterEffects(SigSep) / DeflectAlsoExpose' condition='TremorGuardToggle = 1'>
+<StatExample name='DeflectAlsoExpose' type='Counter Effect' statKey='Player / CounterEffect_SigSep / DeflectCounterEffects(SigSep) / DeflectAlsoExpose' condition='TremorGuardUnlocked = 1'>
   Applies <PowerRef>Pack_DeflectAlsoExpose_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='TremorGuardToggle' type='Int (Clamped)' statKey='Player / IntClamped / TremorGuardActive' max='1' />
+<StatExample name='TremorGuardUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / TremorGuardUnlocked' max='1' />
 
 </details>
 
@@ -671,17 +691,17 @@ Chill, and what Chill leads to.
 
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/IceBurst']} /></p>
 
-Switches on `IceBurstActive`.
+Switches on `IceBurstUnlocked`.
 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='IceBurst' target='Player'>
-  <EffectExample name='IceBurstActive' targetStat='IceBurstActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='IceBurstUnlock' targetStat='IceBurstUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='IceBurstToggle' type='Int (Clamped)' statKey='Player / IntClamped / IceBurstActive' default='1' max='1' />
+<StatExample name='IceBurstUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / IceBurstUnlocked' default='1' max='1' />
 
 </details>
 
@@ -695,16 +715,16 @@ Switches on a signed Counter Effect on your applying `Health` list. When your hi
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Permafrost' target='Player'>
-  <EffectExample name='PermafrostActive' targetStat='PermafrostActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='PermafrostUnlock' targetStat='PermafrostUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='PermafrostShatter' type='Counter Effect (Signed)' statKey='Player / CounterEffect_Signed / PermafrostShatter' condition='Chill, Health, PermafrostToggle through PermafrostShatter_Dispatcher'>
+<StatExample name='PermafrostShatter' type='Counter Effect (Signed)' statKey='Player / CounterEffect_Signed / PermafrostShatter' condition='Chill, Health, PermafrostUnlocked through PermafrostShatter_Dispatcher'>
   Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_AliveTeammateInRange8_R3D</PowerRef>. Applies <PowerRef>Pack_PermafrostNearby_R3D</PowerRef>. Linked into <PowerRef>ApplyingHealthCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_PermafrostShatterLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='PermafrostToggle' type='Int (Clamped)' statKey='Player / IntClamped / PermafrostActive' max='1' />
+<StatExample name='PermafrostUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / PermafrostUnlocked' max='1' />
 
 </details>
 
@@ -718,17 +738,17 @@ Switches on an Intervener Effect in the Attack's damage list that applies Chill,
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='RimeStrike' target='Player'>
-  <EffectExample name='ChillToggle' targetStat='ChillToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='ChillUnlock' targetStat='ChillUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
   <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_ChillInflict' type='Intervener Effect' statKey='Attack / IntervenerEffect_SigSep / DamageIntervernerEffects(SigSep) / ChillInflict' condition='Attack_ChillToggle = 1'>
+<StatExample name='Attack_ChillInflict' type='Intervener Effect' statKey='Attack / IntervenerEffect_SigSep / DamageIntervernerEffects(SigSep) / ChillInflict' condition='Attack_ChillUnlocked = 1'>
   Applies <PowerRef>Pack_Attack_ChillInflict_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_ChillToggle' type='Int (Clamped)' statKey='Attack / IntClamped / ChillToggle' max='1' />
+<StatExample name='Attack_ChillUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / ChillUnlocked' max='1' />
 
 <StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
   Contribution: **Rate**.
@@ -772,12 +792,12 @@ Poison and how it spreads.
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/Contagion']} /></p>
 
-Switches on the foes' `PoisonSpreadActive`. A Counter Effect on each foe then passes Poison to an unpoisoned teammate within 8 m.
+Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the foes' `PoisonSpreadActive`. A Counter Effect on each foe then passes Poison to an unpoisoned teammate within 8 m.
 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Contagion' target='Player'>
-  <EffectExample name='Contagion' targetStat='PoisonSpreadActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='Contagion' targetStat='PoisonSpreadUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
@@ -795,17 +815,17 @@ Switches on the foes' `PoisonSpreadActive`. A Counter Effect on each foe then pa
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/FrailBlood']} /></p>
 
-Switches on the foes' copy of the toggle, which a Linker Definition uses as the gate for the extra Poison stacks.
+Switches on your `FrailBloodUnlocked`; your Poison inflict copies it into the foes' `FrailBloodActive`, which a Linker Definition uses as the gate for the extra Poison stacks.
 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='FrailBlood' target='Player'>
-  <EffectExample name='FrailBlood' targetStat='FrailBloodActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='FrailBlood' targetStat='FrailBloodUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='FrailBloodToggle' type='Int (Clamped)' statKey='Mob / IntClamped / FrailBloodActive' max='1'>
+<StatExample name='FrailBloodActive' type='Int (Clamped)' statKey='Mob / IntClamped / FrailBloodActive' max='1'>
   Used by <PowerRef>LinkerDefinition_FrailBloodGate_R3D</PowerRef>.
 </StatExample>
 
@@ -816,17 +836,17 @@ Switches on the foes' copy of the toggle, which a Linker Definition uses as the 
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/NumbingVenom']} /></p>
 
-Switches on the foes' copy of the toggle, which a Linker Definition uses as the gate for the slow.
+Switches on your `NumbingVenomUnlocked`; your Poison inflict copies it into the foes' `NumbingVenomActive`, which a Linker Definition uses as the gate for the slow.
 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='NumbingVenom' target='Player'>
-  <EffectExample name='NumbingVenom' targetStat='NumbingVenomActive' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='NumbingVenom' targetStat='NumbingVenomUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='NumbingVenomToggle' type='Int (Clamped)' statKey='Mob / IntClamped / NumbingVenomActive' max='1'>
+<StatExample name='NumbingVenomActive' type='Int (Clamped)' statKey='Mob / IntClamped / NumbingVenomActive' max='1'>
   Used by <PowerRef>LinkerDefinition_NumbingVenomGate_R3D</PowerRef>.
 </StatExample>
 
@@ -863,16 +883,16 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies Po
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='VenomStrike' target='Player'>
-  <EffectExample name='PoisonToggle' targetStat='Attack_PoisonToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='PoisonUnlock' targetStat='Attack_PoisonUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_PoisonInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / PoisonInflict' condition='Attack_PoisonToggle = 1'>
+<StatExample name='Attack_PoisonInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / PoisonInflict' condition='Attack_PoisonUnlocked = 1'>
   Applies <PowerRef>Pack_Attack_PoisonInflict_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_PoisonToggle' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_PoisonToggle' max='1' />
+<StatExample name='Attack_PoisonUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_PoisonUnlocked' max='1' />
 
 </details>
 
@@ -908,11 +928,11 @@ Switches on a Counter Effect linked into the knockback counter-effect list, so e
 </details>
 
 <details>
-<summary><strong>Wave Strike</strong> — Your Attack knocks foes away and is stronger.</summary>
+<summary><strong>Wave Strike</strong> — Your Attack knocks foes away and is stronger; knocked foes slam into walls and each other.</summary>
 
 <p><SpecTags items={['Water', 'Upgrades/Options/Water/WaveStrike']} /></p>
 
-Switches on the Attack's knockback Counter Effect and raises the Attack's damage rate modifier.
+Switches on the Attack's knockback Counter Effect and raises the Attack's damage rate modifier. The knockback also attaches slam effectors to the pushed foe: **Wall Slam** deals `WallSlamDamage` (10) when it hits a wall, **Body Slam** deals `BodySlamDamage` (5) to a foe it is knocked into.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -923,7 +943,7 @@ Switches on the Attack's knockback Counter Effect and raises the Attack's damage
 
 **Stats**
 
-<StatExample name='Attack_KnockbackInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / KnockInflict' condition='Attack_KnockbackToggle = 1'>
+<StatExample name='Attack_KnockbackInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / KnockInflict' condition='Attack_KnockbackUnlocked = 1'>
   Applies <PowerRef>Pack_KnockbackInflict_R3D</PowerRef>.
 </StatExample>
 
@@ -931,7 +951,7 @@ Switches on the Attack's knockback Counter Effect and raises the Attack's damage
   Contribution: **Rate**.
 </StatExample>
 
-<StatExample name='Attack_KnockbackToggle' type='Int (Clamped)' statKey='Attack / IntClamped / Knockaway' max='1' />
+<StatExample name='Attack_KnockbackUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / Knockaway' max='1' />
 
 </details>
 
@@ -976,16 +996,16 @@ Switches on a Counter Effect in your lightning counter-effect list that applies 
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Overload' target='Player'>
-  <EffectExample name='JoltToggleOn' targetStat='JoltToggle' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='JoltUnlock' targetStat='JoltUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='JoltInflict' type='Counter Effect' statKey='Player / CounterEffect_SigSep / LightningCounterEffects(SigSep) / JoltInflict' condition='JoltToggle = 1'>
+<StatExample name='JoltInflict' type='Counter Effect' statKey='Player / CounterEffect_SigSep / LightningCounterEffects(SigSep) / JoltInflict' condition='JoltUnlocked = 1'>
   Applies <PowerRef>Pack_JoltInflict_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='JoltToggle' type='Int (Clamped)' statKey='Player / IntClamped / JoltToggle' max='1' />
+<StatExample name='JoltUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / JoltUnlocked' max='1' />
 
 </details>
 
@@ -999,16 +1019,16 @@ Switches on a Counter Effect in the Attack's counter-effect list that starts the
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='StormStrike' target='Player'>
-  <EffectExample name='LightningToggle' targetStat='LightningToggle' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='LightningUnlock' targetStat='LightningUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_LightningInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / LightningInflict' condition='Attack_LightningToggle = 1'>
+<StatExample name='Attack_LightningInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / LightningInflict' condition='Attack_LightningUnlocked = 1'>
   Applies <PowerRef>Pack_LightningInflict_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_LightningToggle' type='Int (Clamped)' statKey='Attack / IntClamped / LightningToggle' max='1' />
+<StatExample name='Attack_LightningUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / LightningUnlocked' max='1' />
 
 </details>
 
@@ -1016,6 +1036,6 @@ Switches on a Counter Effect in the Attack's counter-effect list that starts the
 
 :::info
 
-You can import **Roguelite3D** (Kodes) from **Power Editor → Initializer → Sample Importer** (open the Power Editor from **Tools → Power → Editor**). Import **General Expansions** and **Premade Packs** first.
+You can import **Roguelite3D** (Kodes) from **Power Editor → Initializer → Sample Importer** (open the Power Editor from **Tools → Power → Editor**). Import **General Expansions** first; **Premade Packs** isn't needed, since the packs Kodes uses are already loaded into its data.
 
 :::
