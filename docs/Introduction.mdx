@@ -66,3 +66,43 @@ Every game has stats and ways for players to change them. That interaction is ex
 - **[Kodes](/docs/Samples/Kodes)** — a real-time roguelite with 39 upgrades, many built with AI.
 - **[Slay The Sphere](/docs/Samples/SlayTheSphere)** — a turn-based card game: 20 cards, 7 relics, 3 potions.
 - **[General Expansions](/docs/Samples/GeneralExpansions)** — collision-based Effectors and the Skill system, with source you can adapt.
+
+## Why you should still use Power in the AI era
+
+AI agents write code fast, so why use a framework at all? Because writing a mechanic is only the start. The hard part comes later: finding out why a hit dealt the wrong number, adding the 40th upgrade without breaking the other 39, and tuning everything until it feels right. Power is built for that part.
+
+#### Every mechanic is visible
+
+AI-written code grows a little differently with every request: one more damage path, one more status check, one more special case. After a few dozen features, nobody knows exactly what happens on a hit, not even the agent that wrote it.
+
+In Power, a mechanic is a set of connected assets, and you can see all of it:
+
+- **[Relations](/docs/Interface/Relations)** draws a mechanic as a graph: which Stats and Effects it uses and what uses them.
+- **[Flow](/docs/Interface/Flow)** traces a single Effect through the pipeline at runtime: every Processor it passed and what each one changed.
+- **[Search](/docs/Interface/Search)** and **[Access](/docs/Interface/Access)** take you to the asset you need in a click.
+
+#### Bugs are caught before you press Play
+
+- **[Validator](/docs/Interface/Validator)** checks every asset, prefab and scene and points at each broken Key, missing reference and misplaced Processor.
+- **[Orphans](/docs/Interface/Orphans)** finds what nothing uses anymore after an experiment or a rename.
+- Your agent runs the same checks after every mechanic it builds, so a wiring mistake shows up as an error line, not as a strange bug three upgrades later.
+
+#### One pipeline, so features don't collide
+
+Every Effect, from the first upgrade to the hundredth, goes through the same Processor pipeline with the same rules for order, stacking, immunity and ownership. New mechanics plug into rules that already work instead of inventing new ones, so interactions stay predictable as the game grows. That's the point where hand-written AI code usually gets hard to manage: each new feature has to be checked against every old one.
+
+#### Change it without rewriting it
+
+- **Tune in the Inspector.** Numbers, durations, chances and conditions are data. You, a designer or a tester can change them without touching code or waiting for a compile.
+- **Swap the rule, keep the rest.** Turning "+20 % damage" into "+20 % damage to isolated foes" is a different Modifier on the same Stat, not a refactor.
+- **Ask the agent for the change, not the code.** With [power-skill](/docs/AISupport), you describe the new behaviour and the agent rewires the assets. You review the result in the same tools you'd use yourself.
+
+#### The agent builds with known pieces
+
+Agents follow structure well. With Power, an agent doesn't design a stat system, a damage pipeline and a status system before it can build your first upgrade; those already exist and are documented. It turns your request into a Power formula and builds it from the same pieces every time, so the result is something you can read, check and change in the same tools.
+
+#### Build once, reuse everywhere
+
+The same engine runs a real-time roguelite, a turn-based card game, an action demo and a visual novel. What you and your agent learn on one game carries over to the next.
+
+**In short:** AI makes writing gameplay fast. Power makes that gameplay easy to **debug, improve and change** for the rest of the project's life.
