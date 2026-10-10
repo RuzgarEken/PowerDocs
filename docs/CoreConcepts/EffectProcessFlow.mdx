@@ -222,7 +222,9 @@ When an Effect arrives, Power resolves its Effect Type and routes it through the
 
 Within each funnel, Processors are divided into stages:
 
-<img src={ProcessFunnel} alt="Power Effect processing funnel" />
+<img src={ProcessFunnel} alt="Slay The Sphere's funnel for Int Attribute Stat Effects, with a PreProcessor, Processor, PostProcessor and Feedback Processor" />
+
+*Slay The Sphere's funnel for Int Attribute Stat Effects: `Immune` can block the Effect before it lands, `Standard_Int` applies it, `CounterEffect` reacts to the result, and `TextSpawner` shows the floating number. Its Duration list is empty, which is the usual case.*
 
 See all processor types [here](/docs/category/processor).
 

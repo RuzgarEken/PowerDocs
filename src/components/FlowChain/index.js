@@ -11,15 +11,15 @@ import RepositoryIcon from '../PowerSpec/assets/StatRepositoryIcon.png';
 import InjectorIcon from '../PowerSpec/assets/InjectorIcon.png';
 
 const ICONS = {
-  effect: {icon: EffectIcon, color: '#c83737'},
-  pack: {icon: EffectPackIcon, color: '#c17a3c'},
-  processor: {icon: ProcessorIcon, color: '#3e8cb5'},
-  stat: {icon: StatIcon, color: '#e0c400'},
-  key: {icon: StatKeyIcon, color: '#b4359e'},
-  container: {icon: ContainerIcon, color: '#37b98c'},
-  environment: {icon: EnvironmentIcon, color: '#d2b48c'},
+  effect: {icon: EffectIcon, color: '#EA635F'},
+  pack: {icon: EffectPackIcon, color: '#EE9C4E'},
+  processor: {icon: ProcessorIcon, color: '#5898E9'},
+  stat: {icon: StatIcon, color: '#F3DC60'},
+  key: {icon: StatKeyIcon, color: '#EC61CA'},
+  container: {icon: ContainerIcon, color: '#5DD275'},
+  environment: {icon: EnvironmentIcon, color: '#B58962'},
   repository: {icon: RepositoryIcon, color: '#8a94a3'},
-  injector: {icon: InjectorIcon, color: '#b8b176'},
+  injector: {icon: InjectorIcon, color: '#70B04D'},
 };
 
 function Head({icon, label, sub}) {

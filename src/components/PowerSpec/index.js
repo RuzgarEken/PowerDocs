@@ -30,18 +30,17 @@ import ProcessorIcon from './assets/ProcessorIcon.png';
 
 const NestedContext = createContext(false);
 
-// `color` values mirror the Power asset icons used inside Unity.
-// TODO(tarik): confirm hex values for the icon-derived kinds below.
+// `color` values mirror the Power asset icons used inside Unity (PowerTools/Icons/icons.json in the Power project).
 const KINDS = {
-  effect: {label: 'Effect', color: '#C83737', icon: EffectIcon},
-  stat: {label: 'Stat', color: '#FFDC32', icon: StatIcon},
-  injector: {label: 'Injector', color: '#B8B176', icon: InjectorIcon},
-  pack: {label: 'Effect Pack', color: '#c17a3c', icon: EffectPackIcon},
-  repository: {label: 'Stat Repository', color: '#ffffff', icon: StatRepositoryIcon},
-  key: {label: 'Stat Key', color: '#b4359e', icon: StatKeyIcon},
-  container: {label: 'Stat Container', color: '#37b98c', icon: StatContainerIcon},
-  environment: {label: 'Environment', color: '#d2b48c', icon: StatEnvironmentDefIcon},
-  processor: {label: 'Processor', color: '#3e8cb5', icon: ProcessorIcon},
+  effect: {label: 'Effect', color: '#EA635F', icon: EffectIcon},
+  stat: {label: 'Stat', color: '#F3DC60', icon: StatIcon},
+  injector: {label: 'Injector', color: '#70B04D', icon: InjectorIcon},
+  pack: {label: 'Effect Pack', color: '#EE9C4E', icon: EffectPackIcon},
+  repository: {label: 'Stat Repository', color: '#F2F2F2', icon: StatRepositoryIcon},
+  key: {label: 'Stat Key', color: '#EC61CA', icon: StatKeyIcon},
+  container: {label: 'Stat Container', color: '#5DD275', icon: StatContainerIcon},
+  environment: {label: 'Environment', color: '#B58962', icon: StatEnvironmentDefIcon},
+  processor: {label: 'Processor', color: '#5898E9', icon: ProcessorIcon},
 };
 
 // Very light kind colours (e.g. Repository's white) are unreadable as a border

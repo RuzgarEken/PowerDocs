@@ -45,7 +45,7 @@
 .env {
   flex: 1 1 200px;
   min-width: 190px;
-  border: 2px solid #d2b48c;
+  border: 2px solid #B58962;
   border-radius: 10px;
   background: var(--ifm-background-color);
   padding: 0.7rem 0.8rem;
@@ -59,7 +59,7 @@
   font-size: 0.95rem;
   margin-bottom: 0.55rem;
   padding-bottom: 0.45rem;
-  border-bottom: 1px solid #d2b48c;
+  border-bottom: 1px solid #B58962;
 }
 
 .envIcon {

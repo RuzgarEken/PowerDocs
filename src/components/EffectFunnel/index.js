@@ -48,7 +48,7 @@ export default function EffectFunnel() {
         icon={EffectIcon}
         label="Effect"
         sub="BS · AS · MAS"
-        color="#c83737"
+        color="#EA635F"
       />
       <Down label="enters" />
 
@@ -76,7 +76,7 @@ export default function EffectFunnel() {
       </div>
 
       <Down label="modifies" />
-      <Node icon={StatIcon} label="Stat" color="#e0c400" />
+      <Node icon={StatIcon} label="Stat" color="#F3DC60" />
     </div>
   );
 }

@@ -23,7 +23,7 @@ Map these Environments into your Actors' Repositories instead of rebuilding them
 | Asset | Does |
 |-------|-------------|
 | `StatValueAdapter_LookAtIfNotThere` (*Create › Power › Misc › Value Adapter › LookAtIfNotThere*) | The incoming Stat is a **position**; returns the direction from the Source's position (**Source Position Key**) to it, or the Source's current facing (**Source Direction Key**) when the two points coincide. Use it on a Set Effect on the Source's `Direction` whose value is another Actor's position — *face the closest enemy before attacking*. |
-| `BSStandardPostcontribution_SweepTestBeforeMove_Vector3` | A Vector3 Postcontribution for Position Effects: sweeps the Actor's own collider along the move and **slides along obstacles** instead of entering them. **Skin Width** (gap kept to obstacles), **Max Iterations** (collide-and-slide passes; 3 covers corners), **Slope Limit** (steeper surfaces are walls), **Obstacle Layers** (by name). Put it in the Position chain so dashes and knockbacks stop at walls. |
+| `BSPostcontribution_SweepTestBeforeMove_Vector3` | A Vector3 Postcontribution for Position Effects: sweeps the Actor's own collider along the move and **slides along obstacles** instead of entering them. **Skin Width** (gap kept to obstacles), **Max Iterations** (collide-and-slide passes; 3 covers corners), **Slope Limit** (steeper surfaces are walls), **Obstacle Layers** (by name). Put it in the Position chain so dashes and knockbacks stop at walls. |
 | `PowerDiplomacyProvider_Battle` (*Create › Power › World › Diplomacy › Provider › Battle*) | A diplomacy provider with the five relation states **Me**, **Team**, **Ally**, **Neutral**, **Enemy**. |
 
 ## Components

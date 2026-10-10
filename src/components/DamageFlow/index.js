@@ -49,7 +49,7 @@ export default function DamageFlow() {
         icon={ProcessorIcon}
         label="Processor_Add_Float"
         sub="ProcessorId: Add_Float"
-        color="#3e8cb5"
+        color="#5898E9"
       />
 
       <Down label="modifies" />
@@ -57,7 +57,7 @@ export default function DamageFlow() {
         icon={StatIcon}
         label="HealthStat"
         sub="Health: 100 → 95"
-        color="#e0c400"
+        color="#F3DC60"
       />
     </div>
   );

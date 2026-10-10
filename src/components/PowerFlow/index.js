@@ -35,13 +35,13 @@ export default function PowerFlow() {
     <div className={styles.flow}>
       <Node label="Effector" />
       <Arrow label="applies" />
-      <Node icon={EffectIcon} label="Effect" color="#c83737" />
+      <Node icon={EffectIcon} label="Effect" color="#EA635F" />
       <Arrow label="through" />
-      <Node icon={ProcessorIcon} label="Processors" color="#3e8cb5" />
+      <Node icon={ProcessorIcon} label="Processors" color="#5898E9" />
       <Arrow label="modifies" />
       <div className={styles.actor}>
         <div className={styles.actorHeader}>Actor</div>
-        <Node icon={StatIcon} label="Stats" color="#e0c400" />
+        <Node icon={StatIcon} label="Stats" color="#F3DC60" />
       </div>
     </div>
   );
