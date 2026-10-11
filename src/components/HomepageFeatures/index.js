@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 const FeatureList = [
@@ -45,6 +46,16 @@ const FeatureList = [
       <>
         Build realtime, turn-based, or hybrid gameplay using the same set of
         Power assets.
+      </>
+    ),
+  },
+  {
+    title: 'AI Ready',
+    description: (
+      <>
+        Describe a mechanic in plain words and your AI agent builds it. Power
+        ships power-skill for Claude Code, Codex, Copilot and other agents.{' '}
+        <Link to="/docs/AISupport">Learn more</Link>
       </>
     ),
   },
