@@ -37,7 +37,7 @@ export default function Home() {
   return (
     <Layout
       title={``}
-      description="Description will go into a meta tag in <head />">
+      description="Power is a data-driven stat and effect system for Unity. Build gameplay mechanics by connecting assets: stats, effects, processors and relations, realtime or turn-based, and AI ready.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

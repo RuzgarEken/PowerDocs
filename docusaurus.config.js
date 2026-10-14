@@ -53,6 +53,12 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      // Link previews (Open Graph / Twitter cards): forums, Discord and chat show this image under a docs link
+      image: 'img/power-social-card.png',
+      metadata: [
+        {name: 'description', content: 'Power is a data-driven stat and effect system for Unity: build gameplay mechanics by connecting assets, and let an AI agent build them with you.'},
+        {name: 'twitter:card', content: 'summary_large_image'},
+      ],
       colorMode: {
         respectPrefersColorScheme: true,
         disableSwitch: true
