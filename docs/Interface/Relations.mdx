@@ -25,11 +25,11 @@ A mechanic is usually more than one Stat. Show them together and the graph draws
 | Control | Does |
 | --- | --- |
 | Toolbar field | Picks one root and replaces all others. |
-| **Add Selection** | Adds the Stats (and the Stats of Keys) selected in the Project window as more roots. |
+| **Add Selection** | Adds the Stats (and the Stats of Keys) and Effects selected in the Project window as more roots. |
 | **Clear** | Removes every root. |
 | **+N more** | Shown next to the field when there are several roots; hover it for their names. |
 
-Roots are placed like any other node: a root that an earlier root links to sits next to it, and only roots no earlier one reaches start a new stack in the first column. Effects, Packs and other assets can't be roots; they appear as nodes when a root reaches them.
+Roots are placed like any other node: a root that an earlier root links to sits next to it, and only roots no earlier one reaches start a new stack in the first column. An Effect can be a root too: its target, read and holder Stats are one Stat away, like any Effect's. Packs and other assets can't be roots; they appear as nodes when a root reaches them.
 
 ## When to use it
 
@@ -45,7 +45,7 @@ Nodes are Stats and Effects. Effect Packs, Injectors, Adapters and other assets 
 
 | Node | Color key |
 | --- | --- |
-| **Root** | A Stat you opened the graph for. |
+| **Root** | A Stat or Effect you opened the graph for. |
 | **Stat** | A Stat Definition. The subtitle shows its Container, Environment and how many Stats away it is. |
 | **Effect** | An Effect. |
 | **Effect pack** | An Effect Pack that no Stat holds. |

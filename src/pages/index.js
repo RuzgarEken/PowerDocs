@@ -7,6 +7,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
 import DemoShowcase from '@site/src/components/DemoShowcase';
+import ContactSection from '@site/src/components/ContactSection';
 import PowerIconBlack from '@site/static/img/PowerIconBlack.svg';
 
 function HomepageHeader() {
@@ -42,6 +43,7 @@ export default function Home() {
       <main>
         <HomepageFeatures />
         <DemoShowcase />
+        <ContactSection />
       </main>
     </Layout>
   );

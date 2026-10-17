@@ -1,0 +1,129 @@
+---
+sidebar_position: 8
+description: Power AI Runs — the cost, time and token log of every /build-mechanic and /update-docs run, per agent and per step.
+---
+
+# AI Runs
+
+**Power AI Runs** shows what your AI agent runs cost. Every `/build-mechanic` and `/update-docs` run of the [agent workflow](/docs/AISupport#the-agent-workflow-optional) is recorded with its cost, time and tokens, split per agent and, for debug runs, per step.
+
+Open it from **Tools → Power → AI Runs**. It needs Unity 2022.2 or newer; on older versions the window isn't available.
+
+The log is `.claude/build-mechanic/runs.json` in your project's root folder, outside `Assets`. It is empty until your first run, and it stays on your machine.
+
+## When to use it
+
+- **What did that mechanic cost?** Each run shows its total, and how much went to building the mechanic and how much to improving the docs.
+- **Is it getting cheaper?** The chart shows the trend across runs, for example after a docs change or a model switch.
+- **Where does the money go?** In a debug run, see which step of which agent was the most expensive.
+
+:::tip[Per-step costs]
+
+Start the request with `--debug` (`/build-mechanic --debug <request>`) to get a cost report per step at the end of the run, in the chat. The run log then has the steps too.
+
+:::
+
+## Runs
+
+Each row is one run: **Date**, **Label**, **Kind** (`build-mechanic` or `update-docs`), **Outcome**, **Models** (the models the run's agents used, with their effort), **Cost** and its **Build** / **Docs $** split, **Active** and **Wall** time, **API** and **Tools** calls, **New ctx** (new context tokens), **Gaps** (rounds where the builder reported a docs gap), **Cold tests**, **Fixes** (your corrections), **Debug** and the **Docs** version the run used.
+
+| Control | Does |
+| --- | --- |
+| Kind filter | Shows all runs, or only `build-mechanic` or `update-docs` runs. |
+| **Chart** | The metric the chart plots per run: cost, active minutes, API calls, new context or cache reads. Bars are split into build and docs work. |
+| Search | Filters runs by label, request and notes. |
+| **Reload** | Reads the log again. The window also reloads when you focus it after a new run. |
+| **Show JSON** | Shows `runs.json` in your file browser. |
+
+## A run's details
+
+Select a run to see its request, outcome and notes, which model and effort each agent ran on, and its **Agents**: role, model, cost and share of the run, active time, API calls, cost per call and context sizes. Select an agent to see its **Steps** (debug runs only): the step name, calls, time, tokens, cost, share of the agent's cost and the `power.py` commands it ran.
+
+Ctrl/Cmd-click two runs to compare them: the cost, the builder's cost, active time and more are shown side by side with the change in percent, above the details.
+
+## How costs are measured
+
+Each API call is priced per model from `AiFlow/build-mechanic/prices.json`. The input side (new input, cache writes and cache reads) is always exact, because the agents' transcripts keep it. The output side isn't in the transcripts in full: they are written before a reply finishes, and an agent's thinking is hidden. A run's details say which of these the output came from:
+
+| Output | When | How exact |
+| --- | --- | --- |
+| **Exact, telemetry** | Claude Code telemetry was on and the receiver was running during the run. Codex runs are always this. | Exact, thinking included. |
+| **Estimated** | Telemetry was off, or the receiver wasn't running. | Visible text and tool calls, plus thinking estimated from the size of each hidden thinking block. |
+| **Mixed** | Telemetry covered only part of the run. | Exact where it could be matched, estimated for the rest. |
+| **Lower bound** | Runs recorded before this was added. | Thinking not counted. |
+
+### Turn on exact costs
+
+1. Add Claude Code's telemetry settings to `.claude/settings.local.json` in your project folder. Use the folder you start Claude Code from: the project root, or `Assets` if you open it there.
+
+   ```json
+   {
+     "env": {
+       "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+       "OTEL_LOGS_EXPORTER": "otlp",
+       "OTEL_EXPORTER_OTLP_PROTOCOL": "http/json",
+       "OTEL_EXPORTER_OTLP_ENDPOINT": "http://127.0.0.1:4318",
+       "OTEL_LOGS_EXPORT_INTERVAL": "2000"
+     }
+   }
+   ```
+
+2. Start the receiver in a terminal from your project root, and keep it running while you work:
+
+   ```bash
+   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/otel_receiver.py
+   ```
+
+   It needs only Python and listens on your machine only. It saves each API call's token counts to `.claude/build-mechanic/otel.jsonl`, with no prompts or code.
+
+3. Start a new Claude Code session. The settings are read when a session starts, so a session that is already open isn't measured.
+
+Runs from then on show **Exact, telemetry**. When the receiver isn't running, Claude Code works as usual and the run is estimated.
+
+### Measure Codex runs
+
+Runs made with the OpenAI Codex CLI are supported too. Codex keeps no transcript the log can read, so a Codex run is measured from Codex's own telemetry, through the same receiver. Its cost is always exact: Codex reports every API call's tokens, reasoning included. Calls over 272K input tokens are priced at OpenAI's long-context rates.
+
+1. Add this to `~/.codex/config.toml`:
+
+   ```toml
+   [otel]
+   exporter = { otlp-http = { endpoint = "http://127.0.0.1:4318/v1/logs", protocol = "json" } }
+   ```
+
+2. Keep the receiver running while Codex works, as in step 2 above. It saves each call's token counts and each tool call's name and command, with no prompts and no tool output.
+
+3. After the run, list the Codex conversations the receiver saw, and print the cost report of one by its id (the start of the id is enough):
+
+   ```bash
+   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py codex
+   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py codex <conversation-id>
+   ```
+
+4. To add the run to AI Runs, list the conversation in the run's `meta.json` with `"source": "codex"`, then record it:
+
+   ```json
+   "agents": [{"id": "<conversation-id>", "source": "codex", "role": "mechanic-builder"}]
+   ```
+
+   ```bash
+   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py record meta.json
+   ```
+
+Steps come from `# STEP: <name>` lines in the agent's commands. A Codex run that wasn't measured while it ran can't be recorded afterwards.
+
+### Make the estimate closer
+
+The estimate counts thinking with a fixed ratio until it is calibrated. After one run with telemetry on, fit the ratio to it:
+
+```bash
+python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py calibrate <agent-id> [<agent-id> ...]
+```
+
+The ratio is saved in `.claude/build-mechanic/estimates.json` and used for every later estimate, so runs without telemetry are closer to their real cost.
+
+:::note
+
+Prices change. Keep `prices.json` up to date with your provider's rates (it lists Anthropic and OpenAI models); a model it doesn't list is counted as $0, and the report warns you.
+
+:::

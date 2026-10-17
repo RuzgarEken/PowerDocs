@@ -1,0 +1,40 @@
+.contactSection {
+  padding: 4rem 0 4.5rem;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.subtitle {
+  max-width: 620px;
+  margin: 1rem auto 2rem;
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.mailButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #111;
+}
+
+.mailButton:hover {
+  color: #111;
+}
+
+.address {
+  margin: 1.2rem 0 0;
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 2rem;
+  }
+}

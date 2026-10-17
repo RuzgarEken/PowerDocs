@@ -84,3 +84,57 @@
   --ifm-alert-border-color: #7f97ae;
   --docusaurus-details-decoration-color: #7f97ae;
 }
+
+
+/* Store and social links (navbar and footer) */
+.navbar-asset-store {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0.5rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--ifm-color-primary);
+  color: #111;
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.navbar-asset-store:hover {
+  background: var(--ifm-color-primary-dark);
+  color: #111;
+  text-decoration: none;
+}
+
+.navbar-social {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.navbar-social a {
+  display: inline-flex;
+  padding: 0.4rem;
+  border-radius: 8px;
+  color: var(--ifm-navbar-link-color);
+}
+
+.navbar-social a:hover {
+  color: var(--ifm-color-primary);
+  background: var(--ifm-hover-overlay);
+}
+
+.footer-icon-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Narrow screens: the store button and icons live in the footer and the sidebar menu */
+@media (max-width: 996px) {
+  .navbar-social,
+  .navbar-asset-store {
+    display: none;
+  }
+}
