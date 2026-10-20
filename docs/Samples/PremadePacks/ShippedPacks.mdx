@@ -91,20 +91,20 @@ Source hits => Counter[Pack_$NameInflict] -> Target | Owner Source | Granted(tog
 </details>
 
 <details>
-<summary><strong>Backstab</strong> — More damage when attacker and target face the same way.</summary>
+<summary><strong>Backstab</strong> — More damage when the attacker stands behind its target.</summary>
 
 <p><SpecTags items={['Combat', 'PremadeRelationPacks/Combat/Backstab']} /></p>
 
 | | |
 | --- | --- |
-| **Mechanic** | Damage from behind (backstab): an attack whose attacker and target face the same way (dot &gt;= 0.7) deals BackstabDamage more (Rate, ships 0.5) and adds the BackStab result attribute. |
+| **Mechanic** | Damage from behind (backstab): an attack from an attacker standing behind its target (in the target's ±60° rear cone, Relative Angle &gt;= 120) deals BackstabDamage more (Rate, ships 0.5) and adds the BackStab result attribute. |
 | **Drive** | BackstabUnlocked = 1 (ships 0). |
 | **Wires** | Attack —ConditionalModifier_ApplyingAS→ BackstabDamage. |
-| **Map** | Direction → your facing Direction. |
+| **Map** | Direction → your facing Direction; Position → your Position. |
 | **Processors** | AS/MAS ConditionalModifier contribution. |
 
 ```text title="Formula"
-Source hits => ConditionalModifier[Rate + $N] | IF Source.Direction . Target.Direction >= $N | Owner Source | Granted(toggle BackstabUnlocked)
+Source hits => ConditionalModifier[Rate + $N] | IF angle(Target.Direction, Source.Position - Target.Position) >= $N | Owner Source | Granted(toggle BackstabUnlocked)
 ```
 
 <RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='Backstab' stats={[{key: 'BackstabDamage', value: 'ConditionalModifier_Float'}, {key: 'BackstabUnlocked', value: 'Int_Clamped'}]} />
@@ -122,7 +122,7 @@ Source hits => ConditionalModifier[Rate + $N] | IF Source.Direction . Target.Dir
 
 | Kind | Assets |
 | --- | --- |
-| Conditions | <PowerRef>Condition_Backstab_Dispatcher</PowerRef> <PowerRef>Condition_FromBehind</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> |
+| Conditions | <PowerRef>Condition_FromBehindAndUnlocked</PowerRef> <PowerRef>Condition_FromBehind</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> |
 
 </details>
 
@@ -232,7 +232,7 @@ Source hits => CriticalHit[chance $N, bonus $N] | Owner Source | Granted(value C
 | | |
 | --- | --- |
 | **Mechanic** | Damage boost on the next attack, skill-object half: SkillObjectDamageBoost (Rate modifier the attack reads from its effector), SkillObjectHitCount, NextAttackBoost. |
-| **Wires** | Attack —Modifier_Applying→ SkillObjectDamageBoost (Effector contribution). Load into the skill object's repository into its Default Environment; give its prefab a SkillExtension_OnDisposeEffectTrigger with NextAttackBoostUnspent_Dispatcher ([0] hit count, [1] NextAttackBoost) → the actor's NextAttackBoostGrant, so a missed attack keeps the charge. |
+| **Wires** | Attack —Modifier_Applying→ SkillObjectDamageBoost (Effector contribution). Load into the skill object's repository into its Default Environment; give its prefab a SkillExtension_OnDisposeEffectTrigger with FirstHitWhileBoosted ([0] hit count, [1] NextAttackBoost) → the actor's NextAttackBoostGrant, so a missed attack keeps the charge. |
 
 ```text title="Formula"
 skill object spawns => [Self.SkillObjectDamageBoost = Source.$N] | Owner the skill object | Innate - driven by the Actor half
@@ -252,7 +252,7 @@ skill object spawns => [Self.SkillObjectDamageBoost = Source.$N] | Owner the ski
 
 | Kind | Assets |
 | --- | --- |
-| Conditions | <PowerRef>Condition_NextAttackBoostUnspent_Dispatcher</PowerRef> |
+| Conditions | <PowerRef>Condition_FirstHitWhileBoosted</PowerRef> |
 
 </details>
 
@@ -432,7 +432,7 @@ Self is hit => Intervener[Health + $N] -> RelationState(Self, Enemy, Distance <=
 | --- | --- |
 | Effect Packs | <PowerRef>Pack_Retaliation</PowerRef> |
 | Effects | <PowerRef>Effect_RetaliationDamage</PowerRef> |
-| Conditions | <PowerRef>Condition_DifNot0(Int)</PowerRef> <PowerRef>Condition_GT0(Float)</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_Retaliation_Dispatcher</PowerRef> |
+| Conditions | <PowerRef>Condition_DifNot0(Int)</PowerRef> <PowerRef>Condition_GT0(Float)</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_EnemyAndUnlocked</PowerRef> |
 | Targeting | <PowerRef>TargetingFilter_Alive</PowerRef> <PowerRef>TargetingFilter_AliveInRange8</PowerRef> <PowerRef>TargetingFilter_InRange8</PowerRef> |
 
 </details>
@@ -796,7 +796,7 @@ Self is hit => Intervener Block[Self.ImmuneShieldCooldown + 1 for $N s] -> Self 
 | --- | --- |
 | Effect Packs | <PowerRef>Pack_ImmuneShieldBreak</PowerRef> |
 | Effects | <PowerRef>Effect_ImmuneShieldCooldown</PowerRef> |
-| Conditions | <PowerRef>Condition_GT0(Int)</PowerRef> <PowerRef>Condition_ImmuneShieldCounterReady_Dispatcher</PowerRef> <PowerRef>Condition_Is0(Int)</PowerRef> |
+| Conditions | <PowerRef>Condition_GT0(Int)</PowerRef> <PowerRef>Condition_OffCooldownAndUnlocked</PowerRef> <PowerRef>Condition_Is0(Int)</PowerRef> |
 
 </details>
 
@@ -865,7 +865,7 @@ Self is hit by melee within $N s of attacking => Reflector[all of it, ignored] -
 | Kind | Assets |
 | --- | --- |
 | Effects | <PowerRef>Effect_MeleeDeflectDamage</PowerRef> <PowerRef>Effect_OpenMeleeDeflectWindow</PowerRef> |
-| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_IsActor(String)</PowerRef> <PowerRef>Condition_MeleeDeflect_Dispatcher</PowerRef> |
+| Conditions | <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_IsActor(String)</PowerRef> <PowerRef>Condition_EnemyActorInWindowAndUnlocked</PowerRef> |
 | Asset Pack | <PowerRef>PAP_MeleeDeflect</PowerRef> |
 
 </details>
@@ -966,13 +966,10 @@ Source hits a Skillshot => Counter[Target.Team = Source.Team, Target.Damage = $N
 - <PowerRef>Key_EffectContent_RangedDeflectPRP</PowerRef> — Default / EffectPack / EffectContent
 - <PowerRef>Key_Health_RangedDeflectPRP</PowerRef> — Default / FloatClamped / Health
 - <PowerRef>Key_SkillSource_RangedDeflectPRP</PowerRef> — Default / Actor / SkillSource
-- <PowerRef>Key_DeflectStartPoint_RangedDeflectPRP</PowerRef> — Default / Vector3 / KnockbackStartPoint
 - <PowerRef>Key_Position_RangedDeflectPRP</PowerRef> — Default / Vector3 / Position
-- <PowerRef>Key_DeflectEndPoint_RangedDeflectPRP</PowerRef> — Default / Vector3 / KnockbackEndPoint
+- <PowerRef>Key_DeflectTween_RangedDeflectPRP</PowerRef> — Default / Tweener_Vector3 / KnockbackTween
 - <PowerRef>Key_PositionMovement_RangedDeflectPRP</PowerRef> — Movement / Vector3 / Position
-- <PowerRef>Key_DeflectDuration_RangedDeflectPRP</PowerRef> — Default / FloatClamped / KnockbackDuration
 - <PowerRef>Key_HitCount_RangedDeflectPRP</PowerRef> — Default / IntClamped / HitCount
-- <PowerRef>Key_Deflect_RangedDeflectPRP</PowerRef> — Default / IntClamped / Knockedback
 - <PowerRef>Key_Attack_RangedDeflectPRP</PowerRef> — Default / FloatClamped / Attack
 
 **Assets**
@@ -980,8 +977,8 @@ Source hits a Skillshot => Counter[Target.Team = Source.Team, Target.Damage = $N
 | Kind | Assets |
 | --- | --- |
 | Effect Packs | <PowerRef>Pack_DeflectDamage</PowerRef> <PowerRef>Pack_DeflectInflict</PowerRef> |
-| Effects | <PowerRef>Effect_DeflectDamage(AS)</PowerRef> <PowerRef>Effect_Deflect_ChangeSourceActor</PowerRef> <PowerRef>Effect_Deflect_Enable</PowerRef> <PowerRef>Effect_Deflect_ResetHitCount</PowerRef> <PowerRef>Effect_Deflect_SetDuration</PowerRef> <PowerRef>Effect_Deflect_SetEffectContent</PowerRef> <PowerRef>Effect_Deflect_SetEndPoint</PowerRef> <PowerRef>Effect_Deflect_SetStartPoint</PowerRef> <PowerRef>Effect_SetTeam</PowerRef> |
-| Conditions | <PowerRef>Condition_Dispatcher</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_IsSkillshot(String)</PowerRef> |
+| Effects | <PowerRef>Effect_DeflectDamage(AS)</PowerRef> <PowerRef>Effect_Deflect_ChangeSourceActor</PowerRef> <PowerRef>Effect_Deflect_ResetHitCount</PowerRef> <PowerRef>Effect_Deflect_SetEffectContent</PowerRef> <PowerRef>Effect_Deflect_Tween</PowerRef> <PowerRef>Effect_SetTeam</PowerRef> |
+| Conditions | <PowerRef>Condition_SkillshotAndUnlocked</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> <PowerRef>Condition_IsSkillshot(String)</PowerRef> |
 | Value Adapters | <PowerRef>StatValueAdapter_AlterVector3</PowerRef> |
 
 </details>
@@ -1010,7 +1007,7 @@ Self.Deflect -> 1 => Tween[Self.Position -> its shooter over $N s] | Owner the p
 | Kind | Assets |
 | --- | --- |
 | Effect Packs | <PowerRef>Pack_CompleteDeflect</PowerRef> |
-| Effects | <PowerRef>Effect_DeflectTweenTemplate</PowerRef> <PowerRef>Effect_RemoveDeflectModifiers</PowerRef> |
+| Effects | <PowerRef>Effect_DeflectEnd</PowerRef> <PowerRef>Effect_DeflectTweenTemplate</PowerRef> |
 | Conditions | <PowerRef>Condition_IsTweenComplete(WithMaxStat)</PowerRef> |
 
 </details>
@@ -1058,15 +1055,15 @@ Self.Dead would -> 1 => Intervener Block[Self.ReviveCount + -1, Self.Health + $N
 
 | | |
 | --- | --- |
-| **Mechanic** | A status that spreads (contagion, frostbite, ignite others): every 4 s ($NameSpreadGenerator interval) a bearer of the status with $NameSpreadActive = 1 inflicts it (+1 for 6 s, $NameSpreadInflict) on teammates within 8 m that don't have it, and passes $NameSpreadActive on. Load it once per spreading mechanic, **Name** = the mechanic (Frostbite → FrostbiteSpreadActive), the Environment mapping = the bearers' environment (the foes'): every load gets its own StatIds, so several spreads share it. |
+| **Mechanic** | A status that spreads (contagion, frostbite, ignite others): every 4 s ($NameSpreadGenerator interval) a bearer of the status with $NameSpreadActive = 1 inflicts it (+1 for 6 s, $NameSpreadInflict) on teammates within 8 m that don't have it, and passes $NameSpreadActive on. One stat does it: $NameSpreadGenerator, an EffectPack Generator with **Target Others** (the bearer's Team, filtered by range and "doesn't have it") that sends $NameSpread every tick while the status is on and $NameSpreadActive = 1. Load it once per spreading mechanic, **Name** = the mechanic (Frostbite → FrostbiteSpreadActive), the Environment mapping = the bearers' environment (the foes'): every load gets its own StatIds, so several spreads share it. |
 | **Map** | Status → the status stat to spread (required), Position. |
 | **Switch** | a player grant = the player's own $NameSpreadUnlocked (IntClamped 0-1, not in the pack: create it) pushed by the player's inflict into the victim's $NameSpreadActive (Set_Int, ValueStat = the toggle, Actor Source); an innate spread = the inflict sets $NameSpreadActive = 1. No external relation. |
 
 ```text title="Formula"
-every $N s while Self.<Status> > 0 => Generator->Counter[Target.<Status> + 1 for $N s, Target.$NameSpreadActive = Self.$NameSpreadActive] -> RelationState(Self, Team, Distance <= $N, Not <Status>) | IF Self.$NameSpreadActive = 1 | Owner Self (the bearer) | Granted(toggle $NameSpreadUnlocked, pushed into $NameSpreadActive) or Innate
+every $N s while Self.<Status> > 0 => Generator[Target.<Status> + 1 for $N s, Target.$NameSpreadActive = Self.$NameSpreadActive] -> RelationState(Self, Team, Distance <= $N, Not <Status>) | IF Self.$NameSpreadActive = 1 | Owner Self (the bearer) | Granted(toggle $NameSpreadUnlocked, pushed into $NameSpreadActive) or Innate
 ```
 
-<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$NameSpread' stats={[{key: '$NameSpreadTick', value: 'Int_Clamped'}, {key: '$NameSpreadActive', value: 'Int_Clamped'}, {key: '$NameSpreadGenerator', value: 'Generator_Int'}, {key: '$NameSpreadBroadcaster', value: 'CounterEffect'}]} />
+<RepositoryExample kind="environment" label='Environment (loads into the Environment you choose)' name='$NameSpread' stats={[{key: '$NameSpreadActive', value: 'Int_Clamped'}, {key: '$NameSpreadGenerator', value: 'Generator_EffectPack'}]} />
 
 **External keys** — map each to the Stat it stands for in your project:
 
@@ -1078,7 +1075,7 @@ every $N s while Self.<Status> > 0 => Generator->Counter[Target.<Status> + 1 for
 | Kind | Assets |
 | --- | --- |
 | Effect Packs | <PowerRef>Pack_$NameSpread</PowerRef> |
-| Effects | <PowerRef>Effect_$NameSpreadActiveSet</PowerRef> <PowerRef>Effect_$NameSpreadInflict</PowerRef> <PowerRef>Effect_$NameSpreadTick</PowerRef> |
+| Effects | <PowerRef>Effect_$NameSpreadActiveSet</PowerRef> <PowerRef>Effect_$NameSpreadInflict</PowerRef> |
 | Conditions | <PowerRef>Condition_Is0(Int)</PowerRef> <PowerRef>Condition_Is1(Int)</PowerRef> |
 | Targeting | <PowerRef>TargetingFilter_CloseUpTo8</PowerRef> |
 | Other | <PowerRef>Filter_$NameFoeWithoutStatusInRange8</PowerRef> <PowerRef>Filter_$NameWithoutStatus</PowerRef> |

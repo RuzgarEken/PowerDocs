@@ -35,9 +35,7 @@ On collision, the **Knockback** Pack runs on every hit enemy. `KickDamage` appli
 
 <PackExample name='Knockback'>
   <EffectExample name='RemoveKnockbackModifiers' label={"Modifier Remover Effect (BS)"} targetStat={"Knockback / IntClamped / Knockedback"} processor='ModifierRemover' />
-  <EffectExample name='ResetKnockbackTweenValue' label={"Float Stat Effect (BS)"} targetStat={"Knockback / Tween_Vector3 / KnockbackTween"} processor='Set_Float' applyType='Temporary' />
-  <EffectExample name='SetKnockbackEndPoint' label={"Vector3 Stat Effect (BS)"} targetStat={"Knockback / Vector3 / KnockbackEndPoint"} processor='Set_Vector3' />
-  <EffectExample name='SetKnockbackDuration' label={"Float Stat Effect (BS)"} targetStat={"Knockback / FloatClamped / KnockbackDuration"} processor='Set_Float' value={"0.75"} />
+  <EffectExample name='KnockbackTween' label={"Tween Effect Model BS Vector3"} targetStat={"Knockback / Tween_Vector3 / KnockbackTween"} processor='Tween_Vector3' />
   <EffectExample name='Knockback' label={"Int Stat Effect (BS)"} targetStat={"Knockback / IntClamped / Knockedback"} value={"1"} applyType='Temporary' />
   <EffectExample name='KickDamage' label={"Float Stat Effect (BS)"} targetStat={"Default / FloatClamped / Health"} processor='Standard_Float' value={"-3"} />
   <EffectExample name='VerticalForce' label={"Float Stat Effect (BS)"} targetStat={"VerticalMovement / FloatClamped / VerticalSpeed"} processor='Standard_Float' value={"10"} />
@@ -48,7 +46,7 @@ On collision, the **Knockback** Pack runs on every hit enemy. `KickDamage` appli
 
 </div>
 
-The knockback movement is a tween. `SetKnockbackEndPoint` computes the destination from the kick direction (using `Direction` → `ProjectOnPlane` → `Multiply`), `SetKnockbackDuration` sets it to `0.75` seconds, `ResetKnockbackTweenValue` restarts the tween, and `VerticalForce` adds a small upward pop.
+The knockback movement is a tween, set up by one effect: `KnockbackTween` starts at the target's position, ends at the destination computed from the kick direction (using `Direction` → `ProjectOnPlane` → `Multiply`), runs for `0.75` seconds and restarts its progress. `Knockback` then turns the tween on, and `VerticalForce` adds a small upward pop.
 
 <div className="prp-packs">
 

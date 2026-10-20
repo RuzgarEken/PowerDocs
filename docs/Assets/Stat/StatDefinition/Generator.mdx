@@ -32,6 +32,19 @@ The **Generator Signature** defines how a **Generator Stat** behaves at runtime.
 | **Toggle On Value Type** | Determines when the Generator is active based on the Toggle Stat's value. See **Toggle On Value Types** below. |
 | **Toggle Off On Zero** | Stops generation when the Generator's value is `0`. Generation automatically resumes when the value becomes non-zero. |
 | **Generating Effect Template** | Defines the Effect used to apply generated values. Generators never modify target Stats directly; instead, they generate through an Effect, allowing the normal Effect processing pipeline to be used. |
+| **Target Others** | Off (default): each generated Effect goes to the Generator's own actor. On: it goes to the actors picked by **Generating Target** on every tick, each receiving its own copy. |
+| **Generating Target** | Who receives the generated Effect when **Target Others** is on: **Relation State** (actors related to **Relate To** by **Target Relation**, narrowed by a **Targeting Filter**), **Team Flags**, **Custom** (a **Custom Targeter**), **Actor Stat**, **Source** or **Target**. |
+| **Override Target Environment** | Sends the generated Effect into another Environment of the receivers. |
+| **State Check** | A tick sends its Effect only when the check passes (a single stat or several stats with their conditions), read with Source = the actor that started the Generator and Target = its own actor. |
+
+### Targeting other actors
+
+A Generator with **Target Others** handles anything that should act on other actors on a timer: a status spreading to
+nearby foes, a pulsing aura, a periodic area hit. Use an **EffectPack** Generator when one tick should apply several
+Effects.
+
+The receivers are looked up again on every tick of every Generator. Many Generators ticking at short intervals cost
+more, so prefer a longer interval or a narrower filter (a distance limit, "doesn't have the status yet") when it shows.
 
 ### Toggle On Value Types
 

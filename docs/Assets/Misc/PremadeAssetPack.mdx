@@ -37,7 +37,7 @@ Dodge Chance needs a Processor most projects don't have yet: `Precontribution_Hi
 
 Extract it into your Processors folder, then add the copy to your Process Definition yourself — a PAP only copies.
 
-`PAP_Knockback` lists a single Effect Pack, `Pack_$Name`. Extracted with the **Name** `Knockback`, it also copies everything the pack references — its Set / Reset / Remove Effects and the Value Adapters that compute the knockback end point — fills in `$Name` (`Pack_Knockback`, `Effect_SetKnockbackEndPoint`…) and rewires the copied pack to the copies, so the new assets don't point back into the sample.
+`PAP_Knockback` lists a single Effect Pack, `Pack_$Name`. Extracted with the **Name** `Knockback`, it also copies everything the pack references — its Remove, Tween and toggle Effects and the Value Adapters that compute the knockback end point — fills in `$Name` (`Pack_Knockback`, `Effect_KnockbackTween`…) and rewires the copied pack to the copies, so the new assets don't point back into the sample.
 
 ## Shipped packs
 

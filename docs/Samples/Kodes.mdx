@@ -130,7 +130,7 @@ Raises a Conditional Modifier on your attack damage that checks the target's `He
 
 <p><SpecTags items={['General', 'Upgrades/Options/General/Backstab']} /></p>
 
-The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the Attack skill. The upgrade switches its `BackstabUnlocked` on; a Conditional Modifier then compares your facing `Direction` with the target's and, from behind, adds 50 % damage and the `BackStab` Result Attribute.
+The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the Attack skill. The upgrade switches its `BackstabUnlocked` on; a Conditional Modifier then checks where you stand around the target (a [Relative Angle](/docs/Assets/Misc/StatCondition/MultiStat/RelativeAngle) condition: inside its ±60° rear cone) and, from behind, adds 50 % damage and the `BackStab` Result Attribute.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -140,7 +140,7 @@ The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the At
 
 **Stats**
 
-<StatExample name='Attack_BackstabDamage' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / BackstabDamage' default='0.5' max='2' condition='Attack_BackstabUnlocked, Direction through BackStab_Dispatcher'>
+<StatExample name='Attack_BackstabDamage' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / BackstabDamage' default='0.5' max='2' condition='Attack_BackstabUnlocked, Target Position + Direction and Source Position through FromBehindAndUnlocked'>
   Contribution: **Rate**.
 </StatExample>
 
@@ -184,7 +184,7 @@ Switches on a State-Based Effect that watches `CastAmmo`: while it is `0`, the e
 
 **Stats**
 
-<StatExample name='EmptyHands' type='State-Based Effect' statKey='Player / StateBasedEffect / EmptyHands' condition='CastAmmo, EmptyHandsUnlocked through EmptyHands_Dispatcher'>
+<StatExample name='EmptyHands' type='State-Based Effect' statKey='Player / StateBasedEffect / EmptyHands' condition='CastAmmo, EmptyHandsUnlocked through NoAmmoAndUnlocked'>
   Applies <PowerRef>Pack_EmptyHands_R3D</PowerRef>.
 </StatExample>
 
@@ -268,7 +268,7 @@ Switches on a Conditional Modifier on your attack damage that checks the target'
 
 **Stats**
 
-<StatExample name='DamageToPunished' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToPunished' default='0.2' max='1' condition='Punished, PunisherUnlocked through Punisher_Dispatcher'>
+<StatExample name='DamageToPunished' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToPunished' default='0.2' max='1' condition='Punished, PunisherUnlocked through PunishedAndUnlocked'>
   Contribution: **Rate**.
 </StatExample>
 
@@ -440,7 +440,7 @@ Switches on an Intervener Effect in your applying `Dead` list that grants the bo
 
 **Stats**
 
-<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, KindledFuryUnlocked, TeamNo through SlayBoost_Dispatcher'>
+<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, KindledFuryUnlocked, TeamNo through EnemyAliveAndUnlocked'>
   Applies <PowerRef>Pack_SlayBoostGrant_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_SlayBoostLinker_R3D</PowerRef>.
 </StatExample>
 
@@ -573,7 +573,7 @@ Unlocks an Intervener Effect on your `Health` that cancels the next negative Eff
 
 **Stats**
 
-<StatExample name='Protection' type='Intervener Effect (Signed)' statKey='Player / IntervenerEffect_Signed / Protection' condition='ProtectionCooldown, ProtectionUnlocked through ProtectionCounterReady_Dispatcher'>
+<StatExample name='Protection' type='Intervener Effect (Signed)' statKey='Player / IntervenerEffect_Signed / Protection' condition='ProtectionCooldown, ProtectionUnlocked through OffCooldownAndUnlocked'>
   Applies <PowerRef>Pack_ProtectionBreak_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthPreCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_ProtectionCounterEffectLinker_R3D</PowerRef>.
 </StatExample>
 
@@ -597,11 +597,11 @@ Switches on the Attack's `DeflectUnlocked`, which arms a Reflector on your `Heal
 
 **Stats**
 
-<StatExample name='MeleeDeflectReflector' type='Reflector' statKey='Player / Reflector / MeleeDeflectReflector' default='1' max='1' condition='Attack_DeflectUnlocked, MeleeDeflectWindow, Tag through MeleeDeflect_Dispatcher'>
+<StatExample name='MeleeDeflectReflector' type='Reflector' statKey='Player / Reflector / MeleeDeflectReflector' default='1' max='1' condition='Attack_DeflectUnlocked, MeleeDeflectWindow, Tag through EnemyActorInWindowAndUnlocked'>
   Reflects through <PowerRef>Effect_MeleeDeflectDamage_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_MeleeDeflectReflectorLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='Attack_DeflectInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DeflectInflict' condition='Attack_DeflectUnlocked, Tag through Dispatcher'>
+<StatExample name='Attack_DeflectInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DeflectInflict' condition='Attack_DeflectUnlocked, Tag through IncomingSkillshotAndUnlocked'>
   Applies <PowerRef>Pack_DeflectInflict_R3D</PowerRef>.
 </StatExample>
 
@@ -720,7 +720,7 @@ Switches on a signed Counter Effect on your applying `Health` list. When your hi
 
 **Stats**
 
-<StatExample name='PermafrostShatter' type='Counter Effect (Signed)' statKey='Player / CounterEffect_Signed / PermafrostShatter' condition='Chill, Health, PermafrostUnlocked through PermafrostShatter_Dispatcher'>
+<StatExample name='PermafrostShatter' type='Counter Effect (Signed)' statKey='Player / CounterEffect_Signed / PermafrostShatter' condition='Chill, Health, PermafrostUnlocked through ChilledBelow10PercentAndUnlocked'>
   Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_AliveTeammateInRange8_R3D</PowerRef>. Applies <PowerRef>Pack_PermafrostNearby_R3D</PowerRef>. Linked into <PowerRef>ApplyingHealthCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_PermafrostShatterLinker_R3D</PowerRef>.
 </StatExample>
 
@@ -771,7 +771,7 @@ Unlocks a State-Based Effect that compares the enemy team's member count with it
 
 **Stats**
 
-<StatExample name='WhiteoutDetector' type='State-Based Effect' statKey='Player / StateBasedEffect / WhiteoutDetector' condition='ChillCount_Team1, MemberCount_Team1, WhiteoutUnlocked through Whiteout_Dispatcher'>
+<StatExample name='WhiteoutDetector' type='State-Based Effect' statKey='Player / StateBasedEffect / WhiteoutDetector' condition='ChillCount_Team1, MemberCount_Team1, WhiteoutUnlocked through AllFoesChilledAndUnlocked'>
   Applies <PowerRef>Pack_WhiteoutDetected_R3D</PowerRef>.
 </StatExample>
 
@@ -792,7 +792,7 @@ Poison and how it spreads.
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/Contagion']} /></p>
 
-Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the foes' `PoisonSpreadActive`. A Counter Effect on each foe then passes Poison to an unpoisoned teammate within 8 m.
+Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the foes' `PoisonSpreadActive`. A Generator on each poisoned foe then passes Poison to its unpoisoned teammates within 8 m every 4 s.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -802,8 +802,8 @@ Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the 
 
 **Stats**
 
-<StatExample name='PoisonSpreadBroadcaster' type='Counter Effect' statKey='Mob / CounterEffect / PoisonSpreadBroadcaster' condition='PoisonSpreadActive = 1'>
-  Redirected to the Team of the target, filtered by <PowerRef>Filter_UnpoisonedFoeInRange8_R3D</PowerRef>. Applies <PowerRef>Pack_PoisonSpread_R3D</PowerRef>.
+<StatExample name='PoisonSpread' type='Generator (Effect Pack)' statKey='Mob / Generator_EffectPack / PoisonSpread' condition='PoisonSpreadActive = 1'>
+  Every 4 s while the foe is poisoned, sends <PowerRef>Pack_PoisonSpread_R3D</PowerRef> to the foe's Team (Target Others, Relation State), filtered by <PowerRef>Filter_UnpoisonedFoeInRange8_R3D</PowerRef>.
 </StatExample>
 
 <StatExample name='PoisonSpreadActive' type='Int (Clamped)' statKey='Mob / IntClamped / PoisonSpreadActive' max='1' />
@@ -978,7 +978,7 @@ Switches on a signed Intervener Effect on your `Health` that answers a hit from 
 
 **Stats**
 
-<StatExample name='RevengeLightningCounterEffect' type='Intervener Effect (Signed)' statKey='Player / IntervenerEffect_Signed / RevengeLightningCounterEffect' condition='RevengeLightning, TeamNo through RevengeLightning_Dispatcher'>
+<StatExample name='RevengeLightningCounterEffect' type='Intervener Effect (Signed)' statKey='Player / IntervenerEffect_Signed / RevengeLightningCounterEffect' condition='RevengeLightning, TeamNo through EnemyAndUnlocked'>
   Applies <PowerRef>Pack_RevengeLightning_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthPreCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_RevengeLightningLinker_R3D</PowerRef>.
 </StatExample>
 

@@ -1,0 +1,63 @@
+---
+sidebar_position: 5.5
+description: Relative Angle — where a point lies around an Actor (in front, behind, at its left or right), from its position and facing.
+---
+
+# Relative Angle
+
+A **Relative Angle Condition** checks where a point lies around an observer: in front of it, behind it, at its left or at its right. It measures the signed angle from the observer's facing to the direction of the point and evaluates it with a comparison condition.
+
+| Angle | Where the point is |
+| --- | --- |
+| `0` | straight ahead |
+| `+90` | at the right |
+| `−90` | at the left |
+| `±180` | straight behind |
+
+3D vectors are measured on the ground (x and z, the height is ignored); 2D vectors on their own plane (x and y, y up).
+
+## Stats
+
+The condition reads three Stats, in this order:
+
+| # | Stat | Example |
+| --- | --- | --- |
+| `0` | the observer's **Position** | Target `Position` |
+| `1` | the observer's facing **Direction** | Target `Direction` |
+| `2` | the point's **Position** | Source `Position` |
+
+## Fields
+
+| Field | Description |
+| --- | --- |
+| **Absolute Angle** | Compares the angle without its sign (`0`–`180`), so the check is the same on both sides: *in front* or *behind* rather than *left* or *right*. |
+| **Comparer** | The **Numerable Comparer** used to evaluate the angle in degrees: a single value, or a range. |
+
+### Supported Types
+
+- **Vector3**
+- **Vector3Int**
+- **Vector2**
+- **Vector2Int**
+
+## Common setups
+
+| Check | Absolute Angle | Comparer |
+| --- | --- | --- |
+| In front | on | **Lower Or Equal** `90` |
+| Behind | on | **Greater Or Equal** `90` |
+| In a narrow cone ahead (±30°) | on | **Lower Or Equal** `30` |
+| From behind, ±60° rear cone (backstab) | on | **Greater Or Equal** `120` |
+| At the left | off | **Range** `−135` to `−45` |
+| At the right | off | **Range** `45` to `135` |
+
+## Relative Angle or Dot?
+
+A [Dot](./Dot.mdx) of two facings tells whether two Actors **face the same way**, or whether something **flies toward** an Actor (a projectile's flight direction against the Actor's facing), not where they stand. An attacker in front of its target but facing away faces the same way as the target, so a facing Dot calls it a backstab; an attacker behind its target but turned sideways fails it. When the question is *where* an Actor is — behind, in front, to a side — use Relative Angle with its **position**.
+
+## Examples
+
+| Asset | Stats | Setup | Passes when |
+| --- | --- | --- | --- |
+| `Condition_FromBehind` ([Backstab](/docs/Samples/PremadePacks/ShippedPacks)) | Target `Position`, Target `Direction`, Source `Position` | Absolute, **Greater Or Equal** `120` | the attacker stands in the target's ±60° rear cone |
+| `Condition_IsFacingMe_3DC` ([Rusty Pan](/docs/Samples/3DCells/RustyPan)) | Target `Position`, Target `Direction`, Source `Position` | Absolute, **Lower Or Equal** `45` | the attacker stands in the target's ±45° front cone, so the target faces it |
