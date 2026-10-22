@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 39 upgrades that each unlock a new mechanic.
+description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 55 upgrades that each unlock a new mechanic.
 ---
 
 # Kodes
@@ -13,10 +13,10 @@ Kodes and [3DCells](/docs/Samples/3DCells) play alike: both are demos of a real-
 
 | | 3DCells | Kodes |
 | --- | --- | --- |
-| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 39 upgrades, each unlocking a new feature |
+| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 55 upgrades, each unlocking a new feature |
 | A run grows by | picking up a different weapon | stacking upgrades that change how everything else behaves |
 
-In Kodes, every upgrade unlocks something new: poison that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **39 upgrades**, and **286 distinct Stats** make them work together seamlessly, so an upgrade picked late in a run still combines with every upgrade picked before it.
+In Kodes, every upgrade unlocks something new: [poison](#status-poison) that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **55 upgrades**, and **286 distinct Stats** make them work together seamlessly, so an upgrade picked late in a run still combines with every upgrade picked before it.
 
 ## Built with AI
 
@@ -31,7 +31,7 @@ See [AI Support](/docs/AISupport) to set it up for your own project.
 | **Player** | Attack (a combo), Special Attack, Cast, Dash and Rage Skills; Health and a rage bar. |
 | **Mobs** | Melee, Tank Melee, Ranged, Bomber and Nova Mage mobs, each with its own Skill and AI. |
 | **Encounters** | Rooms that spawn waves of mobs, with lava and spike hazards. |
-| **Upgrades** | 39 upgrades in an upgrade pool, offered between encounters. |
+| **Upgrades** | 55 upgrades in an upgrade pool, offered between encounters. |
 | **Save** | A run checkpoint saved with Power's [Saving Stats](/docs/CoreConcepts/SavingStats) (`RunSave`). |
 
 The Player's Repository shows how the mechanics are split into Environments:
@@ -53,23 +53,23 @@ Many upgrades are [Premade Relation Packs](/docs/Samples/PremadePacks/ShippedPac
 
 ## Status Effects
 
-Statuses are Int (Clamped) Stats on the foe (`Mob` Environment, Stagger in `Default`), raised by an inflict and lowered when it ends. Each one only switches a state on; the foe's own Stats read it (a slow, a damage over time, a skill blocker). Some come with the Attack itself, others only through an upgrade below. A looping VFX shows each one while it is on (`ActorExtension_ExternalVfxTracker` on every mob prefab).
+Statuses are Int (Clamped) Stats on the foe (`Mob` Environment, [Stagger](#status-stagger) in `Default`), raised by an inflict and lowered when it ends. Each one only switches a state on; the foe's own Stats read it (a slow, a damage over time, a skill blocker). Some come with the Attack itself, others only through an upgrade below. A looping VFX shows each one while it is on (`ActorExtension_ExternalVfxTracker` on every mob prefab).
 
 | Status | What it does | Applied by |
 |---|---|---|
-| **Stagger** | For 1 s the foe's AI is locked, its skills can't start, a running cast is interrupted and a melee foe's dash is cancelled. | Your Attack hits |
-| **Knockback** | Pushes the foe away (0.3 s tween). While pushed it carries the slam effectors: **Wall Slam** when it hits a wall, **Body Slam** when it hits another foe. | Wave Strike |
-| **Weak** | A curse. Frail Blood lets Poison stack 3 more times on a Weak foe. Lasts 4 s. | Shadow Strike, Death Echo |
-| **Marked** | A curse, shown as a red reticle. Lasts 6 s. | Windmark |
-| **Chill** | Stacks; each stack slows the foe. Ice Burst, Permafrost and Whiteout build on it. Lasts 8 s. | Rime Strike, Permafrost |
-| **Poison** | Stacks; deals damage over time that grows with the stacks. Lasts 6 s. | Venom Strike, Contagion |
-| **Doom** | A countdown curse: when it ends, the foe takes your `DoomDamage`. | Smoldering Strike |
-| **Decay** | Damage over time. | Whiteout |
-| **Exposed** | A curse: a Backstab against an Exposed foe deals ×1.5 damage. | Tremor Guard (on Deflect) |
-| **Jolted** | For 10 s, or until the foe attacks: its next attack also strikes it and nearby foes with lightning. | Overload |
-| **Ruptured** | For 3 s the foe takes Rupture damage. | Riptide |
-| **Stunned** | Counts as a curse. | — |
-| **Punished** | On while the foe carries more than 2 curses (`CurseCount`: Weak, Marked, Chill, Poison, Doom, Decay, Exposed, Jolted, Stunned, Ruptured). | Any 3 curses; Punisher deals +20 % to it |
+| <span id="status-stagger" className="status-anchor"></span>**Stagger** | For 1 s the foe's AI is locked, its skills can't start, a running cast is interrupted and a melee foe's dash is cancelled. | Your Attack hits |
+| <span id="status-knockback" className="status-anchor"></span>**Knockback** | Pushes the foe away (0.3 s tween). While pushed it carries the slam effectors: **Wall Slam** when it hits a wall, **Body Slam** when it hits another foe. | [Wave Strike](#upgrade-wave-strike) |
+| <span id="status-weak" className="status-anchor"></span>**Weak** | A curse that reduces the foe's damage by 30 %. Lasts 4 s. Frail Blood lets [Poison](#status-poison) stack 3 more times on a [Weak](#status-weak) foe. | [Shadow Strike](#upgrade-shadow-strike), [Death Echo](#upgrade-death-echo) |
+| <span id="status-marked" className="status-anchor"></span>**Marked** | A curse that increases critical hit chance against the foe by 30 %. Shown as a red reticle; lasts 6 s. | [Windmark](#upgrade-thornmark) |
+| <span id="status-chill" className="status-anchor"></span>**Chill** | Stacks; each stack slows the foe. Ice Burst, Permafrost and Whiteout build on it. Lasts 8 s. | [Rime Strike](#upgrade-rime-strike), [Permafrost](#upgrade-permafrost) |
+| <span id="status-poison" className="status-anchor"></span>**Poison** | Stacks; deals damage over time that grows with the stacks. Lasts 6 s. | [Venom Strike](#upgrade-venom-strike), [Contagion](#upgrade-contagion) |
+| <span id="status-doom" className="status-anchor"></span>**Doom** | A countdown curse: when it ends, the foe takes your `DoomDamage`. | [Smoldering Strike](#upgrade-smoldering-strike) |
+| <span id="status-decay" className="status-anchor"></span>**Decay** | Damage over time. | [Whiteout](#upgrade-whiteout) |
+| <span id="status-exposed" className="status-anchor"></span>**Exposed** | A curse: a Backstab against an [Exposed](#status-exposed) foe deals ×1.5 damage. | [Tremor Guard](#upgrade-tremor-guard) (on Deflect) |
+| <span id="status-jolted" className="status-anchor"></span>**Jolted** | For 10 s, or until the foe attacks: its next attack also strikes it and nearby foes with lightning. | [Overload](#upgrade-overload) |
+| <span id="status-ruptured" className="status-anchor"></span>**Ruptured** | For 3 s, the foe takes [Rupture](#status-ruptured) damage whenever it moves. | [Riptide](#upgrade-riptide) |
+| <span id="status-stunned" className="status-anchor"></span>**Stunned** | Prevents the foe from moving or attacking for 1.5 s. | [Wall Slam](#upgrade-wave-strike), [Body Slam](#upgrade-wave-strike) |
+| <span id="status-punished" className="status-anchor"></span>**Punished** | On while the foe carries more than 2 curses (`CurseCount`: [Weak](#status-weak), [Marked](#status-marked), [Chill](#status-chill), [Poison](#status-poison), [Doom](#status-doom), [Decay](#status-decay), [Exposed](#status-exposed), [Jolted](#status-jolted), [Stunned](#status-stunned), [Ruptured](#status-ruptured)). | Any 3 curses; [Punisher](#upgrade-punisher) deals +20 % to it |
 
 ## Upgrades
 
@@ -253,12 +253,12 @@ Raises a Reflector on your `Health` that turns part of the damage you take into 
 
 </details>
 
-<details>
-<summary><strong>Punisher</strong> — +20 % damage to Punished foes (foes with more than 2 curses).</summary>
+<details id="upgrade-punisher">
+<summary><strong>Punisher</strong> — +20 % damage to [Punished](#status-punished) foes (foes with more than 2 curses).</summary>
 
 <p><SpecTags items={['General', 'Upgrades/Options/General/Punisher']} /></p>
 
-Switches on a Conditional Modifier on your attack damage that checks the target's `Punished` Stat.
+Switches on a Conditional Modifier on your attack damage that checks the target's [`Punished`](#status-punished) Stat.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -362,6 +362,106 @@ Switches on a Conditional Modifier in your trap-damage list that takes 60 % off 
 
 </details>
 
+<details>
+<summary><strong>Battle Focus</strong> — Within 2 s after taking damage, your Attack deals +20 % damage.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/BattleFocus']} /></p>
+
+Raises a Conditional Modifier on the Attack that applies for 2 s after you take damage.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='BattleFocus' target='Player'>
+  <EffectExample name='BattleFocusDamage' targetStat='BattleFocusDamage' target='Attack' value='0.2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_BattleFocusDamage' type='Conditional Modifier (Float)' statKey='Attack / ConditionalModifier_SigSep / AttackConditionalModifiers(SigSep) / BattleFocusDamage' condition='within 2 s after taking damage' />
+
+
+</details>
+
+<details>
+<summary><strong>Desperate Fury</strong> — The lower your life, the harder you hit: up to +50 % damage at 0 % Health, scaling linearly.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/DesperateFury']} /></p>
+
+Raises a damage Modifier on the Attack that scales with how much Health you are missing.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='DesperateFury' target='Player'>
+  <EffectExample name='DesperateFuryDamage' targetStat='DesperateFuryDamageRate' target='Attack' value='0.5' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DesperateFuryDamageRate' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DesperateFuryDamageRate' />
+
+
+</details>
+
+<details>
+<summary><strong>Lone Target</strong> — +10 % damage to foes with no other foe within 10 units.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/LoneTarget']} /></p>
+
+Raises a Conditional Modifier on your attack damage that applies when no other foe is within 10 units of the target.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='LoneTarget' target='Player'>
+  <EffectExample name='LoneTargetDamage' targetStat='DamageToLoneTarget' target='Player' value='0.1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageToLoneTarget' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToLoneTarget' condition='no other foe within 10 units' />
+
+
+</details>
+
+<details>
+<summary><strong>Regenerative Stance</strong> — After standing still for 1 s, restore 1 HP per second while you stay still.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/RegenerativeStance']} /></p>
+
+Turns on a Generator that restores Health while the player stands still.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='RegenerativeStance' target='Player'>
+  <EffectExample name='RegenerativeStanceOn' targetStat='RegenerativeStanceGenerator' target='Player' value='1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='RegenerativeStanceGenerator' type='Generator (Float Clamped)' statKey='Player / Generator_FloatClamped / RegenerativeStanceGenerator' />
+
+
+</details>
+
+<details>
+<summary><strong>Second Wind</strong> — Under 30 Health, each attack restores 1 HP.</summary>
+
+<p><SpecTags items={['General', 'Upgrades/Options/General/SecondWind']} /></p>
+
+Switches on the heal each Attack gives while Health is under 30.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='SecondWind' target='Player'>
+  <EffectExample name='SecondWindUnlock' targetStat='SecondWindUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_SecondWindUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / SecondWindUnlocked' max='1' />
+
+
+</details>
+
 </div>
 
 ### Shadow
@@ -370,8 +470,8 @@ Weakening foes and making their deaths hurt their allies.
 
 <div className="prp-packs">
 
-<details>
-<summary><strong>Death Echo</strong> — Slain foes damage nearby foes and inflict Weak.</summary>
+<details id="upgrade-death-echo">
+<summary><strong>Death Echo</strong> — Slain foes damage nearby foes and inflict [Weak](#status-weak).</summary>
 
 <p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/DeathEcho']} /></p>
 
@@ -393,12 +493,12 @@ Switches on an Intervener Effect in your applying `Dead` list: when your hit kil
 
 </details>
 
-<details>
-<summary><strong>Shadow Strike</strong> — Your Attack inflicts Weak.</summary>
+<details id="upgrade-shadow-strike">
+<summary><strong>Shadow Strike</strong> — Your Attack inflicts [Weak](#status-weak).</summary>
 
 <p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/ShadowStrike']} /></p>
 
-Switches on a Counter Effect in the Attack's counter-effect list that applies Weak to the target whenever the Attack lands.
+Switches on a Counter Effect in the Attack's counter-effect list that applies [Weak](#status-weak) to the target whenever the Attack lands.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -413,6 +513,26 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies We
 </StatExample>
 
 <StatExample name='Attack_WeakUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / WeakUnlocked' max='1' />
+
+</details>
+
+<details>
+<summary><strong>Umbral Malice</strong> — [Weak](#status-weak) foes are more susceptible: +5 % damage to [Weak](#status-weak).</summary>
+
+<p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/UmbralMalice']} /></p>
+
+Raises a Conditional Modifier on your attack damage that applies to [Weak](#status-weak) foes.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='UmbralMalice' target='Player'>
+  <EffectExample name='UmbralMaliceDamage' targetStat='DamageToWeak' target='Player' value='0.05' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageToWeak' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageToWeak' condition='target is Weak' />
+
 
 </details>
 
@@ -450,12 +570,12 @@ Switches on an Intervener Effect in your applying `Dead` list that grants the bo
 
 </details>
 
-<details>
-<summary><strong>Smoldering Strike</strong> — Your Attack inflicts Doom: 30 damage when the curse runs out.</summary>
+<details id="upgrade-smoldering-strike">
+<summary><strong>Smoldering Strike</strong> — Your Attack inflicts [Doom](#status-doom): 30 damage when the curse runs out.</summary>
 
 <p><SpecTags items={['Fire', 'Upgrades/Options/Fire/SmolderingStrike']} /></p>
 
-Switches on a Counter Effect in the Attack's counter-effect list that applies Doom on hit, and sets `DoomDamage` to −30, the damage dealt when Doom expires.
+Switches on a Counter Effect in the Attack's counter-effect list that applies [Doom](#status-doom) on hit, and sets `DoomDamage` to −30, the damage dealt when [Doom](#status-doom) expires.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -476,6 +596,26 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies Do
 
 </details>
 
+<details>
+<summary><strong>Heat</strong> — Cast arrows burn nearby foes while attached: 1 damage every 0.3 s within 5 units.</summary>
+
+<p><SpecTags items={['Fire', 'Upgrades/Options/Fire/Heat']} /></p>
+
+Switches on the burn that cast arrows apply to nearby foes while attached.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Heat' target='Player'>
+  <EffectExample name='HeatUnlock' targetStat='HeatUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='HeatUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / HeatUnlocked' max='1' />
+
+
+</details>
+
 </div>
 
 ### Wind
@@ -485,68 +625,62 @@ Critical hits and marking foes.
 <div className="prp-packs">
 
 <details>
-<summary><strong>Cutting Wind</strong> — Critical hits deal +200 % damage to shielded foes.</summary>
+<summary><strong>Fleet Foot</strong> — Moving Speed +20 %.</summary>
 
-<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/CuttingWind']} /></p>
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/FleetFoot']} /></p>
 
-Raises a Conditional Modifier in your critical-damage list that only applies while the target's `Shielded` Stat is `1`.
+Raises the Movement Speed scaler.
 
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='CuttingWind' target='Player'>
-  <EffectExample name='CuttingWindAddCritDamage' targetStat='CuttingWindCritDamage' target='Player' value='2' processor='Add_Float' applyType='Temporary' />
+<PackExample name='FleetFoot' target='Player'>
+  <EffectExample name='FleetFootSpeed' targetStat='SpeedScaler' target='Movement' value='0.2' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='CuttingWindCritDamage' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / CritDamageConditionalModifiers / CuttingWindCritDamage' max='9999' condition='Shielded = 1' />
+<StatExample name='SpeedScaler' type='Float (Clamped)' statKey='Movement / FloatClamped / SpeedScaler' />
+
 
 </details>
 
 <details>
-<summary><strong>Gale Strike</strong> — +15 % chance to deal Critical damage, and a stronger Attack.</summary>
+<summary><strong>Momentum</strong> — Moving Speed increases your attack damage rate.</summary>
 
-<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/GaleStrike']} /></p>
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/Momentum']} /></p>
 
-Adds 0.15 to `CriticalHitChance`, which `Attack` reads as its applying critical rate, and raises the Attack's damage rate modifier.
+Raises how much attack damage rate each point of Moving Speed adds.
 
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='GaleStrike' target='Player'>
-  <EffectExample name='CritChance' targetStat='CriticalHitChance' target='Player' value='0.15' processor='Add_Float' applyType='Temporary' />
-  <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
+<PackExample name='Momentum' target='Player'>
+  <EffectExample name='MomentumRate' targetStat='MoveSpeedDamageRate' target='Player' value='0.01' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
-  Contribution: **Rate**.
-</StatExample>
+<StatExample name='MoveSpeedDamageRate' type='Float (Clamped)' statKey='Player / FloatClamped / MoveSpeedDamageRate' />
 
-<StatExample name='CriticalHitChance' type='Float (Clamped)' statKey='Player / FloatClamped / CriticalHitChance' max='1' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'CritChanceConditionalModifiers'}]} />
 
 </details>
 
 <details>
-<summary><strong>Windmark</strong> — After you deal Critical damage to a foe, a foe near it is Marked.</summary>
+<summary><strong>Swift Strike</strong> — Your Attack is 10 % faster.</summary>
 
-<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/Windmark']} /></p>
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/SwiftStrike']} /></p>
 
-Switches on a Counter Effect in your attack counter-effect list. It fires only on hits with the `Critical` Result Attribute and redirects its Mark pack to a random teammate of the hit foe in range.
+Raises the Attack skill's speed scaler.
 
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='Windmark' target='Player'>
-  <EffectExample name='Windmark' targetStat='WindmarkUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+<PackExample name='SwiftStrike' target='Player'>
+  <EffectExample name='SwiftStrikeSpeed' targetStat='SpeedScaler' target='Attack' value='0.1' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='WindmarkUnlocked = 1; result is Critical'>
-  Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_RandomFoeInRange_R3D</PowerRef>. Applies <PowerRef>Pack_MarkOnCriticalAttack_R3D</PowerRef>. Linked into <PowerRef>AttackCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_MarkOnCriticalAttackLinker_R3D</PowerRef>.
-</StatExample>
+<StatExample name='Attack_SpeedScaler' type='Float (Clamped)' statKey='Attack / FloatClamped / SpeedScaler' />
 
-<StatExample name='WindmarkUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkUnlocked' max='1' />
 
 </details>
 
@@ -655,12 +789,12 @@ Lowers a signed Conditional Modifier on your receiving damage that only applies 
 
 </details>
 
-<details>
-<summary><strong>Tremor Guard</strong> — Your abilities that can Deflect also make foes Exposed.</summary>
+<details id="upgrade-tremor-guard">
+<summary><strong>Tremor Guard</strong> — Your abilities that can Deflect also make foes [Exposed](#status-exposed).</summary>
 
 <p><SpecTags items={['Earth', 'Upgrades/Options/Earth/TremorGuard']} /></p>
 
-Switches on a Counter Effect in your deflect counter-effect list that applies Exposed to the foe whose projectile you deflect.
+Switches on a Counter Effect in your deflect counter-effect list that applies [Exposed](#status-exposed) to the foe whose projectile you deflect.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -678,16 +812,36 @@ Switches on a Counter Effect in your deflect counter-effect list that applies Ex
 
 </details>
 
+<details>
+<summary><strong>Stone Ward</strong> — Halves the damage of one incoming hit. 15 s cooldown.</summary>
+
+<p><SpecTags items={['Earth', 'Upgrades/Options/Earth/StoneWard']} /></p>
+
+Raises a Conditional Modifier that cuts the damage of one incoming hit by half, then waits for its cooldown.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='StoneWard' target='Player'>
+  <EffectExample name='StoneWardReduction' targetStat='GuardedHitReduction' target='Player' value='-0.5' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='GuardedHitReduction' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier / GuardedHitReduction' />
+
+
+</details>
+
 </div>
 
 ### Frost
 
-Chill, and what Chill leads to.
+[Chill](#status-chill), and what [Chill](#status-chill) leads to.
 
 <div className="prp-packs">
 
 <details>
-<summary><strong>Ice Burst</strong> — Applying 4 stacks of Chill causes a 10-damage blast and clears the Chill.</summary>
+<summary><strong>Ice Burst</strong> — Applying 4 stacks of [Chill](#status-chill) causes a 10-damage blast and clears the [Chill](#status-chill).</summary>
 
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/IceBurst']} /></p>
 
@@ -705,12 +859,12 @@ Switches on `IceBurstUnlocked`.
 
 </details>
 
-<details>
-<summary><strong>Permafrost</strong> — Chill-afflicted foes shatter at 10 % health, dealing area damage and inflicting Chill nearby.</summary>
+<details id="upgrade-permafrost">
+<summary><strong>Permafrost</strong> — [Chill-afflicted](#status-chill) foes shatter at 10 % health, dealing area damage and inflicting [Chill](#status-chill) nearby.</summary>
 
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/Permafrost']} /></p>
 
-Switches on a signed Counter Effect on your applying `Health` list. When your hit leaves a Chilled foe at 10 % or less, it shatters the foe and hits its teammates within 8 m.
+Switches on a signed Counter Effect on your applying `Health` list. When your hit leaves a [Chilled](#status-chill) foe at 10 % or less, it shatters the foe and hits its teammates within 8 m.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -728,12 +882,12 @@ Switches on a signed Counter Effect on your applying `Health` list. When your hi
 
 </details>
 
-<details>
-<summary><strong>Rime Strike</strong> — Your Attack inflicts Chill and is stronger.</summary>
+<details id="upgrade-rime-strike">
+<summary><strong>Rime Strike</strong> — Your Attack inflicts [Chill](#status-chill) and is stronger.</summary>
 
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/RimeStrike']} /></p>
 
-Switches on an Intervener Effect in the Attack's damage list that applies Chill, and raises the Attack's damage rate modifier.
+Switches on an Intervener Effect in the Attack's damage list that applies [Chill](#status-chill), and raises the Attack's damage rate modifier.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -756,12 +910,12 @@ Switches on an Intervener Effect in the Attack's damage list that applies Chill,
 
 </details>
 
-<details>
-<summary><strong>Whiteout</strong> — When all foes are Chill-afflicted, they become Slow and Decay.</summary>
+<details id="upgrade-whiteout">
+<summary><strong>Whiteout</strong> — When all foes are [Chill-afflicted](#status-chill), they become Slow and [Decay](#status-decay).</summary>
 
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/Whiteout']} /></p>
 
-Unlocks a State-Based Effect that compares the enemy team's member count with its Chill count on the world, and applies its pack while they are equal.
+Unlocks a State-Based Effect that compares the enemy team's member count with its [Chill](#status-chill) count on the world, and applies its pack while they are equal.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -783,16 +937,16 @@ Unlocks a State-Based Effect that compares the enemy team's member count with it
 
 ### Venom
 
-Poison and how it spreads.
+[Poison](#status-poison) and how it spreads.
 
 <div className="prp-packs">
 
-<details>
-<summary><strong>Contagion</strong> — Poisoned foes spread Poison to other nearby foes every 4 seconds.</summary>
+<details id="upgrade-contagion">
+<summary><strong>Contagion</strong> — [Poisoned](#status-poison) foes spread [Poison](#status-poison) to other nearby foes every 4 seconds.</summary>
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/Contagion']} /></p>
 
-Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the foes' `PoisonSpreadActive`. A Generator on each poisoned foe then passes Poison to its unpoisoned teammates within 8 m every 4 s.
+Switches on your `PoisonSpreadUnlocked`; your [Poison](#status-poison) inflict copies it into the foes' `PoisonSpreadActive`. A Generator on each [poisoned](#status-poison) foe then passes [Poison](#status-poison) to its unpoisoned teammates within 8 m every 4 s.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -803,7 +957,7 @@ Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the 
 **Stats**
 
 <StatExample name='PoisonSpread' type='Generator (Effect Pack)' statKey='Mob / Generator_EffectPack / PoisonSpread' condition='PoisonSpreadActive = 1'>
-  Every 4 s while the foe is poisoned, sends <PowerRef>Pack_PoisonSpread_R3D</PowerRef> to the foe's Team (Target Others, Relation State), filtered by <PowerRef>Filter_UnpoisonedFoeInRange8_R3D</PowerRef>.
+  Every 4 s while the foe is [poisoned](#status-poison), sends <PowerRef>Pack_PoisonSpread_R3D</PowerRef> to the foe's Team (Target Others, Relation State), filtered by <PowerRef>Filter_UnpoisonedFoeInRange8_R3D</PowerRef>.
 </StatExample>
 
 <StatExample name='PoisonSpreadActive' type='Int (Clamped)' statKey='Mob / IntClamped / PoisonSpreadActive' max='1' />
@@ -811,11 +965,11 @@ Switches on your `PoisonSpreadUnlocked`; your Poison inflict copies it into the 
 </details>
 
 <details>
-<summary><strong>Frail Blood</strong> — Poison stacks 3 more times against Weak foes.</summary>
+<summary><strong>Frail Blood</strong> — [Poison](#status-poison) stacks 3 more times against [Weak](#status-weak) foes.</summary>
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/FrailBlood']} /></p>
 
-Switches on your `FrailBloodUnlocked`; your Poison inflict copies it into the foes' `FrailBloodActive`, which a Linker Definition uses as the gate for the extra Poison stacks.
+Switches on your `FrailBloodUnlocked`; your [Poison](#status-poison) inflict copies it into the foes' `FrailBloodActive`, which a Linker Definition uses as the gate for the extra [Poison](#status-poison) stacks.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -832,11 +986,11 @@ Switches on your `FrailBloodUnlocked`; your Poison inflict copies it into the fo
 </details>
 
 <details>
-<summary><strong>Numbing Venom</strong> — Poison also slows foes by 15 %.</summary>
+<summary><strong>Numbing Venom</strong> — [Poison](#status-poison) also slows foes by 15 %.</summary>
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/NumbingVenom']} /></p>
 
-Switches on your `NumbingVenomUnlocked`; your Poison inflict copies it into the foes' `NumbingVenomActive`, which a Linker Definition uses as the gate for the slow.
+Switches on your `NumbingVenomUnlocked`; your [Poison](#status-poison) inflict copies it into the foes' `NumbingVenomActive`, which a Linker Definition uses as the gate for the slow.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -853,7 +1007,7 @@ Switches on your `NumbingVenomUnlocked`; your Poison inflict copies it into the 
 </details>
 
 <details>
-<summary><strong>Venom Frenzy</strong> — Deal +30 % damage while 3 or more foes are Poisoned.</summary>
+<summary><strong>Venom Frenzy</strong> — Deal +30 % damage while 3 or more foes are [Poisoned](#status-poison).</summary>
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/VenomFrenzy']} /></p>
 
@@ -873,12 +1027,12 @@ Raises a Conditional Modifier on the Attack that reads the enemy team's `PoisonC
 
 </details>
 
-<details>
-<summary><strong>Venom Strike</strong> — Your Attack inflicts Poison.</summary>
+<details id="upgrade-venom-strike">
+<summary><strong>Venom Strike</strong> — Your Attack inflicts [Poison](#status-poison).</summary>
 
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/VenomStrike']} /></p>
 
-Switches on a Counter Effect in the Attack's counter-effect list that applies Poison whenever the Attack lands.
+Switches on a Counter Effect in the Attack's counter-effect list that applies [Poison](#status-poison) whenever the Attack lands.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -904,12 +1058,12 @@ Knocking foes away.
 
 <div className="prp-packs">
 
-<details>
-<summary><strong>Riptide</strong> — Knock-away effects also Rupture foes.</summary>
+<details id="upgrade-riptide">
+<summary><strong>Riptide</strong> — Knock-away effects also [Rupture](#status-ruptured) foes.</summary>
 
 <p><SpecTags items={['Water', 'Upgrades/Options/Water/Riptide']} /></p>
 
-Switches on a Counter Effect linked into the knockback counter-effect list, so every knockback also applies Rupture.
+Switches on a Counter Effect linked into the [knockback](#status-knockback) counter-effect list, so every [knockback](#status-knockback) also applies [Rupture](#status-ruptured).
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -927,12 +1081,12 @@ Switches on a Counter Effect linked into the knockback counter-effect list, so e
 
 </details>
 
-<details>
+<details id="upgrade-wave-strike">
 <summary><strong>Wave Strike</strong> — Your Attack knocks foes away and is stronger; knocked foes slam into walls and each other.</summary>
 
 <p><SpecTags items={['Water', 'Upgrades/Options/Water/WaveStrike']} /></p>
 
-Switches on the Attack's knockback Counter Effect and raises the Attack's damage rate modifier. The knockback also attaches slam effectors to the pushed foe: **Wall Slam** deals `WallSlamDamage` (10) when it hits a wall, **Body Slam** deals `BodySlamDamage` (5) to a foe it is knocked into.
+Switches on the Attack's [knockback](#status-knockback) Counter Effect and raises the Attack's damage rate modifier. The [knockback](#status-knockback) also attaches slam effectors to the pushed foe: **Wall Slam** deals `WallSlamDamage` (10) when it hits a wall, **Body Slam** deals `BodySlamDamage` (5) to a foe it is knocked into.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -986,12 +1140,12 @@ Switches on a signed Intervener Effect on your `Health` that answers a hit from 
 
 </details>
 
-<details>
-<summary><strong>Overload</strong> — Your lightning also makes foes Jolted: their next attack hurts them and nearby foes.</summary>
+<details id="upgrade-overload">
+<summary><strong>Overload</strong> — Your lightning also makes foes [Jolted](#status-jolted): their next attack hurts them and nearby foes.</summary>
 
 <p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/Overload']} /></p>
 
-Switches on a Counter Effect in your lightning counter-effect list that applies Jolted whenever your lightning lands.
+Switches on a Counter Effect in your lightning counter-effect list that applies [Jolted](#status-jolted) whenever your lightning lands.
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -1034,8 +1188,188 @@ Switches on a Counter Effect in the Attack's counter-effect list that starts the
 
 </div>
 
+
+
+### Chronos
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Hourglass Guard</strong> — At the start of each encounter, gain 50 armor that lasts 7 s.</summary>
+
+<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/HourglassGuard']} /></p>
+
+Raises the amount of armor the player is given at the start of each encounter.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='HourglassGuard' target='Player'>
+  <EffectExample name='HourglassGuardArmor' targetStat='EncounterStartArmorAmount' target='Player' value='50' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='EncounterStartArmorAmount' type='Float (Clamped)' statKey='Player / FloatClamped / EncounterStartArmorAmount' />
+
+
+</details>
+
+<details>
+<summary><strong>Rewind</strong> — If your life is low when you exit an encounter, restore it to 30 % of max Health.</summary>
+
+<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/Rewind']} /></p>
+
+Sets the Health fraction the player is restored to when leaving an encounter below it.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Rewind' target='Player'>
+  <EffectExample name='RewindOnExitFloor' targetStat='OnExitHealthFloor' target='Player' value='0.3' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='OnExitHealthFloor' type='Float (Clamped)' statKey='Player / FloatClamped / OnExitHealthFloor' />
+
+
+</details>
+
+<details>
+<summary><strong>Second Dawn</strong> — After you revive, deal +30 % damage for the rest of the encounter.</summary>
+
+<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/SecondDawn']} /></p>
+
+Raises a Conditional Modifier on your attack damage that applies after a revive.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='SecondDawn' target='Player'>
+  <EffectExample name='SecondDawnDamage' targetStat='DamageAfterRevive' target='Player' value='0.3' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='DamageAfterRevive' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / AttackDamageConditionalModifiers / DamageAfterRevive' condition='after revive' />
+
+
+</details>
+
+<details>
+<summary><strong>Time Mend</strong> — Get 15 Health when you exit an encounter.</summary>
+
+<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/TimeMend']} /></p>
+
+Sets the Health restored when leaving an encounter.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='TimeMend' target='Player'>
+  <EffectExample name='TimeMendHeal' targetStat='OnExitHealAmount' target='Player' value='15' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='OnExitHealAmount' type='Float (Clamped)' statKey='Player / FloatClamped / OnExitHealAmount' />
+
+
+</details>
+
+</div>
+
+### Grass
+
+<div className="prp-packs">
+
+<details>
+<summary><strong>Explosive Criticals</strong> — Critical hits have a 50 % chance to explode, dealing 50 % damage to nearby foes.</summary>
+
+<p><SpecTags items={['Grass', 'Upgrades/Options/Grass/ExplosiveCriticals']} /></p>
+
+Raises a Reflector that turns a critical hit into an explosion on nearby foes.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='ExplosiveCriticals' target='Player'>
+  <EffectExample name='ExplosiveCriticalsRate' targetStat='ExplosiveCritReflector' target='Player' value='0.5' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='ExplosiveCritReflector' type='Reflector' statKey='Player / Reflector / ExplosiveCritReflector' />
+
+
+</details>
+
+<details>
+<summary><strong>Razor Grass</strong> — Critical hits deal +200 % damage to shielded foes.</summary>
+
+<p><SpecTags items={['Grass', 'Upgrades/Options/Grass/RazorGrass']} /></p>
+
+Raises a Conditional Modifier in your critical-damage list that only applies while the target's `Shielded` Stat is `1`.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='CuttingWind' target='Player'>
+  <EffectExample name='CuttingWindAddCritDamage' targetStat='CuttingWindCritDamage' target='Player' value='2' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='CuttingWindCritDamage' type='Conditional Modifier (Float)' statKey='Player / ConditionalModifier_SigSep / CritDamageConditionalModifiers / CuttingWindCritDamage' max='9999' condition='Shielded = 1' />
+
+</details>
+
+<details>
+<summary><strong>Bramble Strike</strong> — +15 % chance to deal Critical damage, and a stronger Attack.</summary>
+
+<p><SpecTags items={['Grass', 'Upgrades/Options/Grass/BrambleStrike']} /></p>
+
+Adds 0.15 to `CriticalHitChance`, which `Attack` reads as its applying critical rate, and raises the Attack's damage rate modifier.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='GaleStrike' target='Player'>
+  <EffectExample name='CritChance' targetStat='CriticalHitChance' target='Player' value='0.15' processor='Add_Float' applyType='Temporary' />
+  <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DamageRateModifier' type='Modifier (Float)' statKey='Attack / Modifier_SigSep / AttackDamageModifier / DamageRateModifier' min='-5' max='5'>
+  Contribution: **Rate**.
+</StatExample>
+
+<StatExample name='CriticalHitChance' type='Float (Clamped)' statKey='Player / FloatClamped / CriticalHitChance' max='1' relations={[{key: 'ConditionalModifier_ApplyingAS', value: 'CritChanceConditionalModifiers'}]} />
+
+</details>
+
+<details id="upgrade-thornmark">
+<summary><strong>Thornmark</strong> — After you deal Critical damage to a foe, a foe near it is [Marked](#status-marked).</summary>
+
+<p><SpecTags items={['Grass', 'Upgrades/Options/Grass/Thornmark']} /></p>
+
+Switches on a Counter Effect in your attack counter-effect list. It fires only on hits with the `Critical` Result Attribute and redirects its Mark pack to a random teammate of the hit foe in range.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Windmark' target='Player'>
+  <EffectExample name='Windmark' targetStat='WindmarkUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='WindmarkUnlocked = 1; result is Critical'>
+  Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_RandomFoeInRange_R3D</PowerRef>. Applies <PowerRef>Pack_MarkOnCriticalAttack_R3D</PowerRef>. Linked into <PowerRef>AttackCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_MarkOnCriticalAttackLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='WindmarkUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkUnlocked' max='1' />
+
+</details>
+
+</div>
+
 :::info
 
-You can import **Roguelite3D** (Kodes) from **Power Editor → Initializer → Sample Importer** (open the Power Editor from **Tools → Power → Editor**). Import **General Expansions** first; **Premade Packs** isn't needed, since the packs Kodes uses are already loaded into its data.
+You can import **Roguelite3D** (Kodes) from **Power Editor → Initializer → Sample Importer** (open the Power Editor from **Tools → Power → Editor**). Import **General Expansions** first.
 
 :::
