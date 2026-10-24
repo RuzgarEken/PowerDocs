@@ -14,7 +14,15 @@ When a Reflector sends its share of an Effect to **several** Actors (a **Redirec
 | **Stat Based** | a share proportional to its value of **Checking Stat** (a Float Stat) |
 | **Distance Based** | the value × a `ValueMapper` of its distance to an **Origin Actor** (`Position Stat Key`); targets mapped to `0` are skipped |
 
-Write your own by deriving from `ValueDistributer` and overriding `Distribute`.
+Write your own by deriving from `ValueDistributer` and overriding:
+
+```csharp
+public override void Distribute(Effect effectBase, List<ActorEntity> targets,
+    IActorProvider actorProvider, int environmentId, bool canLog,
+    EffectResultAttributes inheritedResultAttributes = default)
+```
+
+Forward `canLog` to nested adapters, conditions and lookups so they follow the caller's [log gate](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate). `inheritedResultAttributes` carries the result flags requested by the spawning mechanic.
 
 ## Example
 

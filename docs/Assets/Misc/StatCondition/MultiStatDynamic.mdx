@@ -6,7 +6,7 @@ sidebar_position: 4
 
 Similar to `MultiStatCondition`, but instead of using predefined comparison values, all comparison values are retrieved dynamically from Stats.
 
-No concrete Dynamic Multi Stat Condition ships with Power. Write your own by deriving from `DynamicMultiStatCondition` and overriding `IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId)`; it is then selectable wherever a **Dynamic Multi Stat Condition** is accepted, such as the **Multi Stat Checker** of a [Combine By Condition](/docs/Assets/Misc/Injector/LinkerModel/CombineByCondition) Linker.
+No concrete Dynamic Multi Stat Condition ships with Power. Write your own by deriving from `DynamicMultiStatCondition` and overriding `IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId, bool canLog)`; it is then selectable wherever a **Dynamic Multi Stat Condition** is accepted, such as the **Multi Stat Checker** of a [Combine By Condition](/docs/Assets/Misc/Injector/LinkerModel/CombineByCondition) Linker.
 
 ## Example
 
@@ -23,7 +23,7 @@ using UnityEngine;
 public class DynamicMultiStatCondition_SumGreaterThanLast : DynamicMultiStatCondition
 {
     // stats[0] + stats[1] > stats[2]
-    public override bool IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId = 1)
+    public override bool IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId, bool canLog)
     {
         if (stats.Count < 3) return false;
         if (stats[0] is not Stat<float> a || stats[1] is not Stat<float> b || stats[2] is not Stat<float> limit)

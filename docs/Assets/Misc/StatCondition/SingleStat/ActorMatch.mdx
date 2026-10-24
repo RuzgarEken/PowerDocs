@@ -1,0 +1,14 @@
+---
+sidebar_position: 8
+---
+
+# Actor Match
+
+`SingleStatCondition_ActorMatch` compares the Actor stored in an **Actor Stat** with an Actor in the current interaction, using reference identity.
+
+| Field | Description |
+| --- | --- |
+| **Actor** | The interaction Actor to compare with; defaults to **Target**. |
+| **Require Match** | On: the Actors must be the same instance. Off: they must be different instances. |
+
+If the input is not an Actor Stat, the interaction provider is missing, or either Actor is null, the check fails, including when Require Match is off. Use an [Actor Null Check](./ActorNullCheck.mdx) for empty-reference tests, or [Actor Available](./ActorAvailable.mdx) before reading a stored Actor's runtime Stats.

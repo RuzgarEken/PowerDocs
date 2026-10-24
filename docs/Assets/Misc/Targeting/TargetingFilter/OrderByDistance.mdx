@@ -1,0 +1,14 @@
+---
+sidebar_position: 6
+---
+
+# Order By Distance
+
+Sorts candidates by their distance from the filter's source without removing any. Available for `Vector2`, `Vector2Int`, `Vector3` and `Vector3Int` positions.
+
+| Field | Description |
+| --- | --- |
+| **Position Stat Key** | The position read on the source and each candidate. |
+| **Descending** | Off: nearest first. On: farthest first. |
+
+Actors without a usable position sort last. Equal distances preserve incoming order. In a [Chain](./Chain.mdx), follow this with [Take](./Take.mdx) to choose the nearest or farthest N Actors.

@@ -70,7 +70,7 @@ Projects add their own (`Parry`, `Backstab`…) in the `EffectResultAttributes` 
 - **Redirector Stats**: **Result Attribute Check** with **Exists** / **Not Exists**.
 - **Block By Result Attribute** Postcontribution: blocks the Effect if any listed attribute is present.
 - **Conditional Modifier** and **Duration Modifier** Stats: a result-attribute check next to their stat checks.
-- **Feedback** Processors pick their text style / VFX by the exact combination of Result Attributes.
+- General Expansions **Feedback** Processors first try the exact Result Attribute combination, then the most specific matching flag subset, then fallback. See [Feedback case selection](/docs/Samples/GeneralExpansions/Feedback#how-a-case-is-chosen).
 
 A check only sees attributes that were added **earlier** in the funnel. A Counter Effect (Postprocess) sees everything the Effect collected; a Precontribution Immune check cannot see a crit that is rolled later in Contribution.
 

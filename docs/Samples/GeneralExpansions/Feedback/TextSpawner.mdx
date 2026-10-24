@@ -25,7 +25,7 @@ description: Text Spawner feedback — floating numbers and words above the targ
 | **Animation Style** | How it moves (`ScaleAndSlide`, played by the matching `FeedbackAnimator` of the Text Spawn Controller). |
 | **Use Formater** / **Format** | Wraps the number in a template: `$P` is replaced by the number — `"Crit! $P"`, `"+$P"`. |
 
-Styles are looked up by the exact Result Attribute combination. See [How a case is chosen](./index.mdx#how-a-case-is-chosen).
+An exact Result Attribute style wins; otherwise the most specific matching flag subset wins before fallback. See [How a case is chosen](./index.mdx#how-a-case-is-chosen).
 
 ## Text Spawn Controller
 

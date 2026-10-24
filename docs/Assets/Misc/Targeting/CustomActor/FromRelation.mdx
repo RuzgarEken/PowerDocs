@@ -1,0 +1,24 @@
+---
+sidebar_position: 1
+---
+
+# From Relation
+
+*Create › Power › Misc › Custom Actor › From Relation*
+
+`CustomActor_FromRelation` picks one Actor from a filtered relation scope. Use it to remember a target, select the weakest foe, or choose the closest Actor in front of the source.
+
+| Field | Description |
+| --- | --- |
+| **Relate To** | The interaction Actor the scope is measured from. |
+| **Relation State** | The relation to that Actor, such as Enemy or Team. |
+| **Filter** | An optional [Targeting Filter](../TargetingFilter/index.mdx) to narrow or order the scope. |
+| **Pick** | **First**, **Last** or **Random** entry after filtering. |
+| **No Fallback** | Returns null when no candidate remains. |
+| **Fallback Actor** | The interaction Actor returned when the scope is empty and No Fallback is off. |
+
+An [Order By Distance](../TargetingFilter/OrderByDistance.mdx) filter with **Pick: First** selects the nearest Actor; **Pick: Last** selects the farthest. A [Closest In Sight](../TargetingFilter/ClosestInSight.mdx) filter first narrows the scope to the closest candidate in the view cone.
+
+## Example
+
+`CustomActor_ClosestInSight_3DC` uses **Relation State: Enemy**, a chain of alive and closest-in-sight filters, **Pick: First** and **No Fallback** on. [Scrap Tossers](/docs/Samples/3DCells/ScrapTossers) stores the result in `LockOnTarget`, locking on only when it has an Actor and aiming at the pointer otherwise.

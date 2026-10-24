@@ -1,0 +1,20 @@
+---
+sidebar_position: 0
+sidebar_label: Overview
+---
+
+# Custom Actor
+
+A **Custom Actor** returns **one** Actor. Select it wherever an **Interaction Actor** can be **Custom**: a Redirector's **Relate To** or **Redirected Effect Source**, a `Stat From` (to read a Stat of that Actor), a [SrcSep key](/docs/Assets/Stat/StatKey/StatKeyModel_SrcSep)'s **Src Actor**, a Source Separated Stat's **Process Scope**.
+
+## Types
+
+- [From Relation](./FromRelation.mdx)
+- [From Stat](./FromStat.mdx)
+- [Static Actor](./StaticActor.mdx)
+
+## Custom implementations
+
+Derive from `CustomActor` and override `GetActor(IActorProvider actorProvider, int environmentId, bool canLog)`.
+
+Forward `canLog` to nested lookups, conditions and targeting filters so they follow the caller's [log gate](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate). The `StatFrom` lookup helpers also accept an optional `canLog` argument.

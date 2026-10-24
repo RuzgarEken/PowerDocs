@@ -21,6 +21,7 @@ Use the toolbar to:
 
 | Control | Does |
 | --- | --- |
+| **Panels** | Shows or hides **Left · Requests** and **Right · Question**. Drag the side-panel edges to resize them; visibility and widths are remembered. |
 | **Reload** | Rereads the skill documentation and trace log. The window also reloads when focused after either file changes. |
 | **Frame all** | Fits the whole graph in view. |
 | **Trace** | Selects a recorded request, or clears the selection to show all requests. |
@@ -36,3 +37,9 @@ The mapper records request traces in `.claude/build-mechanic/flow-traces.json` a
 Choose a request to see its original text, map, formula and answered questions. Requests that contain multiple mechanics can be inspected as a whole or one mechanic at a time. When a mechanic created or changed assets, its **R** button opens those assets in **Power Relations**.
 
 The graph is read from the installed `Assets/Plugins/Power/Editor/AiFlow/power-skill` documentation, so it reflects the mapper instructions the AI workflow uses.
+
+## Choices and additional effects
+
+The right panel separates a question's explanation from its choices. Choices show the questions or groups they lead to, so you can inspect the next step without searching the whole graph.
+
+State-Based Effects and Counter Effects each have their own **Additional Effects** questions, matching their different configuration fields. Their target choices lead through the targeting group before targeting filters. Raw incoming-value caching has its own mapping branch and uses a **precontribution Reflector**; reactions and cached values are mapped separately.

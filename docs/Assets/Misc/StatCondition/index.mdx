@@ -24,3 +24,16 @@ The **ChainHook CdDegenerator Trigger** shown below uses a Stat Condition to act
 
 <img src={ConditionRef} alt="Condition reference" />
 <img src={ConditionSignatureRef} alt="Condition usage reference" />
+
+## Custom conditions
+
+Derive from the condition type that matches the inputs you need:
+
+| Base class | Evaluation method |
+| --- | --- |
+| `SingleStatCondition` | `IsSatisfying(IStatBase stat, IActorProvider actorProvider, int environmentId, bool canLog)` |
+| `DynamicSingleStatCondition` | `IsSatisfying(IStatBase stat, IActorProvider actorProvider, int environmentId, bool canLog)` |
+| `MultiStatCondition` | `IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, bool canLog)` |
+| `DynamicMultiStatCondition` | `IsSatisfying(IList<IStatBase> stats, IActorProvider actorProvider, int environmentId, bool canLog)` |
+
+Return whether the check passes, and forward `canLog` to any nested adapters, conditions or Stat lookups. The caller's gate and the asset's own Misc/name filter control debug output; see [Log Filtering](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate). A complete implementation is shown in [Multi Stat (Dynamic)](./MultiStatDynamic.mdx).

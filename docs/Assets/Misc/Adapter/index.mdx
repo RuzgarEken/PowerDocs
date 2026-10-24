@@ -27,3 +27,12 @@ A Dash moves the Actor to a point 4 m in front of it. No Stat holds that point, 
 | 4 | [Sum](./Value/Vector/Sum.mdx) with the Source's `Position` `(10, 0, 5)` | `(12.4, 0, 8.08)` |
 
 Steps 2–4 are one [Tree Operation](./Stat/TreeOperation.mdx): a Stat Value Adapter that reads `Direction`, runs it through a [Chain](./Stat/Chain.mdx) of Value Adapters, and merges it with `Position`.
+
+## Custom adapters
+
+| Base class | Value method |
+| --- | --- |
+| `StatValueAdapter<TValue>` | `GetValue(IStatBase stat, IActorProvider actorProvider, bool canLog)` |
+| `ValueAdapter<TValue>` | `GetValue(IActorProvider actorProvider, object value, bool canLog)` |
+
+Return the adapted value and forward `canLog` to nested adapters or Stat lookups. This keeps their debug output under the caller's [log gate](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate).

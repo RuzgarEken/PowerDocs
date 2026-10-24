@@ -30,10 +30,15 @@ Validation reports a value-carrying feedback placed in the general list.
 
 The value-carrying variants share one table layout: **target Stat** → **sign** (Positive / Negative) → **Result Attributes** → what to show, with a **Fallback** per sign for combinations that have no entry. The unsigned variants skip the sign.
 
-:::warning[Entries are looked up by the exact combination]
+Result Attributes are matched in this order:
 
-The table is keyed by the **combined** Result Attribute value. `Critical`, `Shielded` and `Critical | Shielded` are three different entries, each configured on its own. A combination with no entry uses the **Fallback** of that sign. When you add a mechanic that tags hits, add an entry for every combination it can produce.
+1. An entry for the **exact combined result** wins immediately.
+2. Otherwise, an entry matches when the result contains **every flag** in its key. The matching entry with the **most flags** wins.
+3. If two matching keys have the same number of flags, the higher numeric attribute value wins, independently of dictionary order.
+4. If no entry matches, the configured **Fallback** is used.
 
-:::
+`None` matches only an untagged result; it is not a wildcard. A `Critical | Explosive` hit can use an `Explosive` entry, while a dedicated `Critical | Explosive` entry takes priority. One entry can cover every result that contains its flags.
+
+This applies to Text Spawner, VFX and Animation feedback, including their BS, AS, MAS, unsigned and value-carrying variants. AS/MAS Attribute Stat selection is a separate step; this rule selects the Result Attribute case within it. The processors' required-result-attribute gates still control whether a processor runs at all.
 
 Blocked Effects still run Feedback, so a missed or immune hit can show its own text, VFX or animation.

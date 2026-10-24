@@ -1,0 +1,19 @@
+---
+sidebar_position: 1
+---
+
+# By Relation State (Filtered)
+
+*Create › Power › Misc › Custom Targeter › By Relation State (Filtered)*
+
+The same scope as a **Relation State** target, as a reusable asset — handy when the same filtered scope is used from several places.
+
+| Field | Description |
+| --- | --- |
+| **Relate To** | The Interaction Actor the relation is measured from (Source, Target…). |
+| **Relation State** | Which relation: Me, Team, Ally, Neutral, Enemy (flags, so several can be combined). |
+| **Filter** | An optional [Targeting Filter](../TargetingFilter/index.mdx). |
+
+## Example
+
+`CustomTargeter_TeamMembersInRange_3DC` uses **Relate To: Target**, **Relation State: Team** and a range filter. The [Ravenmark Bow](/docs/Samples/3DCells/RavenmarkBow) uses this scope to spread its mark from a dying enemy to nearby teammates.

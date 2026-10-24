@@ -7,7 +7,7 @@ import AIRuns from './images/AIRuns.png';
 
 # AI Runs
 
-**Power AI Runs** shows what your AI agent runs cost. Every `/build-mechanic` and `/update-docs` run of the [agent workflow](/docs/AISupport#the-agent-workflow-optional) is recorded with its cost, time and tokens, split per agent and, for debug runs, per step.
+**Power AI Runs** shows what your AI agent runs cost. Every `/build-mechanic` and `/update-docs` run of the [agent workflow](/docs/AISupport#the-agent-workflow-optional) is recorded with its cost, time and tokens, split per agent and per recorded step. `--debug` also prints the step report in chat.
 
 <img src={AIRuns} alt="AIRuns window reference" />
 
@@ -19,11 +19,11 @@ The log is `.claude/build-mechanic/runs.json` in your project's root folder, out
 
 - **What did that mechanic cost?** Each run shows its total, and how much went to building the mechanic and how much to improving the docs.
 - **Is it getting cheaper?** The chart shows the trend across runs, for example after a docs change or a model switch.
-- **Where does the money go?** In a debug run, see which step of which agent was the most expensive.
+- **Where does the money go?** See which step of which agent was the most expensive.
 
 :::tip[Per-step costs]
 
-Start the request with `--debug` (`/build-mechanic --debug <request>`) to get a cost report per step at the end of the run, in the chat. The run log then has the steps too.
+Start the request with `--debug` (`/build-mechanic --debug <request>`) to get a cost report per step at the end of the run, in the chat. Step data comes from `# STEP:` markers in agent commands and can be recorded without debug mode.
 
 :::
 
@@ -34,26 +34,27 @@ Each row is one run: **Date**, **Label**, **Kind** (`build-mechanic` or `update-
 | Control | Does |
 | --- | --- |
 | Kind filter | Shows all runs, or only `build-mechanic` or `update-docs` runs. |
-| **Chart** | The metric the chart plots per run: cost, active minutes, API calls, new context or cache reads. Bars are split into build and docs work. |
+| **Chart** | The metric the chart plots per run: cost, active minutes, API/tool calls, new context, cache reads/writes, output, tool output, or read/write operations. Bars are split into build and docs work. |
 | Search | Filters runs by label, request and notes. |
 | **Reload** | Reads the log again. The window also reloads when you focus it after a new run. |
 | **Show JSON** | Shows `runs.json` in your file browser. |
 
 ## A run's details
 
-Select a run to see its request, outcome and notes, which model and effort each agent ran on, and its **Agents**: role, model, cost and share of the run, active time, API calls, cost per call and context sizes. Select an agent to see its **Steps** (debug runs only): the step name, calls, time, tokens, cost, share of the agent's cost and the `power.py` commands it ran.
+Select a run to see its request, outcome and notes, which model and effort each agent ran on, and its **Agents**: role, model, cost and share of the run, active time, API calls, cost per call and context sizes. Select an agent to see its **Steps**: the step name, calls, time, tokens, cost, share of the agent's cost and the `power.py` commands it ran.
 
 Ctrl/Cmd-click two runs to compare them: the cost, the builder's cost, active time and more are shown side by side with the change in percent, above the details.
 
 ## How costs are measured
 
-Each API call is priced per model from `AiFlow/build-mechanic/prices.json`. The input side (new input, cache writes and cache reads) is always exact, because the agents' transcripts keep it. The output side isn't in the transcripts in full: they are written before a reply finishes, and an agent's thinking is hidden. A run's details say which of these the output came from:
+Each API call is priced per model from `AiFlow/build-mechanic/prices.json`. Captured usage supplies input, cache and output token counts where available. Claude transcript output can be incomplete because replies are logged before they finish and thinking is hidden; the recorder estimates that missing output. Codex can use captured telemetry or local session usage, and supplied fallback counts remain estimates. These are **API-equivalent cost estimates**, not subscription charges. A run's details say which of these the output came from:
 
 | Output | When | How exact |
 | --- | --- | --- |
-| **Exact, telemetry** | Claude Code telemetry was on and the receiver was running during the run. Codex runs are always this. | Exact, thinking included. |
-| **Estimated** | Telemetry was off, or the receiver wasn't running. | Visible text and tool calls, plus thinking estimated from the size of each hidden thinking block. |
+| **Exact, telemetry / captured session** | Claude telemetry matched the call, or Codex supplied captured telemetry or local session usage. | Captured token counts, thinking/reasoning included. Local Codex usage is recorded with `usage_origin: session`. |
+| **Estimated** | Claude output could not be matched to telemetry, or explicit fallback counts were supplied for inaccessible Codex usage. | Claude: visible output plus estimated thinking. Codex fallback: supplied model/token estimates with their basis in the notes. |
 | **Mixed** | Telemetry covered only part of the run. | Exact where it could be matched, estimated for the rest. |
+| **Unavailable** | Usage is missing or a model has no configured price. | Shown as unavailable, excluded from priced totals; never a free run. |
 | **Lower bound** | Runs recorded before this was added. | Thinking not counted. |
 
 ### Turn on exact costs
@@ -86,35 +87,45 @@ Runs from then on show **Exact, telemetry**. When the receiver isn't running, Cl
 
 ### Measure Codex runs
 
-Runs made with the OpenAI Codex CLI are supported too. Codex keeps no transcript the log can read, so a Codex run is measured from Codex's own telemetry, through the same receiver. Its cost is always exact: Codex reports every API call's tokens, reasoning included. Calls over 272K input tokens are priced at OpenAI's long-context rates.
+The recorder first tries captured Codex telemetry, then local rollout usage under `~/.codex/sessions` (or `$CODEX_HOME/sessions`). You do not need to turn on telemetry to recover a run whose local usage is available. It merges resumed files for the same conversation, deduplicates response and tool IDs, and excludes inherited parent usage in forks.
 
-1. Add this to `~/.codex/config.toml`:
+After the run, record the conversation with `source: "codex"`. Bound each agent entry to this request, including the final response, and preserve the run ID when recording a later correction:
 
-   ```toml
-   [otel]
-   exporter = { otlp-http = { endpoint = "http://127.0.0.1:4318/v1/logs", protocol = "json" } }
-   ```
+```json
+{
+  "id": "build-mechanic-my-upgrade",
+  "kind": "build-mechanic",
+  "label": "My upgrade",
+  "request": "The mechanic request",
+  "outcome": "DONE",
+  "agents": [{
+    "id": "<conversation-id>",
+    "source": "codex",
+    "role": "mechanic-builder",
+    "started_at": "2026-10-24T09:00:00Z",
+    "ended_at": "2026-10-24T09:10:00Z"
+  }]
+}
+```
 
-2. Keep the receiver running while Codex works, as in step 2 above. It saves each call's token counts and each tool call's name and command, with no prompts and no tool output.
+```bash
+python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py record meta.json
+```
 
-3. After the run, list the Codex conversations the receiver saw, and print the cost report of one by its id (the start of the id is enough):
+Verify the saved **model and effort**, calls, STEP metrics, operations and time. Effort comes from captured turn context. Idle gaps before user prompts are excluded from active time. Individual calls use `prices.json`, including a model's long-context rates above 272K input tokens when configured.
 
-   ```bash
-   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py codex
-   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py codex <conversation-id>
-   ```
+If neither telemetry nor local usage is accessible, supply `estimated_usage` on the agent with `model`, `input_token_count`, `cached_token_count`, `output_token_count` and `reasoning_token_count`. Output already includes reasoning. Include the captured `effort` in the agent metadata and explain the count estimate in the run notes. Missing usage or unknown prices must stay unavailable.
 
-4. To add the run to AI Runs, list the conversation in the run's `meta.json` with `"source": "codex"`, then record it:
+For work you want charged separately, use exact STEP names in `include_steps` on its agent and `exclude_steps` on the mechanic agent, with the same request bounds. Verify their calls and tokens form a disjoint partition of the full request.
 
-   ```json
-   "agents": [{"id": "<conversation-id>", "source": "codex", "role": "mechanic-builder"}]
-   ```
+Optional live Codex telemetry uses the same receiver. Configure it in `~/.codex/config.toml` and keep `otel_receiver.py` running:
 
-   ```bash
-   python3 Assets/Plugins/Power/Editor/AiFlow/build-mechanic/agent_usage.py record meta.json
-   ```
+```toml
+[otel]
+exporter = { otlp-http = { endpoint = "http://127.0.0.1:4318/v1/logs", protocol = "json" } }
+```
 
-Steps come from `# STEP: <name>` lines in the agent's commands. A Codex run that wasn't measured while it ran can't be recorded afterwards.
+`agent_usage.py codex` lists captured telemetry conversations; `agent_usage.py codex <conversation-id>` reports one conversation, falling back to local usage when needed.
 
 ### Make the estimate closer
 
@@ -128,6 +139,24 @@ The ratio is saved in `.claude/build-mechanic/estimates.json` and used for every
 
 :::note
 
-Prices change. Keep `prices.json` up to date with your provider's rates (it lists Anthropic and OpenAI models); a model it doesn't list is counted as $0, and the report warns you.
+Prices change. Keep `prices.json` up to date with your provider's rates (it lists Anthropic and OpenAI models); a model it cannot price is marked unavailable and excluded from priced totals.
 
 :::
+
+## Hourly and weekly percentages
+
+Each run's chart bar has two share bars: its percentage of its **clock hour** and its **ISO week** for the selected chart metric. Hover for the period and denominator. Kind and search filters change the runs included in those denominators.
+
+Expand **Cost over time** and choose **Hourly** or **Weekly**:
+
+| Column | Meaning |
+| --- | --- |
+| **Cost** | Sum of priced runs in the bucket. |
+| **% of cost** | Bucket cost ÷ the priced cost of all currently filtered runs. |
+| **Runs** / **% of runs** | Bucket run count, and its share of all bucketed runs in the filter, including unpriced runs. |
+| **% est.** | Estimated cost within this bucket ÷ its priced cost. The window counts the entire priced cost of a mixed or estimated run as estimated; only runs classified as telemetry are excluded from this numerator. |
+| **Unpriced** | Runs without usable cost data, counted as runs and excluded from cost totals. |
+
+Buckets use the Editor machine's **local time**, with ISO weeks starting on Monday. The whole run belongs to the hour and week of its `started_at`; its cost is not spread across the periods it overlaps. Runs without a readable start time are not bucketed. Select a bucket to select its runs in the list.
+
+These percentages are derived from the recorded runs. No additional percentage fields are needed in `meta.json`; accurate request bounds and usable usage are what make the percentages meaningful.

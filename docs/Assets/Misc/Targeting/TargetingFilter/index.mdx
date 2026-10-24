@@ -1,0 +1,30 @@
+---
+sidebar_position: 0
+sidebar_label: Overview
+---
+
+# Targeting Filter
+
+A **Targeting Filter** narrows a list of Actors produced by a **Relation State** or **Team Flags** target (on Redirectors, State Based Effects, Effectors) or by a [Custom Targeter](../CustomTargeter/index.mdx) / [Custom Actor](../CustomActor/index.mdx). The *source* of a filter is the **Relate To** Actor of that scope.
+
+## Types
+
+- [Chain](./Chain.mdx)
+- [Distance](./Distance.mdx)
+- [Closest In Sight](./ClosestInSight.mdx)
+- [Random Actor Except Source](./RandomActorExceptSource.mdx)
+- [Stat Based](./StatBased.mdx)
+- [Order By Distance](./OrderByDistance.mdx)
+- [Order By Stat](./OrderByStat.mdx)
+- [Take](./Take.mdx)
+
+## Custom filters
+
+Derive from `TargetingFilter` and implement both methods:
+
+```csharp
+public override void Filter(List<ActorEntity> list, ActorEntity source, bool canLog)
+public override void FilterTo(List<ActorEntity> rawList, List<ActorEntity> list, ActorEntity source, bool canLog)
+```
+
+`Filter` narrows the supplied list in place; `FilterTo` adds matching candidates to the output list. Forward `canLog` to any conditions or nested filters you call; see [Log Filtering](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate).

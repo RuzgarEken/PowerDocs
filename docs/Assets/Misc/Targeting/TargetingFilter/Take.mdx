@@ -1,0 +1,13 @@
+---
+sidebar_position: 8
+---
+
+# Take
+
+`TargetingFilter_Take` keeps the first N Actors in the incoming order.
+
+| Field | Description |
+| --- | --- |
+| **Count** | Maximum number of Actors to keep; defaults to `1`. `0` keeps none. |
+
+Use an ordering filter before Take in a [Chain](./Chain.mdx). [Order By Distance](./OrderByDistance.mdx) followed by Take with Count `3` selects the three closest candidates. Take does not choose or sort candidates itself.

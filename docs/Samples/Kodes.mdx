@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 55 upgrades that each unlock a new mechanic.
+description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 59 upgrades that each unlock a new mechanic.
 ---
 
 # Kodes
@@ -13,14 +13,14 @@ Kodes and [3DCells](/docs/Samples/3DCells) play alike: both are demos of a real-
 
 | | 3DCells | Kodes |
 | --- | --- | --- |
-| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 55 upgrades, each unlocking a new feature |
+| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 59 upgrades, each unlocking a new feature |
 | A run grows by | picking up a different weapon | stacking upgrades that change how everything else behaves |
 
-In Kodes, every upgrade unlocks something new: [poison](#status-poison) that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **55 upgrades**, and **286 distinct Stats** make them work together seamlessly, so an upgrade picked late in a run still combines with every upgrade picked before it.
+In Kodes, every upgrade unlocks something new: [poison](#status-poison) that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **59 upgrades**, and their Stats make them work together, so an upgrade picked late in a run still combines with every upgrade picked before it.
 
 ## Built with AI
 
-While building Kodes, it became clear that an AI agent can use Power to build mechanics as well. That led to **power-skill**, Power's Claude skill, made to make building with an agent easier and cheaper. Many of Kodes' features were implemented with this AI workflow.
+While building Kodes, it became clear that an AI agent can use Power to build mechanics as well. That led to **power-skill**, Power's skill for AI coding agents, made to make building with an agent easier and cheaper. Many of Kodes' features were implemented with this AI workflow.
 
 See [AI Support](/docs/AISupport) to set it up for your own project.
 
@@ -31,7 +31,7 @@ See [AI Support](/docs/AISupport) to set it up for your own project.
 | **Player** | Attack (a combo), Special Attack, Cast, Dash and Rage Skills; Health and a rage bar. |
 | **Mobs** | Melee, Tank Melee, Ranged, Bomber and Nova Mage mobs, each with its own Skill and AI. |
 | **Encounters** | Rooms that spawn waves of mobs, with lava and spike hazards. |
-| **Upgrades** | 55 upgrades in an upgrade pool, offered between encounters. |
+| **Upgrades** | 59 upgrades in an upgrade pool, offered between encounters. |
 | **Save** | A run checkpoint saved with Power's [Saving Stats](/docs/CoreConcepts/SavingStats) (`RunSave`). |
 
 The Player's Repository shows how the mechanics are split into Environments:
@@ -64,14 +64,18 @@ Statuses are Int (Clamped) Stats on the foe (`Mob` Environment, [Stagger](#statu
 | <span id="status-chill" className="status-anchor"></span>**Chill** | Stacks; each stack slows the foe. Ice Burst, Permafrost and Whiteout build on it. Lasts 8 s. | [Rime Strike](#upgrade-rime-strike), [Permafrost](#upgrade-permafrost) |
 | <span id="status-poison" className="status-anchor"></span>**Poison** | Stacks; deals damage over time that grows with the stacks. Lasts 6 s. | [Venom Strike](#upgrade-venom-strike), [Contagion](#upgrade-contagion) |
 | <span id="status-doom" className="status-anchor"></span>**Doom** | A countdown curse: when it ends, the foe takes your `DoomDamage`. | [Smoldering Strike](#upgrade-smoldering-strike) |
+| <span id="status-daze" className="status-anchor"></span>**Daze** | A curse lasting 9 s: the foe has a 20 % chance to miss eligible damage effects. Reapplication keeps the status active while any infliction lasts; the miss penalty does not stack. A glare marks affected foes. | [Dazzling Strike](#upgrade-dazzling-strike) |
+| <span id="status-scorch" className="status-anchor"></span>**Scorch** | An accumulated damage pool. Each tick spends 0.5 Scorch and deals 0.5 Health damage, every 0.1 s (5 damage/s), until the pool empties. Creamy-yellow health-bar preview and a number show the pool. | [FlameStrike](#upgrade-flamestrike) |
 | <span id="status-decay" className="status-anchor"></span>**Decay** | Damage over time. | [Whiteout](#upgrade-whiteout) |
 | <span id="status-exposed" className="status-anchor"></span>**Exposed** | A curse: a Backstab against an [Exposed](#status-exposed) foe deals ×1.5 damage. | [Tremor Guard](#upgrade-tremor-guard) (on Deflect) |
 | <span id="status-jolted" className="status-anchor"></span>**Jolted** | For 10 s, or until the foe attacks: its next attack also strikes it and nearby foes with lightning. | [Overload](#upgrade-overload) |
 | <span id="status-ruptured" className="status-anchor"></span>**Ruptured** | For 3 s, the foe takes [Rupture](#status-ruptured) damage whenever it moves. | [Riptide](#upgrade-riptide) |
 | <span id="status-stunned" className="status-anchor"></span>**Stunned** | Prevents the foe from moving or attacking for 1.5 s. | [Wall Slam](#upgrade-wave-strike), [Body Slam](#upgrade-wave-strike) |
-| <span id="status-punished" className="status-anchor"></span>**Punished** | On while the foe carries more than 2 curses (`CurseCount`: [Weak](#status-weak), [Marked](#status-marked), [Chill](#status-chill), [Poison](#status-poison), [Doom](#status-doom), [Decay](#status-decay), [Exposed](#status-exposed), [Jolted](#status-jolted), [Stunned](#status-stunned), [Ruptured](#status-ruptured)). | Any 3 curses; [Punisher](#upgrade-punisher) deals +20 % to it |
+| <span id="status-punished" className="status-anchor"></span>**Punished** | On while the foe carries more than 2 curses (`CurseCount`: [Weak](#status-weak), [Marked](#status-marked), [Chill](#status-chill), [Poison](#status-poison), [Doom](#status-doom), [Decay](#status-decay), [Exposed](#status-exposed), [Jolted](#status-jolted), [Stunned](#status-stunned), [Ruptured](#status-ruptured), [Daze](#status-daze)). | Any 3 curses; [Punisher](#upgrade-punisher) deals +20 % to it |
 
 ## Upgrades
+
+The **Curse** category uses assets under `Upgrades/Options/Curse/`. **Flame** contains FlameStrike and Torch. **Light** contains Sun Strike and Dazzling Strike.
 
 After every cleared encounter, `UpgradeOfferController` offers 3 upgrades from `Upgrades/UpgradePool_R3D`. Each upgrade is an `UpgradeOption` in `Upgrades/Options/<Element>/<Upgrade>/` with a title, a description and an Effect Pack. Taking one applies the pack to the player as **Temporary** Effects, so it can be taken off again.
 
@@ -538,7 +542,7 @@ Raises a Conditional Modifier on your attack damage that applies to [Weak](#stat
 
 </div>
 
-### Fire
+### Curse
 
 Delayed damage and bursts of power after a kill.
 
@@ -547,7 +551,7 @@ Delayed damage and bursts of power after a kill.
 <details>
 <summary><strong>Kindled Fury</strong> — After slaying a foe, your next Attack or Special deals +100 % damage.</summary>
 
-<p><SpecTags items={['Fire', 'Upgrades/Options/Fire/KindledFury']} /></p>
+<p><SpecTags items={['Curse', 'Upgrades/Options/Curse/KindledFury']} /></p>
 
 Switches on an Intervener Effect in your applying `Dead` list that grants the bonus when your hit kills a foe of the other team, and adds 1 to `SlayDamageBonus`, the size of that bonus. The next Attack or Special consumes it.
 
@@ -573,7 +577,7 @@ Switches on an Intervener Effect in your applying `Dead` list that grants the bo
 <details id="upgrade-smoldering-strike">
 <summary><strong>Smoldering Strike</strong> — Your Attack inflicts [Doom](#status-doom): 30 damage when the curse runs out.</summary>
 
-<p><SpecTags items={['Fire', 'Upgrades/Options/Fire/SmolderingStrike']} /></p>
+<p><SpecTags items={['Curse', 'Upgrades/Options/Curse/SmolderingStrike']} /></p>
 
 Switches on a Counter Effect in the Attack's counter-effect list that applies [Doom](#status-doom) on hit, and sets `DoomDamage` to −30, the damage dealt when [Doom](#status-doom) expires.
 
@@ -596,25 +600,7 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies [D
 
 </details>
 
-<details>
-<summary><strong>Heat</strong> — Cast arrows burn nearby foes while attached: 1 damage every 0.3 s within 5 units.</summary>
 
-<p><SpecTags items={['Fire', 'Upgrades/Options/Fire/Heat']} /></p>
-
-Switches on the burn that cast arrows apply to nearby foes while attached.
-
-**Grant** — applied to the player when the upgrade is taken:
-
-<PackExample name='Heat' target='Player'>
-  <EffectExample name='HeatUnlock' targetStat='HeatUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
-</PackExample>
-
-**Stats**
-
-<StatExample name='HeatUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / HeatUnlocked' max='1' />
-
-
-</details>
 
 </div>
 
@@ -1190,14 +1176,35 @@ Switches on a Counter Effect in the Attack's counter-effect list that starts the
 
 
 
-### Chronos
+<div className="prp-packs">
+
+<details id="upgrade-skyfall">
+<summary><strong>Skyfall</strong> — Lightning strikes a random foe every 3 seconds for 10 damage.</summary>
+
+<p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/Skyfall']} /></p>
+
+**Grant** — the removable upgrade adds −10 to the player's `PeriodicLightningDamage` generator. Its neutral value is 0, which stops generation.
+
+<PackExample name='Skyfall' target='Player'>
+  <EffectExample name='Skyfall' targetStat='PeriodicLightningDamage' target='Player' value='-10' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+<StatExample name='PeriodicLightningDamage' type='Generator (Float Clamped)' statKey='Player / Generator_FloatClamped / PeriodicLightningDamage' default='0' min='-9999' max='0'>
+  Interval: **3 s**. Sends its damage template to one random enemy within **10 units** through `TargetingFilter_RandomFoeInRange_R3D`, whose chain uses `TargetingFilter_InRange10_R3D`. Uses the existing lightning processing and feedback. The upgrade tooltip still says **6 units**; the saved filter sets the actual range to **10**.
+</StatExample>
+
+</details>
+
+</div>
+
+### Time
 
 <div className="prp-packs">
 
 <details>
 <summary><strong>Hourglass Guard</strong> — At the start of each encounter, gain 50 armor that lasts 7 s.</summary>
 
-<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/HourglassGuard']} /></p>
+<p><SpecTags items={['Time', 'Upgrades/Options/Time/HourglassGuard']} /></p>
 
 Raises the amount of armor the player is given at the start of each encounter.
 
@@ -1217,7 +1224,7 @@ Raises the amount of armor the player is given at the start of each encounter.
 <details>
 <summary><strong>Rewind</strong> — If your life is low when you exit an encounter, restore it to 30 % of max Health.</summary>
 
-<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/Rewind']} /></p>
+<p><SpecTags items={['Time', 'Upgrades/Options/Time/Rewind']} /></p>
 
 Sets the Health fraction the player is restored to when leaving an encounter below it.
 
@@ -1237,7 +1244,7 @@ Sets the Health fraction the player is restored to when leaving an encounter bel
 <details>
 <summary><strong>Second Dawn</strong> — After you revive, deal +30 % damage for the rest of the encounter.</summary>
 
-<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/SecondDawn']} /></p>
+<p><SpecTags items={['Time', 'Upgrades/Options/Time/SecondDawn']} /></p>
 
 Raises a Conditional Modifier on your attack damage that applies after a revive.
 
@@ -1257,7 +1264,7 @@ Raises a Conditional Modifier on your attack damage that applies after a revive.
 <details>
 <summary><strong>Time Mend</strong> — Get 15 Health when you exit an encounter.</summary>
 
-<p><SpecTags items={['Chronos', 'Upgrades/Options/Chronos/TimeMend']} /></p>
+<p><SpecTags items={['Time', 'Upgrades/Options/Time/TimeMend']} /></p>
 
 Sets the Health restored when leaving an encounter.
 
@@ -1363,6 +1370,91 @@ Switches on a Counter Effect in your attack counter-effect list. It fires only o
 </StatExample>
 
 <StatExample name='WindmarkUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkUnlocked' max='1' />
+
+</details>
+
+</div>
+
+### Light
+
+Directional attack bursts and the Daze curse.
+
+<div className="prp-packs">
+
+<details id="upgrade-sun-strike">
+<summary><strong>Sun Strike</strong> — Your attacks burst behind the closest foe hit within 0.05 seconds, in a cone for 50 % of the selected hit.</summary>
+
+<p><SpecTags items={['Light', 'Upgrades/Options/Light/SunStrike']} /></p>
+
+The upgrade grants **0.5** to `SunStrikeAttackCaptureReflector`. An applying **precontribution Reflector** caches half the raw incoming attack damage using `Set_Float`. Hit capture and nearest-target selection are separate: hits within the **0.05 s** window compete by distance from the player, and the chosen foe becomes the cone's origin.
+
+<PackExample name='SunStrike' target='Player'>
+  <EffectExample name='SunStrike' targetStat='SunStrikeAttackCaptureReflector' target='Player' value='0.5' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+When the window expires, `SunStrikeWindowExpiry` runs the burst through **Additional Effects**. Its `TargetingFilter_SunStrikeCone_R3D` checks living foes against the cone's angle and depth; it does not scale damage by distance. The saved checks use an absolute angle of at most **30°** (60° total) and horizontal distance **0.001–8 units** from the origin; the upgrade tooltip still says **45° / depth 5**. The burst reads the cached half-damage without halving it again and uses normal attack processing, including the `SunAttack` attribute. Particle feedback faces in the cone's direction. Stored-actor conditions guard the selected origin before it is read.
+
+**Main assets:** `Stat_SunStrikeAttackCaptureReflector_R3D`, `Stat_SunStrikeHitDamage_R3D`, `Stat_SunStrikeSelectedActor_R3D`, `Stat_SunStrikeWindowExpiry_R3D`, `Pack_SunStrikeBurst_R3D` and `Effect_SunStrikeConeDamage_R3D`.
+
+</details>
+
+<details id="upgrade-dazzling-strike">
+<summary><strong>Dazzling Strike</strong> — Your attacks have a 25 % chance to inflict Daze for 4 seconds.</summary>
+
+<p><SpecTags items={['Light', 'Upgrades/Options/Light/DazzlingStrike']} /></p>
+
+<PackExample name='DazzlingStrike' target='Player'>
+  <EffectExample name='DazzlingStrike' targetStat='DazeInflictChance' target='Player' value='0.25' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+`Attack_DazeInflict` rolls the player's chance after an applied attack and applies +1 [Daze](#status-daze) to the victim for **4 s**. Daze is a clamped Int status with overlapping temporary modifiers, so repeated inflictions extend its presence without increasing the penalty.
+
+While active, a conditional linker contributes **−0.2** to the foe's applying `AccuracyOffset`. The existing Hit Rate reader combines it with receiving hit rate and dodge; the usual 100 % hit chance becomes **80 %**. Only effects eligible for that reader are rolled. Melee, bomb, nova and ranged mob damage use it; ranged shots carry `Stoppable` too. Existing MISS feedback is reused, and `DazeGlareVfx` follows the status through the mob's VFX tracker. Daze contributes **one** to `CurseCount`.
+
+</details>
+
+</div>
+
+### Flame
+
+Scorch damage pools and burning cast arrows.
+
+<div className="prp-packs">
+
+<details id="upgrade-flamestrike">
+<summary><strong>FlameStrike</strong> — Your attacks inflict 10 Scorch.</summary>
+
+<p><SpecTags items={['Flame', 'Upgrades/Options/Flame/FlameStrike']} /></p>
+
+<PackExample name='FlameStrike' target='Player'>
+  <EffectExample name='FlameStrike' targetStat='ScorchPerAttack' target='Player' value='10' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+`Attack_ScorchInflict` records the attacker in the victim's `ScorchInflicter` Actor Stat, then adds **10** to its shared [Scorch](#status-scorch) pool. Further attacks add to the pool without restarting the timer.
+
+`ScorchTicker` is a **Float Generator**: while Scorch is above 0, it drains **0.5 every 0.1 s**. A receiving Reflector sends that fixed amount to Health while allowing the pool to decrease. The latest inflicter is the damage Source for kill attribution; the Health effect keeps normal death processing. This deals **5 damage per second**, with no separate fractional-remainder branch.
+
+The creamy-yellow health-bar segment previews Scorch against remaining Health, with a number for the full pool. While a shield is shown, the number remains and the Health preview hides. Tick damage does not request ordinary `Responsive` hit feedback; the health view tracks the values directly.
+
+</details>
+
+<details id="upgrade-torch">
+<summary><strong>Torch</strong> — Cast arrows burn nearby foes while attached: 1 damage every 0.3 s within 5 units.</summary>
+
+<p><SpecTags items={['Flame', 'Upgrades/Options/Flame/Torch']} /></p>
+
+Switches on the burn that cast arrows apply to nearby foes while attached.
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Torch' target='Player'>
+  <EffectExample name='TorchUnlock' targetStat='TorchUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='TorchUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / TorchUnlocked' max='1' />
+
 
 </details>
 

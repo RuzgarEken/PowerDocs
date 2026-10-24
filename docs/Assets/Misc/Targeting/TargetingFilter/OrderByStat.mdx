@@ -1,0 +1,14 @@
+---
+sidebar_position: 7
+---
+
+# Order By Stat
+
+`TargetingFilter_OrderByStat` sorts candidates by a Float or Int Stat without removing any.
+
+| Field | Description |
+| --- | --- |
+| **Stat Key** | The Float or Int Stat read on each candidate. |
+| **Descending** | Off: lowest first. On: highest first. |
+
+Actors without that Stat sort last. Equal values preserve incoming order. To pick the weakest foe, sort by Health and follow with [Take](./Take.mdx), Count `1`. A [From Relation](../CustomActor/FromRelation.mdx) Custom Actor can also pick the first entry directly.

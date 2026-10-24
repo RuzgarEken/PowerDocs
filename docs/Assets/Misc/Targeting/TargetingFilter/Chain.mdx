@@ -1,0 +1,22 @@
+---
+sidebar_position: 1
+---
+
+# Chain
+
+Runs several filters in order; each one receives the result of the previous one.
+
+| Field | Description |
+| --- | --- |
+| **Filters** | The filters, in order. |
+
+## Examples
+
+| Goal | Chain |
+| --- | --- |
+| A random enemy within range | [Distance](./Distance.mdx), then [Random Actor Except Source](./RandomActorExceptSource.mdx). Kodes' `TargetingFilter_RandomFoeInRange_R3D` uses a 10-unit range. |
+| Every living enemy within 8 m | [Stat Based](./StatBased.mdx) checking alive, then Distance ≤ 8. |
+| The closest living enemy in front | Stat Based checking alive, then [Closest In Sight](./ClosestInSight.mdx). 3DCells uses Direction Threshold `0.15` and Distance Cap `10`. |
+| The three weakest enemies | [Order By Stat](./OrderByStat.mdx) on Health, then [Take](./Take.mdx) with Count `3`. |
+
+Order matters: filter by alive before choosing the closest, or the closest filter may select a dead Actor and leave nothing for the next filter.

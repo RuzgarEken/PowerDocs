@@ -8,9 +8,9 @@ Effects, Redirectors and Skills pick their Actors with an **Effect Target** (who
 
 | Asset | Returns | Used where the target is **Custom** |
 | --- | --- | --- |
-| [Custom Targeter](./CustomTargeter.mdx) | a **list** of Actors | `Effect Target` / `Redirection Target` = Custom, a Skill's Direct targeting |
-| [Custom Actor](./CustomActor.mdx) | **one** Actor | `Interaction Actor` = Custom: Relate To, Redirected Effect Source, a `Stat From`'s Actor, a SrcSep key's Src Actor |
-| [Targeting Filter](./TargetingFilter.mdx) | narrows a list | **Relation State** / **Team Flags** targets, and the two assets above |
+| [Custom Targeter](./CustomTargeter/index.mdx) | a **list** of Actors | `Effect Target` / `Redirection Target` = Custom, a Skill's Direct targeting |
+| [Custom Actor](./CustomActor/index.mdx) | **one** Actor | `Interaction Actor` = Custom: Relate To, Redirected Effect Source, a `Stat From`'s Actor, a SrcSep key's Src Actor |
+| [Targeting Filter](./TargetingFilter/index.mdx) | narrows a list | **Relation State** / **Team Flags** targets, and the two assets above |
 
 ## Built-in targets
 
@@ -44,6 +44,6 @@ Damage Nearby Enemies On Hit (*Retaliation*) damages every living enemy within 8
 | **Effect Target** | **Relation State** |
 | **Relate To** | the bearer |
 | **Target Relation** | **Enemy** |
-| **Filter** | `TargetingFilter_AliveInRange8` — a [Chain](./TargetingFilter.mdx#chain) of `TargetingFilter_Alive` (Stat Based) and `TargetingFilter_InRange8` (Distance ≤ 8) |
+| **Filter** | `TargetingFilter_AliveInRange8` — a [Chain](./TargetingFilter/Chain.mdx) of `TargetingFilter_Alive` (Stat Based) and `TargetingFilter_InRange8` (Distance ≤ 8) |
 
 Of five enemies — two dead, one 12 m away — the remaining two take the damage.

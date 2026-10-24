@@ -29,6 +29,7 @@ Everything for AI agents ships in `Assets/Plugins/Power/Editor/AiFlow`. The skil
 
 | Part | What it does |
 | --- | --- |
+| `AGENTS.md` (in AiFlow) | Shared entry point for Power agent rules. The skill carries recording rules in `references/recording.md` and editor requirements in `references/editor-ui.md`. Keep these together when distributing the workflow. |
 | `SKILL.md` | The entry point the agent reads first. It explains how to turn a request into a Power **formula** (*what triggers it, which hook runs, whom it reaches, who owns it, how it is switched on*) and how that formula maps to a build. |
 | `references/` | The full catalogue: every Power mechanism and when to use it, the [Premade Relation Packs](/docs/Samples/PremadePacks/ShippedPacks) and the formula each one covers, step-by-step recipes, processing chains, signatures, common pitfalls, General Expansions, and notes on each sample project. |
 | `scripts/power.py` | A command-line toolkit the agent runs. It looks things up in your project, creates and wires assets, loads Premade Relation Packs, and validates the result. |
@@ -70,13 +71,16 @@ With the Editor closed, lookups and simple edits still work offline. Creating St
 
 ### Codex and other agents
 
-Put the `power-skill` folder where your agent looks for skills. For Codex that is `~/.codex/skills/` (see the [Codex skills docs](https://developers.openai.com/codex/skills) for the project-level folder):
+Link the shipped skill into the project's agent skill folder. This project uses `.agents/skills/power-skill` for Codex:
 
 ```bash
-mkdir -p ~/.codex/skills && ln -s "$PWD/Assets/Plugins/Power/Editor/AiFlow/power-skill" ~/.codex/skills/power-skill
+mkdir -p .agents/skills
+ln -s ../../Assets/Plugins/Power/Editor/AiFlow/power-skill .agents/skills/power-skill
 ```
 
-Other agents use their own skills folder; the skill itself needs nothing agent-specific. Start the agent in the project's root folder, so `power.py` finds the project.
+Keep the shipped skill as the source of truth and preserve any existing `.claude/skills/power-skill` link. A short project-root `AGENTS.md` can direct agents to `Assets/Plugins/Power/Editor/AiFlow/AGENTS.md`; the recording and editor rules themselves live in the skill's references, so they travel with Power. Read the [Codex skills documentation](https://developers.openai.com/codex/skills) for other installation scopes.
+
+Other agents use their own skill discovery folders. Start the agent in the Unity project root so `power.py` finds the project.
 
 :::tip[Start from what Power ships]
 

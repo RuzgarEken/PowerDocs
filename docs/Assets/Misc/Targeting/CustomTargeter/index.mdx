@@ -1,0 +1,19 @@
+---
+sidebar_position: 0
+sidebar_label: Overview
+---
+
+# Custom Targeter
+
+A **Custom Targeter** returns a list of Actors. Select it wherever an Effect Target can be **Custom** — a Redirector's **Redirection Target**, a State Based Effect's **Effect Target**, an Effector's definition, a Skill's Direct targeting.
+
+## Types
+
+- [By Relation State (Filtered)](./ByRelationStateFiltered.mdx)
+- [Static Actors](./StaticActors.mdx)
+
+## Custom implementations
+
+Derive from `CustomTargeter` and override `GetTargets(IActorProvider actorProvider, int environmentId, bool canLog)`.
+
+Forward `canLog` to nested lookups, conditions and targeting filters so they follow the caller's [log gate](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate). The `StatFrom` lookup helpers also accept an optional `canLog` argument.

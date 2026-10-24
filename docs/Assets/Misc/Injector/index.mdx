@@ -24,11 +24,7 @@ There are two families:
 
 Injectors added by Effects can be removed by tag with an [Injector Remover Effect](/docs/Assets/Effect/InjectorRemoverEffect).
 
-:::info[Stat Injector → Linker]
 
-Older versions called Linkers *Stat Injectors* (`StatInjectorModel_*`, `StatInjectorDefinitionModel`). They are now `LinkerModel_*` and `LinkerDefinitionModel`. The separate *Add*, *Multiply* and *Rate* Stat Injectors were merged into [Combine](./LinkerModel/Combine.mdx), and the *Add / Multiply / Rate Value By Condition* ones into [Combine By Condition](./LinkerModel/CombineByCondition.mdx).
-
-:::
 
 ## Linking Stats from the Power Editor
 
@@ -54,3 +50,7 @@ An Injector multiplies **PhysicalAttack** by 2, and a Linker adds **Strength** t
 | Linker (+ Strength `5`) | `25` — the Modified Value |
 
 When Strength changes to `8`, PhysicalAttack updates on its own to `28`.
+
+## Custom injectors
+
+Derive from `InjectorModel` and implement `Inject(IStatBase baseStat, bool canLog)`. Forward `canLog` to nested adapters, conditions and lookups so they follow the calling Stat's [log gate](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate).

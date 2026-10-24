@@ -19,3 +19,14 @@ A Modifier or Conditional Modifier Stat turns on **Use Scaler** in its signature
 | `0` | `0` | `+0 %` |
 | `50` | `0.5` | `+10 %` |
 | `100` | `1` | `+20 %` |
+
+## Custom scalers
+
+Derive from `StatScalerModel` for one Stat or `MultiStatScalerModel` for several Stats, then override the typed method for the value you return: `GetFloatScaler`, `GetIntScaler`, `GetVector2Scaler` or `GetVector3Scaler`.
+
+| Base class | Example signature |
+| --- | --- |
+| `StatScalerModel` | `float GetFloatScaler(IStatBase stat, IActorProvider actorProvider, bool canLog)` |
+| `MultiStatScalerModel` | `float GetFloatScaler(List<IStatBase> stats, bool canLog)` |
+
+Forward `canLog` to nested adapters and lookups so they follow the caller's [log gate](/docs/CoreConcepts/LogFiltering#nested-assets-follow-the-callers-log-gate).

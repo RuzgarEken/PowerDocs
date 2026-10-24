@@ -1,0 +1,21 @@
+---
+sidebar_position: 5
+---
+
+# Stat Based
+
+`TargetingFilter_Stat` supports two modes. With **Use Conditions** off, it keeps candidates whose **Stat Key** passes the **Comparer**. With it on, **Conditions** can use single- or multi-stat checks and **Match** selects **All** or **Any**.
+
+For each candidate, `Source` is the filter's source Actor and `Target` is that candidate. This lets one filter combine the source's facing, positions and candidate state, for example a living-foe cone. Conditions must be configured: an empty list rejects every candidate. The single-stat fields are retained and hidden when condition mode is enabled.
+
+| Field | Description |
+| --- | --- |
+| **Use Conditions** | Selects condition-list mode instead of the single-stat fields. |
+| **Match** | In condition mode, **All** or **Any** checks must pass. |
+| **Conditions** | Effect Conditions evaluated with Source and each candidate Target. |
+| **Stat Key** | With Use Conditions off, the Stat checked on each Actor. |
+| **Comparer** | A **Single Stat Condition** asset. |
+
+## Examples
+
+Check `Poison` with **Equals 0** to keep only foes that are not poisoned. For a cone, enable **Use Conditions** and combine the source's direction and position with each candidate's position. Kodes' [Sun Strike](/docs/Samples/Kodes#upgrade-sun-strike) uses this mode for its burst targeting.

@@ -1,0 +1,11 @@
+---
+sidebar_position: 7
+---
+
+# Actor Available
+
+`SingleStatCondition_ActorAvailable` checks that an **Actor Stat** holds a non-null Actor whose runtime Stats are initialized and whose Actor has not been disposed. It has no configuration fields.
+
+Use it before reading Stats from a remembered target or a stored damage source. An [Actor Null Check](./ActorNullCheck.mdx) only checks whether a reference exists; a remembered Actor may still have a reference after disposal.
+
+Kodes' [Sun Strike](/docs/Samples/Kodes#upgrade-sun-strike) uses this condition to guard the stored burst origin.
