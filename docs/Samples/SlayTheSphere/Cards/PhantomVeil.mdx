@@ -10,6 +10,29 @@ At the end of your turn, lose **1 [Dexterity](/docs/Samples/SlayTheSphere/Keywor
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardPhantomVeil', kind: 'repository', name: 'Card_PhantomVeil', root: true},
+    {id: 'sIntangible', kind: 'stat', name: 'Intangible', subtitle: '2'},
+    {id: 'sPhantomVeil', kind: 'stat', name: 'Phantom Veil', subtitle: '1'},
+    {id: 'sExhaust', kind: 'stat', name: 'Exhaust', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '3'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Power'},
+    {id: 'eIntangible', kind: 'effect', name: 'Intangible'},
+    {id: 'eDexteryDecrease', kind: 'effect', name: 'DexteryDecrease'},
+    {id: 'sDexterity', kind: 'stat', name: 'Dexterity'},
+  ]}
+  edges={[
+    {from: 'nCardPhantomVeil', to: 'sIntangible', kind: 'holds'},
+    {from: 'nCardPhantomVeil', to: 'sPhantomVeil', kind: 'holds'},
+    {from: 'nCardPhantomVeil', to: 'sExhaust', kind: 'holds'},
+    {from: 'nCardPhantomVeil', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardPhantomVeil', to: 'sCardType', kind: 'holds'},
+    {from: 'eIntangible', to: 'sIntangible', kind: 'target'},
+    {from: 'eDexteryDecrease', to: 'sDexterity', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

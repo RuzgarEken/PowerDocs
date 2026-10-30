@@ -26,6 +26,46 @@ When a marked enemy dies, the mark spreads to nearby enemies.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eRavenmarkBow', kind: 'effect', name: 'RavenmarkBow', subtitle: 'SkillExtension_MoveToSource', root: true},
+    {id: 'pReclaimArrow', kind: 'pack', name: 'Pack_ReclaimArrow_3DC', label: 'ReclaimArrow'},
+    {id: 'sAmmoCountSrcSep', kind: 'stat', name: 'AmmoCount(SrcSep)', subtitle: 'Stat (SrcSep Clamped Int)'},
+    {id: 'sAmmoCountSrcSepInner', kind: 'stat', name: 'Stat_AmmoCount(SrcSep-Inner)_3DC', label: 'AmmoCount(SrcSep-Inner)'},
+    {id: 'pUnbindAmmoFromSource', kind: 'pack', name: 'Pack_UnbindAmmoFromSource_3DC', label: 'UnbindAmmoFromSource'},
+    {id: 'pBindAmmoToTarget', kind: 'pack', name: 'Pack_BindAmmoToTarget_3DC', label: 'BindAmmoToTarget'},
+    {id: 'pRavenmarkBowAttack', kind: 'pack', name: 'Pack_RavenmarkBow_Attack_3DC', label: 'RavenmarkBow_Attack'},
+    {id: 'sRavenmarkBowCounterDamage', kind: 'stat', name: 'RavenmarkBowCounterDamage', subtitle: 'Stat (CounterEffect Signed)'},
+    {id: 'nIs1Int', kind: 'other', name: 'Condition_Is1(Int)_3DC', label: 'Is1(Int)'},
+    {id: 'nRavenmarkBowDamageCounter', kind: 'other', name: 'Condition_RavenmarkBowDamageCounter_3DC', label: 'RavenmarkBowDamageCounter'},
+    {id: 'sSpreadMarkOnDeadTriggerSrcSep', kind: 'stat', name: 'SpreadMarkOnDeadTrigger(SrcSep)', subtitle: 'Stat (SrcSep EffectPack)'},
+    {id: 'sSpreadMarkOnDeadTriggerSrcSepInner', kind: 'stat', name: 'Stat_SpreadMarkOnDeadTrigger(SrcSep-Inner)_3DC', label: 'SpreadMarkOnDeadTrigger(SrcSep-Inner)'},
+    {id: 'eTeamMembersInRange', kind: 'effect', name: 'TeamMembersInRange', subtitle: 'Custom Targeter By Relation State Filtered'},
+    {id: 'nInRange', kind: 'other', name: 'TargetingFilter_InRange_3DC', label: 'InRange'},
+    {id: 'pRavenmarkBowCounterDamage', kind: 'pack', name: 'RavenmarkBowCounterDamage', subtitle: 'Default'},
+    {id: 'sRavenmarksBowCounterDamageCd', kind: 'stat', name: 'RavenmarksBowCounterDamageCd', subtitle: 'RavenmarkBow / Int Clamped'},
+    {id: 'eMarkCounterDamageCd', kind: 'effect', name: 'MarkCounterDamageCd', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'sHealth', kind: 'stat', name: 'Health', subtitle: 'Default / Float Clamped'},
+    {id: 'eMarkCounterDamage', kind: 'effect', name: 'MarkCounterDamage', subtitle: 'Float Stat Effect (BS)'},
+    {id: 'pRavenmarkBowBundleDefault', kind: 'pack', name: 'RavenmarkBowBundle(Default)', subtitle: 'Default'},
+  ]}
+  edges={[
+    {from: 'eRavenmarkBow', to: 'pReclaimArrow', kind: 'reference'},
+    {from: 'sAmmoCountSrcSep', to: 'sAmmoCountSrcSepInner', kind: 'reference'},
+    {from: 'eRavenmarkBow', to: 'pUnbindAmmoFromSource', kind: 'target'},
+    {from: 'eRavenmarkBow', to: 'pBindAmmoToTarget', kind: 'target'},
+    {from: 'eRavenmarkBow', to: 'pRavenmarkBowAttack', kind: 'target'},
+    {from: 'sRavenmarkBowCounterDamage', to: 'nIs1Int', kind: 'condition'},
+    {from: 'sRavenmarkBowCounterDamage', to: 'nRavenmarkBowDamageCounter', kind: 'condition'},
+    {from: 'sSpreadMarkOnDeadTriggerSrcSep', to: 'sSpreadMarkOnDeadTriggerSrcSepInner', kind: 'reference'},
+    {from: 'eTeamMembersInRange', to: 'nInRange', kind: 'reference'},
+    {from: 'pRavenmarkBowCounterDamage', to: 'eMarkCounterDamageCd', kind: 'holds'},
+    {from: 'eMarkCounterDamageCd', to: 'sRavenmarksBowCounterDamageCd', kind: 'target'},
+    {from: 'pRavenmarkBowCounterDamage', to: 'eMarkCounterDamage', kind: 'holds'},
+    {from: 'eMarkCounterDamage', to: 'sHealth', kind: 'target'},
+  ]}
+/>
+
 **Ravenmark Bow** is one of the more complex implementations because we need to track arrows and which Actors they are currently attached to, while also keeping the ammo count consistent.
 
 There are three scenarios for spending and reclaiming an arrow.

@@ -22,6 +22,31 @@ Deals critical damage to enemies that are facing the player.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eRustyPanAttack', kind: 'effect', name: 'RustyPanAttack', subtitle: 'Float Stat Effect (MAS)', root: true},
+    {id: 'sHealth', kind: 'stat', name: 'Key_Health_3DC', label: 'Health'},
+    {id: 'sAttack', kind: 'stat', name: 'Key_Attack_3DC', label: 'Attack'},
+    {id: 'sMeleeAttack', kind: 'stat', name: 'Key_MeleeAttack_3DC', label: 'MeleeAttack'},
+    {id: 'sRustyPanAttack', kind: 'stat', name: 'Key_RustyPanAttack_3DC', label: 'RustyPanAttack', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sRustyPanCritRate', kind: 'stat', name: 'Key_RustyPan_CritRate_3DC', label: 'RustyPan_CritRate', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sRustyPanDirectionBaseCritModifier', kind: 'stat', name: 'Key_RustyPan_DirectionBaseCritModifier_3DC', label: 'RustyPan_DirectionBaseCritModifier', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'nMASContributionCriticalHitFloat', kind: 'processor', name: 'MASContribution_CriticalHit_Float', subtitle: 'MASContribution Critical Hit Float'},
+    {id: 'sASContributionConditionalModifierFloatGeneri', kind: 'stat', name: 'ASContribution_ConditionalModifier(Float-Generic)_3DC', label: 'ASContribution_ConditionalModifier(Float-Generic)'},
+    {id: 'nIsFacingMe', kind: 'other', name: 'Condition_IsFacingMe_3DC', label: 'IsFacingMe'},
+  ]}
+  edges={[
+    {from: 'eRustyPanAttack', to: 'sHealth', kind: 'target'},
+    {from: 'eRustyPanAttack', to: 'sAttack', kind: 'reference'},
+    {from: 'eRustyPanAttack', to: 'sMeleeAttack', kind: 'reference'},
+    {from: 'eRustyPanAttack', to: 'sRustyPanAttack', kind: 'reference'},
+    {from: 'sRustyPanAttack', to: 'sRustyPanCritRate', kind: 'relation', label: 'CriticalRate_Applying'},
+    {from: 'sRustyPanCritRate', to: 'sRustyPanDirectionBaseCritModifier', kind: 'relation', label: 'ConditionalModifier_ApplyingAS'},
+    {from: 'nMASContributionCriticalHitFloat', to: 'sASContributionConditionalModifierFloatGeneri', kind: 'condition'},
+    {from: 'sRustyPanDirectionBaseCritModifier', to: 'nIsFacingMe', kind: 'condition'},
+  ]}
+/>
+
 We use the **RustyPan_Attack** Attribute Stat to apply skill-specific behaviors.
 
 <div className="prp-packs">

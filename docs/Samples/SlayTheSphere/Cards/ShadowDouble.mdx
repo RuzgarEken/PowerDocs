@@ -10,6 +10,24 @@ At the start of your next turn, [draw](/docs/Samples/SlayTheSphere/Keywords#draw
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardShadowDouble', kind: 'repository', name: 'Card_ShadowDouble', root: true},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'sDynamicEnergyRequirement', kind: 'stat', name: 'Dynamic Energy Requirement', subtitle: '1'},
+    {id: 'eDrawNTX', kind: 'effect', name: 'DrawNT_X'},
+    {id: 'sDrawCount', kind: 'stat', name: 'DrawCount'},
+    {id: 'eEnergyGainNTX', kind: 'effect', name: 'EnergyGainNT_X'},
+    {id: 'sEnergy', kind: 'stat', name: 'Energy'},
+  ]}
+  edges={[
+    {from: 'nCardShadowDouble', to: 'sCardType', kind: 'holds'},
+    {from: 'nCardShadowDouble', to: 'sDynamicEnergyRequirement', kind: 'holds'},
+    {from: 'eDrawNTX', to: 'sDrawCount', kind: 'target'},
+    {from: 'eEnergyGainNTX', to: 'sEnergy', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

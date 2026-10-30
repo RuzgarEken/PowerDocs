@@ -23,6 +23,8 @@ description: Text Spawner feedback — floating numbers and words above the targ
 | **Ignore** | Shows nothing for this case. |
 | **Prefab** | The `TextMeshProUGUI` prefab spawned. |
 | **Animation Style** | How it moves (`ScaleAndSlide`, played by the matching `FeedbackAnimator` of the Text Spawn Controller). |
+| **Color** | The spawned text color for this style. |
+| **Punch Shake** | Adds a short shake immediately after spawning, on top of the selected animation style. |
 | **Use Formater** / **Format** | Wraps the number in a template: `$P` is replaced by the number — `"Crit! $P"`, `"+$P"`. |
 
 An exact Result Attribute style wins; otherwise the most specific matching flag subset wins before fallback. See [How a case is chosen](./index.mdx#how-a-case-is-chosen).

@@ -10,6 +10,32 @@ It costs **0 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)** until playe
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardTacticalSetup', kind: 'repository', name: 'Card_TacticalSetup'},
+    {id: 'sPutFrontOfDraw', kind: 'stat', name: 'Put Front Of Draw', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'pTacticalSetup', kind: 'pack', name: 'TacticalSetup', subtitle: 'Grant → Chosen card', root: true},
+    {id: 'sPutFrontOfDrawCount', kind: 'stat', name: 'PutFrontOfDrawCount'},
+    {id: 'ePutFrontOfDraw', kind: 'effect', name: 'PutFrontOfDraw'},
+    {id: 'sModifierCard', kind: 'stat', name: 'ModifierCard'},
+    {id: 'eSetModifierCard', kind: 'effect', name: 'SetModifierCard'},
+    {id: 'eZeroManaCost', kind: 'effect', name: 'ZeroManaCost'},
+  ]}
+  edges={[
+    {from: 'nCardTacticalSetup', to: 'sPutFrontOfDraw', kind: 'holds'},
+    {from: 'nCardTacticalSetup', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardTacticalSetup', to: 'sCardType', kind: 'holds'},
+    {from: 'pTacticalSetup', to: 'ePutFrontOfDraw', kind: 'holds'},
+    {from: 'ePutFrontOfDraw', to: 'sPutFrontOfDrawCount', kind: 'target'},
+    {from: 'pTacticalSetup', to: 'eSetModifierCard', kind: 'holds'},
+    {from: 'eSetModifierCard', to: 'sModifierCard', kind: 'target'},
+    {from: 'pTacticalSetup', to: 'eZeroManaCost', kind: 'holds'},
+    {from: 'eZeroManaCost', to: 'sEnergyCost', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

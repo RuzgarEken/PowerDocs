@@ -33,6 +33,10 @@ It supports comparing a value against either a **single value** or a **value ran
 - **Greater Or Equal**: The value must be greater than or equal to the comparison value.
 - **Not Equals**: The value must not be equal to the comparison value.
 
+### Floating-point equality
+
+For Float values, **Equals** and **Not Equals** use a tolerance of `0.0001 × max(1, abs(comparison value))`. For example, `0.0000007` counts as equal to `0`, avoiding missed zero checks after modifier calculations. Int comparisons remain exact. Ordering comparisons and range boundaries are exact; use an explicit range when you want a wider threshold.
+
 ### Range Compare Condition
 
 - **Inside**: Passes if the value is inside the specified range. The comparison is **inclusive**, meaning both the minimum and maximum values are included.

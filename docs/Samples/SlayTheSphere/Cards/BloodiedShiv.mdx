@@ -10,6 +10,25 @@ Deal **12** damage.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardBloodiedShiv', kind: 'repository', name: 'Card_BloodiedShiv', root: true},
+    {id: 'sDamage', kind: 'stat', name: 'Damage', subtitle: '12'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '0 (before any HP loss)'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'eAttackDamage', kind: 'effect', name: 'AttackDamage'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'eIncreaseEnergyCost', kind: 'effect', name: 'IncreaseEnergyCost'},
+  ]}
+  edges={[
+    {from: 'nCardBloodiedShiv', to: 'sDamage', kind: 'holds'},
+    {from: 'nCardBloodiedShiv', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardBloodiedShiv', to: 'sCardType', kind: 'holds'},
+    {from: 'eAttackDamage', to: 'sHealth', kind: 'target'},
+    {from: 'eIncreaseEnergyCost', to: 'sEnergyCost', kind: 'target'},
+  ]}
+/>
+
 Bloodied Shiv composes the shared Attack template with the highest base damage of any Attack card and a starting cost of `0`.
 
 <div className="prp-packs">

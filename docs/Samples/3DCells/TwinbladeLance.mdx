@@ -24,6 +24,32 @@ While empowered, all attacks become critical hits for **6 seconds**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eKillComboCounterEffectsInjector', kind: 'effect', name: 'KillComboCounterEffectsInjector', subtitle: 'Linker Effect (BS)', root: true},
+    {id: 'sCounterKillEffects', kind: 'stat', name: 'Key_CounterKillEffects_3DC', label: 'CounterKillEffects'},
+    {id: 'nKillComboCounterEffectsInjector', kind: 'injector', name: 'Linker_KillComboCounterEffectsInjector_3DC', label: 'KillComboCounterEffectsInjector'},
+    {id: 'sKillComboCounter', kind: 'stat', name: 'KillComboCounter', subtitle: 'Stat (CounterEffect Signed)'},
+    {id: 'sCritBuffTrigger', kind: 'stat', name: 'CritBuffTrigger', subtitle: 'Stat (StateBasedEffect)'},
+    {id: 'nGTE2Int', kind: 'other', name: 'Condition_GTE2(Int)_3DC', label: 'GTE2(Int)'},
+    {id: 'pKillComboCounter', kind: 'pack', name: 'KillComboCounter', subtitle: 'Default'},
+    {id: 'sKillCombo', kind: 'stat', name: 'KillCombo', subtitle: 'TwinbladeLance / Int Clamped'},
+    {id: 'eIncreaseKillCombo', kind: 'effect', name: 'IncreaseKillCombo', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'pCritBuffTrigger', kind: 'pack', name: 'CritBuffTrigger', subtitle: 'Default'},
+    {id: 'sCritRate', kind: 'stat', name: 'CritRate', subtitle: 'TwinbladeLance / Float Clamped'},
+    {id: 'eCritBuff', kind: 'effect', name: 'CritBuff', subtitle: 'Float Stat Effect (BS)'},
+  ]}
+  edges={[
+    {from: 'eKillComboCounterEffectsInjector', to: 'sCounterKillEffects', kind: 'target'},
+    {from: 'eKillComboCounterEffectsInjector', to: 'nKillComboCounterEffectsInjector', kind: 'reference'},
+    {from: 'sCritBuffTrigger', to: 'nGTE2Int', kind: 'condition'},
+    {from: 'pKillComboCounter', to: 'eIncreaseKillCombo', kind: 'holds'},
+    {from: 'eIncreaseKillCombo', to: 'sKillCombo', kind: 'target'},
+    {from: 'pCritBuffTrigger', to: 'eCritBuff', kind: 'holds'},
+    {from: 'eCritBuff', to: 'sCritRate', kind: 'target'},
+  ]}
+/>
+
 **Twinblade Lance** is a three-state combo Skill. Each cast ends with `IncreaseEvolutionNo`, advancing State 1 → 2 → 3, and the combo resets on the third State's cast end or while mounted. States 1 and 3 add knockback and vertical force, and State 3 re-aims to the pointer input on activation.
 
 To track kills, a `KillComboCounterEffectsInjector` injects a **CounterEffect** into the enemy **Health** Stat that watches for lethal damage dealt by this weapon.

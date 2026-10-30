@@ -10,6 +10,31 @@ Apply **1 [Weak](/docs/Samples/SlayTheSphere/Keywords#weak)**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardDisarm', kind: 'repository', name: 'Card_Disarm'},
+    {id: 'sDamage', kind: 'stat', name: 'Damage', subtitle: '3'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '0'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'sWeakness', kind: 'stat', name: 'Weakness', subtitle: '1'},
+    {id: 'pDisarm', kind: 'pack', name: 'Disarm', subtitle: 'Grant → Target', root: true},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'eAttackDamage', kind: 'effect', name: 'AttackDamage'},
+    {id: 'sWeak', kind: 'stat', name: 'Weak'},
+    {id: 'eWeak', kind: 'effect', name: 'Weak'},
+  ]}
+  edges={[
+    {from: 'nCardDisarm', to: 'sDamage', kind: 'holds'},
+    {from: 'nCardDisarm', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardDisarm', to: 'sCardType', kind: 'holds'},
+    {from: 'nCardDisarm', to: 'sWeakness', kind: 'holds'},
+    {from: 'pDisarm', to: 'eAttackDamage', kind: 'holds'},
+    {from: 'eAttackDamage', to: 'sHealth', kind: 'target'},
+    {from: 'pDisarm', to: 'eWeak', kind: 'holds'},
+    {from: 'eWeak', to: 'sWeak', kind: 'target'},
+  ]}
+/>
+
 Disarm composes the shared Attack values plus a Weak amount:
 
 <div className="prp-packs">

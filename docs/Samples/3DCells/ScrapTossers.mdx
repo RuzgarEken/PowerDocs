@@ -26,6 +26,64 @@ Restores **1 ammo** whenever an enemy is killed.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eScrapTossers', kind: 'effect', name: 'ScrapTossers', subtitle: 'Skill Model Normal', root: true},
+    {id: 'sSkillScrapTossersCasting', kind: 'stat', name: 'Skill_ScrapTossers_Casting_3DC', label: 'Skill_ScrapTossers_Casting'},
+    {id: 'sSkillScrapTossersTargeting', kind: 'stat', name: 'Skill_ScrapTossers_Targeting_3DC', label: 'Skill_ScrapTossers_Targeting'},
+    {id: 'sScrapTossersUseBlockers', kind: 'stat', name: 'Key_ScrapTossers_UseBlockers_3DC', label: 'ScrapTossers_UseBlockers'},
+    {id: 'pOnUse', kind: 'pack', name: 'Pack_OnUse_3DC', label: 'OnUse'},
+    {id: 'pWhileCasting', kind: 'pack', name: 'Pack_WhileCasting_3DC', label: 'WhileCasting', subtitle: 'Effect Pack'},
+    {id: 'pOnCastEnd', kind: 'pack', name: 'Pack_OnCastEnd_3DC', label: 'OnCastEnd'},
+    {id: 'eScrapTossersTargeting', kind: 'effect', name: 'ScrapTossers_Targeting', subtitle: 'Skill Targeting Skill Shot'},
+    {id: 'eIfLockOnTargetLockOnElseAimToPointer', kind: 'effect', name: 'IfLockOnTarget_LockOnElseAimToPointer', subtitle: 'Conditional Effect'},
+    {id: 'pLockOn', kind: 'pack', name: 'Pack_LockOn_3DC', label: 'LockOn'},
+    {id: 'pAimToPointer', kind: 'pack', name: 'Pack_AimToPointer_3DC', label: 'AimToPointer'},
+    {id: 'sScrapTossersAmmoCount', kind: 'stat', name: 'ScrapTossers_AmmoCount', subtitle: 'Stat (Clamped Int)'},
+    {id: 'sScrapTossersUBs', kind: 'stat', name: 'ScrapTossers_UBs', subtitle: 'Stat (Clamped Int)'},
+    {id: 'sScrapTossersCd', kind: 'stat', name: 'Key_ScrapTossers_Cd_3DC', label: 'ScrapTossers_Cd'},
+    {id: 'nAdd1IfCdGT0', kind: 'injector', name: 'LinkerDefinition_Add1IfCdGT0_3DC', label: 'Add1IfCdGT0'},
+    {id: 'nAdd1AmmoEq0', kind: 'injector', name: 'LinkerDefinition_Add1_AmmoEq0_3DC', label: 'Add1_AmmoEq0'},
+    {id: 'sKillToAmmoCounter', kind: 'stat', name: 'KillToAmmoCounter', subtitle: 'Stat (CounterEffect Signed)'},
+    {id: 'sLockOnTarget', kind: 'stat', name: 'LockOnTarget', subtitle: 'Movement / Actor'},
+    {id: 'eSetLockOnTarget', kind: 'effect', name: 'SetLockOnTarget', subtitle: 'Actor Stat Effect (BS)'},
+    {id: 'sRotationInputBlocker', kind: 'stat', name: 'RotationInputBlocker', subtitle: 'Movement / Int Clamped'},
+    {id: 'eRotationInputBlock', kind: 'effect', name: 'RotationInputBlock', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'pThorwableObjectsAttack', kind: 'pack', name: 'ThorwableObjects_Attack', subtitle: 'Effect Pack'},
+    {id: 'sStunned', kind: 'stat', name: 'Stunned', subtitle: 'Default / Int Clamped'},
+    {id: 'eStun', kind: 'effect', name: 'Stun', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'sHealth', kind: 'stat', name: 'Health', subtitle: 'Default / Float Clamped'},
+    {id: 'eDamage', kind: 'effect', name: 'Damage', subtitle: 'Float Stat Effect (MAS)'},
+    {id: 'pKillToAmmoCounter', kind: 'pack', name: 'KillToAmmoCounter', subtitle: 'Default'},
+    {id: 'sAmmoCount', kind: 'stat', name: 'AmmoCount', subtitle: 'ScrapTossers / Int Clamped'},
+    {id: 'eIncreaseAmmoCount', kind: 'effect', name: 'IncreaseAmmoCount', subtitle: 'Int Stat Effect (BS)'},
+  ]}
+  edges={[
+    {from: 'eScrapTossers', to: 'sSkillScrapTossersCasting', kind: 'reference'},
+    {from: 'eScrapTossers', to: 'sSkillScrapTossersTargeting', kind: 'target'},
+    {from: 'eScrapTossers', to: 'sScrapTossersUseBlockers', kind: 'reference'},
+    {from: 'eScrapTossers', to: 'pOnUse', kind: 'reference'},
+    {from: 'eScrapTossers', to: 'pWhileCasting', kind: 'reference'},
+    {from: 'eScrapTossers', to: 'pOnCastEnd', kind: 'reference'},
+    {from: 'eIfLockOnTargetLockOnElseAimToPointer', to: 'pLockOn', kind: 'reference'},
+    {from: 'eIfLockOnTargetLockOnElseAimToPointer', to: 'pAimToPointer', kind: 'reference'},
+    {from: 'sScrapTossersUBs', to: 'sScrapTossersCd', kind: 'relation', label: 'Cooldown'},
+    {from: 'sScrapTossersUBs', to: 'nAdd1IfCdGT0', kind: 'reference'},
+    {from: 'sScrapTossersUBs', to: 'nAdd1AmmoEq0', kind: 'reference'},
+    {from: 'pWhileCasting', to: 'eSetLockOnTarget', kind: 'holds'},
+    {from: 'eSetLockOnTarget', to: 'sLockOnTarget', kind: 'target'},
+    {from: 'pWhileCasting', to: 'eIfLockOnTargetLockOnElseAimToPointer', kind: 'holds'},
+    {from: 'pWhileCasting', to: 'eRotationInputBlock', kind: 'holds'},
+    {from: 'eRotationInputBlock', to: 'sRotationInputBlocker', kind: 'target'},
+    {from: 'pThorwableObjectsAttack', to: 'eStun', kind: 'holds'},
+    {from: 'eStun', to: 'sStunned', kind: 'target'},
+    {from: 'pThorwableObjectsAttack', to: 'eDamage', kind: 'holds'},
+    {from: 'eDamage', to: 'sHealth', kind: 'target'},
+    {from: 'pKillToAmmoCounter', to: 'eIncreaseAmmoCount', kind: 'holds'},
+    {from: 'eIncreaseAmmoCount', to: 'sAmmoCount', kind: 'target'},
+  ]}
+/>
+
 **Scrap Tossers** is a one-state Skill. While it is cast it locks onto the closest enemy in sight and throws at it; with nobody in sight it throws where you aim. Clicks still move the character during the cast.
 
 <div className="prp-packs">

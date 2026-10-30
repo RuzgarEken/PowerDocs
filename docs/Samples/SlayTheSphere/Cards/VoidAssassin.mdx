@@ -8,6 +8,28 @@ During your next turn, your **Attack** cards deal [**double damage**](/docs/Samp
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardVoidAssassin', kind: 'repository', name: 'Card_VoidAssassin'},
+    {id: 'sVoidAssassin', kind: 'stat', name: 'Void Assassin', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'pVoidAssassinToDoubleDamageConverter', kind: 'pack', name: 'VoidAssassinToDoubleDamageConverter', subtitle: 'Grant → Next Attack card', root: true},
+    {id: 'sDamageMultiplier', kind: 'stat', name: 'DamageMultiplier'},
+    {id: 'eDoubleDamage', kind: 'effect', name: 'DoubleDamage'},
+    {id: 'eResetVoidAssassin', kind: 'effect', name: 'ResetVoidAssassin'},
+  ]}
+  edges={[
+    {from: 'nCardVoidAssassin', to: 'sVoidAssassin', kind: 'holds'},
+    {from: 'nCardVoidAssassin', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardVoidAssassin', to: 'sCardType', kind: 'holds'},
+    {from: 'pVoidAssassinToDoubleDamageConverter', to: 'eDoubleDamage', kind: 'holds'},
+    {from: 'eDoubleDamage', to: 'sDamageMultiplier', kind: 'target'},
+    {from: 'pVoidAssassinToDoubleDamageConverter', to: 'eResetVoidAssassin', kind: 'holds'},
+    {from: 'eResetVoidAssassin', to: 'sVoidAssassin', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

@@ -10,6 +10,25 @@ When the affected enemy dies, deal damage equal to its **[Max HP](/docs/Samples/
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardPlagueBurst', kind: 'repository', name: 'Card_PlagueBurst', root: true},
+    {id: 'sPoison', kind: 'stat', name: 'Poison', subtitle: '6'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'ePoison', kind: 'effect', name: 'Poison'},
+    {id: 'ePlagueBurst', kind: 'effect', name: 'PlagueBurst'},
+    {id: 'sPlagueBurst', kind: 'stat', name: 'PlagueBurst'},
+  ]}
+  edges={[
+    {from: 'nCardPlagueBurst', to: 'sPoison', kind: 'holds'},
+    {from: 'nCardPlagueBurst', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardPlagueBurst', to: 'sCardType', kind: 'holds'},
+    {from: 'ePoison', to: 'sPoison', kind: 'target'},
+    {from: 'ePlagueBurst', to: 'sPlagueBurst', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

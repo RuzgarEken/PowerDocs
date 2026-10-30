@@ -31,7 +31,7 @@ import ProcessorIcon from './assets/ProcessorIcon.png';
 const NestedContext = createContext(false);
 
 // `color` values mirror the Power asset icons used inside Unity (PowerTools/Icons/icons.json in the Power project).
-const KINDS = {
+export const KINDS = {
   effect: {label: 'Effect', color: '#EA635F', icon: EffectIcon},
   stat: {label: 'Stat', color: '#F3DC60', icon: StatIcon},
   injector: {label: 'Injector', color: '#70B04D', icon: InjectorIcon},
@@ -45,7 +45,7 @@ const KINDS = {
 
 // Very light kind colours (e.g. Repository's white) are unreadable as a border
 // or text colour on the light theme — fall back to a neutral for those roles.
-function accentFor(color) {
+export function accentFor(color) {
   const m = /^#?([0-9a-fA-F]{6})$/.exec((color || '').trim());
   if (m) {
     const n = parseInt(m[1], 16);
@@ -56,7 +56,7 @@ function accentFor(color) {
   return color;
 }
 
-function KindIcon({kind, className}) {
+export function KindIcon({kind, className}) {
   const icon = KINDS[kind]?.icon;
   if (!icon) return null;
   return <img src={icon} alt="" className={className} />;
@@ -87,7 +87,7 @@ const TYPE_PREFIXES = [
 const SAMPLE_SUFFIX = /_(3DC|R3D|STS|GE|3D|PP|VN|PDS)$/;
 
 // Guess the asset kind from a `Type_Name` identifier.
-function inferKind(name) {
+export function inferKind(name) {
   if (typeof name !== 'string') return undefined;
   for (const [prefix, kind] of TYPE_PREFIXES) {
     if (kind && name.startsWith(prefix)) return kind;
@@ -97,7 +97,7 @@ function inferKind(name) {
 }
 
 // Drop the redundant `Type_` prefix — the icon already says what it is — and the sample tag.
-function displayName(name) {
+export function displayName(name) {
   if (typeof name !== 'string') return name;
   let shown = name.replace(SAMPLE_SUFFIX, '');
   for (const [prefix] of TYPE_PREFIXES) {

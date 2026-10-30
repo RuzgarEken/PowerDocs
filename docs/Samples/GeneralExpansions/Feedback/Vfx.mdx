@@ -34,6 +34,17 @@ A prefab that needs to know the Effect that spawned it — a beam from the attac
 
 An exact Result Attribute entry wins; otherwise the most specific matching flag subset wins before fallback. See [How a case is chosen](./index.mdx#how-a-case-is-chosen).
 
+## Combining VFX
+
+The processor's **Combine** field selects how matching visuals are played:
+
+| Mode | Behavior |
+| --- | --- |
+| **Best Match** | Plays the exact Result Attribute entry when present, otherwise the most specific matching subset, then fallback. An AS/MAS Attribute Stat-specific VFX replaces that case's default VFX. |
+| **Additive** | Plays the **None** entry as a base (or the fallback when no base is configured), plus every nonzero entry whose flags are contained in the result. For AS/MAS cases, the default and matching Attribute Stat-specific VFX play together. |
+
+For a `Critical | Explosive` hit, Additive can play the base hit spark, critical flash and explosion together. A combined `Critical | Explosive` entry also plays if configured; it does not suppress the individual layers. Conditions and **Ignore** still apply to each VFX.
+
 ## Examples
 
 | Goal | Setup |

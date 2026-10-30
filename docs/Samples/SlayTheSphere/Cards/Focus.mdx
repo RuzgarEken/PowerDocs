@@ -10,6 +10,27 @@ Gain **2 [Energy](/docs/Samples/SlayTheSphere/Keywords#energy)**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardFocus', kind: 'repository', name: 'Card_Focus', root: true},
+    {id: 'sDiscard', kind: 'stat', name: 'Discard', subtitle: '3'},
+    {id: 'sEnergy', kind: 'stat', name: 'Energy', subtitle: '2'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '0'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'eDiscard', kind: 'effect', name: 'Discard'},
+    {id: 'sDiscardCount', kind: 'stat', name: 'DiscardCount'},
+    {id: 'eEnergyGain', kind: 'effect', name: 'EnergyGain'},
+  ]}
+  edges={[
+    {from: 'nCardFocus', to: 'sDiscard', kind: 'holds'},
+    {from: 'nCardFocus', to: 'sEnergy', kind: 'holds'},
+    {from: 'nCardFocus', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardFocus', to: 'sCardType', kind: 'holds'},
+    {from: 'eDiscard', to: 'sDiscardCount', kind: 'target'},
+    {from: 'eEnergyGain', to: 'sEnergy', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

@@ -10,6 +10,22 @@ Deal **7** damage **3 times**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardShred', kind: 'repository', name: 'Card_Shred', root: true},
+    {id: 'sDamage', kind: 'stat', name: 'Damage', subtitle: '7'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '3'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'sRepeatCount', kind: 'stat', name: 'Repeat Count', subtitle: '0'},
+  ]}
+  edges={[
+    {from: 'nCardShred', to: 'sDamage', kind: 'holds'},
+    {from: 'nCardShred', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardShred', to: 'sCardType', kind: 'holds'},
+    {from: 'nCardShred', to: 'sRepeatCount', kind: 'holds'},
+  ]}
+/>
+
 Shred brings its own base cost instead of using the shared `EnergyCost` value:
 
 <div className="prp-packs">

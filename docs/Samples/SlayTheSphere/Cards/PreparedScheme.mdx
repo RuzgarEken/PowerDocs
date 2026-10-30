@@ -8,6 +8,22 @@ At the end of your turn, [**retain up to 1 card**](/docs/Samples/SlayTheSphere/K
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardPreparedScheme', kind: 'repository', name: 'Card_PreparedScheme', root: true},
+    {id: 'sRetain', kind: 'stat', name: 'Retain', subtitle: '1'},
+    {id: 'sExhaust', kind: 'stat', name: 'Exhaust', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '3'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Power'},
+  ]}
+  edges={[
+    {from: 'nCardPreparedScheme', to: 'sRetain', kind: 'holds'},
+    {from: 'nCardPreparedScheme', to: 'sExhaust', kind: 'holds'},
+    {from: 'nCardPreparedScheme', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardPreparedScheme', to: 'sCardType', kind: 'holds'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

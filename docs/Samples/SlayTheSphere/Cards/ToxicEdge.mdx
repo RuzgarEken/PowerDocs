@@ -8,6 +8,25 @@ Whenever an **Attack** deals [unblocked damage](/docs/Samples/SlayTheSphere/Keyw
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardToxicEdge', kind: 'repository', name: 'Card_ToxicEdge', root: true},
+    {id: 'sToxicEdge', kind: 'stat', name: 'Toxic Edge', subtitle: '1'},
+    {id: 'sExhaust', kind: 'stat', name: 'Exhaust', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '2'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Power'},
+    {id: 'ePoison', kind: 'effect', name: 'Poison'},
+    {id: 'sPoison', kind: 'stat', name: 'Poison'},
+  ]}
+  edges={[
+    {from: 'nCardToxicEdge', to: 'sToxicEdge', kind: 'holds'},
+    {from: 'nCardToxicEdge', to: 'sExhaust', kind: 'holds'},
+    {from: 'nCardToxicEdge', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardToxicEdge', to: 'sCardType', kind: 'holds'},
+    {from: 'ePoison', to: 'sPoison', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

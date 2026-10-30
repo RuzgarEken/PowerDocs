@@ -26,6 +26,7 @@ The **Generator Signature** defines how a **Generator Stat** behaves at runtime.
 | **Use Interval** | Determines whether generation occurs at fixed intervals or continuously over time. When disabled, the Generator value represents the amount generated per second. |
 | **Use Interval Stat** | Uses a Stat instead of a predefined Interval value. |
 | **Interval** | The predefined Interval value used by the Generator when Use Interval Stat is disabled. |
+| **Interval Stat** | A `Stat From` lookup supplying the interval: a Float for realtime Generators or an Int for turn-based Generators. Changes update the running Generator; disposal removes the subscription. |
 | **Stackable** | Determines how Modifier values are generated. When enabled, all Modifier values are combined and generated as a single value. When disabled, each Modifier is generated independently. |
 | **Toggleable** | Allows the Generator to be enabled or disabled based on the value of a Toggle Stat. |
 | **Toggle Stat Key** | The **Stat Key** of the Toggle Stat. The referenced Stat must be an **Int Stat**. |
@@ -45,6 +46,10 @@ Effects.
 
 The receivers are looked up again on every tick of every Generator. Many Generators ticking at short intervals cost
 more, so prefer a longer interval or a narrower filter (a distance limit, "doesn't have the status yet") when it shows.
+
+### Stat-driven intervals
+
+Enable **Use Interval** and **Use Interval Stat** to let upgrades change the interval without rebuilding the Generator. The referenced Stat must exist on the selected Actor. For a global player-controlled rate, a `Stat From` can use **Actor → Static Actor**, **Static Actor → Player**, and the player's interval key. Kodes' [EchoGap](/docs/Samples/Kodes#upgrade-echo-gap) scales the interval this way.
 
 ### Toggle On Value Types
 

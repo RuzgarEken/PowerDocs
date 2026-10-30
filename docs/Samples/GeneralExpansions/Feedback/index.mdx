@@ -39,6 +39,6 @@ Result Attributes are matched in this order:
 
 `None` matches only an untagged result; it is not a wildcard. A `Critical | Explosive` hit can use an `Explosive` entry, while a dedicated `Critical | Explosive` entry takes priority. One entry can cover every result that contains its flags.
 
-This applies to Text Spawner, VFX and Animation feedback, including their BS, AS, MAS, unsigned and value-carrying variants. AS/MAS Attribute Stat selection is a separate step; this rule selects the Result Attribute case within it. The processors' required-result-attribute gates still control whether a processor runs at all.
+This is the selection rule for Text Spawner and Animation feedback, and for VFX feedback in **Best Match** mode, including their BS, AS, MAS, unsigned and value-carrying variants. VFX also offers [Additive mode](./Vfx#combining-vfx), which plays a base layer and every matching result layer together. AS/MAS Attribute Stat selection is a separate step; this rule selects the Result Attribute case within it. The processors' required-result-attribute gates still control whether a processor runs at all.
 
 Blocked Effects still run Feedback, so a missed or immune hit can show its own text, VFX or animation.

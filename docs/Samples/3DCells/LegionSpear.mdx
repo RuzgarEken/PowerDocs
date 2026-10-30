@@ -24,6 +24,33 @@ The critical damage multiplier increases based on the number of enemies hit.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eToucher', kind: 'effect', name: 'Toucher', subtitle: 'Effector_EnterExit', root: true},
+    {id: 'pIncreaseTouchCount', kind: 'pack', name: 'Pack_IncreaseTouchCount_3DC', label: 'IncreaseTouchCount'},
+    {id: 'eDamager', kind: 'effect', name: 'Damager', subtitle: 'Effector_OnCollide'},
+    {id: 'pLegionSpear', kind: 'pack', name: 'Pack_LegionSpear_3DC', label: 'LegionSpear'},
+    {id: 'nMASContributionCriticalHitFloat', kind: 'processor', name: 'MASContribution_CriticalHit_Float', subtitle: 'MASContribution Critical Hit Float'},
+    {id: 'sASContributionConditionalModifierFloatGeneri', kind: 'stat', name: 'ASContribution_ConditionalModifier(Float-Generic)_3DC', label: 'ASContribution_ConditionalModifier(Float-Generic)'},
+    {id: 'sLegionSpearCritRate', kind: 'stat', name: 'LegionSpear_CritRate', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sTouchingTargetBasedCritRateModifier', kind: 'stat', name: 'Key_TouchingTargetBasedCritRateModifier_3DC', label: 'TouchingTargetBasedCritRateModifier', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'nGTE2Int', kind: 'other', name: 'Condition_GTE2(Int)_3DC', label: 'GTE2(Int)'},
+    {id: 'sLegionSpearCritMultiplier', kind: 'stat', name: 'LegionSpear_CritMultiplier', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sTouchingTargetBasedCritMultiplierModifier', kind: 'stat', name: 'Key_TouchingTargetBasedCritMultiplierModifier_3DC', label: 'TouchingTargetBasedCritMultiplierModifier', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'sStatToMultiplierTouchingTargetCount', kind: 'stat', name: 'StatToMultiplier_TouchingTargetCount_3DC', label: 'StatToMultiplier_TouchingTargetCount'},
+  ]}
+  edges={[
+    {from: 'eToucher', to: 'pIncreaseTouchCount', kind: 'target'},
+    {from: 'eDamager', to: 'pLegionSpear', kind: 'target'},
+    {from: 'nMASContributionCriticalHitFloat', to: 'sASContributionConditionalModifierFloatGeneri', kind: 'condition'},
+    {from: 'sLegionSpearCritRate', to: 'sTouchingTargetBasedCritRateModifier', kind: 'relation', label: 'ConditionalModifier_ApplyingAS'},
+    {from: 'sTouchingTargetBasedCritRateModifier', to: 'nGTE2Int', kind: 'condition'},
+    {from: 'sLegionSpearCritMultiplier', to: 'sTouchingTargetBasedCritMultiplierModifier', kind: 'relation', label: 'ConditionalModifier_ApplyingAS'},
+    {from: 'sTouchingTargetBasedCritMultiplierModifier', to: 'nGTE2Int', kind: 'condition'},
+    {from: 'sTouchingTargetBasedCritMultiplierModifier', to: 'sStatToMultiplierTouchingTargetCount', kind: 'reference'},
+  ]}
+/>
+
 The **Legion Spear** skill object contains two Effectors.
 
 The **LegionSpear** skill prefab has two children: **Damager** deals the damage, **Toucher** counts the foes it touches.

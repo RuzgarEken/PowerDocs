@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 59 upgrades that each unlock a new mechanic.
+description: Kodes — a real-time 3D roguelite demo built to see how Power holds up on a long project, with 65 upgrades that each unlock a new mechanic.
 ---
 
 # Kodes
@@ -13,10 +13,10 @@ Kodes and [3DCells](/docs/Samples/3DCells) play alike: both are demos of a real-
 
 | | 3DCells | Kodes |
 | --- | --- | --- |
-| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 59 upgrades, each unlocking a new feature |
+| Focus | **Weapons** — 15 weapons, each with its own mechanics | **Upgrades** — 65 upgrades, each unlocking a new feature |
 | A run grows by | picking up a different weapon | stacking upgrades that change how everything else behaves |
 
-In Kodes, every upgrade unlocks something new: [poison](#status-poison) that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **59 upgrades**, and their Stats make them work together, so an upgrade picked late in a run still combines with every upgrade picked before it.
+In Kodes, every upgrade unlocks something new: [poison](#status-poison) that spreads, attacks that hit twice, a shield that blocks one hit and recharges, lightning that chains between foes. There are currently **65 upgrades**, and their Stats make them work together, so an upgrade picked late in a run still combines with every upgrade picked before it.
 
 ## Built with AI
 
@@ -31,7 +31,7 @@ See [AI Support](/docs/AISupport) to set it up for your own project.
 | **Player** | Attack (a combo), Special Attack, Cast, Dash and Rage Skills; Health and a rage bar. |
 | **Mobs** | Melee, Tank Melee, Ranged, Bomber and Nova Mage mobs, each with its own Skill and AI. |
 | **Encounters** | Rooms that spawn waves of mobs, with lava and spike hazards. |
-| **Upgrades** | 59 upgrades in an upgrade pool, offered between encounters. |
+| **Upgrades** | 65 upgrades in an upgrade pool, offered between encounters. |
 | **Save** | A run checkpoint saved with Power's [Saving Stats](/docs/CoreConcepts/SavingStats) (`RunSave`). |
 
 The Player's Repository shows how the mechanics are split into Environments:
@@ -53,19 +53,19 @@ Many upgrades are [Premade Relation Packs](/docs/Samples/PremadePacks/ShippedPac
 
 ## Status Effects
 
-Statuses are Int (Clamped) Stats on the foe (`Mob` Environment, [Stagger](#status-stagger) in `Default`), raised by an inflict and lowered when it ends. Each one only switches a state on; the foe's own Stats read it (a slow, a damage over time, a skill blocker). Some come with the Attack itself, others only through an upgrade below. A looping VFX shows each one while it is on (`ActorExtension_ExternalVfxTracker` on every mob prefab).
+Most statuses are Int (Clamped) Stats on the foe (`Mob` Environment, [Stagger](#status-stagger) in `Default`), raised by an inflict and lowered when it ends. These switch a state on; the foe's own Stats read it (a slow, a damage over time, a skill blocker). Some come with the Attack itself, others only through an upgrade below. Numeric pools such as Scorch and Echo store damage instead of a simple on/off state. Looping VFX follow active statuses through `ActorExtension_ExternalVfxTracker` on every mob prefab; Poison visuals stop when the foe dies.
 
 | Status | What it does | Applied by |
 |---|---|---|
 | <span id="status-stagger" className="status-anchor"></span>**Stagger** | For 1 s the foe's AI is locked, its skills can't start, a running cast is interrupted and a melee foe's dash is cancelled. | Your Attack hits |
 | <span id="status-knockback" className="status-anchor"></span>**Knockback** | Pushes the foe away (0.3 s tween). While pushed it carries the slam effectors: **Wall Slam** when it hits a wall, **Body Slam** when it hits another foe. | [Wave Strike](#upgrade-wave-strike) |
-| <span id="status-weak" className="status-anchor"></span>**Weak** | A curse that reduces the foe's damage by 30 %. Lasts 4 s. Frail Blood lets [Poison](#status-poison) stack 3 more times on a [Weak](#status-weak) foe. | [Shadow Strike](#upgrade-shadow-strike), [Death Echo](#upgrade-death-echo) |
-| <span id="status-marked" className="status-anchor"></span>**Marked** | A curse that increases critical hit chance against the foe by 30 %. Shown as a red reticle; lasts 6 s. | [Windmark](#upgrade-thornmark) |
+| <span id="status-weak" className="status-anchor"></span>**Weak** | A curse that reduces the foe's damage by 30 %. Lasts 4 s. Frail Blood lets [Poison](#status-poison) stack 3 more times on a [Weak](#status-weak) foe. | [Shadow Strike](#upgrade-shadow-strike), [Death Burden](#upgrade-death-burden) |
+| <span id="status-marked" className="status-anchor"></span>**Marked** | A curse that increases critical hit chance against the foe by 30 %. Shown as a red reticle; lasts 6 s. | [Thornmark](#upgrade-thornmark) |
 | <span id="status-chill" className="status-anchor"></span>**Chill** | Stacks; each stack slows the foe. Ice Burst, Permafrost and Whiteout build on it. Lasts 8 s. | [Rime Strike](#upgrade-rime-strike), [Permafrost](#upgrade-permafrost) |
 | <span id="status-poison" className="status-anchor"></span>**Poison** | Stacks; deals damage over time that grows with the stacks. Lasts 6 s. | [Venom Strike](#upgrade-venom-strike), [Contagion](#upgrade-contagion) |
-| <span id="status-doom" className="status-anchor"></span>**Doom** | A countdown curse: when it ends, the foe takes your `DoomDamage`. | [Smoldering Strike](#upgrade-smoldering-strike) |
-| <span id="status-daze" className="status-anchor"></span>**Daze** | A curse lasting 9 s: the foe has a 20 % chance to miss eligible damage effects. Reapplication keeps the status active while any infliction lasts; the miss penalty does not stack. A glare marks affected foes. | [Dazzling Strike](#upgrade-dazzling-strike) |
-| <span id="status-scorch" className="status-anchor"></span>**Scorch** | An accumulated damage pool. Each tick spends 0.5 Scorch and deals 0.5 Health damage, every 0.1 s (5 damage/s), until the pool empties. Creamy-yellow health-bar preview and a number show the pool. | [FlameStrike](#upgrade-flamestrike) |
+| <span id="status-doom" className="status-anchor"></span>**Doom** | A countdown curse: when it ends, the foe takes your `DoomDamage`. | [Temporal Strike](#upgrade-temporal-strike) |
+| <span id="status-daze" className="status-anchor"></span>**Daze** | A curse lasting 4 s: the foe has a 20 % chance to miss eligible damage effects. Reapplication keeps the status active while any infliction lasts; the miss penalty does not stack. A glare marks affected foes. | [Dazzling Strike](#upgrade-dazzling-strike) |
+| <span id="status-scorch" className="status-anchor"></span>**Scorch** | An accumulated damage pool. Each tick spends 0.5 Scorch and deals 0.5 Health damage, every 0.1 s (5 damage/s), until the pool empties. Creamy-yellow health-bar preview and a number show the pool. | [FlameStrike](#upgrade-flamestrike), [Fire away](#upgrade-fire-away) |
 | <span id="status-decay" className="status-anchor"></span>**Decay** | Damage over time. | [Whiteout](#upgrade-whiteout) |
 | <span id="status-exposed" className="status-anchor"></span>**Exposed** | A curse: a Backstab against an [Exposed](#status-exposed) foe deals ×1.5 damage. | [Tremor Guard](#upgrade-tremor-guard) (on Deflect) |
 | <span id="status-jolted" className="status-anchor"></span>**Jolted** | For 10 s, or until the foe attacks: its next attack also strikes it and nearby foes with lightning. | [Overload](#upgrade-overload) |
@@ -75,7 +75,7 @@ Statuses are Int (Clamped) Stats on the foe (`Mob` Environment, [Stagger](#statu
 
 ## Upgrades
 
-The **Curse** category uses assets under `Upgrades/Options/Curse/`. **Flame** contains FlameStrike and Torch. **Light** contains Sun Strike and Dazzling Strike.
+**Echo** contains Echo Strike, Death Echo and EchoGap. **Time** includes Stolen Moment and Temporal Strike. **Grass** includes Wiring; **Flame** includes Fire away; **Light** includes Light Speed. The folders under `Upgrades/Options/` follow these categories.
 
 After every cleared encounter, `UpgradeOfferController` offers 3 upgrades from `Upgrades/UpgradePool_R3D`. Each upgrade is an `UpgradeOption` in `Upgrades/Options/<Element>/<Upgrade>/` with a title, a description and an Effect Pack. Taking one applies the pack to the player as **Temporary** Effects, so it can be taken off again.
 
@@ -93,6 +93,25 @@ Upgrades with no element.
 <p><SpecTags items={['General', 'Upgrades/Options/General/ArmorBreaker']} /></p>
 
 Raises a Conditional Modifier on your attack damage that only applies while the target's `Shielded` Stat is `1`.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToArmor', kind: 'stat', name: 'DamageToArmor', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sShielded', kind: 'stat', name: 'Shielded'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pArmorBreaker', kind: 'pack', name: 'ArmorBreaker', subtitle: 'Grant → Player', root: true},
+    {id: 'eDamageBoostToArmor', kind: 'effect', name: 'DamageBoostToArmor', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sShielded', to: 'sDamageToArmor', kind: 'read'},
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageToArmor', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pArmorBreaker', to: 'eDamageBoostToArmor', kind: 'holds'},
+    {from: 'eDamageBoostToArmor', to: 'sDamageToArmor', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -115,6 +134,25 @@ Raises a Conditional Modifier on your attack damage that only applies while the 
 
 Raises a Conditional Modifier on your attack damage that checks the target's `Health` is at 100 %.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToUndamaged', kind: 'stat', name: 'DamageToUndamaged', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pAssault', kind: 'pack', name: 'Assault', subtitle: 'Grant → Player', root: true},
+    {id: 'eDamageToUndamage', kind: 'effect', name: 'DamageToUndamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sHealth', to: 'sDamageToUndamaged', kind: 'read'},
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageToUndamaged', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pAssault', to: 'eDamageToUndamage', kind: 'holds'},
+    {from: 'eDamageToUndamage', to: 'sDamageToUndamaged', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Assault' target='Player'>
@@ -136,6 +174,25 @@ Raises a Conditional Modifier on your attack damage that checks the target's `He
 
 The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the Attack skill. The upgrade switches its `BackstabUnlocked` on; a Conditional Modifier then checks where you stand around the target (a [Relative Angle](/docs/Assets/Misc/StatCondition/MultiStat/RelativeAngle) condition: inside its ±60° rear cone) and, from behind, adds 50 % damage and the `BackStab` Result Attribute.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sBackstabDamage', kind: 'stat', name: 'Attack_BackstabDamage', label: 'BackstabDamage', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sBackstabUnlocked', kind: 'stat', name: 'Attack_BackstabUnlocked', label: 'BackstabUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sAttackConditionalModifiers', kind: 'stat', name: 'AttackConditionalModifiers(SigSep)', label: 'AttackConditionalModifiers', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pBackstab', kind: 'pack', name: 'Backstab', subtitle: 'Grant → Player', root: true},
+    {id: 'eBackstabUnlock', kind: 'effect', name: 'BackstabUnlock', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'sBackstabUnlocked', to: 'sBackstabDamage', kind: 'read'},
+    {from: 'sAttackConditionalModifiers', to: 'sBackstabDamage', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackConditionalModifiers', kind: 'relation'},
+    {from: 'pBackstab', to: 'eBackstabUnlock', kind: 'holds'},
+    {from: 'eBackstabUnlock', to: 'sBackstabUnlocked', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Backstab' target='Player'>
@@ -152,17 +209,31 @@ The [Backstab](/docs/Samples/PremadePacks/ShippedPacks) pack, loaded into the At
 
 </details>
 
-<details>
-<summary><strong>Echo Strike</strong> — Your Attack has a 20 % chance to hit twice.</summary>
+<details id="upgrade-strike-twice">
+<summary><strong>Strike Twice</strong> — Your Attack has a 20 % chance to hit twice.</summary>
 
-<p><SpecTags items={['General', 'Upgrades/Options/General/EchoStrike']} /></p>
+<p><SpecTags items={['General', 'Upgrades/Options/General/StrikeTwice']} /></p>
 
 Adds 0.2 to `DoubleHitChance`. A Director on your Attack reads it as its use rate and sends a copy of every `Duplicatable` attack Effect to the same target.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDoubleHit', kind: 'stat', name: 'DoubleHit', subtitle: 'Director'},
+    {id: 'sDoubleHitChance', kind: 'stat', name: 'DoubleHitChance', subtitle: 'Float (Clamped)'},
+    {id: 'pStrikeTwice', kind: 'pack', name: 'StrikeTwice', subtitle: 'Grant → Player', root: true},
+    {id: 'eStrikeTwice', kind: 'effect', name: 'StrikeTwice', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pStrikeTwice', to: 'eStrikeTwice', kind: 'holds'},
+    {from: 'eStrikeTwice', to: 'sDoubleHitChance', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='EchoStrike' target='Player'>
-  <EffectExample name='EchoStrikeOn' targetStat='DoubleHitChance' target='Player' value='0.2' processor='Add_Float' applyType='Temporary' />
+<PackExample name='StrikeTwice' target='Player'>
+  <EffectExample name='StrikeTwice' targetStat='DoubleHitChance' target='Player' value='0.2' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
 **Stats**
@@ -179,6 +250,31 @@ Adds 0.2 to `DoubleHitChance`. A Director on your Attack reads it as its use rat
 <p><SpecTags items={['General', 'Upgrades/Options/General/EmptyHands']} /></p>
 
 Switches on a State-Based Effect that watches `CastAmmo`: while it is `0`, the effect's pack is applied, and it is removed again once you pick ammo back up.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sEmptyHands', kind: 'stat', name: 'EmptyHands', subtitle: 'State-Based Effect'},
+    {id: 'sEmptyHandsUnlocked', kind: 'stat', name: 'EmptyHandsUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sCastAmmo', kind: 'stat', name: 'CastAmmo'},
+    {id: 'pEmptyHands', kind: 'pack', name: 'Pack_EmptyHands_R3D', label: 'EmptyHands'},
+    {id: 'eDamageBonus', kind: 'effect', name: 'Effect_DamageBonus_R3D', label: 'DamageBonus', subtitle: 'value 0.1'},
+    {id: 'sApplyingDamageRateModifier', kind: 'stat', name: 'Key_ApplyingDamageRateModifier_R3D', label: 'ApplyingDamageRateModifier'},
+    {id: 'eDamageReduction', kind: 'effect', name: 'Effect_DamageReduction_R3D', label: 'DamageReduction', subtitle: 'value 0.1'},
+    {id: 'sDamageReduction', kind: 'stat', name: 'Key_DamageReduction_R3D', label: 'DamageReduction'},
+    {id: 'pEmptyHandsGrant', kind: 'pack', name: 'EmptyHands', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sCastAmmo', to: 'sEmptyHands', kind: 'read'},
+    {from: 'sEmptyHandsUnlocked', to: 'sEmptyHands', kind: 'read'},
+    {from: 'pEmptyHands', to: 'eDamageBonus', kind: 'holds'},
+    {from: 'eDamageBonus', to: 'sApplyingDamageRateModifier', kind: 'target'},
+    {from: 'pEmptyHands', to: 'eDamageReduction', kind: 'holds'},
+    {from: 'eDamageReduction', to: 'sDamageReduction', kind: 'target'},
+    {from: 'sEmptyHands', to: 'pEmptyHands', kind: 'holds'},
+    {from: 'pEmptyHandsGrant', to: 'sEmptyHandsUnlocked', kind: 'target', label: 'EmptyHandsUnlock'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -203,6 +299,23 @@ Switches on a State-Based Effect that watches `CastAmmo`: while it is `0`, the e
 
 Adds 2 to `ReviveImperviousDurationBonus`, which a Linker adds to the Impervious duration the Revive applies.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sReviveImperviousDurationBonus', kind: 'stat', name: 'ReviveImperviousDurationBonus', subtitle: 'Float (Clamped)'},
+    {id: 'nReviveImperviousDurationBonus', kind: 'injector', name: 'LinkerDefinition_ReviveImperviousDurationBonus_R3D', label: 'ReviveImperviousDurationBonus'},
+    {id: 'sReviveImperviousDuration', kind: 'stat', name: 'Stat_ReviveImperviousDuration_R3D', label: 'ReviveImperviousDuration'},
+    {id: 'pLingeringGuard', kind: 'pack', name: 'LingeringGuard', subtitle: 'Grant → Player', root: true},
+    {id: 'eReviveImperviousBonus', kind: 'effect', name: 'ReviveImperviousBonus', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sReviveImperviousDurationBonus', to: 'nReviveImperviousDurationBonus', kind: 'reference'},
+    {from: 'nReviveImperviousDurationBonus', to: 'sReviveImperviousDuration', kind: 'target', label: 'injects into'},
+    {from: 'pLingeringGuard', to: 'eReviveImperviousBonus', kind: 'holds'},
+    {from: 'eReviveImperviousBonus', to: 'sReviveImperviousDurationBonus', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='LingeringGuard' target='Player'>
@@ -224,6 +337,19 @@ Adds 2 to `ReviveImperviousDurationBonus`, which a Linker adds to the Impervious
 
 Lowers your `BaseHitRate` by 0.1. `Health` reads it as its receiving Hit Rate, so 10 % of incoming hits miss.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sBaseHitRate', kind: 'stat', name: 'BaseHitRate', subtitle: 'Float (Clamped)'},
+    {id: 'pNimble', kind: 'pack', name: 'Nimble', subtitle: 'Grant → Player', root: true},
+    {id: 'eNimbleOn', kind: 'effect', name: 'NimbleOn', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pNimble', to: 'eNimbleOn', kind: 'holds'},
+    {from: 'eNimbleOn', to: 'sBaseHitRate', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Nimble' target='Player'>
@@ -236,26 +362,7 @@ Lowers your `BaseHitRate` by 0.1. `Health` reads it as its receiving Hit Rate, s
 
 </details>
 
-<details>
-<summary><strong>Pain Fuel</strong> — The rage bar charges when you take damage.</summary>
 
-<p><SpecTags items={['General', 'Upgrades/Options/General/PainFuel']} /></p>
-
-Raises a Reflector on your `Health` that turns part of the damage you take into Rage, while Rage isn't already active.
-
-**Grant** — applied to the player when the upgrade is taken:
-
-<PackExample name='PainFuel' target='Player'>
-  <EffectExample name='RageCharge' targetStat='ReceivingDamageToRageReflector' target='Player' value='0.0001' processor='Add_Float' applyType='Temporary' />
-</PackExample>
-
-**Stats**
-
-<StatExample name='ReceivingDamageToRageReflector' type='Reflector' statKey='Player / Reflector_SigSep / DamageReflectors(SigSep) / ReceivingDamageToRageReflector' default='0' max='1' condition='RageActive = 0'>
-  Reflects through <PowerRef>Effect_DamageToRageTemplate_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReceivingDamageToRageLinker_R3D</PowerRef>.
-</StatExample>
-
-</details>
 
 <details id="upgrade-punisher">
 <summary><strong>Punisher</strong> — +20 % damage to [Punished](#status-punished) foes (foes with more than 2 curses).</summary>
@@ -263,6 +370,25 @@ Raises a Reflector on your `Health` that turns part of the damage you take into 
 <p><SpecTags items={['General', 'Upgrades/Options/General/Punisher']} /></p>
 
 Switches on a Conditional Modifier on your attack damage that checks the target's [`Punished`](#status-punished) Stat.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToPunished', kind: 'stat', name: 'DamageToPunished', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sPunisherUnlocked', kind: 'stat', name: 'PunisherUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sPunished', kind: 'stat', name: 'Punished'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pPunisher', kind: 'pack', name: 'Punisher', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sPunished', to: 'sDamageToPunished', kind: 'read'},
+    {from: 'sPunisherUnlocked', to: 'sDamageToPunished', kind: 'read'},
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageToPunished', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pPunisher', to: 'sPunisherUnlocked', kind: 'target', label: 'Punisher'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -280,26 +406,7 @@ Switches on a Conditional Modifier on your attack damage that checks the target'
 
 </details>
 
-<details>
-<summary><strong>Rebound</strong> — After you take damage, Dash quickly to recover up to 50 % of the life lost.</summary>
 
-<p><SpecTags items={['General', 'Upgrades/Options/General/Rebound']} /></p>
-
-Raises a Reflector on your `Health` that stashes half of each hit as a fresh wound; a Dash inside the recovery window heals it back.
-
-**Grant** — applied to the player when the upgrade is taken:
-
-<PackExample name='Rebound' target='Player'>
-  <EffectExample name='ReboundRateBoost' targetStat='ReboundRate' target='Player' value='0.5' processor='Add_Float' applyType='Temporary' />
-</PackExample>
-
-**Stats**
-
-<StatExample name='ReboundRate' type='Reflector' statKey='Player / Reflector / ReboundRate' max='1'>
-  Reflects through <PowerRef>Effect_StashFreshWound_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReboundRateLinker_R3D</PowerRef>.
-</StatExample>
-
-</details>
 
 <details>
 <summary><strong>Shard Hunter</strong> — +10 % Attack damage to foes with your Cast Ammo in them.</summary>
@@ -307,6 +414,23 @@ Raises a Reflector on your `Health` that stashes half of each hit as a fresh wou
 <p><SpecTags items={['General', 'Upgrades/Options/General/ShardHunter']} /></p>
 
 Raises a Conditional Modifier on the Attack skill that checks the target's `CastMarked` Stat.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToCastMarked', kind: 'stat', name: 'Attack_DamageToCastMarked', label: 'DamageToCastMarked', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sAttackConditionalModifiers', kind: 'stat', name: 'AttackConditionalModifiers(SigSep)', label: 'AttackConditionalModifiers', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pBonusToCastMark', kind: 'pack', name: 'BonusToCastMark', subtitle: 'Grant → Player', root: true},
+    {id: 'eDmgBonusToCastMark', kind: 'effect', name: 'DmgBonusToCastMark', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackConditionalModifiers', to: 'sDamageToCastMarked', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackConditionalModifiers', kind: 'relation'},
+    {from: 'pBonusToCastMark', to: 'eDmgBonusToCastMark', kind: 'holds'},
+    {from: 'eDmgBonusToCastMark', to: 'sDamageToCastMarked', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -329,6 +453,25 @@ Raises a Conditional Modifier on the Attack skill that checks the target's `Cast
 
 Raises a Conditional Modifier on your attack damage that compares your `Position` with the target's and applies beyond the distance its condition sets.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToDistant', kind: 'stat', name: 'DamageToDistant', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sPosition', kind: 'stat', name: 'Position'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pSharpShooter', kind: 'pack', name: 'SharpShooter', subtitle: 'Grant → Player', root: true},
+    {id: 'eDamageToDistant', kind: 'effect', name: 'DamageToDistant', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sPosition', to: 'sDamageToDistant', kind: 'read'},
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageToDistant', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pSharpShooter', to: 'eDamageToDistant', kind: 'holds'},
+    {from: 'eDamageToDistant', to: 'sDamageToDistant', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='SharpShooter' target='Player'>
@@ -349,6 +492,25 @@ Raises a Conditional Modifier on your attack damage that compares your `Position
 <p><SpecTags items={['General', 'Upgrades/Options/General/TrapSense']} /></p>
 
 Switches on a Conditional Modifier in your trap-damage list that takes 60 % off while `TrapResistUnlocked` is `1`.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sTrapDamageResist', kind: 'stat', name: 'TrapDamageResist', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sTrapResistUnlocked', kind: 'stat', name: 'TrapResistUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sTrapDamageConditionalModifiers', kind: 'stat', name: 'TrapDamageConditionalModifiers(SigSep)', label: 'TrapDamageConditionalModifiers', subtitle: 'SigSep list'},
+    {id: 'sTrapDamage', kind: 'stat', name: 'TrapDamage'},
+    {id: 'pTrapSense', kind: 'pack', name: 'TrapSense', subtitle: 'Grant → Player', root: true},
+    {id: 'eTrapResist', kind: 'effect', name: 'TrapResist', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'sTrapResistUnlocked', to: 'sTrapDamageResist', kind: 'read'},
+    {from: 'sTrapDamageConditionalModifiers', to: 'sTrapDamageResist', kind: 'holds'},
+    {from: 'sTrapDamage', to: 'sTrapDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pTrapSense', to: 'eTrapResist', kind: 'holds'},
+    {from: 'eTrapResist', to: 'sTrapResistUnlocked', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -373,6 +535,23 @@ Switches on a Conditional Modifier in your trap-damage list that takes 60 % off 
 
 Raises a Conditional Modifier on the Attack that applies for 2 s after you take damage.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sBattleFocusDamage', kind: 'stat', name: 'Attack_BattleFocusDamage', label: 'BattleFocusDamage', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sAttackConditionalModifiers', kind: 'stat', name: 'AttackConditionalModifiers(SigSep)', label: 'AttackConditionalModifiers', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pBattleFocus', kind: 'pack', name: 'BattleFocus', subtitle: 'Grant → Player', root: true},
+    {id: 'eBattleFocusDamage', kind: 'effect', name: 'BattleFocusDamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackConditionalModifiers', to: 'sBattleFocusDamage', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackConditionalModifiers', kind: 'relation'},
+    {from: 'pBattleFocus', to: 'eBattleFocusDamage', kind: 'holds'},
+    {from: 'eBattleFocusDamage', to: 'sBattleFocusDamage', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='BattleFocus' target='Player'>
@@ -392,6 +571,23 @@ Raises a Conditional Modifier on the Attack that applies for 2 s after you take 
 <p><SpecTags items={['General', 'Upgrades/Options/General/DesperateFury']} /></p>
 
 Raises a damage Modifier on the Attack that scales with how much Health you are missing.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDesperateFuryDamageRate', kind: 'stat', name: 'Attack_DesperateFuryDamageRate', label: 'DesperateFuryDamageRate', subtitle: 'Modifier (Float)'},
+    {id: 'sAttackDamageModifier', kind: 'stat', name: 'AttackDamageModifier', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pDesperateFury', kind: 'pack', name: 'DesperateFury', subtitle: 'Grant → Player', root: true},
+    {id: 'eDesperateFuryDamage', kind: 'effect', name: 'DesperateFuryDamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackDamageModifier', to: 'sDesperateFuryDamageRate', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageModifier', kind: 'relation'},
+    {from: 'pDesperateFury', to: 'eDesperateFuryDamage', kind: 'holds'},
+    {from: 'eDesperateFuryDamage', to: 'sDesperateFuryDamageRate', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -413,6 +609,23 @@ Raises a damage Modifier on the Attack that scales with how much Health you are 
 
 Raises a Conditional Modifier on your attack damage that applies when no other foe is within 10 units of the target.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToLoneTarget', kind: 'stat', name: 'DamageToLoneTarget', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pLoneTarget', kind: 'pack', name: 'LoneTarget', subtitle: 'Grant → Player', root: true},
+    {id: 'eLoneTargetDamage', kind: 'effect', name: 'LoneTargetDamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageToLoneTarget', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pLoneTarget', to: 'eLoneTargetDamage', kind: 'holds'},
+    {from: 'eLoneTargetDamage', to: 'sDamageToLoneTarget', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='LoneTarget' target='Player'>
@@ -433,6 +646,19 @@ Raises a Conditional Modifier on your attack damage that applies when no other f
 
 Turns on a Generator that restores Health while the player stands still.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sRegenerativeStanceGenerator', kind: 'stat', name: 'RegenerativeStanceGenerator', subtitle: 'Generator (Float Clamped)'},
+    {id: 'pRegenerativeStance', kind: 'pack', name: 'RegenerativeStance', subtitle: 'Grant → Player', root: true},
+    {id: 'eRegenerativeStanceOn', kind: 'effect', name: 'RegenerativeStanceOn', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pRegenerativeStance', to: 'eRegenerativeStanceOn', kind: 'holds'},
+    {from: 'eRegenerativeStanceOn', to: 'sRegenerativeStanceGenerator', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='RegenerativeStance' target='Player'>
@@ -452,6 +678,19 @@ Turns on a Generator that restores Health while the player stands still.
 <p><SpecTags items={['General', 'Upgrades/Options/General/SecondWind']} /></p>
 
 Switches on the heal each Attack gives while Health is under 30.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sSecondWindUnlocked', kind: 'stat', name: 'Attack_SecondWindUnlocked', label: 'SecondWindUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pSecondWind', kind: 'pack', name: 'SecondWind', subtitle: 'Grant → Player', root: true},
+    {id: 'eSecondWindUnlock', kind: 'effect', name: 'SecondWindUnlock', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'pSecondWind', to: 'eSecondWindUnlock', kind: 'holds'},
+    {from: 'eSecondWindUnlock', to: 'sSecondWindUnlocked', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -474,26 +713,53 @@ Weakening foes and making their deaths hurt their allies.
 
 <div className="prp-packs">
 
-<details id="upgrade-death-echo">
-<summary><strong>Death Echo</strong> — Slain foes damage nearby foes and inflict [Weak](#status-weak).</summary>
+<details id="upgrade-death-burden">
+<summary><strong>Death Burden</strong> — Slain foes damage nearby foes and inflict [Weak](#status-weak).</summary>
 
-<p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/DeathEcho']} /></p>
+<p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/DeathBurden']} /></p>
 
 Switches on an Intervener Effect in your applying `Dead` list: when your hit kills a foe, its pack hits the dead foe's living teammates within 5 m.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDeathBurdenCounterEffect', kind: 'stat', name: 'DeathBurdenCounterEffect', subtitle: 'Intervener Effect'},
+    {id: 'sDeathBurdenUnlocked', kind: 'stat', name: 'DeathBurdenUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pDeathBurst', kind: 'pack', name: 'Pack_DeathBurst_R3D', label: 'DeathBurst'},
+    {id: 'eDeathBurstDamage', kind: 'effect', name: 'Effect_DeathBurstDamage_R3D', label: 'DeathBurstDamage', subtitle: 'value -10'},
+    {id: 'sHealth', kind: 'stat', name: 'Key_Health_R3D', label: 'Health'},
+    {id: 'eDeathBurstWeak', kind: 'effect', name: 'Effect_DeathBurstWeak_R3D', label: 'DeathBurstWeak', subtitle: 'value 1'},
+    {id: 'sWeak', kind: 'stat', name: 'Key_Weak_R3D', label: 'Weak'},
+    {id: 'sDeadPreApplyingCounterEffect', kind: 'stat', name: 'Dead_PreApplyingCounterEffect(SigSep)', label: 'Dead_PreApplyingCounterEffect', subtitle: 'SigSep list'},
+    {id: 'sDead', kind: 'stat', name: 'Dead'},
+    {id: 'pDeathBurden', kind: 'pack', name: 'DeathBurden', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sDeathBurdenUnlocked', to: 'sDeathBurdenCounterEffect', kind: 'read'},
+    {from: 'pDeathBurst', to: 'eDeathBurstDamage', kind: 'holds'},
+    {from: 'eDeathBurstDamage', to: 'sHealth', kind: 'target'},
+    {from: 'pDeathBurst', to: 'eDeathBurstWeak', kind: 'holds'},
+    {from: 'eDeathBurstWeak', to: 'sWeak', kind: 'target'},
+    {from: 'sDeathBurdenCounterEffect', to: 'pDeathBurst', kind: 'holds'},
+    {from: 'sDeadPreApplyingCounterEffect', to: 'sDeathBurdenCounterEffect', kind: 'holds'},
+    {from: 'sDead', to: 'sDeadPreApplyingCounterEffect', kind: 'relation'},
+    {from: 'pDeathBurden', to: 'sDeathBurdenUnlocked', kind: 'target', label: 'DeathBurst'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='DeathEcho' target='Player'>
-  <EffectExample name='DeathBurst' targetStat='DeathBurstUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+<PackExample name='DeathBurden' target='Player'>
+  <EffectExample name='DeathBurden' targetStat='DeathBurdenUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='DeathBurstCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / DeathBurstCounterEffect' condition='DeathBurstUnlocked = 1'>
+<StatExample name='DeathBurdenCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / DeathBurdenCounterEffect' condition='DeathBurdenUnlocked = 1'>
   Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_AliveTeammateInRange5_R3D</PowerRef>. Applies <PowerRef>Pack_DeathBurst_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_DeathBurstLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='DeathBurstUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / DeathBurstUnlocked' max='1' />
+<StatExample name='DeathBurdenUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / DeathBurdenUnlocked' max='1' />
 
 </details>
 
@@ -503,6 +769,29 @@ Switches on an Intervener Effect in your applying `Dead` list: when your hit kil
 <p><SpecTags items={['Shadow', 'Upgrades/Options/Shadow/ShadowStrike']} /></p>
 
 Switches on a Counter Effect in the Attack's counter-effect list that applies [Weak](#status-weak) to the target whenever the Attack lands.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sWeakInflict', kind: 'stat', name: 'Attack_WeakInflict', label: 'WeakInflict', subtitle: 'Counter Effect'},
+    {id: 'sWeakUnlocked', kind: 'stat', name: 'Attack_WeakUnlocked', label: 'WeakUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pWeakInflict', kind: 'pack', name: 'Pack_WeakInflict_R3D', label: 'WeakInflict'},
+    {id: 'eWeakInflict', kind: 'effect', name: 'Effect_WeakInflict_R3D', label: 'WeakInflict', subtitle: 'value 1'},
+    {id: 'sWeak', kind: 'stat', name: 'Key_Weak_R3D', label: 'Weak'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pShadowStrike', kind: 'pack', name: 'ShadowStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sWeakUnlocked', to: 'sWeakInflict', kind: 'read'},
+    {from: 'pWeakInflict', to: 'eWeakInflict', kind: 'holds'},
+    {from: 'eWeakInflict', to: 'sWeak', kind: 'target'},
+    {from: 'sWeakInflict', to: 'pWeakInflict', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sWeakInflict', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'pShadowStrike', to: 'sWeakUnlocked', kind: 'target', label: 'WeakUnlock'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -527,6 +816,23 @@ Switches on a Counter Effect in the Attack's counter-effect list that applies [W
 
 Raises a Conditional Modifier on your attack damage that applies to [Weak](#status-weak) foes.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageToWeak', kind: 'stat', name: 'DamageToWeak', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pUmbralMalice', kind: 'pack', name: 'UmbralMalice', subtitle: 'Grant → Player', root: true},
+    {id: 'eUmbralMaliceDamage', kind: 'effect', name: 'UmbralMaliceDamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageToWeak', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pUmbralMalice', to: 'eUmbralMaliceDamage', kind: 'holds'},
+    {from: 'eUmbralMaliceDamage', to: 'sDamageToWeak', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='UmbralMalice' target='Player'>
@@ -542,65 +848,60 @@ Raises a Conditional Modifier on your attack damage that applies to [Weak](#stat
 
 </div>
 
-### Curse
+### Echo
 
-Delayed damage and bursts of power after a kill.
+Stored attack damage, fading ticks and death-triggered spreads.
 
 <div className="prp-packs">
 
-<details>
-<summary><strong>Kindled Fury</strong> — After slaying a foe, your next Attack or Special deals +100 % damage.</summary>
+<details id="upgrade-echo-strike">
+<summary><strong>Echo Strike</strong> — Store 50 % of attack damage as Echo, then deal it in fading ticks after an idle delay.</summary>
 
-<p><SpecTags items={['Curse', 'Upgrades/Options/Curse/KindledFury']} /></p>
+<p><SpecTags items={['Echo', 'Upgrades/Options/Echo/EchoStrike']} /></p>
 
-Switches on an Intervener Effect in your applying `Dead` list that grants the bonus when your hit kills a foe of the other team, and adds 1 to `SlayDamageBonus`, the size of that bonus. The next Attack or Special consumes it.
-
-**Grant** — applied to the player when the upgrade is taken:
-
-<PackExample name='KindledFury' target='Player'>
-  <EffectExample name='KindledFury' targetStat='KindledFuryUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
-  <EffectExample name='SlayDamageBonus' targetStat='SlayDamageBonus' target='Player' value='1' processor='Add_Float' applyType='Temporary' />
+<PackExample name='EchoStrike' target='Player'>
+  <EffectExample name='EchoStrikeGrant' targetStat='EchoStrikeDamageReflector' target='Player' value='0.5' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
-**Stats**
+The player's applying Reflector on `Attack` stores half the processed attack damage in the foe's `EchoStrikeDamage` pool. Attack activity refreshes a temporary flag on the foe. Once that flag expires, `EchoStrikeIdleStart` starts a player-sourced `EchoStrikeTick` scheduler. While Echo is ticking, further attacks cannot add to its pool.
 
-<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, KindledFuryUnlocked, TeamNo through EnemyAliveAndUnlocked'>
-  Applies <PowerRef>Pack_SlayBoostGrant_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_SlayBoostLinker_R3D</PowerRef>.
-</StatExample>
+Each tick deals the stored amount, then halves the pool. Once it falls below **0.6**, the scheduler ends and clears the remainder. The player supplies **EchoDelay** (base **1 s**) and **EchoInterval** (base **0.5 s**); the scheduler reads the interval from **Static Actor → Player**, so it is not tied to the current hit's Source.
 
-<StatExample name='KindledFuryUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / KindledFuryUnlocked' max='1' />
+The upgrade tooltip still describes the older 1.1 s delay and 1 s interval; the timing Stats above are the current runtime values. [EchoGap](#upgrade-echo-gap) scales both.
 
-<StatExample name='SlayDamageBonus' type='Float (Clamped)' statKey='Player / FloatClamped / SlayDamageBonus' max='10' />
+**Main assets:** `Stat_EchoStrikeDamageReflector_R3D`, `Stat_EchoStrikeDamage_R3D`, `Stat_EchoStrikeIdleStart_R3D`, `Stat_EchoStrikeTick(SrcSep)_R3D` and `Pack_EchoStrikeTick_R3D`.
 
 </details>
 
-<details id="upgrade-smoldering-strike">
-<summary><strong>Smoldering Strike</strong> — Your Attack inflicts [Doom](#status-doom): 30 damage when the curse runs out.</summary>
+<details id="upgrade-death-echo">
+<summary><strong>Death Echo</strong> — Echo kills spread independently decaying Echo damage to nearby foes.</summary>
 
-<p><SpecTags items={['Curse', 'Upgrades/Options/Curse/SmolderingStrike']} /></p>
+<p><SpecTags items={['Echo', 'Upgrades/Options/Echo/DeathEcho']} /></p>
 
-Switches on a Counter Effect in the Attack's counter-effect list that applies [Doom](#status-doom) on hit, and sets `DoomDamage` to −30, the damage dealt when [Doom](#status-doom) expires.
-
-**Grant** — applied to the player when the upgrade is taken:
-
-<PackExample name='SmolderingStrike' target='Player'>
-  <EffectExample name='DoomUnlock' targetStat='Attack_DoomUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
-  <EffectExample name='DoomDamage' targetStat='DoomDamage' target='Player' value='-30' processor='Add_Float' applyType='Temporary' />
+<PackExample name='DeathEcho' target='Player'>
+  <EffectExample name='DeathEchoGrant' targetStat='DeathEchoSpreadDamage_R3D' target='Player' value='-20' processor='Add_Float' applyType='Temporary' />
 </PackExample>
 
-**Stats**
+When Echo damage kills a foe, `DeathEchoSpread` applies **20 Echo damage** to living foes within **8 units**. Each slain foe is a distinct Source: `DeathEchoDamage(SrcSep)` and `DeathEchoTick(SrcSep)` keep its pool and scheduler separate from the player's Echo and every other corpse's spread.
 
-<StatExample name='Attack_DoomInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DoomInflict' condition='Attack_DoomUnlocked = 1'>
-  Applies <PowerRef>Pack_Attack_DoomInflict_R3D</PowerRef>.
-</StatExample>
+Death Echo has **no idle delay**. Its own scheduler ticks every **1 s**, deals its source's stored amount, then halves only that pool and clears it below **0.6**. Death checks run after the damage so a killing tick can trigger another spread; a per-death guard prevents duplicate bursts. EchoGap currently scales Echo Strike's timing only; this separate Death Echo interval remains 1 s.
 
-<StatExample name='Attack_DoomUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_DoomUnlocked' max='1' />
-
-<StatExample name='DoomDamage' type='Float (Clamped)' statKey='Mob / FloatClamped / DoomDamage' min='-9999' />
+The grant asset supplies −20; the tooltip's older **50 damage** value does not match that grant. This upgrade is separate from Shadow's [Death Burden](#upgrade-death-burden), which deals a death burst and inflicts Weak.
 
 </details>
 
+<details id="upgrade-echo-gap">
+<summary><strong>EchoGap</strong> — Reduce echo delay and interval durations by 30 %.</summary>
 
+<p><SpecTags items={['Echo', 'Upgrades/Options/Echo/EchoGap']} /></p>
+
+<PackExample name='EchoGap' target='Player'>
+  <EffectExample name='EchoGap' targetStat='EchoDelayModifier' target='Player' value='-0.3' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+`EchoDelayModifier` is a clamped Float with neutral value **1**. Existing **Multiplier** linkers scale `EchoDelay` and `EchoInterval` by it. The grant changes the multiplier to **0.7**, so the base **1 s** delay becomes **0.7 s**, and the base **0.5 s** interval becomes **0.35 s**. Removing the upgrade removes that modifier.
+
+</details>
 
 </div>
 
@@ -616,6 +917,19 @@ Critical hits and marking foes.
 <p><SpecTags items={['Wind', 'Upgrades/Options/Wind/FleetFoot']} /></p>
 
 Raises the Movement Speed scaler.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sSpeedScaler', kind: 'stat', name: 'SpeedScaler', subtitle: 'Float (Clamped)'},
+    {id: 'pFleetFoot', kind: 'pack', name: 'FleetFoot', subtitle: 'Grant → Player', root: true},
+    {id: 'eFleetFootSpeed', kind: 'effect', name: 'FleetFootSpeed', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pFleetFoot', to: 'eFleetFootSpeed', kind: 'holds'},
+    {from: 'eFleetFootSpeed', to: 'sSpeedScaler', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -637,6 +951,19 @@ Raises the Movement Speed scaler.
 
 Raises how much attack damage rate each point of Moving Speed adds.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sMoveSpeedDamageRate', kind: 'stat', name: 'MoveSpeedDamageRate', subtitle: 'Float (Clamped)'},
+    {id: 'pMomentum', kind: 'pack', name: 'Momentum', subtitle: 'Grant → Player', root: true},
+    {id: 'eMomentumRate', kind: 'effect', name: 'MomentumRate', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pMomentum', to: 'eMomentumRate', kind: 'holds'},
+    {from: 'eMomentumRate', to: 'sMoveSpeedDamageRate', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Momentum' target='Player'>
@@ -657,6 +984,19 @@ Raises how much attack damage rate each point of Moving Speed adds.
 
 Raises the Attack skill's speed scaler.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sSpeedScaler', kind: 'stat', name: 'Attack_SpeedScaler', label: 'SpeedScaler', subtitle: 'Float (Clamped)'},
+    {id: 'pSwiftStrike', kind: 'pack', name: 'SwiftStrike', subtitle: 'Grant → Player', root: true},
+    {id: 'eSwiftStrikeSpeed', kind: 'effect', name: 'SwiftStrikeSpeed', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pSwiftStrike', to: 'eSwiftStrikeSpeed', kind: 'holds'},
+    {from: 'eSwiftStrikeSpeed', to: 'sSpeedScaler', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='SwiftStrike' target='Player'>
@@ -667,6 +1007,91 @@ Raises the Attack skill's speed scaler.
 
 <StatExample name='Attack_SpeedScaler' type='Float (Clamped)' statKey='Attack / FloatClamped / SpeedScaler' />
 
+
+</details>
+
+
+<details>
+<summary><strong>Pain Fuel</strong> — The rage bar charges when you take damage.</summary>
+
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/PainFuel']} /></p>
+
+Raises a Reflector on your `Health` that turns part of the damage you take into Rage, while Rage isn't already active.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sReceivingDamageToRageReflector', kind: 'stat', name: 'ReceivingDamageToRageReflector', subtitle: 'Reflector'},
+    {id: 'sRageActive', kind: 'stat', name: 'RageActive'},
+    {id: 'eDamageToRageTemplate', kind: 'effect', name: 'Effect_DamageToRageTemplate_R3D', label: 'DamageToRageTemplate'},
+    {id: 'sReceivingHealthReflectors', kind: 'stat', name: 'ReceivingHealthReflectors(SigSep)', label: 'ReceivingHealthReflectors', subtitle: 'SigSep list'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'sDamageReflectors', kind: 'stat', name: 'DamageReflectors(SigSep)', label: 'DamageReflectors', subtitle: 'SigSep list'},
+    {id: 'sDamage', kind: 'stat', name: 'Damage'},
+    {id: 'pPainFuel', kind: 'pack', name: 'PainFuel', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sRageActive', to: 'sReceivingDamageToRageReflector', kind: 'read'},
+    {from: 'sReceivingDamageToRageReflector', to: 'eDamageToRageTemplate', kind: 'holds'},
+    {from: 'sReceivingHealthReflectors', to: 'sReceivingDamageToRageReflector', kind: 'holds'},
+    {from: 'sHealth', to: 'sReceivingHealthReflectors', kind: 'relation', label: 'receiving'},
+    {from: 'sDamageReflectors', to: 'sReceivingDamageToRageReflector', kind: 'holds'},
+    {from: 'sDamage', to: 'sDamageReflectors', kind: 'relation'},
+    {from: 'pPainFuel', to: 'sReceivingDamageToRageReflector', kind: 'target', label: 'RageCharge'},
+  ]}
+/>
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='PainFuel' target='Player'>
+  <EffectExample name='RageCharge' targetStat='ReceivingDamageToRageReflector' target='Player' value='0.0001' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='ReceivingDamageToRageReflector' type='Reflector' statKey='Player / Reflector_SigSep / DamageReflectors(SigSep) / ReceivingDamageToRageReflector' default='0' max='1' condition='RageActive = 0'>
+  Reflects through <PowerRef>Effect_DamageToRageTemplate_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReceivingDamageToRageLinker_R3D</PowerRef>.
+</StatExample>
+
+</details>
+
+<details>
+<summary><strong>Rebound</strong> — After you take damage, Dash quickly to recover up to 50 % of the life lost.</summary>
+
+<p><SpecTags items={['Wind', 'Upgrades/Options/Wind/Rebound']} /></p>
+
+Raises a Reflector on your `Health` that stashes half of each hit as a fresh wound; a Dash inside the recovery window heals it back.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sReboundRate', kind: 'stat', name: 'ReboundRate', subtitle: 'Reflector'},
+    {id: 'eStashFreshWound', kind: 'effect', name: 'Effect_StashFreshWound_R3D', label: 'StashFreshWound'},
+    {id: 'sReceivingHealthReflectors', kind: 'stat', name: 'ReceivingHealthReflectors(SigSep)', label: 'ReceivingHealthReflectors', subtitle: 'SigSep list'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'pRebound', kind: 'pack', name: 'Rebound', subtitle: 'Grant → Player', root: true},
+    {id: 'eReboundRateBoost', kind: 'effect', name: 'ReboundRateBoost', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sReboundRate', to: 'eStashFreshWound', kind: 'holds'},
+    {from: 'sReceivingHealthReflectors', to: 'sReboundRate', kind: 'holds'},
+    {from: 'sHealth', to: 'sReceivingHealthReflectors', kind: 'relation', label: 'receiving'},
+    {from: 'pRebound', to: 'eReboundRateBoost', kind: 'holds'},
+    {from: 'eReboundRateBoost', to: 'sReboundRate', kind: 'target'},
+  ]}
+/>
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='Rebound' target='Player'>
+  <EffectExample name='ReboundRateBoost' targetStat='ReboundRate' target='Player' value='0.5' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='ReboundRate' type='Reflector' statKey='Player / Reflector / ReboundRate' max='1'>
+  Reflects through <PowerRef>Effect_StashFreshWound_R3D</PowerRef>. Linked into <PowerRef>ReceivingHealthReflectors(SigSep)</PowerRef> by <PowerRef>Effect_ReboundRateLinker_R3D</PowerRef>.
+</StatExample>
 
 </details>
 
@@ -684,6 +1109,30 @@ Damage reduction, protection and deflecting.
 <p><SpecTags items={['Earth', 'Upgrades/Options/Earth/BedrockBarrier']} /></p>
 
 Unlocks an Intervener Effect on your `Health` that cancels the next negative Effect while its cooldown is ready, then starts the cooldown.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sProtection', kind: 'stat', name: 'Protection', subtitle: 'Intervener Effect (Signed)'},
+    {id: 'sProtectionUnlocked', kind: 'stat', name: 'ProtectionUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sProtectionCooldown', kind: 'stat', name: 'ProtectionCooldown'},
+    {id: 'pProtectionBreak', kind: 'pack', name: 'Pack_ProtectionBreak_R3D', label: 'ProtectionBreak'},
+    {id: 'eProtectionCooldown', kind: 'effect', name: 'Effect_ProtectionCooldown_R3D', label: 'ProtectionCooldown', subtitle: 'value 1'},
+    {id: 'sReceivingHealthPreCounterEffects', kind: 'stat', name: 'ReceivingHealthPreCounterEffects(SigSep)', label: 'ReceivingHealthPreCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'pBedrockBarrier', kind: 'pack', name: 'BedrockBarrier', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sProtectionCooldown', to: 'sProtection', kind: 'read'},
+    {from: 'sProtectionUnlocked', to: 'sProtection', kind: 'read'},
+    {from: 'pProtectionBreak', to: 'eProtectionCooldown', kind: 'holds'},
+    {from: 'eProtectionCooldown', to: 'sProtectionCooldown', kind: 'target'},
+    {from: 'sProtection', to: 'pProtectionBreak', kind: 'holds'},
+    {from: 'sReceivingHealthPreCounterEffects', to: 'sProtection', kind: 'holds'},
+    {from: 'sHealth', to: 'sReceivingHealthPreCounterEffects', kind: 'relation', label: 'receiving'},
+    {from: 'pBedrockBarrier', to: 'sProtectionUnlocked', kind: 'target', label: 'Protection'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -707,6 +1156,64 @@ Unlocks an Intervener Effect on your `Health` that cancels the next negative Eff
 <p><SpecTags items={['Earth', 'Upgrades/Options/Earth/BoulderStrike']} /></p>
 
 Switches on the Attack's `DeflectUnlocked`, which arms a Reflector on your `Health` and a Counter Effect that turns projectiles back, and raises the Attack's damage rate modifier.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sMeleeDeflectReflector', kind: 'stat', name: 'MeleeDeflectReflector', subtitle: 'Reflector'},
+    {id: 'sDeflectInflict', kind: 'stat', name: 'Attack_DeflectInflict', label: 'DeflectInflict', subtitle: 'Counter Effect'},
+    {id: 'sDamageRateModifier', kind: 'stat', name: 'Attack_DamageRateModifier', label: 'DamageRateModifier', subtitle: 'Modifier (Float)'},
+    {id: 'sDeflectUnlocked', kind: 'stat', name: 'Attack_DeflectUnlocked', label: 'DeflectUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sMeleeDeflectWindow', kind: 'stat', name: 'MeleeDeflectWindow'},
+    {id: 'sTag', kind: 'stat', name: 'Tag'},
+    {id: 'eMeleeDeflectDamage', kind: 'effect', name: 'Effect_MeleeDeflectDamage_R3D', label: 'MeleeDeflectDamage'},
+    {id: 'sReceivingHealthReflectors', kind: 'stat', name: 'ReceivingHealthReflectors(SigSep)', label: 'ReceivingHealthReflectors', subtitle: 'SigSep list'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'pDeflectInflict', kind: 'pack', name: 'Pack_DeflectInflict_R3D', label: 'DeflectInflict'},
+    {id: 'eSetTeam', kind: 'effect', name: 'Effect_SetTeam_R3D', label: 'SetTeam'},
+    {id: 'sTeamNo', kind: 'stat', name: 'Key_TeamNo_R3D', label: 'TeamNo'},
+    {id: 'eDeflectSetEffectContent', kind: 'effect', name: 'Effect_Deflect_SetEffectContent_R3D', label: 'Deflect_SetEffectContent'},
+    {id: 'sEffectContent', kind: 'stat', name: 'Key_EffectContent_R3D', label: 'EffectContent'},
+    {id: 'eDeflectResetHitCount', kind: 'effect', name: 'Effect_Deflect_ResetHitCount_R3D', label: 'Deflect_ResetHitCount'},
+    {id: 'sHitCount', kind: 'stat', name: 'Key_HitCount_R3D', label: 'HitCount'},
+    {id: 'eDeflectTween', kind: 'effect', name: 'Effect_Deflect_Tween_R3D', label: 'Deflect_Tween'},
+    {id: 'sDeflectTween', kind: 'stat', name: 'Key_DeflectTween_R3D', label: 'DeflectTween'},
+    {id: 'eDeflectChangeSourceActor', kind: 'effect', name: 'Effect_Deflect_ChangeSourceActor_R3D', label: 'Deflect_ChangeSourceActor'},
+    {id: 'sSkillSource', kind: 'stat', name: 'Key_SkillSource_R3D', label: 'SkillSource'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'sAttackDamageModifier', kind: 'stat', name: 'AttackDamageModifier', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pBoulderStrike', kind: 'pack', name: 'BoulderStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sDeflectUnlocked', to: 'sMeleeDeflectReflector', kind: 'read'},
+    {from: 'sMeleeDeflectWindow', to: 'sMeleeDeflectReflector', kind: 'read'},
+    {from: 'sTag', to: 'sMeleeDeflectReflector', kind: 'read'},
+    {from: 'sMeleeDeflectReflector', to: 'eMeleeDeflectDamage', kind: 'holds'},
+    {from: 'sReceivingHealthReflectors', to: 'sMeleeDeflectReflector', kind: 'holds'},
+    {from: 'sHealth', to: 'sReceivingHealthReflectors', kind: 'relation', label: 'receiving'},
+    {from: 'sDeflectUnlocked', to: 'sDeflectInflict', kind: 'read'},
+    {from: 'sTag', to: 'sDeflectInflict', kind: 'read'},
+    {from: 'pDeflectInflict', to: 'eSetTeam', kind: 'holds'},
+    {from: 'eSetTeam', to: 'sTeamNo', kind: 'target'},
+    {from: 'pDeflectInflict', to: 'eDeflectSetEffectContent', kind: 'holds'},
+    {from: 'eDeflectSetEffectContent', to: 'sEffectContent', kind: 'target'},
+    {from: 'pDeflectInflict', to: 'eDeflectResetHitCount', kind: 'holds'},
+    {from: 'eDeflectResetHitCount', to: 'sHitCount', kind: 'target'},
+    {from: 'pDeflectInflict', to: 'eDeflectTween', kind: 'holds'},
+    {from: 'eDeflectTween', to: 'sDeflectTween', kind: 'target'},
+    {from: 'pDeflectInflict', to: 'eDeflectChangeSourceActor', kind: 'holds'},
+    {from: 'eDeflectChangeSourceActor', to: 'sSkillSource', kind: 'target'},
+    {from: 'sDeflectInflict', to: 'pDeflectInflict', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sDeflectInflict', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'sAttackDamageModifier', to: 'sDamageRateModifier', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageModifier', kind: 'relation'},
+    {from: 'pBoulderStrike', to: 'sDeflectUnlocked', kind: 'target', label: 'Deflect'},
+    {from: 'pBoulderStrike', to: 'sDamageRateModifier', kind: 'target', label: 'AttackDamageBuff'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -740,6 +1247,22 @@ Switches on the Attack's `DeflectUnlocked`, which arms a Reflector on your `Heal
 
 Adds 0.2 to `DamageReduction`, a signed Multiplier Modifier on your `Health`. Two copies multiply (×0.8 × 0.8) instead of adding up.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageReduction', kind: 'stat', name: 'DamageReduction', subtitle: 'Modifier (Float, Signed)'},
+    {id: 'nTransformDamageReduceToMultiplicative', kind: 'injector', name: 'LinkerDefinition_TransformDamageReduceToMultiplicative_R3D', label: 'TransformDamageReduceToMultiplicative'},
+    {id: 'pGraniteHide', kind: 'pack', name: 'GraniteHide', subtitle: 'Grant → Player', root: true},
+    {id: 'eGraniteHide', kind: 'effect', name: 'GraniteHide', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sDamageReduction', to: 'nTransformDamageReduceToMultiplicative', kind: 'reference'},
+    {from: 'nTransformDamageReduceToMultiplicative', to: 'sDamageReduction', kind: 'target', label: 'injects into'},
+    {from: 'pGraniteHide', to: 'eGraniteHide', kind: 'holds'},
+    {from: 'eGraniteHide', to: 'sDamageReduction', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='GraniteHide' target='Player'>
@@ -761,6 +1284,23 @@ Adds 0.2 to `DamageReduction`, a signed Multiplier Modifier on your `Health`. Tw
 
 Lowers a signed Conditional Modifier on your receiving damage that only applies while your `Health` is at 40 % or less.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageReductionBelow40Percent', kind: 'stat', name: 'DamageReductionBelow40Percent', subtitle: 'Conditional Modifier (Float, Signed)'},
+    {id: 'sReceivingHealthConditionalModifiers', kind: 'stat', name: 'ReceivingHealthConditionalModifiers(SigSep)', label: 'ReceivingHealthConditionalModifiers', subtitle: 'SigSep list'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'pLastBastion', kind: 'pack', name: 'LastBastion', subtitle: 'Grant → Player', root: true},
+    {id: 'eLastBastionAddReduction', kind: 'effect', name: 'LastBastionAddReduction', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sReceivingHealthConditionalModifiers', to: 'sDamageReductionBelow40Percent', kind: 'holds'},
+    {from: 'sHealth', to: 'sReceivingHealthConditionalModifiers', kind: 'relation', label: 'receiving'},
+    {from: 'pLastBastion', to: 'eLastBastionAddReduction', kind: 'holds'},
+    {from: 'eLastBastionAddReduction', to: 'sDamageReductionBelow40Percent', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='LastBastion' target='Player'>
@@ -781,6 +1321,29 @@ Lowers a signed Conditional Modifier on your receiving damage that only applies 
 <p><SpecTags items={['Earth', 'Upgrades/Options/Earth/TremorGuard']} /></p>
 
 Switches on a Counter Effect in your deflect counter-effect list that applies [Exposed](#status-exposed) to the foe whose projectile you deflect.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDeflectAlsoExpose', kind: 'stat', name: 'DeflectAlsoExpose', subtitle: 'Counter Effect'},
+    {id: 'sTremorGuardUnlocked', kind: 'stat', name: 'TremorGuardUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pDeflectAlsoExpose', kind: 'pack', name: 'Pack_DeflectAlsoExpose_R3D', label: 'DeflectAlsoExpose'},
+    {id: 'eExpose', kind: 'effect', name: 'Effect_Expose_R3D', label: 'Expose', subtitle: 'value 1'},
+    {id: 'sExposed', kind: 'stat', name: 'Key_Exposed_R3D', label: 'Exposed'},
+    {id: 'sDeflectCounterEffects', kind: 'stat', name: 'DeflectCounterEffects(SigSep)', label: 'DeflectCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sDeflect', kind: 'stat', name: 'Deflect'},
+    {id: 'pTremorGuard', kind: 'pack', name: 'TremorGuard', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sTremorGuardUnlocked', to: 'sDeflectAlsoExpose', kind: 'read'},
+    {from: 'pDeflectAlsoExpose', to: 'eExpose', kind: 'holds'},
+    {from: 'eExpose', to: 'sExposed', kind: 'target'},
+    {from: 'sDeflectAlsoExpose', to: 'pDeflectAlsoExpose', kind: 'holds'},
+    {from: 'sDeflectCounterEffects', to: 'sDeflectAlsoExpose', kind: 'holds'},
+    {from: 'sDeflect', to: 'sDeflectCounterEffects', kind: 'relation'},
+    {from: 'pTremorGuard', to: 'sTremorGuardUnlocked', kind: 'target', label: 'TremorGuard'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -804,6 +1367,19 @@ Switches on a Counter Effect in your deflect counter-effect list that applies [E
 <p><SpecTags items={['Earth', 'Upgrades/Options/Earth/StoneWard']} /></p>
 
 Raises a Conditional Modifier that cuts the damage of one incoming hit by half, then waits for its cooldown.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sGuardedHitReduction', kind: 'stat', name: 'GuardedHitReduction', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'pStoneWard', kind: 'pack', name: 'StoneWard', subtitle: 'Grant → Player', root: true},
+    {id: 'eStoneWardReduction', kind: 'effect', name: 'StoneWardReduction', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pStoneWard', to: 'eStoneWardReduction', kind: 'holds'},
+    {from: 'eStoneWardReduction', to: 'sGuardedHitReduction', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -833,6 +1409,19 @@ Raises a Conditional Modifier that cuts the damage of one incoming hit by half, 
 
 Switches on `IceBurstUnlocked`.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sIceBurstUnlocked', kind: 'stat', name: 'IceBurstUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pIceBurst', kind: 'pack', name: 'IceBurst', subtitle: 'Grant → Player', root: true},
+    {id: 'eIceBurstUnlock', kind: 'effect', name: 'IceBurstUnlock', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'pIceBurst', to: 'eIceBurstUnlock', kind: 'holds'},
+    {from: 'eIceBurstUnlock', to: 'sIceBurstUnlocked', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='IceBurst' target='Player'>
@@ -851,6 +1440,34 @@ Switches on `IceBurstUnlocked`.
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/Permafrost']} /></p>
 
 Switches on a signed Counter Effect on your applying `Health` list. When your hit leaves a [Chilled](#status-chill) foe at 10 % or less, it shatters the foe and hits its teammates within 8 m.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sPermafrostShatter', kind: 'stat', name: 'PermafrostShatter', subtitle: 'Counter Effect (Signed)'},
+    {id: 'sPermafrostUnlocked', kind: 'stat', name: 'PermafrostUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sChill', kind: 'stat', name: 'Chill'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'pPermafrostNearby', kind: 'pack', name: 'Pack_PermafrostNearby_R3D', label: 'PermafrostNearby'},
+    {id: 'ePermafrostNearbyDamage', kind: 'effect', name: 'Effect_PermafrostNearbyDamage_R3D', label: 'PermafrostNearbyDamage', subtitle: 'value -30'},
+    {id: 'ePermafrostNearbyChill', kind: 'effect', name: 'Effect_PermafrostNearbyChill_R3D', label: 'PermafrostNearbyChill', subtitle: 'value 1'},
+    {id: 'sApplyingHealthCounterEffects', kind: 'stat', name: 'ApplyingHealthCounterEffects(SigSep)', label: 'ApplyingHealthCounterEffects', subtitle: 'SigSep list'},
+    {id: 'pPermafrost', kind: 'pack', name: 'Permafrost', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sChill', to: 'sPermafrostShatter', kind: 'read'},
+    {from: 'sHealth', to: 'sPermafrostShatter', kind: 'read'},
+    {from: 'sPermafrostUnlocked', to: 'sPermafrostShatter', kind: 'read'},
+    {from: 'pPermafrostNearby', to: 'ePermafrostNearbyDamage', kind: 'holds'},
+    {from: 'ePermafrostNearbyDamage', to: 'sHealth', kind: 'target'},
+    {from: 'pPermafrostNearby', to: 'ePermafrostNearbyChill', kind: 'holds'},
+    {from: 'ePermafrostNearbyChill', to: 'sChill', kind: 'target'},
+    {from: 'sPermafrostShatter', to: 'pPermafrostNearby', kind: 'holds'},
+    {from: 'sApplyingHealthCounterEffects', to: 'sPermafrostShatter', kind: 'holds'},
+    {from: 'sHealth', to: 'sApplyingHealthCounterEffects', kind: 'relation', label: 'applying'},
+    {from: 'pPermafrost', to: 'sPermafrostUnlocked', kind: 'target', label: 'PermafrostUnlock'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -875,6 +1492,35 @@ Switches on a signed Counter Effect on your applying `Health` list. When your hi
 
 Switches on an Intervener Effect in the Attack's damage list that applies [Chill](#status-chill), and raises the Attack's damage rate modifier.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sChillInflict', kind: 'stat', name: 'Attack_ChillInflict', label: 'ChillInflict', subtitle: 'Intervener Effect'},
+    {id: 'sChillUnlocked', kind: 'stat', name: 'Attack_ChillUnlocked', label: 'ChillUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sDamageRateModifier', kind: 'stat', name: 'Attack_DamageRateModifier', label: 'DamageRateModifier', subtitle: 'Modifier (Float)'},
+    {id: 'pChillInflict', kind: 'pack', name: 'Pack_Attack_ChillInflict_R3D', label: 'ChillInflict'},
+    {id: 'eChillInflict', kind: 'effect', name: 'Effect_ChillInflict_R3D', label: 'ChillInflict', subtitle: 'value 1'},
+    {id: 'sChill', kind: 'stat', name: 'Key_Chill_R3D', label: 'Chill'},
+    {id: 'sDamageIntervernerEffects', kind: 'stat', name: 'DamageIntervernerEffects(SigSep)', label: 'DamageIntervernerEffects', subtitle: 'SigSep list'},
+    {id: 'sDamage', kind: 'stat', name: 'Damage'},
+    {id: 'sAttackDamageModifier', kind: 'stat', name: 'AttackDamageModifier', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pRimeStrike', kind: 'pack', name: 'RimeStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sChillUnlocked', to: 'sChillInflict', kind: 'read'},
+    {from: 'pChillInflict', to: 'eChillInflict', kind: 'holds'},
+    {from: 'eChillInflict', to: 'sChill', kind: 'target'},
+    {from: 'sChillInflict', to: 'pChillInflict', kind: 'holds'},
+    {from: 'sDamageIntervernerEffects', to: 'sChillInflict', kind: 'holds'},
+    {from: 'sDamage', to: 'sDamageIntervernerEffects', kind: 'relation'},
+    {from: 'sAttackDamageModifier', to: 'sDamageRateModifier', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageModifier', kind: 'relation'},
+    {from: 'pRimeStrike', to: 'sChillUnlocked', kind: 'target', label: 'ChillUnlock'},
+    {from: 'pRimeStrike', to: 'sDamageRateModifier', kind: 'target', label: 'AttackDamageBuff'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='RimeStrike' target='Player'>
@@ -897,11 +1543,34 @@ Switches on an Intervener Effect in the Attack's damage list that applies [Chill
 </details>
 
 <details id="upgrade-whiteout">
-<summary><strong>Whiteout</strong> — When all foes are [Chill-afflicted](#status-chill), they become Slow and [Decay](#status-decay).</summary>
+<summary><strong>Whiteout</strong> — While at least 3 foes remain and all are [Chill-afflicted](#status-chill), they become Slow and [Decay](#status-decay).</summary>
 
 <p><SpecTags items={['Frost', 'Upgrades/Options/Frost/Whiteout']} /></p>
 
 Unlocks a State-Based Effect that compares the enemy team's member count with its [Chill](#status-chill) count on the world, and applies its pack while they are equal.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sWhiteoutDetector', kind: 'stat', name: 'WhiteoutDetector', subtitle: 'State-Based Effect'},
+    {id: 'sWhiteoutUnlocked', kind: 'stat', name: 'WhiteoutUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sChillCountTeam1', kind: 'stat', name: 'ChillCount_Team1'},
+    {id: 'sMemberCountTeam1', kind: 'stat', name: 'MemberCount_Team1'},
+    {id: 'pWhiteoutDetected', kind: 'pack', name: 'Pack_WhiteoutDetected_R3D', label: 'WhiteoutDetected'},
+    {id: 'eWhiteoutDetected', kind: 'effect', name: 'Effect_WhiteoutDetected_R3D', label: 'WhiteoutDetected', subtitle: 'value 1'},
+    {id: 'sWhiteoutActive', kind: 'stat', name: 'Key_WhiteoutActive_R3D', label: 'WhiteoutActive'},
+    {id: 'pWhiteout', kind: 'pack', name: 'Whiteout', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sChillCountTeam1', to: 'sWhiteoutDetector', kind: 'read'},
+    {from: 'sMemberCountTeam1', to: 'sWhiteoutDetector', kind: 'read'},
+    {from: 'sWhiteoutUnlocked', to: 'sWhiteoutDetector', kind: 'read'},
+    {from: 'pWhiteoutDetected', to: 'eWhiteoutDetected', kind: 'holds'},
+    {from: 'eWhiteoutDetected', to: 'sWhiteoutActive', kind: 'target'},
+    {from: 'sWhiteoutDetector', to: 'pWhiteoutDetected', kind: 'holds'},
+    {from: 'pWhiteout', to: 'sWhiteoutUnlocked', kind: 'target', label: 'WhiteoutUnlock'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -911,7 +1580,7 @@ Unlocks a State-Based Effect that compares the enemy team's member count with it
 
 **Stats**
 
-<StatExample name='WhiteoutDetector' type='State-Based Effect' statKey='Player / StateBasedEffect / WhiteoutDetector' condition='ChillCount_Team1, MemberCount_Team1, WhiteoutUnlocked through AllFoesChilledAndUnlocked'>
+<StatExample name='WhiteoutDetector' type='State-Based Effect' statKey='Player / StateBasedEffect / WhiteoutDetector' condition='WhiteoutUnlocked > 0; MemberCount_Team1 >= 3; every remaining foe is Chilled'>
   Applies <PowerRef>Pack_WhiteoutDetected_R3D</PowerRef>.
 </StatExample>
 
@@ -933,6 +1602,22 @@ Unlocks a State-Based Effect that compares the enemy team's member count with it
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/Contagion']} /></p>
 
 Switches on your `PoisonSpreadUnlocked`; your [Poison](#status-poison) inflict copies it into the foes' `PoisonSpreadActive`. A Generator on each [poisoned](#status-poison) foe then passes [Poison](#status-poison) to its unpoisoned teammates within 8 m every 4 s.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sPoisonSpread', kind: 'stat', name: 'PoisonSpread', subtitle: 'Generator (Effect Pack)'},
+    {id: 'sPoisonSpreadActive', kind: 'stat', name: 'PoisonSpreadActive', subtitle: 'Int (Clamped)'},
+    {id: 'pContagion', kind: 'pack', name: 'Contagion', subtitle: 'Grant → Player', root: true},
+    {id: 'sPoisonSpreadUnlocked', kind: 'stat', name: 'PoisonSpreadUnlocked'},
+    {id: 'eContagion', kind: 'effect', name: 'Contagion', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'sPoisonSpreadActive', to: 'sPoisonSpread', kind: 'read'},
+    {from: 'pContagion', to: 'eContagion', kind: 'holds'},
+    {from: 'eContagion', to: 'sPoisonSpreadUnlocked', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -957,6 +1642,24 @@ Switches on your `PoisonSpreadUnlocked`; your [Poison](#status-poison) inflict c
 
 Switches on your `FrailBloodUnlocked`; your [Poison](#status-poison) inflict copies it into the foes' `FrailBloodActive`, which a Linker Definition uses as the gate for the extra [Poison](#status-poison) stacks.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sFrailBloodActive', kind: 'stat', name: 'FrailBloodActive', subtitle: 'Int (Clamped)'},
+    {id: 'nFrailBloodGate', kind: 'injector', name: 'LinkerDefinition_FrailBloodGate_R3D', label: 'FrailBloodGate'},
+    {id: 'sPoisonStackBonusOnWeak', kind: 'stat', name: 'Stat_PoisonStackBonusOnWeak_R3D', label: 'PoisonStackBonusOnWeak'},
+    {id: 'pFrailBlood', kind: 'pack', name: 'FrailBlood', subtitle: 'Grant → Player', root: true},
+    {id: 'sFrailBloodUnlocked', kind: 'stat', name: 'FrailBloodUnlocked'},
+    {id: 'eFrailBlood', kind: 'effect', name: 'FrailBlood', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'sFrailBloodActive', to: 'nFrailBloodGate', kind: 'reference'},
+    {from: 'nFrailBloodGate', to: 'sPoisonStackBonusOnWeak', kind: 'target', label: 'injects into'},
+    {from: 'pFrailBlood', to: 'eFrailBlood', kind: 'holds'},
+    {from: 'eFrailBlood', to: 'sFrailBloodUnlocked', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='FrailBlood' target='Player'>
@@ -977,6 +1680,24 @@ Switches on your `FrailBloodUnlocked`; your [Poison](#status-poison) inflict cop
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/NumbingVenom']} /></p>
 
 Switches on your `NumbingVenomUnlocked`; your [Poison](#status-poison) inflict copies it into the foes' `NumbingVenomActive`, which a Linker Definition uses as the gate for the slow.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sNumbingVenomActive', kind: 'stat', name: 'NumbingVenomActive', subtitle: 'Int (Clamped)'},
+    {id: 'nNumbingVenomGate', kind: 'injector', name: 'LinkerDefinition_NumbingVenomGate_R3D', label: 'NumbingVenomGate'},
+    {id: 'sPoisonSlowRate', kind: 'stat', name: 'Stat_PoisonSlowRate_R3D', label: 'PoisonSlowRate'},
+    {id: 'pNumbingVenom', kind: 'pack', name: 'NumbingVenom', subtitle: 'Grant → Player', root: true},
+    {id: 'sNumbingVenomUnlocked', kind: 'stat', name: 'NumbingVenomUnlocked'},
+    {id: 'eNumbingVenom', kind: 'effect', name: 'NumbingVenom', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'sNumbingVenomActive', to: 'nNumbingVenomGate', kind: 'reference'},
+    {from: 'nNumbingVenomGate', to: 'sPoisonSlowRate', kind: 'target', label: 'injects into'},
+    {from: 'pNumbingVenom', to: 'eNumbingVenom', kind: 'holds'},
+    {from: 'eNumbingVenom', to: 'sNumbingVenomUnlocked', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -999,6 +1720,23 @@ Switches on your `NumbingVenomUnlocked`; your [Poison](#status-poison) inflict c
 
 Raises a Conditional Modifier on the Attack that reads the enemy team's `PoisonCount` on the world and applies at 3 or more.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageWhile3FoesPoisoned', kind: 'stat', name: 'Attack_DamageWhile3FoesPoisoned', label: 'DamageWhile3FoesPoisoned', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sAttackConditionalModifiers', kind: 'stat', name: 'AttackConditionalModifiers(SigSep)', label: 'AttackConditionalModifiers', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pVenomFrenzy', kind: 'pack', name: 'VenomFrenzy', subtitle: 'Grant → Player', root: true},
+    {id: 'eVenomFrenzyOn', kind: 'effect', name: 'VenomFrenzyOn', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackConditionalModifiers', to: 'sDamageWhile3FoesPoisoned', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackConditionalModifiers', kind: 'relation'},
+    {from: 'pVenomFrenzy', to: 'eVenomFrenzyOn', kind: 'holds'},
+    {from: 'eVenomFrenzyOn', to: 'sDamageWhile3FoesPoisoned', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='VenomFrenzy' target='Player'>
@@ -1019,6 +1757,45 @@ Raises a Conditional Modifier on the Attack that reads the enemy team's `PoisonC
 <p><SpecTags items={['Venom', 'Upgrades/Options/Venom/VenomStrike']} /></p>
 
 Switches on a Counter Effect in the Attack's counter-effect list that applies [Poison](#status-poison) whenever the Attack lands.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sPoisonInflict', kind: 'stat', name: 'Attack_PoisonInflict', label: 'PoisonInflict', subtitle: 'Counter Effect'},
+    {id: 'sPoisonUnlocked', kind: 'stat', name: 'Attack_PoisonUnlocked', label: 'PoisonUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pPoisonInflict', kind: 'pack', name: 'Pack_Attack_PoisonInflict_R3D', label: 'PoisonInflict'},
+    {id: 'ePoisonDamageSet', kind: 'effect', name: 'Effect_PoisonDamageSet_R3D', label: 'PoisonDamageSet'},
+    {id: 'sPoisonDamageGenerator', kind: 'stat', name: 'Key_PoisonDamageGenerator_R3D', label: 'PoisonDamageGenerator'},
+    {id: 'eFrailBloodSet', kind: 'effect', name: 'Effect_FrailBloodSet_R3D', label: 'FrailBloodSet'},
+    {id: 'sFrailBloodActive', kind: 'stat', name: 'Key_FrailBloodActive_R3D', label: 'FrailBloodActive'},
+    {id: 'eNumbingVenomSet', kind: 'effect', name: 'Effect_NumbingVenomSet_R3D', label: 'NumbingVenomSet'},
+    {id: 'sNumbingVenomActive', kind: 'stat', name: 'Key_NumbingVenomActive_R3D', label: 'NumbingVenomActive'},
+    {id: 'ePoisonSpreadActiveSet', kind: 'effect', name: 'Effect_PoisonSpreadActiveSet_R3D', label: 'PoisonSpreadActiveSet'},
+    {id: 'sPoisonSpreadActive', kind: 'stat', name: 'Key_PoisonSpreadActive_R3D', label: 'PoisonSpreadActive'},
+    {id: 'ePoisonInflict', kind: 'effect', name: 'Effect_PoisonInflict_R3D', label: 'PoisonInflict', subtitle: 'value 1'},
+    {id: 'sPoison', kind: 'stat', name: 'Key_Poison_R3D', label: 'Poison'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pVenomStrike', kind: 'pack', name: 'VenomStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sPoisonUnlocked', to: 'sPoisonInflict', kind: 'read'},
+    {from: 'pPoisonInflict', to: 'ePoisonDamageSet', kind: 'holds'},
+    {from: 'ePoisonDamageSet', to: 'sPoisonDamageGenerator', kind: 'target'},
+    {from: 'pPoisonInflict', to: 'eFrailBloodSet', kind: 'holds'},
+    {from: 'eFrailBloodSet', to: 'sFrailBloodActive', kind: 'target'},
+    {from: 'pPoisonInflict', to: 'eNumbingVenomSet', kind: 'holds'},
+    {from: 'eNumbingVenomSet', to: 'sNumbingVenomActive', kind: 'target'},
+    {from: 'pPoisonInflict', to: 'ePoisonSpreadActiveSet', kind: 'holds'},
+    {from: 'ePoisonSpreadActiveSet', to: 'sPoisonSpreadActive', kind: 'target'},
+    {from: 'pPoisonInflict', to: 'ePoisonInflict', kind: 'holds'},
+    {from: 'ePoisonInflict', to: 'sPoison', kind: 'target'},
+    {from: 'sPoisonInflict', to: 'pPoisonInflict', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sPoisonInflict', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'pVenomStrike', to: 'sPoisonUnlocked', kind: 'target', label: 'PoisonUnlock'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -1051,6 +1828,33 @@ Knocking foes away.
 
 Switches on a Counter Effect linked into the [knockback](#status-knockback) counter-effect list, so every [knockback](#status-knockback) also applies [Rupture](#status-ruptured).
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sKnockbackToRupture', kind: 'stat', name: 'KnockbackToRupture', subtitle: 'Counter Effect'},
+    {id: 'sKnockbackRuptureFlag', kind: 'stat', name: 'KnockbackRuptureFlag', subtitle: 'Int (Clamped)'},
+    {id: 'pKnockbackToRupture', kind: 'pack', name: 'Pack_KnockbackToRupture_R3D', label: 'KnockbackToRupture'},
+    {id: 'eSetRuptureDamage', kind: 'effect', name: 'Effect_SetRuptureDamage_R3D', label: 'SetRuptureDamage'},
+    {id: 'sReceivingRuptureDamage', kind: 'stat', name: 'Key_ReceivingRuptureDamage_R3D', label: 'ReceivingRuptureDamage'},
+    {id: 'eRupture', kind: 'effect', name: 'Effect_Rupture_R3D', label: 'Rupture', subtitle: 'value 1'},
+    {id: 'sRuptured', kind: 'stat', name: 'Key_Ruptured_R3D', label: 'Ruptured'},
+    {id: 'sKnockbackApplyingCounterEffects', kind: 'stat', name: 'KnockbackApplyingCounterEffects(SigSep)_3D', label: 'KnockbackApplyingCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sKnockbackApplying', kind: 'stat', name: 'KnockbackApplying'},
+    {id: 'pRiptide', kind: 'pack', name: 'Riptide', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sKnockbackRuptureFlag', to: 'sKnockbackToRupture', kind: 'read'},
+    {from: 'pKnockbackToRupture', to: 'eSetRuptureDamage', kind: 'holds'},
+    {from: 'eSetRuptureDamage', to: 'sReceivingRuptureDamage', kind: 'target'},
+    {from: 'pKnockbackToRupture', to: 'eRupture', kind: 'holds'},
+    {from: 'eRupture', to: 'sRuptured', kind: 'target'},
+    {from: 'sKnockbackToRupture', to: 'pKnockbackToRupture', kind: 'holds'},
+    {from: 'sKnockbackApplyingCounterEffects', to: 'sKnockbackToRupture', kind: 'holds'},
+    {from: 'sKnockbackApplying', to: 'sKnockbackApplyingCounterEffects', kind: 'relation'},
+    {from: 'pRiptide', to: 'sKnockbackRuptureFlag', kind: 'target', label: 'KnockbackAlsoRupture'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Riptide' target='Player'>
@@ -1073,6 +1877,42 @@ Switches on a Counter Effect linked into the [knockback](#status-knockback) coun
 <p><SpecTags items={['Water', 'Upgrades/Options/Water/WaveStrike']} /></p>
 
 Switches on the Attack's [knockback](#status-knockback) Counter Effect and raises the Attack's damage rate modifier. The [knockback](#status-knockback) also attaches slam effectors to the pushed foe: **Wall Slam** deals `WallSlamDamage` (10) when it hits a wall, **Body Slam** deals `BodySlamDamage` (5) to a foe it is knocked into.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sKnockbackInflict', kind: 'stat', name: 'Attack_KnockbackInflict', label: 'KnockbackInflict', subtitle: 'Counter Effect'},
+    {id: 'sDamageRateModifier', kind: 'stat', name: 'Attack_DamageRateModifier', label: 'DamageRateModifier', subtitle: 'Modifier (Float)'},
+    {id: 'sKnockbackUnlocked', kind: 'stat', name: 'Attack_KnockbackUnlocked', label: 'KnockbackUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pKnockbackInflict', kind: 'pack', name: 'Pack_KnockbackInflict_R3D', label: 'KnockbackInflict'},
+    {id: 'eRemoveKnockbackModifiers', kind: 'effect', name: 'Effect_RemoveKnockbackModifiers_R3D', label: 'RemoveKnockbackModifiers'},
+    {id: 'sKnockback', kind: 'stat', name: 'Key_Knockback_3D', label: 'Knockback'},
+    {id: 'eKnockbackTween', kind: 'effect', name: 'Effect_KnockbackTween_R3D', label: 'KnockbackTween'},
+    {id: 'sKnockbackTween', kind: 'stat', name: 'Key_KnockbackTween_3D', label: 'KnockbackTween'},
+    {id: 'eKnockback', kind: 'effect', name: 'Effect_Knockback_R3D', label: 'Knockback', subtitle: 'value 1'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'sAttackDamageModifier', kind: 'stat', name: 'AttackDamageModifier', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pWaveStrike', kind: 'pack', name: 'WaveStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sKnockbackUnlocked', to: 'sKnockbackInflict', kind: 'read'},
+    {from: 'pKnockbackInflict', to: 'eRemoveKnockbackModifiers', kind: 'holds'},
+    {from: 'eRemoveKnockbackModifiers', to: 'sKnockback', kind: 'target'},
+    {from: 'pKnockbackInflict', to: 'eKnockbackTween', kind: 'holds'},
+    {from: 'eKnockbackTween', to: 'sKnockbackTween', kind: 'target'},
+    {from: 'pKnockbackInflict', to: 'eKnockback', kind: 'holds'},
+    {from: 'eKnockback', to: 'sKnockback', kind: 'target'},
+    {from: 'sKnockbackInflict', to: 'pKnockbackInflict', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sKnockbackInflict', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'sAttackDamageModifier', to: 'sDamageRateModifier', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageModifier', kind: 'relation'},
+    {from: 'pWaveStrike', to: 'sDamageRateModifier', kind: 'target', label: 'AttackDamageBuff'},
+    {from: 'pWaveStrike', to: 'sKnockbackUnlocked', kind: 'target', label: 'Knockaway'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -1110,6 +1950,30 @@ Lightning on hit and on being hit.
 
 Switches on a signed Intervener Effect on your `Health` that answers a hit from the other team with a lightning strike on the attacker.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sRevengeLightningCounterEffect', kind: 'stat', name: 'RevengeLightningCounterEffect', subtitle: 'Intervener Effect (Signed)'},
+    {id: 'sRevengeLightning', kind: 'stat', name: 'RevengeLightning', subtitle: 'Int (Clamped)'},
+    {id: 'sTeamNo', kind: 'stat', name: 'TeamNo'},
+    {id: 'pRevengeLightning', kind: 'pack', name: 'Pack_RevengeLightning_R3D', label: 'RevengeLightning'},
+    {id: 'eRevengeLightningDamageAS', kind: 'effect', name: 'Effect_RevengeLightningDamage(AS)_R3D', label: 'RevengeLightningDamage(AS)'},
+    {id: 'sHealth', kind: 'stat', name: 'Key_Health_R3D', label: 'Health'},
+    {id: 'sReceivingHealthPreCounterEffects', kind: 'stat', name: 'ReceivingHealthPreCounterEffects(SigSep)', label: 'ReceivingHealthPreCounterEffects', subtitle: 'SigSep list'},
+    {id: 'pBacklash', kind: 'pack', name: 'Backlash', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sRevengeLightning', to: 'sRevengeLightningCounterEffect', kind: 'read'},
+    {from: 'sTeamNo', to: 'sRevengeLightningCounterEffect', kind: 'read'},
+    {from: 'pRevengeLightning', to: 'eRevengeLightningDamageAS', kind: 'holds'},
+    {from: 'eRevengeLightningDamageAS', to: 'sHealth', kind: 'target'},
+    {from: 'sRevengeLightningCounterEffect', to: 'pRevengeLightning', kind: 'holds'},
+    {from: 'sReceivingHealthPreCounterEffects', to: 'sRevengeLightningCounterEffect', kind: 'holds'},
+    {from: 'sHealth', to: 'sReceivingHealthPreCounterEffects', kind: 'relation', label: 'receiving'},
+    {from: 'pBacklash', to: 'sRevengeLightning', kind: 'target', label: 'RevengeLightning'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Backlash' target='Player'>
@@ -1132,6 +1996,33 @@ Switches on a signed Intervener Effect on your `Health` that answers a hit from 
 <p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/Overload']} /></p>
 
 Switches on a Counter Effect in your lightning counter-effect list that applies [Jolted](#status-jolted) whenever your lightning lands.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sJoltInflict', kind: 'stat', name: 'JoltInflict', subtitle: 'Counter Effect'},
+    {id: 'sJoltUnlocked', kind: 'stat', name: 'JoltUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pJoltInflict', kind: 'pack', name: 'Pack_JoltInflict_R3D', label: 'JoltInflict'},
+    {id: 'eJoltDamageSet', kind: 'effect', name: 'Effect_JoltDamageSet_R3D', label: 'JoltDamageSet'},
+    {id: 'sJoltDamageMob', kind: 'stat', name: 'Key_JoltDamage(Mob)_R3D', label: 'JoltDamage(Mob)'},
+    {id: 'eJolted', kind: 'effect', name: 'Effect_Jolted_R3D', label: 'Jolted', subtitle: 'value 1'},
+    {id: 'sJolted', kind: 'stat', name: 'Key_Jolted_R3D', label: 'Jolted'},
+    {id: 'sLightningCounterEffects', kind: 'stat', name: 'LightningCounterEffects(SigSep)', label: 'LightningCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sLightning', kind: 'stat', name: 'Lightning'},
+    {id: 'pOverload', kind: 'pack', name: 'Overload', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sJoltUnlocked', to: 'sJoltInflict', kind: 'read'},
+    {from: 'pJoltInflict', to: 'eJoltDamageSet', kind: 'holds'},
+    {from: 'eJoltDamageSet', to: 'sJoltDamageMob', kind: 'target'},
+    {from: 'pJoltInflict', to: 'eJolted', kind: 'holds'},
+    {from: 'eJolted', to: 'sJolted', kind: 'target'},
+    {from: 'sJoltInflict', to: 'pJoltInflict', kind: 'holds'},
+    {from: 'sLightningCounterEffects', to: 'sJoltInflict', kind: 'holds'},
+    {from: 'sLightning', to: 'sLightningCounterEffects', kind: 'relation'},
+    {from: 'pOverload', to: 'sJoltUnlocked', kind: 'target', label: 'JoltUnlock'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -1156,6 +2047,29 @@ Switches on a Counter Effect in your lightning counter-effect list that applies 
 
 Switches on a Counter Effect in the Attack's counter-effect list that starts the chain lightning on hit.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sLightningInflict', kind: 'stat', name: 'Attack_LightningInflict', label: 'LightningInflict', subtitle: 'Counter Effect'},
+    {id: 'sLightningUnlocked', kind: 'stat', name: 'Attack_LightningUnlocked', label: 'LightningUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pLightningInflict', kind: 'pack', name: 'Pack_LightningInflict_R3D', label: 'LightningInflict'},
+    {id: 'eChainLightningDamage', kind: 'effect', name: 'Effect_ChainLightningDamage_R3D', label: 'ChainLightningDamage', subtitle: 'value -8'},
+    {id: 'sHealth', kind: 'stat', name: 'Key_Health_R3D', label: 'Health'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pStormStrike', kind: 'pack', name: 'StormStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sLightningUnlocked', to: 'sLightningInflict', kind: 'read'},
+    {from: 'pLightningInflict', to: 'eChainLightningDamage', kind: 'holds'},
+    {from: 'eChainLightningDamage', to: 'sHealth', kind: 'target'},
+    {from: 'sLightningInflict', to: 'pLightningInflict', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sLightningInflict', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'pStormStrike', to: 'sLightningUnlocked', kind: 'target', label: 'LightningUnlock'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='StormStrike' target='Player'>
@@ -1179,9 +2093,22 @@ Switches on a Counter Effect in the Attack's counter-effect list that starts the
 <div className="prp-packs">
 
 <details id="upgrade-skyfall">
-<summary><strong>Skyfall</strong> — Lightning strikes a random foe every 3 seconds for 10 damage.</summary>
+<summary><strong>Skyfall</strong> — Lightning strikes a random foe within 6 units every 3 seconds for 10 damage.</summary>
 
 <p><SpecTags items={['Lightning', 'Upgrades/Options/Lightning/Skyfall']} /></p>
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sPeriodicLightningDamage', kind: 'stat', name: 'PeriodicLightningDamage', subtitle: 'Generator (Float Clamped)'},
+    {id: 'pSkyfall', kind: 'pack', name: 'Skyfall', subtitle: 'Grant → Player', root: true},
+    {id: 'eSkyfall', kind: 'effect', name: 'Skyfall', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pSkyfall', to: 'eSkyfall', kind: 'holds'},
+    {from: 'eSkyfall', to: 'sPeriodicLightningDamage', kind: 'target'},
+  ]}
+/>
 
 **Grant** — the removable upgrade adds −10 to the player's `PeriodicLightningDamage` generator. Its neutral value is 0, which stops generation.
 
@@ -1208,6 +2135,19 @@ Switches on a Counter Effect in the Attack's counter-effect list that starts the
 
 Raises the amount of armor the player is given at the start of each encounter.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sEncounterStartArmorAmount', kind: 'stat', name: 'EncounterStartArmorAmount', subtitle: 'Float (Clamped)'},
+    {id: 'pHourglassGuard', kind: 'pack', name: 'HourglassGuard', subtitle: 'Grant → Player', root: true},
+    {id: 'eHourglassGuardArmor', kind: 'effect', name: 'HourglassGuardArmor', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pHourglassGuard', to: 'eHourglassGuardArmor', kind: 'holds'},
+    {from: 'eHourglassGuardArmor', to: 'sEncounterStartArmorAmount', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='HourglassGuard' target='Player'>
@@ -1227,6 +2167,19 @@ Raises the amount of armor the player is given at the start of each encounter.
 <p><SpecTags items={['Time', 'Upgrades/Options/Time/Rewind']} /></p>
 
 Sets the Health fraction the player is restored to when leaving an encounter below it.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sOnExitHealthFloor', kind: 'stat', name: 'OnExitHealthFloor', subtitle: 'Float (Clamped)'},
+    {id: 'pRewind', kind: 'pack', name: 'Rewind', subtitle: 'Grant → Player', root: true},
+    {id: 'eRewindOnExitFloor', kind: 'effect', name: 'RewindOnExitFloor', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pRewind', to: 'eRewindOnExitFloor', kind: 'holds'},
+    {from: 'eRewindOnExitFloor', to: 'sOnExitHealthFloor', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -1248,6 +2201,23 @@ Sets the Health fraction the player is restored to when leaving an encounter bel
 
 Raises a Conditional Modifier on your attack damage that applies after a revive.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageAfterRevive', kind: 'stat', name: 'DamageAfterRevive', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sAttackDamageConditionalModifiers', kind: 'stat', name: 'AttackDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pSecondDawn', kind: 'pack', name: 'SecondDawn', subtitle: 'Grant → Player', root: true},
+    {id: 'eSecondDawnDamage', kind: 'effect', name: 'SecondDawnDamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sAttackDamageConditionalModifiers', to: 'sDamageAfterRevive', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pSecondDawn', to: 'eSecondDawnDamage', kind: 'holds'},
+    {from: 'eSecondDawnDamage', to: 'sDamageAfterRevive', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='SecondDawn' target='Player'>
@@ -1268,6 +2238,19 @@ Raises a Conditional Modifier on your attack damage that applies after a revive.
 
 Sets the Health restored when leaving an encounter.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sOnExitHealAmount', kind: 'stat', name: 'OnExitHealAmount', subtitle: 'Float (Clamped)'},
+    {id: 'pTimeMend', kind: 'pack', name: 'TimeMend', subtitle: 'Grant → Player', root: true},
+    {id: 'eTimeMendHeal', kind: 'effect', name: 'TimeMendHeal', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pTimeMend', to: 'eTimeMendHeal', kind: 'holds'},
+    {from: 'eTimeMendHeal', to: 'sOnExitHealAmount', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='TimeMend' target='Player'>
@@ -1278,6 +2261,115 @@ Sets the Health restored when leaving an encounter.
 
 <StatExample name='OnExitHealAmount' type='Float (Clamped)' statKey='Player / FloatClamped / OnExitHealAmount' />
 
+
+</details>
+
+
+<details id="upgrade-stolen-moment">
+<summary><strong>Stolen Moment</strong> — After slaying a foe, your next Attack or Special deals +100 % damage.</summary>
+
+<p><SpecTags items={['Time', 'Upgrades/Options/Time/StolenMoment']} /></p>
+
+Switches on an Intervener Effect in your applying `Dead` list that grants the bonus when your hit kills a foe of the other team, and adds 1 to `SlayDamageBonus`, the size of that bonus. The next Attack or Special consumes it.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sSlayBoostCounterEffect', kind: 'stat', name: 'SlayBoostCounterEffect', subtitle: 'Intervener Effect'},
+    {id: 'sStolenMomentUnlocked', kind: 'stat', name: 'StolenMomentUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sSlayDamageBonus', kind: 'stat', name: 'SlayDamageBonus', subtitle: 'Float (Clamped)'},
+    {id: 'sDead', kind: 'stat', name: 'Dead'},
+    {id: 'sTeamNo', kind: 'stat', name: 'TeamNo'},
+    {id: 'pSlayBoostGrant', kind: 'pack', name: 'Pack_SlayBoostGrant_R3D', label: 'SlayBoostGrant'},
+    {id: 'eGrantStolenMoment', kind: 'effect', name: 'Effect_GrantStolenMoment_R3D', label: 'GrantStolenMoment', subtitle: 'value 1'},
+    {id: 'sStolenMoment', kind: 'stat', name: 'Key_StolenMoment_R3D', label: 'StolenMoment'},
+    {id: 'sDeadPreApplyingCounterEffect', kind: 'stat', name: 'Dead_PreApplyingCounterEffect(SigSep)', label: 'Dead_PreApplyingCounterEffect', subtitle: 'SigSep list'},
+    {id: 'pStolenMoment', kind: 'pack', name: 'StolenMoment', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sDead', to: 'sSlayBoostCounterEffect', kind: 'read'},
+    {from: 'sStolenMomentUnlocked', to: 'sSlayBoostCounterEffect', kind: 'read'},
+    {from: 'sTeamNo', to: 'sSlayBoostCounterEffect', kind: 'read'},
+    {from: 'pSlayBoostGrant', to: 'eGrantStolenMoment', kind: 'holds'},
+    {from: 'eGrantStolenMoment', to: 'sStolenMoment', kind: 'target'},
+    {from: 'sSlayBoostCounterEffect', to: 'pSlayBoostGrant', kind: 'holds'},
+    {from: 'sDeadPreApplyingCounterEffect', to: 'sSlayBoostCounterEffect', kind: 'holds'},
+    {from: 'sDead', to: 'sDeadPreApplyingCounterEffect', kind: 'relation'},
+    {from: 'pStolenMoment', to: 'sStolenMomentUnlocked', kind: 'target', label: 'StolenMoment'},
+    {from: 'pStolenMoment', to: 'sSlayDamageBonus', kind: 'target', label: 'SlayDamageBonus'},
+  ]}
+/>
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='StolenMoment' target='Player'>
+  <EffectExample name='StolenMoment' targetStat='StolenMomentUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='SlayDamageBonus' targetStat='SlayDamageBonus' target='Player' value='1' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='SlayBoostCounterEffect' type='Intervener Effect' statKey='Player / IntervenerEffect / SlayBoostCounterEffect' condition='Dead, StolenMomentUnlocked, TeamNo through EnemyAliveAndUnlocked'>
+  Applies <PowerRef>Pack_SlayBoostGrant_R3D</PowerRef>. Linked into <PowerRef>Dead_PreApplyingCounterEffect(SigSep)</PowerRef> by <PowerRef>Effect_SlayBoostLinker_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='StolenMomentUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / StolenMomentUnlocked' max='1' />
+
+<StatExample name='SlayDamageBonus' type='Float (Clamped)' statKey='Player / FloatClamped / SlayDamageBonus' max='10' />
+
+</details>
+
+<details id="upgrade-temporal-strike">
+<summary><strong>Temporal Strike</strong> — Your Attack inflicts [Doom](#status-doom): 30 damage when the curse runs out.</summary>
+
+<p><SpecTags items={['Time', 'Upgrades/Options/Time/TemporalStrike']} /></p>
+
+Switches on a Counter Effect in the Attack's counter-effect list that applies [Doom](#status-doom) on hit, and sets `DoomDamage` to −30, the damage dealt when [Doom](#status-doom) expires.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDoomInflict', kind: 'stat', name: 'Attack_DoomInflict', label: 'DoomInflict', subtitle: 'Counter Effect'},
+    {id: 'sDoomUnlocked', kind: 'stat', name: 'Attack_DoomUnlocked', label: 'DoomUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'sDoomDamage', kind: 'stat', name: 'DoomDamage', subtitle: 'Float (Clamped)'},
+    {id: 'pDoomInflict', kind: 'pack', name: 'Pack_Attack_DoomInflict_R3D', label: 'DoomInflict'},
+    {id: 'eDoomDamageSet', kind: 'effect', name: 'Effect_DoomDamageSet_R3D', label: 'DoomDamageSet'},
+    {id: 'eDoomInflict', kind: 'effect', name: 'Effect_DoomInflict_R3D', label: 'DoomInflict', subtitle: 'value 1'},
+    {id: 'sDoom', kind: 'stat', name: 'Key_Doom_R3D', label: 'Doom'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pTemporalStrike', kind: 'pack', name: 'TemporalStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sDoomUnlocked', to: 'sDoomInflict', kind: 'read'},
+    {from: 'pDoomInflict', to: 'eDoomDamageSet', kind: 'holds'},
+    {from: 'eDoomDamageSet', to: 'sDoomDamage', kind: 'target'},
+    {from: 'pDoomInflict', to: 'eDoomInflict', kind: 'holds'},
+    {from: 'eDoomInflict', to: 'sDoom', kind: 'target'},
+    {from: 'sDoomInflict', to: 'pDoomInflict', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sDoomInflict', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'pTemporalStrike', to: 'sDoomUnlocked', kind: 'target', label: 'DoomUnlock'},
+    {from: 'pTemporalStrike', to: 'sDoomDamage', kind: 'target', label: 'DoomDamage'},
+  ]}
+/>
+
+**Grant** — applied to the player when the upgrade is taken:
+
+<PackExample name='TemporalStrike' target='Player'>
+  <EffectExample name='DoomUnlock' targetStat='Attack_DoomUnlocked' target='Attack' value='1' processor='Add_Int' applyType='Temporary' />
+  <EffectExample name='DoomDamage' targetStat='DoomDamage' target='Player' value='-30' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+**Stats**
+
+<StatExample name='Attack_DoomInflict' type='Counter Effect' statKey='Attack / CounterEffect_SigSep / AttackCounterEffects(SigSep) / DoomInflict' condition='Attack_DoomUnlocked = 1'>
+  Applies <PowerRef>Pack_Attack_DoomInflict_R3D</PowerRef>.
+</StatExample>
+
+<StatExample name='Attack_DoomUnlocked' type='Int (Clamped)' statKey='Attack / IntClamped / Attack_DoomUnlocked' max='1' />
+
+<StatExample name='DoomDamage' type='Float (Clamped)' statKey='Player / FloatClamped / DoomDamage_R3D' min='-9999' />
 
 </details>
 
@@ -1293,6 +2385,19 @@ Sets the Health restored when leaving an encounter.
 <p><SpecTags items={['Grass', 'Upgrades/Options/Grass/ExplosiveCriticals']} /></p>
 
 Raises a Reflector that turns a critical hit into an explosion on nearby foes.
+
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sExplosiveCritReflector', kind: 'stat', name: 'ExplosiveCritReflector', subtitle: 'Reflector'},
+    {id: 'pExplosiveCriticals', kind: 'pack', name: 'ExplosiveCriticals', subtitle: 'Grant → Player', root: true},
+    {id: 'eExplosiveCriticalsRate', kind: 'effect', name: 'ExplosiveCriticalsRate', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'pExplosiveCriticals', to: 'eExplosiveCriticalsRate', kind: 'holds'},
+    {from: 'eExplosiveCriticalsRate', to: 'sExplosiveCritReflector', kind: 'target'},
+  ]}
+/>
 
 **Grant** — applied to the player when the upgrade is taken:
 
@@ -1314,6 +2419,25 @@ Raises a Reflector that turns a critical hit into an explosion on nearby foes.
 
 Raises a Conditional Modifier in your critical-damage list that only applies while the target's `Shielded` Stat is `1`.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sCuttingWindCritDamage', kind: 'stat', name: 'CuttingWindCritDamage', subtitle: 'Conditional Modifier (Float)'},
+    {id: 'sShielded', kind: 'stat', name: 'Shielded'},
+    {id: 'sCritDamageConditionalModifiers', kind: 'stat', name: 'CritDamageConditionalModifiers', subtitle: 'List'},
+    {id: 'sCritDamage', kind: 'stat', name: 'CritDamage'},
+    {id: 'pCuttingWind', kind: 'pack', name: 'CuttingWind', subtitle: 'Grant → Player', root: true},
+    {id: 'eCuttingWindAddCritDamage', kind: 'effect', name: 'CuttingWindAddCritDamage', subtitle: 'Add_Float'},
+  ]}
+  edges={[
+    {from: 'sShielded', to: 'sCuttingWindCritDamage', kind: 'read'},
+    {from: 'sCritDamageConditionalModifiers', to: 'sCuttingWindCritDamage', kind: 'holds'},
+    {from: 'sCritDamage', to: 'sCritDamageConditionalModifiers', kind: 'relation'},
+    {from: 'pCuttingWind', to: 'eCuttingWindAddCritDamage', kind: 'holds'},
+    {from: 'eCuttingWindAddCritDamage', to: 'sCuttingWindCritDamage', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='CuttingWind' target='Player'>
@@ -1333,9 +2457,26 @@ Raises a Conditional Modifier in your critical-damage list that only applies whi
 
 Adds 0.15 to `CriticalHitChance`, which `Attack` reads as its applying critical rate, and raises the Attack's damage rate modifier.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sDamageRateModifier', kind: 'stat', name: 'Attack_DamageRateModifier', label: 'DamageRateModifier', subtitle: 'Modifier (Float)'},
+    {id: 'sCriticalHitChance', kind: 'stat', name: 'CriticalHitChance', subtitle: 'Float (Clamped)'},
+    {id: 'sAttackDamageModifier', kind: 'stat', name: 'AttackDamageModifier', subtitle: 'List'},
+    {id: 'sAttackDamage', kind: 'stat', name: 'AttackDamage'},
+    {id: 'pBrambleStrike', kind: 'pack', name: 'BrambleStrike', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sAttackDamageModifier', to: 'sDamageRateModifier', kind: 'holds'},
+    {from: 'sAttackDamage', to: 'sAttackDamageModifier', kind: 'relation'},
+    {from: 'pBrambleStrike', to: 'sCriticalHitChance', kind: 'target', label: 'CritChance'},
+    {from: 'pBrambleStrike', to: 'sDamageRateModifier', kind: 'target', label: 'AttackDamageBuff'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='GaleStrike' target='Player'>
+<PackExample name='BrambleStrike' target='Player'>
   <EffectExample name='CritChance' targetStat='CriticalHitChance' target='Player' value='0.15' processor='Add_Float' applyType='Temporary' />
   <EffectExample name='AttackDamageBuff' targetStat='DamageRateModifier' target='Attack' value='0.05' processor='Add_Float' applyType='Temporary' />
 </PackExample>
@@ -1357,19 +2498,58 @@ Adds 0.15 to `CriticalHitChance`, which `Attack` reads as its applying critical 
 
 Switches on a Counter Effect in your attack counter-effect list. It fires only on hits with the `Critical` Result Attribute and redirects its Mark pack to a random teammate of the hit foe in range.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sMarkOnCriticalAttack', kind: 'stat', name: 'MarkOnCriticalAttack', subtitle: 'Counter Effect'},
+    {id: 'sCritMarksNearbyUnlocked_R3D', kind: 'stat', name: 'CritMarksNearbyUnlocked_R3D', subtitle: 'Int (Clamped)'},
+    {id: 'pMarkOnCriticalAttack', kind: 'pack', name: 'Pack_MarkOnCriticalAttack_R3D', label: 'MarkOnCriticalAttack'},
+    {id: 'eMarkOnCriticalAttack', kind: 'effect', name: 'Effect_MarkOnCriticalAttack_R3D', label: 'MarkOnCriticalAttack', subtitle: 'value 1'},
+    {id: 'sMarked', kind: 'stat', name: 'Key_Marked_R3D', label: 'Marked'},
+    {id: 'sAttackCounterEffects', kind: 'stat', name: 'AttackCounterEffects(SigSep)', label: 'AttackCounterEffects', subtitle: 'SigSep list'},
+    {id: 'sAttack', kind: 'stat', name: 'Attack'},
+    {id: 'pThornmark', kind: 'pack', name: 'Thornmark', subtitle: 'Grant → Player', root: true},
+  ]}
+  edges={[
+    {from: 'sCritMarksNearbyUnlocked_R3D', to: 'sMarkOnCriticalAttack', kind: 'read'},
+    {from: 'pMarkOnCriticalAttack', to: 'eMarkOnCriticalAttack', kind: 'holds'},
+    {from: 'eMarkOnCriticalAttack', to: 'sMarked', kind: 'target'},
+    {from: 'sMarkOnCriticalAttack', to: 'pMarkOnCriticalAttack', kind: 'holds'},
+    {from: 'sAttackCounterEffects', to: 'sMarkOnCriticalAttack', kind: 'holds'},
+    {from: 'sAttack', to: 'sAttackCounterEffects', kind: 'relation'},
+    {from: 'pThornmark', to: 'sCritMarksNearbyUnlocked_R3D', kind: 'target', label: 'Windmark'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
-<PackExample name='Windmark' target='Player'>
-  <EffectExample name='Windmark' targetStat='WindmarkUnlocked' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+<PackExample name='Thornmark' target='Player'>
+  <EffectExample name='Thornmark' targetStat='CritMarksNearbyUnlocked_R3D' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
 </PackExample>
 
 **Stats**
 
-<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='WindmarkUnlocked = 1; result is Critical'>
+<StatExample name='MarkOnCriticalAttack' type='Counter Effect' statKey='Player / CounterEffect / MarkOnCriticalAttack' condition='CritMarksNearbyUnlocked_R3D = 1; result is Critical'>
   Redirected to the Team of the target, filtered by <PowerRef>TargetingFilter_RandomFoeInRange_R3D</PowerRef>. Applies <PowerRef>Pack_MarkOnCriticalAttack_R3D</PowerRef>. Linked into <PowerRef>AttackCounterEffects(SigSep)</PowerRef> by <PowerRef>Effect_MarkOnCriticalAttackLinker_R3D</PowerRef>.
 </StatExample>
 
-<StatExample name='WindmarkUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / WindmarkUnlocked' max='1' />
+<StatExample name='CritMarksNearbyUnlocked_R3D' type='Int (Clamped)' statKey='Player / IntClamped / CritMarksNearbyUnlocked_R3D' max='1' />
+
+</details>
+
+
+<details id="upgrade-wiring">
+<summary><strong>Wiring</strong> — Cast ammo binds foes inside its triangle and pulls them together.</summary>
+
+<p><SpecTags items={['Grass', 'Upgrades/Options/Grass/Wiring']} /></p>
+
+<PackExample name='Wiring' target='Player'>
+  <EffectExample name='Wiring' targetStat='CastTrianglePullUnlocked_R3D' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+`CastTriangleTrap` is an EffectPack Generator that checks every **0.2 s** while the upgrade is unlocked and at least **3 Cast arrows** have settled. `CustomTargeter_ProjectileTriangle_R3D` uses the newest three arrows; every edge must be at most **12 units**. It catches living foes inside the triangle, including foes the arrows are embedded in.
+
+Each triangle springs once. Ground arrows act as fixed anchors; with all three embedded in foes, the pull ends at the triangle's center. `Pack_CastTrianglePull_R3D` applies the knockback tween and a **0.4 s** movement block. It records the player's knockback attribution, allowing the existing Wall Slam and Body Slam mechanics to react. A rope VFX outlines the trapped group as it contracts.
 
 </details>
 
@@ -1413,6 +2593,20 @@ While active, a conditional linker contributes **−0.2** to the foe's applying 
 
 </details>
 
+
+<details id="upgrade-light-speed">
+<summary><strong>Light Speed</strong> — Cast hits teleport you behind foes; Cast travel speed +50 %.</summary>
+
+<p><SpecTags items={['Light', 'Upgrades/Options/Light/LightSpeed']} /></p>
+
+<PackExample name='LightSpeed' target='Player'>
+  <EffectExample name='LightSpeed' targetStat='LightSpeedUnlocked_R3D' target='Player' value='1' processor='Add_Int' applyType='Temporary' />
+</PackExample>
+
+`CastHitTeleportBehind` redirects `Pack_DashBehindSource_R3D` to the player after a Cast hit, reusing the Dash skill's movement setup to place the player behind the struck foe. `Skill_Cast_R3D` is an Evolver: the unlock selects a faster Cast state, raising projectile travel speed from **34 to 51**, while keeping its normal ammo cost and weapon channel.
+
+</details>
+
 </div>
 
 ### Flame
@@ -1445,6 +2639,19 @@ The creamy-yellow health-bar segment previews Scorch against remaining Health, w
 
 Switches on the burn that cast arrows apply to nearby foes while attached.
 
+
+<RelationGraph generated
+  nodes={[
+    {id: 'sTorchUnlocked', kind: 'stat', name: 'TorchUnlocked', subtitle: 'Int (Clamped)'},
+    {id: 'pTorch', kind: 'pack', name: 'Torch', subtitle: 'Grant → Player', root: true},
+    {id: 'eTorchUnlock', kind: 'effect', name: 'TorchUnlock', subtitle: 'Add_Int'},
+  ]}
+  edges={[
+    {from: 'pTorch', to: 'eTorchUnlock', kind: 'holds'},
+    {from: 'eTorchUnlock', to: 'sTorchUnlocked', kind: 'target'},
+  ]}
+/>
+
 **Grant** — applied to the player when the upgrade is taken:
 
 <PackExample name='Torch' target='Player'>
@@ -1455,6 +2662,20 @@ Switches on the burn that cast arrows apply to nearby foes while attached.
 
 <StatExample name='TorchUnlocked' type='Int (Clamped)' statKey='Player / IntClamped / TorchUnlocked' max='1' />
 
+
+</details>
+
+
+<details id="upgrade-fire-away">
+<summary><strong>Fire away</strong> — Special Attack destroys enemy shots and inflicts 20 Scorch on their shooters.</summary>
+
+<p><SpecTags items={['Flame', 'Upgrades/Options/Flame/FireAway']} /></p>
+
+<PackExample name='FireAway' target='Player'>
+  <EffectExample name='FireAway' targetStat='ScorchOnShotDestroy_R3D' target='Player' value='20' processor='Add_Float' applyType='Temporary' />
+</PackExample>
+
+`SpecialAttackDestroysShots` detects a hit on a foe's Skillshot. `Pack_ScorchShotOwner_R3D` records the player as the shooter's Scorch inflicter and adds **20** to its existing [Scorch](#status-scorch) pool. `Pack_DestroyProjectile_R3D` marks the projectile as burned for its ash VFX, then marks it destroyed after **0.001 s**; the projectile's disposal extension removes it. Its initializer resets these flags when the projectile is reused.
 
 </details>
 

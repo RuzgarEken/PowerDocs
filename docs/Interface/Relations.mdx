@@ -36,7 +36,7 @@ Roots are placed like any other node: a root that an earlier root links to sits 
 - **What touches this Stat?** Every Effect that targets `Health`, every Stat related to it, every Condition that reads it.
 - **What breaks if I change it?** Check what references a Stat before you delete, rename or convert it.
 - **Why did this happen?** A value changed and you don't know which Effect or relation caused it.
-- **Did my wiring land?** After you load a [Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack) or wire a relation, check that the links point where you expect. An AI agent can open its whole build here for you (`/build-mechanic --relations`, see [AI Support](/docs/AISupport#the-agent-workflow-optional)).
+- **Did my wiring land?** After you load a [Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack) or wire a relation, check that the links point where you expect. An AI agent can open its whole build here for you (enabled by default for `/build-mechanic`, see [AI Support](/docs/AISupport#the-agent-workflow-optional)).
 - **Debug one mechanic.** Select its nodes and press **Update Log Filters** to log only those Stats and Effects.
 
 ## Reading the graph
@@ -59,6 +59,8 @@ Nodes are Stats and Effects. Effect Packs, Injectors, Adapters and other assets 
 | **Stat checker** | A Condition on one Stat reads another Stat. Drawn into the Stat that holds the check. |
 | **Other reference** | Any other reference. |
 
+Conditional Effects and their nested checks are grouped so the condition and payload can be read together. Injector/linker driver Stats are placed to the left of the Stat they feed. Node headers include type keywords to distinguish Stats, Effects and Packs.
+
 The legend under the graph shows the same colors. Who references an asset follows the Power Editor's **References** rules: an asset of another type that only names the Stat (an upgrade option, a scenario) isn't drawn.
 
 ## Depth and expanding
@@ -76,6 +78,8 @@ Press **+** on a Stat node to load its relations, and **−** to hide them again
 | **e** on a node | Opens the asset in the [Power Editor](./Editor). |
 | **Update Log Filters** | Adds the highlighted Stats to the active Log Settings' Stat filter and the highlighted Effects to the Effect filter, and turns on the matching log types. |
 | **Frame** | Fits the whole graph in the view. |
+| **Isolate** / **I** | Shows the selected nodes and their highlighted neighbourhood in a focused layout. **All Relations** returns to the full graph. |
+| **Click to isolate** | Clicking a node isolates its highlighted neighbourhood; clicking empty space returns to the full graph. The toggle is remembered. |
 | **Refresh** | Rescans the project's references and redraws. The graph also refreshes on its own when assets change. |
 
 ## Summary panel

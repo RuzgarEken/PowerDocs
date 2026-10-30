@@ -10,6 +10,27 @@ Block is **not removed** at the start of your next turn.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardFortifiedGuard', kind: 'repository', name: 'Card_FortifiedGuard'},
+    {id: 'sBlock', kind: 'stat', name: 'Block', subtitle: '5'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'pFortifiedGuard', kind: 'pack', name: 'FortifiedGuard', subtitle: 'Grant → Self', root: true},
+    {id: 'eBlock', kind: 'effect', name: 'Block'},
+    {id: 'eBlockExtender', kind: 'effect', name: 'BlockExtender'},
+  ]}
+  edges={[
+    {from: 'nCardFortifiedGuard', to: 'sBlock', kind: 'holds'},
+    {from: 'nCardFortifiedGuard', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardFortifiedGuard', to: 'sCardType', kind: 'holds'},
+    {from: 'pFortifiedGuard', to: 'eBlock', kind: 'holds'},
+    {from: 'eBlock', to: 'sBlock', kind: 'target'},
+    {from: 'pFortifiedGuard', to: 'eBlockExtender', kind: 'holds'},
+    {from: 'eBlockExtender', to: 'sBlock', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

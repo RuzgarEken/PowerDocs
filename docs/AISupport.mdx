@@ -13,7 +13,7 @@ Power ships that knowledge as **power-skill**, a skill for AI coding agents. Wit
 
 power-skill follows the open [Agent Skills](https://agentskills.io) format (a `SKILL.md` with `references/` and `scripts/`), so any agent that reads skills can use it: [Claude Code](https://claude.com/claude-code), [OpenAI Codex](https://developers.openai.com/codex/skills), GitHub Copilot, Gemini CLI, Cursor and others.
 
-The optional [agent workflow](#the-agent-workflow-optional) (two cooperating agents and a guard hook) is built for Claude Code.
+The optional [agent workflow](#the-agent-workflow-optional) coordinates a mechanic builder and a docs repair agent. Claude Code uses the shipped agent roles and guard hook; Codex can use the same roles and linked skills.
 
 :::
 
@@ -52,19 +52,26 @@ P validate --under MyGame        # Power's asset validation for one folder
 
 With the Editor closed, lookups and simple edits still work offline. Creating Stats and Containers needs the Editor.
 
+### Checked asset plans
+
+After the field formula is complete, the agent asks for the selected types' schema once, then builds a JSON command plan. Named outputs (`as`) and references such as `$grant` or `$stat.key` connect the commands without guessing generated asset names. `P plan apply plan.json --report result.json` preflights the commands on throwaway copies before saving any assets; a preflight failure writes none. Read-only queries can be grouped with `P batch`.
+
+After applying the plan, the agent audits SigSep/injector order and validates every asset it created or edited. The workflow records the cost and Decision Flow trace when the build ends, including failed attempts.
+
+
 ## Setting it up
 
 **Requirements:** Python 3, and the Unity Editor open on your project while the agent creates assets.
 
 ### Claude Code
 
-1. Make the skill visible to Claude Code. Either link it into your project's skills folder:
+1. Make the skill visible to Claude Code. Link it into your project's skills folder:
 
    ```bash
    mkdir -p .claude/skills && ln -s ../../Assets/Plugins/Power/Editor/AiFlow/power-skill .claude/skills/power-skill
    ```
 
-   or copy `Assets/Plugins/Power/Editor/AiFlow/power-skill` to `.claude/skills/power-skill` (or to `~/.claude/skills/` for every project).
+   Keep the shipped folder as the source of truth instead of maintaining a second copy. If both Claude Code and Codex are used, their skill links should point to this same folder.
 
 2. Start Claude Code in the project's root folder.
 3. Ask for a mechanic. The skill is picked up whenever a request touches Power: Stats, Effects, Processors, Counter Effects, *"make attacks also do X"*, *"why doesn't this Effect fire"*, and so on.
@@ -84,22 +91,22 @@ Other agents use their own skill discovery folders. Start the agent in the Unity
 
 :::tip[Start from what Power ships]
 
-The agent reaches for a [Premade Relation Pack](/docs/Assets/Misc/PremadeRelationPack) whenever one covers the request, and builds by hand only what no pack covers. Import the **Premade Packs** sample so it has them to load.
+The agent starts with `P flow start`, walks the relevant element questions and writes the field formula before creating assets. Existing assets and [Premade Relation Packs](/docs/Assets/Misc/PremadeRelationPack) are considered at the reuse stage after the formula is complete; they do not choose the mechanism.
 
 :::
 
 ## The agent workflow (optional)
 
-Next to the skill, `Assets/Plugins/Power/Editor/AiFlow` ships a two-agent workflow for **Claude Code** that builds a mechanic and improves the docs whenever the builder gets stuck:
+Next to the skill, `Assets/Plugins/Power/Editor/AiFlow` ships a workflow that builds a mechanic and repairs missing skill instructions whenever the builder gets stuck:
 
 | Part | What it does |
 | --- | --- |
 | `agents/mechanic-builder.md` | Builds the requested mechanic with `power.py`. When the docs don't say how, it stops and reports the gap instead of guessing. |
 | `agents/skill-builder.md` | Fills the reported gap in the power-skill docs. |
-| `agents/doc-tester.md` | Plans a mechanic from the docs alone, with dry runs only, and reports every place it had to guess. |
+| `agents/doc-tester.md` | Independently derives a mechanic from the docs, creates and validates real assets, and reports any guesses. Runs only when you request a cold test. |
 | `build-mechanic/` | The `/build-mechanic <request>` command that runs the builder and the skill-builder together. |
 | `update-docs/` | The `/update-docs <information>` command that hands what you know to the skill-builder. |
-| `hooks/agent_guard.py` | Keeps each agent in its lane: the builder can't edit the docs, the doc-tester can't write files. |
+| `hooks/agent_guard.py` | Enforces the role-specific tool permissions for Claude Code agents. |
 | `tools/csmap.py` | Lets the skill-builder read C# member by member instead of whole files. |
 
 Link the agents and commands into `.claude` the same way as the skill:
@@ -111,22 +118,25 @@ ln -s ../../Assets/Plugins/Power/Editor/AiFlow/build-mechanic .claude/skills/bui
 ln -s ../../Assets/Plugins/Power/Editor/AiFlow/update-docs .claude/skills/update-docs
 ```
 
-`/build-mechanic` takes two optional flags before the request, in any order:
+`/build-mechanic` accepts these flags in any order:
 
 | Flag | Does |
 | --- | --- |
-| `--relations` | When the mechanic is built, opens everything it created in [Relations](/docs/Interface/Relations) as one graph, so you see the whole setup at once. Needs the Unity Editor open. |
-| `--debug` | Adds a cost report per step at the end of the run. |
+| `--no-relations` | Turns off opening the completed setup in [Relations](/docs/Interface/Relations). Relations delivery is on by default and needs the Unity Editor open. |
+| `--no-debug` | Turns off the per-step chat cost report, which is on by default. |
+| `--test` | Requests an isolated build test that creates and validates real assets. |
 
-For example: `/build-mechanic --relations --debug your Attack has a 20 % chance to hit twice`.
+For example: `/build-mechanic your Attack has a 20 % chance to hit twice`. `--relations` and `--debug` remain accepted, but are already enabled.
 
-Every `/build-mechanic` and `/update-docs` run is logged with its cost, time and tokens per agent. See them in **Tools → Power → [AI Runs](/docs/Interface/AIRuns)**.
+A normal build runs once through any docs repairs. If those repairs changed the docs, the workflow offers a cold build test; it starts only after you agree. The tester builds actual assets under the documented isolation rules.
+
+Every mechanic-build attempt, including fixes and requested cold tests, records its cost and Decision Flow trace. Docs repairs within the build are included; standalone docs updates and other non-build requests are excluded. See them in **Tools → Power → [AI Runs](/docs/Interface/AIRuns)**.
 
 To inspect the mapper's questions and the path taken for a request, see **[AI Decision Flow](/docs/Interface/AIDecision)**.
 
 ## Working with the agent
 
-- **Describe the mechanic, not the assets.** *"Your Attack has a 20 % chance to hit twice"* is enough; the agent works out that it is a Director on the Attack Stat and that Effect Hits Twice already ships it.
+- **Describe the mechanic, not the assets.** *"Your Attack has a 20 % chance to hit twice"* is enough; the agent derives a Director on the Attack Stat through the element flow, then checks existing assets at the reuse stage.
 - **Read the formula it gives you.** Before building, the agent writes the request as a one-line formula, for example `Source hits => Director[the same hit] -> Target | chance $N | Owner Source | Granted(value DoubleHitChance)`. If the formula is wrong, the build will be too, so this is the cheapest place to correct it.
-- **Let it validate.** After each mechanic, the agent runs asset validation over the folders it touched and fixes what it reports.
+- **Let it validate.** After each mechanic, the agent validates every created or edited asset, including both static checks and each asset's Unity `Validate()` results, and fixes reported errors.
 - **Check it in Play Mode.** The agent wires data. Playing the scene is still how you confirm the mechanic feels right.

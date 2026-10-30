@@ -8,6 +8,25 @@ Whenever you are attacked, deal **3** damage back to the attacker.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardBarbedArmor', kind: 'repository', name: 'Card_BarbedArmor', root: true},
+    {id: 'sThorns', kind: 'stat', name: 'Thorns', subtitle: '3'},
+    {id: 'sExhaust', kind: 'stat', name: 'Exhaust', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Power'},
+    {id: 'eThornsDamage', kind: 'effect', name: 'ThornsDamage'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+  ]}
+  edges={[
+    {from: 'nCardBarbedArmor', to: 'sThorns', kind: 'holds'},
+    {from: 'nCardBarbedArmor', to: 'sExhaust', kind: 'holds'},
+    {from: 'nCardBarbedArmor', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardBarbedArmor', to: 'sCardType', kind: 'holds'},
+    {from: 'eThornsDamage', to: 'sHealth', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

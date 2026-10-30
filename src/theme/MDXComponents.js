@@ -13,6 +13,7 @@ import {
   SpecRow,
   SpecTags,
 } from '@site/src/components/PowerSpec';
+import RelationGraph from '@site/src/components/RelationGraph';
 
 export default {
   // Re-use the default mapping (code blocks, headings, admonitions, etc.)
@@ -28,4 +29,5 @@ export default {
   SpecCard,
   SpecRow,
   SpecTags,
+  RelationGraph,
 };

@@ -8,6 +8,22 @@ Gain **5 [Block](/docs/Samples/SlayTheSphere/Keywords#block)**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardDefend', kind: 'repository', name: 'Card_Defend', root: true},
+    {id: 'sBlock', kind: 'stat', name: 'Block', subtitle: '5'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'eBlock', kind: 'effect', name: 'Block'},
+  ]}
+  edges={[
+    {from: 'nCardDefend', to: 'sBlock', kind: 'holds'},
+    {from: 'nCardDefend', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardDefend', to: 'sCardType', kind: 'holds'},
+    {from: 'eBlock', to: 'sBlock', kind: 'target'},
+  ]}
+/>
+
 Defend is a minimal Skill card — it composes a Block value and runs it through the shared Block Effect:
 
 <div className="prp-packs">

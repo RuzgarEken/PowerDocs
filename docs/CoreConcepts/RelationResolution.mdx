@@ -36,6 +36,12 @@ In short: `Receiving` means *the rule belongs to whoever is hit*, `Applying` mea
 
 :::
 
+## Explicit Stat lookups
+
+A **Stat From** field explicitly chooses both an Actor and a Stat Key. It is separate from the processor rules above. Set **Actor → Static Actor** and choose an **Actor Id** to read a registered actor directly, such as the Player, without creating a Custom Actor asset. This option applies to `Stat From` fields; it does not change which Actor resolves a relation.
+
+The Actor must already be registered in `PowerWorld` under that Id, and the Stat must exist in its Repository. A missing live Actor cannot resolve the Stat. **Static Actor** must not be **None**. The [Custom Actor → Static Actor](/docs/Assets/Misc/Targeting/CustomActor/StaticActor) asset remains useful in fields that specifically require a Custom Actor, such as a Source Separated Stat's Process Scope.
+
 ## Decide the owner first
 
 The relation's direction follows from **who owns the rule** — whose ability or nature it is:

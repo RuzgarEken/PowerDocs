@@ -8,6 +8,23 @@ Deal **6** damage.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardStrike', kind: 'repository', name: 'Card_Strike', root: true},
+    {id: 'sDamage', kind: 'stat', name: 'Damage', subtitle: '6'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'eAttackDamage', kind: 'effect', name: 'AttackDamage'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+  ]}
+  edges={[
+    {from: 'nCardStrike', to: 'sDamage', kind: 'holds'},
+    {from: 'nCardStrike', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardStrike', to: 'sCardType', kind: 'holds'},
+    {from: 'eAttackDamage', to: 'sHealth', kind: 'target'},
+  ]}
+/>
+
 Strike is the simplest Attack card in the demo. Its Repository just picks values from the shared library:
 
 <div className="prp-packs">

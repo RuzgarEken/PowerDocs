@@ -8,6 +8,25 @@ Whenever you play a card, deal **1** damage to **all enemies**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardBladeStorm', kind: 'repository', name: 'Card_BladeStorm', root: true},
+    {id: 'sThousandCuts', kind: 'stat', name: 'Thousand Cuts', subtitle: '1'},
+    {id: 'sExhaust', kind: 'stat', name: 'Exhaust', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '2'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Power'},
+    {id: 'eThousandCutsDamage', kind: 'effect', name: 'ThousandCutsDamage'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+  ]}
+  edges={[
+    {from: 'nCardBladeStorm', to: 'sThousandCuts', kind: 'holds'},
+    {from: 'nCardBladeStorm', to: 'sExhaust', kind: 'holds'},
+    {from: 'nCardBladeStorm', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardBladeStorm', to: 'sCardType', kind: 'holds'},
+    {from: 'eThousandCutsDamage', to: 'sHealth', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

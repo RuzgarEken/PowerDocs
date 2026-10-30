@@ -26,6 +26,50 @@ Consists of **3 States**. Critical hits begin in the second State, and remaining
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'sStormchannelChargeGenerator', kind: 'stat', name: 'Stormchannel_ChargeGenerator', subtitle: 'Stat (Generator Clamped Float)', root: true},
+    {id: 'eChargeEffectTemplate', kind: 'effect', name: 'Effect_ChargeEffectTemplate_3DC', label: 'ChargeEffectTemplate'},
+    {id: 'sStormchannelSkillEvolutionNo', kind: 'stat', name: 'Stormchannel_SkillEvolutionNo', subtitle: 'Stat (Clamped Int)'},
+    {id: 'nChargeEvolutionNoInjector2', kind: 'injector', name: 'LinkerDefinition_ChargeEvolutionNoInjector_2_3DC', label: 'ChargeEvolutionNoInjector_2'},
+    {id: 'nChargeEvolutionNoInjector3', kind: 'injector', name: 'LinkerDefinition_ChargeEvolutionNoInjector_3_3DC', label: 'ChargeEvolutionNoInjector_3'},
+    {id: 'nMASContributionCriticalHitFloat', kind: 'processor', name: 'MASContribution_CriticalHit_Float', subtitle: 'MASContribution Critical Hit Float'},
+    {id: 'sASContributionConditionalModifierFloatGeneri', kind: 'stat', name: 'ASContribution_ConditionalModifier(Float-Generic)_3DC', label: 'ASContribution_ConditionalModifier(Float-Generic)'},
+    {id: 'sWaterHealth', kind: 'stat', name: 'Water_Health', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sWaterElectricityDirector', kind: 'stat', name: 'Key_Water_ElectricityDirector_3DC', label: 'Water_ElectricityDirector', subtitle: 'Stat (Director)'},
+    {id: 'nAdd1IfElectrocuted', kind: 'injector', name: 'LinkerDefinition_Add1IfElectrocuted_3DC', label: 'Add1IfElectrocuted', subtitle: 'Linker Definition Model'},
+    {id: 'nDifNot0Int', kind: 'other', name: 'Condition_DifNot0(Int)_3DC', label: 'DifNot0(Int)'},
+    {id: 'nAdd1iIfGT0Int', kind: 'injector', name: 'Linker_Add1i_IfGT0(Int)_3DC', label: 'Add1i_IfGT0(Int)'},
+    {id: 'sWaterElectrocuted', kind: 'stat', name: 'Key_Water_Electrocuted_3DC', label: 'Water_Electrocuted'},
+    {id: 'pStormchannelEnterExitState1', kind: 'pack', name: 'Stormchannel_EnterExit_State_1', subtitle: 'Effect Pack'},
+    {id: 'sElectrocuted', kind: 'stat', name: 'Electrocuted', subtitle: 'Stormchannel / Int Clamped'},
+    {id: 'eElectrocute', kind: 'effect', name: 'Electrocute', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'pStormchannelOnStay', kind: 'pack', name: 'Stormchannel_OnStay', subtitle: 'Effect Pack'},
+    {id: 'sHealth', kind: 'stat', name: 'Health', subtitle: 'Default / Float Clamped'},
+    {id: 'eLightningDamage', kind: 'effect', name: 'LightningDamage', subtitle: 'Float Stat Effect (MAS)'},
+    {id: 'pStormchannelSelfPackState3', kind: 'pack', name: 'Stormchannel_SelfPack_State_3', subtitle: 'Effect Pack'},
+    {id: 'sStormchannelChargeSelfDamageGenerator', kind: 'stat', name: 'StormchannelChargeSelfDamageGenerator', subtitle: 'Stormchannel / Generator Float Clamped'},
+    {id: 'eChargeSelfDamageGeneratorEffect', kind: 'effect', name: 'ChargeSelfDamageGeneratorEffect', subtitle: 'Float Stat Effect (BS)'},
+  ]}
+  edges={[
+    {from: 'sStormchannelChargeGenerator', to: 'eChargeEffectTemplate', kind: 'reference'},
+    {from: 'sStormchannelSkillEvolutionNo', to: 'nChargeEvolutionNoInjector2', kind: 'reference'},
+    {from: 'sStormchannelSkillEvolutionNo', to: 'nChargeEvolutionNoInjector3', kind: 'reference'},
+    {from: 'nMASContributionCriticalHitFloat', to: 'sASContributionConditionalModifierFloatGeneri', kind: 'condition'},
+    {from: 'sWaterHealth', to: 'sWaterElectricityDirector', kind: 'relation', label: 'Director_ReceivingAS'},
+    {from: 'sWaterElectricityDirector', to: 'nAdd1IfElectrocuted', kind: 'reference'},
+    {from: 'sWaterElectricityDirector', to: 'nDifNot0Int', kind: 'condition'},
+    {from: 'nAdd1IfElectrocuted', to: 'nAdd1iIfGT0Int', kind: 'reference'},
+    {from: 'nAdd1IfElectrocuted', to: 'sWaterElectrocuted', kind: 'reference'},
+    {from: 'pStormchannelEnterExitState1', to: 'eElectrocute', kind: 'holds'},
+    {from: 'eElectrocute', to: 'sElectrocuted', kind: 'target'},
+    {from: 'pStormchannelOnStay', to: 'eLightningDamage', kind: 'holds'},
+    {from: 'eLightningDamage', to: 'sHealth', kind: 'target'},
+    {from: 'pStormchannelSelfPackState3', to: 'eChargeSelfDamageGeneratorEffect', kind: 'holds'},
+    {from: 'eChargeSelfDamageGeneratorEffect', to: 'sStormchannelChargeSelfDamageGenerator', kind: 'target'},
+  ]}
+/>
+
 **Stormchannel** is a toggle Skill. While the input is held, a **ChargeGenerator** Stat continuously raises a **Charge** Stat over time, while `AimActivation` enables aiming and `MovementBlock` locks the player in place.
 
 <div className="prp-packs">

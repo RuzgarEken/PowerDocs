@@ -1,0 +1,149 @@
+.figure {
+  margin: 1.75rem 0 1.5rem;
+  /* A graph may run wider than the prose column when the window has room for it, but
+     never past the table of contents, and never wider than its container on a phone. */
+  width: max(100%, min(1080px, calc(100vw - 560px)));
+}
+
+/* The layout is a fixed pixel size (it mirrors the editor's columns), so narrow
+   screens scroll it sideways rather than reflowing it into something else. */
+.scroll {
+  overflow-x: auto;
+  padding: 0.25rem 0.25rem 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-code-background);
+}
+
+.canvas {
+  position: relative;
+  margin: 0.5rem auto;
+}
+
+.edges {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.edge {
+  fill: none;
+  stroke-width: 1.75;
+  opacity: 0.85;
+}
+
+.edgeLabel {
+  font-size: 10px;
+  font-weight: 600;
+  fill: var(--ifm-color-emphasis-700);
+  stroke: var(--ifm-code-background);
+  stroke-width: 3px;
+  paint-order: stroke;
+}
+
+.nodeSlot {
+  position: absolute;
+}
+
+.node {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 46px;
+  padding: 0.3rem 0.6rem;
+  border: 1.5px solid var(--rg-color, var(--ifm-color-emphasis-300));
+  border-left-width: 5px;
+  border-radius: 9px;
+  background: var(--ifm-background-surface-color);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+  color: inherit;
+}
+
+a.node:hover {
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border-color: var(--rg-color, var(--ifm-color-primary));
+}
+
+/* The teal frame the Relations window puts on a root node. */
+.rootNode {
+  outline: 2px solid #2a8f86;
+  outline-offset: 2px;
+}
+
+.nodeIcon {
+  flex: 0 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nodeIconImg {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.nodeDot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--rg-color, var(--ifm-color-emphasis-500));
+}
+
+.nodeText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.nodeName {
+  font-size: 0.8rem;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+/* A long asset name drops a step in size rather than stacking into a column of syllables. */
+.longName {
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
+.nodeSubtitle {
+  margin-top: 1px;
+  font-size: 0.68rem;
+  color: var(--ifm-color-emphasis-600);
+  overflow-wrap: anywhere;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.6rem;
+  padding: 0 0.25rem;
+  font-size: 0.75rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendLine {
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.caption {
+  margin-top: 0.6rem;
+  padding: 0 0.25rem;
+  font-size: 0.86rem;
+  color: var(--ifm-color-emphasis-700);
+}

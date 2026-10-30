@@ -10,6 +10,24 @@ Apply **99 [Vulnerable](/docs/Samples/SlayTheSphere/Keywords#vulnerable)**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardExposeWeakness', kind: 'repository', name: 'Card_ExposeWeakness', root: true},
+    {id: 'sVulnerable', kind: 'stat', name: 'Vulnerable', subtitle: '99'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'sExhaust', kind: 'stat', name: 'Exhaust', subtitle: '1'},
+    {id: 'eVulnerable', kind: 'effect', name: 'Vulnerable'},
+  ]}
+  edges={[
+    {from: 'nCardExposeWeakness', to: 'sVulnerable', kind: 'holds'},
+    {from: 'nCardExposeWeakness', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardExposeWeakness', to: 'sCardType', kind: 'holds'},
+    {from: 'nCardExposeWeakness', to: 'sExhaust', kind: 'holds'},
+    {from: 'eVulnerable', to: 'sVulnerable', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

@@ -26,6 +26,34 @@ When the freeze expires, enemies are slowed, reducing both their movement speed 
 
 ## Implementation
 
+<RelationGraph
+  nodes={[
+    {id: 'attack', kind: 'stat', name: 'Stat_GlacierPulse_Attack_3DC', label: 'GlacierPulse_Attack', subtitle: 'Clamped Float', root: true},
+    {id: 'cond', kind: 'stat', name: 'Stat_GlacierPulse_ConditionalAttackModifier_3DC', label: 'ConditionalAttackModifier', subtitle: 'Conditional Modifier'},
+    {id: 'pack', kind: 'pack', name: 'Pack_GlacierPulse_Attack_3DC', label: 'GlacierPulse_Attack', subtitle: 'Effect Pack'},
+    {id: 'damage', kind: 'effect', name: 'Effect_Damage_3DC', label: 'Damage', subtitle: 'Float Stat Effect'},
+    {id: 'freeze', kind: 'effect', name: 'Effect_Freeze_3DC', label: 'Freeze', subtitle: 'Int Stat Effect'},
+    {id: 'interrupt', kind: 'effect', name: 'Effect_RemoveCastingModifiers_3DC', label: 'RemoveCastingModifiers', subtitle: 'Modifier Remover'},
+    {id: 'health', kind: 'stat', name: 'Health', subtitle: 'Default / Float Clamped'},
+    {id: 'frozen', kind: 'stat', name: 'Stat_Frozen_3DC', label: 'Frozen', subtitle: 'Mob / Int Clamped'},
+    {id: 'casting', kind: 'stat', name: 'CastingOnProgress', subtitle: 'Default / Int Clamped'},
+  ]}
+  edges={[
+    {from: 'attack', to: 'pack', kind: 'holds'},
+    {from: 'attack', to: 'cond', kind: 'relation'},
+    {from: 'pack', to: 'damage', kind: 'holds'},
+    {from: 'pack', to: 'freeze', kind: 'holds'},
+    {from: 'pack', to: 'interrupt', kind: 'holds'},
+    {from: 'damage', to: 'health', kind: 'target'},
+    {from: 'freeze', to: 'frozen', kind: 'target'},
+    {from: 'interrupt', to: 'casting', kind: 'target'},
+    {from: 'frozen', to: 'cond', kind: 'read', label: '= 1', rank: false},
+  ]}>
+  The hit itself: the pack lands damage, the freeze and the cast interruption. The
+  Conditional Modifier reads the target's own <strong>Frozen</strong> Stat, so a target
+  that is already frozen takes no damage from the next freezing hit.
+</RelationGraph>
+
 This is the **GlacierPulse** attack Effect Pack.
 
 <div className="prp-packs">
@@ -140,6 +168,27 @@ The Conditional Modifier essentially multiplies the attack value by `0` and adds
 </details>
 
 </div>
+
+<RelationGraph
+  nodes={[
+    {id: 'frozen', kind: 'stat', name: 'Stat_Frozen_3DC', label: 'Frozen', subtitle: 'Mob / Int Clamped', root: true},
+    {id: 'linker', kind: 'effect', name: 'Effect_FrozenToControlBlockerInjector_3DC', label: 'FrozenToControlBlocker', subtitle: 'Linker Effect'},
+    {id: 'control', kind: 'stat', name: 'ControlBlocker'},
+    {id: 'trigger', kind: 'stat', name: 'Stat_ThawSlowTrigger_3DC', label: 'ThawSlowTrigger', subtitle: 'State Based Effect'},
+    {id: 'slow', kind: 'effect', name: 'Effect_ThawSlow_3DC', label: 'ThawSlow', subtitle: 'Float Stat Effect'},
+    {id: 'speed', kind: 'stat', name: 'SpeedScaler', subtitle: 'Movement / Float Clamped'},
+  ]}
+  edges={[
+    {from: 'frozen', to: 'linker', kind: 'holds'},
+    {from: 'linker', to: 'control', kind: 'target'},
+    {from: 'frozen', to: 'trigger', kind: 'read', label: '= 0'},
+    {from: 'trigger', to: 'slow', kind: 'holds'},
+    {from: 'slow', to: 'speed', kind: 'target'},
+  ]}>
+  What <strong>Frozen</strong> itself does: while it is set it blocks control through
+  <strong> ControlBlocker</strong>, and the moment it falls back to <code>0</code> the
+  State Based Effect applies the slow to <strong>SpeedScaler</strong>.
+</RelationGraph>
 
 For the slow effect after the freeze expires, we use a **StateBasedEffect** to trigger the slow effects.
 

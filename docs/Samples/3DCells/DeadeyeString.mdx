@@ -24,6 +24,53 @@ The critical damage multiplier depends on how accurately the shot is released wi
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nArrowDefault', kind: 'environment', name: 'Arrow_Default', root: true},
+    {id: 'eDeadeyeStringTargeting2', kind: 'effect', name: 'DeadeyeString_Targeting_2', subtitle: 'Skill Targeting Skill Shot'},
+    {id: 'sDeadeyeString', kind: 'stat', name: 'DeadeyeString'},
+    {id: 'sSkillParenterGlobal', kind: 'stat', name: 'SkillParenter_Global_3DC', label: 'SkillParenter_Global'},
+    {id: 'sSkillPositionerOffsetToSourceBody', kind: 'stat', name: 'SkillPositioner_OffsetToSourceBody_3DC', label: 'SkillPositioner_OffsetToSourceBody'},
+    {id: 'sSkillRotatorOffsetToSourceBody', kind: 'stat', name: 'SkillRotator_OffsetToSourceBody_3DC', label: 'SkillRotator_OffsetToSourceBody'},
+    {id: 'sSkillProjectileLayouterForward', kind: 'stat', name: 'SkillProjectileLayouter_Forward_3DC', label: 'SkillProjectileLayouter_Forward'},
+    {id: 'pDeadeyeStringSkillInitializer', kind: 'pack', name: 'Pack_DeadeyeString_SkillInitializer_3DC', label: 'DeadeyeString_SkillInitializer'},
+    {id: 'eDeadeyeStringAttack', kind: 'effect', name: 'DeadeyeString_Attack', subtitle: 'Float Stat Effect (MAS)'},
+    {id: 'sHealth', kind: 'stat', name: 'Key_Health_3DC', label: 'Health'},
+    {id: 'sAttack', kind: 'stat', name: 'Key_Attack_3DC', label: 'Attack'},
+    {id: 'sDeadeyeStringAttack', kind: 'stat', name: 'Key_DeadeyeString_Attack_3DC', label: 'DeadeyeString_Attack', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sRangedAttack', kind: 'stat', name: 'Key_RangedAttack_3DC', label: 'RangedAttack'},
+    {id: 'sDeadeyeStringCritRate', kind: 'stat', name: 'Key_DeadeyeString_CritRate_3DC', label: 'DeadeyeString_CritRate', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sDeadeyeStringCritMultiplier', kind: 'stat', name: 'Key_DeadeyeString_CritMultiplier_3DC', label: 'DeadeyeString_CritMultiplier', subtitle: 'Stat (Clamped Float)'},
+    {id: 'nMASContributionCriticalHitFloat', kind: 'processor', name: 'MASContribution_CriticalHit_Float', subtitle: 'MASContribution Critical Hit Float'},
+    {id: 'sASContributionConditionalModifierFloatGeneri', kind: 'stat', name: 'ASContribution_ConditionalModifier(Float-Generic)_3DC', label: 'ASContribution_ConditionalModifier(Float-Generic)'},
+    {id: 'sDeadeyeStringCritRateModifierByCharge', kind: 'stat', name: 'Key_DeadeyeString_CritRateModifierByCharge_3DC', label: 'DeadeyeString_CritRateModifierByCharge', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'sDeadeyeStringCritMultiplierModifierByCharge', kind: 'stat', name: 'Key_DeadeyeString_CritMultiplierModifierByCharge_3DC', label: 'DeadeyeString_CritMultiplierModifierByCharge', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'nIn041To059Float', kind: 'other', name: 'Condition_In0.41To0.59(Float)_3DC', label: 'In0.41To0.59(Float)'},
+    {id: 'sStatToMultiplierArrowCritMultiplierModifierB', kind: 'stat', name: 'StatToMultiplier_ArrowCritMultiplierModifierByCharge_3DC', label: 'StatToMultiplier_ArrowCritMultiplierModifierByCharge'},
+  ]}
+  edges={[
+    {from: 'eDeadeyeStringTargeting2', to: 'sDeadeyeString', kind: 'reference'},
+    {from: 'eDeadeyeStringTargeting2', to: 'sSkillParenterGlobal', kind: 'reference'},
+    {from: 'eDeadeyeStringTargeting2', to: 'sSkillPositionerOffsetToSourceBody', kind: 'reference'},
+    {from: 'eDeadeyeStringTargeting2', to: 'sSkillRotatorOffsetToSourceBody', kind: 'reference'},
+    {from: 'eDeadeyeStringTargeting2', to: 'sSkillProjectileLayouterForward', kind: 'reference'},
+    {from: 'eDeadeyeStringTargeting2', to: 'pDeadeyeStringSkillInitializer', kind: 'reference'},
+    {from: 'eDeadeyeStringAttack', to: 'sHealth', kind: 'target'},
+    {from: 'eDeadeyeStringAttack', to: 'sAttack', kind: 'reference'},
+    {from: 'eDeadeyeStringAttack', to: 'sDeadeyeStringAttack', kind: 'reference'},
+    {from: 'eDeadeyeStringAttack', to: 'sRangedAttack', kind: 'reference'},
+    {from: 'sDeadeyeStringAttack', to: 'sDeadeyeStringCritRate', kind: 'relation', label: 'CriticalRate_Applying'},
+    {from: 'sDeadeyeStringAttack', to: 'sDeadeyeStringCritMultiplier', kind: 'relation', label: 'CriticalMultiplier_Applying'},
+    {from: 'nMASContributionCriticalHitFloat', to: 'sASContributionConditionalModifierFloatGeneri', kind: 'condition'},
+    {from: 'sDeadeyeStringCritRate', to: 'sDeadeyeStringCritRateModifierByCharge', kind: 'relation', label: 'ConditionalModifier_ApplyingAS'},
+    {from: 'sDeadeyeStringCritMultiplier', to: 'sDeadeyeStringCritMultiplierModifierByCharge', kind: 'relation', label: 'ConditionalModifier_ApplyingAS'},
+    {from: 'sDeadeyeStringCritRateModifierByCharge', to: 'nIn041To059Float', kind: 'condition'},
+    {from: 'sDeadeyeStringCritRateModifierByCharge', to: 'sStatToMultiplierArrowCritMultiplierModifierB', kind: 'reference'},
+    {from: 'sDeadeyeStringCritMultiplierModifierByCharge', to: 'nIn041To059Float', kind: 'condition'},
+    {from: 'sDeadeyeStringCritMultiplierModifierByCharge', to: 'sStatToMultiplierArrowCritMultiplierModifierB', kind: 'reference'},
+  ]}
+/>
+
 Our skill has two phases: charging and shooting.
 
 We need to track the charge value during the charging phase. However, we cannot store this value directly on the Actor because multiple arrows can be fired in sequence. In that case, storing the charge value on the Actor could cause the charge values of different arrows to interfere with each other.

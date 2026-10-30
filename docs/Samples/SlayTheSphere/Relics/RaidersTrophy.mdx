@@ -8,6 +8,22 @@ Whenever an enemy dies, gain **1 [Energy](/docs/Samples/SlayTheSphere/Keywords#e
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'pRaidersTrophyKillEffects', kind: 'pack', name: 'RaidersTrophyKillEffects', subtitle: 'Grant → Self', root: true},
+    {id: 'sDrawCount', kind: 'stat', name: 'DrawCount'},
+    {id: 'eDraw', kind: 'effect', name: 'Draw'},
+    {id: 'sEnergy', kind: 'stat', name: 'Energy'},
+    {id: 'eEnergy', kind: 'effect', name: 'Energy'},
+  ]}
+  edges={[
+    {from: 'pRaidersTrophyKillEffects', to: 'eDraw', kind: 'holds'},
+    {from: 'eDraw', to: 'sDrawCount', kind: 'target'},
+    {from: 'pRaidersTrophyKillEffects', to: 'eEnergy', kind: 'holds'},
+    {from: 'eEnergy', to: 'sEnergy', kind: 'target'},
+  ]}
+/>
+
 A Linker adds a CounterEffect to every enemy's <PowerRef>Key_KillCounterEffects_STS</PowerRef> — the stat that collects Effects to run when that Actor is killed:
 
 <div className="prp-packs">

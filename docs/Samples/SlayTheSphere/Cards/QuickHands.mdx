@@ -10,6 +10,28 @@ sidebar_position: 12
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardQuickHands', kind: 'repository', name: 'Card_QuickHands', root: true},
+    {id: 'sDraw', kind: 'stat', name: 'Draw', subtitle: '3'},
+    {id: 'sDiscard', kind: 'stat', name: 'Discard', subtitle: '1'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Skill'},
+    {id: 'eDraw', kind: 'effect', name: 'Draw'},
+    {id: 'sDrawCount', kind: 'stat', name: 'DrawCount'},
+    {id: 'eDiscard', kind: 'effect', name: 'Discard'},
+    {id: 'sDiscardCount', kind: 'stat', name: 'DiscardCount'},
+  ]}
+  edges={[
+    {from: 'nCardQuickHands', to: 'sDraw', kind: 'holds'},
+    {from: 'nCardQuickHands', to: 'sDiscard', kind: 'holds'},
+    {from: 'nCardQuickHands', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardQuickHands', to: 'sCardType', kind: 'holds'},
+    {from: 'eDraw', to: 'sDrawCount', kind: 'target'},
+    {from: 'eDiscard', to: 'sDiscardCount', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

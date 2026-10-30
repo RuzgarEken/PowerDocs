@@ -8,6 +8,25 @@ When you would die, heal to **30% of your [Max HP](/docs/Samples/SlayTheSphere/K
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'pGuardianSprite', kind: 'pack', name: 'GuardianSprite', subtitle: 'Grant → Self', root: true},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+    {id: 'eHeal', kind: 'effect', name: 'Heal'},
+    {id: 'sUseBlocker', kind: 'stat', name: 'UseBlocker'},
+    {id: 'eDecreaseUseBlocker', kind: 'effect', name: 'DecreaseUseBlocker'},
+    {id: 'eDieImmune', kind: 'effect', name: 'DieImmune'},
+    {id: 'sDieImmune', kind: 'stat', name: 'DieImmune'},
+  ]}
+  edges={[
+    {from: 'pGuardianSprite', to: 'eHeal', kind: 'holds'},
+    {from: 'eHeal', to: 'sHealth', kind: 'target'},
+    {from: 'pGuardianSprite', to: 'eDecreaseUseBlocker', kind: 'holds'},
+    {from: 'eDecreaseUseBlocker', to: 'sUseBlocker', kind: 'target'},
+    {from: 'eDieImmune', to: 'sDieImmune', kind: 'target'},
+  ]}
+/>
+
 While carried, an `OnMount` pack overrides the player's die condition:
 
 <div className="prp-packs">

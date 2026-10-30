@@ -1,13 +1,13 @@
 ---
 sidebar_position: 9
-description: Power AI Runs — the cost, time and token log of every /build-mechanic and /update-docs run, per agent and per step.
+description: Power AI Runs — the cost, time and token log of every mechanic-build attempt, per agent and per step.
 ---
 
 import AIRuns from './images/AIRuns.png';
 
 # AI Runs
 
-**Power AI Runs** shows what your AI agent runs cost. Every `/build-mechanic` and `/update-docs` run of the [agent workflow](/docs/AISupport#the-agent-workflow-optional) is recorded with its cost, time and tokens, split per agent and per recorded step. `--debug` also prints the step report in chat.
+**Power AI Runs** shows what your AI agent runs cost. Every mechanic-build attempt in the [agent workflow](/docs/AISupport#the-agent-workflow-optional) is recorded with its cost, time and tokens, split per agent and per recorded step. This includes failed attempts, fixes and requested cold build tests. Docs repairs performed during a build contribute to its Docs cost; standalone `/update-docs` requests and other non-build work are not recorded here. Debug reporting is on by default.
 
 <img src={AIRuns} alt="AIRuns window reference" />
 
@@ -23,17 +23,17 @@ The log is `.claude/build-mechanic/runs.json` in your project's root folder, out
 
 :::tip[Per-step costs]
 
-Start the request with `--debug` (`/build-mechanic --debug <request>`) to get a cost report per step at the end of the run, in the chat. Step data comes from `# STEP:` markers in agent commands and can be recorded without debug mode.
+`/build-mechanic <request>` includes a cost report per step at the end of the run. Use `--no-debug` to suppress the chat report. Step data comes from `# STEP:` markers in agent commands and can be recorded without debug mode.
 
 :::
 
 ## Runs
 
-Each row is one run: **Date**, **Label**, **Kind** (`build-mechanic` or `update-docs`), **Outcome**, **Models** (the models the run's agents used, with their effort), **Cost** and its **Build** / **Docs $** split, **Active** and **Wall** time, **API** and **Tools** calls, **New ctx** (new context tokens), **Gaps** (rounds where the builder reported a docs gap), **Cold tests**, **Fixes** (your corrections), **Debug** and the **Docs** version the run used.
+Each row is one run: **Date**, **Label**, **Kind** (`build-mechanic`), **Outcome**, **Models** (the models the run's agents used, with their effort), **Cost** and its **Build** / **Docs $** split, **Active** and **Wall** time, **API** and **Tools** calls, **Reads** / **Writes** (operations), **New ctx** (new context tokens), **Cache rd** / **Cache wr**, **Out** / **Tool out**, **Gaps** (rounds where the builder reported a docs gap), **Cold tests**, **Fixes** (your corrections), **Debug** and the **Docs** version the run used.
 
 | Control | Does |
 | --- | --- |
-| Kind filter | Shows all runs, or only `build-mechanic` or `update-docs` runs. |
+| Kind filter | Shows all recorded mechanic builds or filters to `build-mechanic`. |
 | **Chart** | The metric the chart plots per run: cost, active minutes, API/tool calls, new context, cache reads/writes, output, tool output, or read/write operations. Bars are split into build and docs work. |
 | Search | Filters runs by label, request and notes. |
 | **Reload** | Reads the log again. The window also reloads when you focus it after a new run. |
@@ -143,20 +143,8 @@ Prices change. Keep `prices.json` up to date with your provider's rates (it list
 
 :::
 
-## Hourly and weekly percentages
+## Recording scope
 
-Each run's chart bar has two share bars: its percentage of its **clock hour** and its **ISO week** for the selected chart metric. Hover for the period and denominator. Kind and search filters change the runs included in those denominators.
+AI Runs records mechanic builds, not account-wide usage limits. Hourly and weekly percentage bars are not part of the current window. Use the chart metric and build/docs split to compare the work recorded for each request.
 
-Expand **Cost over time** and choose **Hourly** or **Weekly**:
-
-| Column | Meaning |
-| --- | --- |
-| **Cost** | Sum of priced runs in the bucket. |
-| **% of cost** | Bucket cost ÷ the priced cost of all currently filtered runs. |
-| **Runs** / **% of runs** | Bucket run count, and its share of all bucketed runs in the filter, including unpriced runs. |
-| **% est.** | Estimated cost within this bucket ÷ its priced cost. The window counts the entire priced cost of a mixed or estimated run as estimated; only runs classified as telemetry are excluded from this numerator. |
-| **Unpriced** | Runs without usable cost data, counted as runs and excluded from cost totals. |
-
-Buckets use the Editor machine's **local time**, with ISO weeks starting on Monday. The whole run belongs to the hour and week of its `started_at`; its cost is not spread across the periods it overlaps. Runs without a readable start time are not bucketed. Select a bucket to select its runs in the list.
-
-These percentages are derived from the recorded runs. No additional percentage fields are needed in `meta.json`; accurate request bounds and usable usage are what make the percentages meaningful.
+A later correction updates the same run ID and increases its correction count. Requested cold build tests are separate mechanic-build runs. Preserve every participating agent, including the coordinator; unavailable usage remains marked unavailable rather than becoming a zero-cost run.

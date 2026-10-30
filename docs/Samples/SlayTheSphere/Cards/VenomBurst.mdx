@@ -10,6 +10,25 @@ If the target is [**Poisoned**](/docs/Samples/SlayTheSphere/Keywords#poison), de
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardVenomBurst', kind: 'repository', name: 'Card_VenomBurst', root: true},
+    {id: 'sDamage', kind: 'stat', name: 'Damage', subtitle: '7'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '1'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'sRepeatCount', kind: 'stat', name: 'Repeat Count', subtitle: '0'},
+    {id: 'eAttackDamage', kind: 'effect', name: 'AttackDamage'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+  ]}
+  edges={[
+    {from: 'nCardVenomBurst', to: 'sDamage', kind: 'holds'},
+    {from: 'nCardVenomBurst', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardVenomBurst', to: 'sCardType', kind: 'holds'},
+    {from: 'nCardVenomBurst', to: 'sRepeatCount', kind: 'holds'},
+    {from: 'eAttackDamage', to: 'sHealth', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

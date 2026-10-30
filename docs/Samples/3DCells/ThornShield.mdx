@@ -26,6 +26,45 @@ Reflects incoming ranged attacks back at enemies.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eThornShield', kind: 'effect', name: 'ThornShield', subtitle: 'Skill Model Normal', root: true},
+    {id: 'sSkillThornShieldCasting', kind: 'stat', name: 'Skill_ThornShield_Casting_3DC', label: 'Skill_ThornShield_Casting'},
+    {id: 'sSkillThornShieldTargeting', kind: 'stat', name: 'Skill_ThornShield_Targeting_3DC', label: 'Skill_ThornShield_Targeting'},
+    {id: 'sBlockDamageModifier', kind: 'stat', name: 'BlockDamageModifier', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'nIs1Int', kind: 'other', name: 'Condition_Is1(Int)_3DC', label: 'Is1(Int)'},
+    {id: 'sParry', kind: 'stat', name: 'Parry', subtitle: 'Stat (Clamped Int)'},
+    {id: 'sParryCritRate', kind: 'stat', name: 'Key_Parry_CritRate_3DC', label: 'Parry_CritRate'},
+    {id: 'sParryCritMultiplier', kind: 'stat', name: 'Key_Parry_CritMultiplier_3DC', label: 'Parry_CritMultiplier'},
+    {id: 'sBlockRangedCounterEffects', kind: 'stat', name: 'BlockRangedCounterEffects', subtitle: 'Stat (IntervenerEffect)'},
+    {id: 'pBlockRangedCounterEffects', kind: 'pack', name: 'BlockRangedCounterEffects', subtitle: 'Default'},
+    {id: 'sDirection', kind: 'stat', name: 'Direction', subtitle: 'Movement / Vector3'},
+    {id: 'eReverseDirection', kind: 'effect', name: 'ReverseDirection', subtitle: 'Vector3 Stat Effect (BS)'},
+    {id: 'sTravelDistance', kind: 'stat', name: 'TravelDistance', subtitle: 'Default / Float Clamped'},
+    {id: 'eResetTravelDistance', kind: 'effect', name: 'ResetTravelDistance', subtitle: 'Float Stat Effect (BS)'},
+    {id: 'sHitCount', kind: 'stat', name: 'HitCount', subtitle: 'Default / Int Clamped'},
+    {id: 'eResetHitCount', kind: 'effect', name: 'ResetHitCount', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'sTeamNo', kind: 'stat', name: 'TeamNo', subtitle: 'Default / Int'},
+    {id: 'eChangeTeam', kind: 'effect', name: 'ChangeTeam', subtitle: 'Int Stat Effect (BS)'},
+  ]}
+  edges={[
+    {from: 'eThornShield', to: 'sSkillThornShieldCasting', kind: 'reference'},
+    {from: 'eThornShield', to: 'sSkillThornShieldTargeting', kind: 'target'},
+    {from: 'sBlockDamageModifier', to: 'nIs1Int', kind: 'condition'},
+    {from: 'sParry', to: 'sParryCritRate', kind: 'relation', label: 'CriticalRate_Applying'},
+    {from: 'sParry', to: 'sParryCritMultiplier', kind: 'relation', label: 'CriticalMultiplier_Applying'},
+    {from: 'sBlockRangedCounterEffects', to: 'nIs1Int', kind: 'condition'},
+    {from: 'pBlockRangedCounterEffects', to: 'eReverseDirection', kind: 'holds'},
+    {from: 'eReverseDirection', to: 'sDirection', kind: 'target'},
+    {from: 'pBlockRangedCounterEffects', to: 'eResetTravelDistance', kind: 'holds'},
+    {from: 'eResetTravelDistance', to: 'sTravelDistance', kind: 'target'},
+    {from: 'pBlockRangedCounterEffects', to: 'eResetHitCount', kind: 'holds'},
+    {from: 'eResetHitCount', to: 'sHitCount', kind: 'target'},
+    {from: 'pBlockRangedCounterEffects', to: 'eChangeTeam', kind: 'holds'},
+    {from: 'eChangeTeam', to: 'sTeamNo', kind: 'target'},
+  ]}
+/>
+
 **Thorn Shield** is a toggle Skill. While it is toggled on, `WhileToggleOn` applies four Effects: `ActivateAim`, `MoveBlock` (the player cannot move while blocking), `Shield` (raises the **Shielded** flag), and `Parry` (raises the **Parry** flag for a short `0.4` second window at the start of the block).
 
 <div className="prp-packs">

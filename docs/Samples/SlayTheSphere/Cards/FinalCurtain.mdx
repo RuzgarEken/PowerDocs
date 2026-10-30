@@ -10,6 +10,23 @@ Deal **50** damage to **all enemies**.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nCardFinalCurtain', kind: 'repository', name: 'Card_FinalCurtain', root: true},
+    {id: 'sDamage', kind: 'stat', name: 'Damage', subtitle: '50'},
+    {id: 'sEnergyCost', kind: 'stat', name: 'Energy Cost', subtitle: '0'},
+    {id: 'sCardType', kind: 'stat', name: 'Card Type', subtitle: 'Attack'},
+    {id: 'eAttackDamage', kind: 'effect', name: 'AttackDamage'},
+    {id: 'sHealth', kind: 'stat', name: 'Health'},
+  ]}
+  edges={[
+    {from: 'nCardFinalCurtain', to: 'sDamage', kind: 'holds'},
+    {from: 'nCardFinalCurtain', to: 'sEnergyCost', kind: 'holds'},
+    {from: 'nCardFinalCurtain', to: 'sCardType', kind: 'holds'},
+    {from: 'eAttackDamage', to: 'sHealth', kind: 'target'},
+  ]}
+/>
+
 <div className="prp-packs">
 
 <details>

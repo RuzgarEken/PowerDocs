@@ -28,6 +28,66 @@ Pressing the attack button again after connecting performs either a **Punch** or
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'sHookPullTween', kind: 'stat', name: 'HookPullTween', subtitle: 'Stat (Tweener Vector3)'},
+    {id: 'sHooked', kind: 'stat', name: 'Key_Hooked_3DC', label: 'Hooked', subtitle: 'ChainHook / Int Clamped'},
+    {id: 'eHookPullTweenTemplate', kind: 'effect', name: 'Effect_HookPullTweenTemplate_3DC', label: 'HookPullTweenTemplate'},
+    {id: 'sTriggerHookedEffects', kind: 'stat', name: 'TriggerHookedEffects', subtitle: 'Stat (StateBasedEffect)', root: true},
+    {id: 'nIs1Int', kind: 'other', name: 'Condition_Is1(Int)_3DC', label: 'Is1(Int)'},
+    {id: 'sChainHookEvolutionNo', kind: 'stat', name: 'ChainHook_EvolutionNo', subtitle: 'Stat (Clamped Int)'},
+    {id: 'sConditionalEvolutionNoModifier', kind: 'stat', name: 'ConditionalEvolutionNoModifier', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'nNoEnemyInSight', kind: 'other', name: 'Condition_NoEnemyInSight_3DC', label: 'NoEnemyInSight'},
+    {id: 'eSetClosestEnemyDistance2', kind: 'effect', name: 'SetClosestEnemyDistance_2', subtitle: 'Float Stat Effect (BS)'},
+    {id: 'sClosestEnemyInSightDistance', kind: 'stat', name: 'Key_ClosestEnemyInSightDistance_3DC', label: 'ClosestEnemyInSightDistance', subtitle: 'ChainHook / Float Edge Value'},
+    {id: 'nClosestInSight', kind: 'other', name: 'CustomActor_ClosestInSight_3DC', label: 'ClosestInSight'},
+    {id: 'nDistanceBetweenSource', kind: 'other', name: 'StatValueAdapter_DistanceBetweenSource_3DC', label: 'DistanceBetweenSource'},
+    {id: 'pHookToActor', kind: 'pack', name: 'HookToActor', subtitle: 'Effect Pack'},
+    {id: 'sHookGrapPosition', kind: 'stat', name: 'HookGrapPosition', subtitle: 'ChainHook / Vector3'},
+    {id: 'eLinkHookGrapPositionToTargetPosition', kind: 'effect', name: 'LinkHookGrapPositionToTargetPosition', subtitle: 'Linker Effect (BS)'},
+    {id: 'sSkillEvolutionNo', kind: 'stat', name: 'SkillEvolutionNo', subtitle: 'ChainHook / Int Clamped'},
+    {id: 'eIncreaseEvolutionNo1', kind: 'effect', name: 'IncreaseEvolutionNo_1', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'eHooked', kind: 'effect', name: 'Hooked', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'pTriggerHookedEffects', kind: 'pack', name: 'TriggerHookedEffects', subtitle: 'Default'},
+    {id: 'eHookPullTween', kind: 'effect', name: 'HookPullTween', subtitle: 'Tween Effect Model BS Vector3'},
+    {id: 'sMovementBlocker', kind: 'stat', name: 'MovementBlocker', subtitle: 'Movement / Int Clamped'},
+    {id: 'eMovementBlock', kind: 'effect', name: 'MovementBlock', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'pToggleOff2', kind: 'pack', name: 'ToggleOff_2', subtitle: 'Effect Pack'},
+    {id: 'sSkillCastingOnProgress', kind: 'stat', name: 'SkillCastingOnProgress_', subtitle: 'Default / Int Clamped'},
+    {id: 'eRemoveCastingBlockToggleOff', kind: 'effect', name: 'RemoveCastingBlock_ToggleOff', subtitle: 'Modifier Remover Effect (BS)'},
+    {id: 'eRemoveHookedModifiersState2', kind: 'effect', name: 'RemoveHookedModifiers_State_2', subtitle: 'Modifier Remover Effect (BS)'},
+    {id: 'eRemoveHookGrapPositionInjectorsState2', kind: 'effect', name: 'RemoveHookGrapPositionInjectors_State_2', subtitle: 'Injector Remover Effect (BS)'},
+    {id: 'eIncreaseEvolutionNo2Conditional', kind: 'effect', name: 'IncreaseEvolutionNo_2_Conditional', subtitle: 'Conditional Effect Model'},
+  ]}
+  edges={[
+    {from: 'sHookPullTween', to: 'sHooked', kind: 'reference'},
+    {from: 'sHookPullTween', to: 'eHookPullTweenTemplate', kind: 'reference'},
+    {from: 'sTriggerHookedEffects', to: 'nIs1Int', kind: 'condition'},
+    {from: 'sConditionalEvolutionNoModifier', to: 'nNoEnemyInSight', kind: 'condition'},
+    {from: 'eSetClosestEnemyDistance2', to: 'sClosestEnemyInSightDistance', kind: 'target'},
+    {from: 'eSetClosestEnemyDistance2', to: 'nClosestInSight', kind: 'reference'},
+    {from: 'eSetClosestEnemyDistance2', to: 'nDistanceBetweenSource', kind: 'reference'},
+    {from: 'pHookToActor', to: 'eLinkHookGrapPositionToTargetPosition', kind: 'holds'},
+    {from: 'eLinkHookGrapPositionToTargetPosition', to: 'sHookGrapPosition', kind: 'target'},
+    {from: 'pHookToActor', to: 'eIncreaseEvolutionNo1', kind: 'holds'},
+    {from: 'eIncreaseEvolutionNo1', to: 'sSkillEvolutionNo', kind: 'target'},
+    {from: 'pHookToActor', to: 'eHooked', kind: 'holds'},
+    {from: 'eHooked', to: 'sHooked', kind: 'target'},
+    {from: 'pTriggerHookedEffects', to: 'eHookPullTween', kind: 'holds'},
+    {from: 'eHookPullTween', to: 'sHookPullTween', kind: 'target'},
+    {from: 'pTriggerHookedEffects', to: 'eMovementBlock', kind: 'holds'},
+    {from: 'eMovementBlock', to: 'sMovementBlocker', kind: 'target'},
+    {from: 'pToggleOff2', to: 'eRemoveCastingBlockToggleOff', kind: 'holds'},
+    {from: 'eRemoveCastingBlockToggleOff', to: 'sSkillCastingOnProgress', kind: 'target'},
+    {from: 'pToggleOff2', to: 'eSetClosestEnemyDistance2', kind: 'holds'},
+    {from: 'pToggleOff2', to: 'eRemoveHookedModifiersState2', kind: 'holds'},
+    {from: 'eRemoveHookedModifiersState2', to: 'sHooked', kind: 'target'},
+    {from: 'pToggleOff2', to: 'eRemoveHookGrapPositionInjectorsState2', kind: 'holds'},
+    {from: 'eRemoveHookGrapPositionInjectorsState2', to: 'sHookGrapPosition', kind: 'target'},
+    {from: 'pToggleOff2', to: 'eIncreaseEvolutionNo2Conditional', kind: 'holds'},
+  ]}
+/>
+
 As you might expect, this is a multi-state skill with states such as **Hook**, **Pull**, **Kick**, and **Punch**.
 
 When the Hook attack collides with an enemy, we use an Effect Pack to send the hook data to ourselves.

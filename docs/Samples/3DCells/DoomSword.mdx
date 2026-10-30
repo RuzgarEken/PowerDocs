@@ -24,6 +24,28 @@ Taking any damage instantly kills the player.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'eDoomSwordAttack', kind: 'effect', name: 'DoomSwordAttack', subtitle: 'Float Stat Effect (MAS)', root: true},
+    {id: 'sHealth', kind: 'stat', name: 'Key_Health_3DC', label: 'Health'},
+    {id: 'sAttack', kind: 'stat', name: 'Key_Attack_3DC', label: 'Attack'},
+    {id: 'sDoomSwordAttack', kind: 'stat', name: 'Key_DoomSword_Attack_3DC', label: 'DoomSword_Attack', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sDoomSwordCritRate', kind: 'stat', name: 'Key_DoomSword_CritRate_3DC', label: 'DoomSword_CritRate', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sDieOnDamage', kind: 'stat', name: 'DieOnDamage', subtitle: 'Stat (CounterEffect Signed)'},
+    {id: 'eDieByCurse', kind: 'effect', name: 'DieByCurse', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'sDead', kind: 'stat', name: 'Key_Dead_3DC', label: 'Dead', subtitle: 'Default / Int Clamped'},
+    {id: 'pDieOnDamage', kind: 'pack', name: 'DieOnDamage', subtitle: 'Default'},
+  ]}
+  edges={[
+    {from: 'eDoomSwordAttack', to: 'sHealth', kind: 'target'},
+    {from: 'eDoomSwordAttack', to: 'sAttack', kind: 'reference'},
+    {from: 'eDoomSwordAttack', to: 'sDoomSwordAttack', kind: 'reference'},
+    {from: 'sDoomSwordAttack', to: 'sDoomSwordCritRate', kind: 'relation', label: 'CriticalRate_Applying'},
+    {from: 'eDieByCurse', to: 'sDead', kind: 'target'},
+    {from: 'pDieOnDamage', to: 'eDieByCurse', kind: 'holds'},
+  ]}
+/>
+
 We use **DoomSword_Attack** as the Effect Attribute Stat.
 
 <div className="prp-packs">

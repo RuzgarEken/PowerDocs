@@ -26,6 +26,49 @@ Enemies slammed into walls receive additional damage.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'sKnockbackTween', kind: 'stat', name: 'KnockbackTween', subtitle: 'Stat (Tweener Vector3)'},
+    {id: 'sKnockbackDuration', kind: 'stat', name: 'Key_KnockbackDuration_3D', label: 'KnockbackDuration'},
+    {id: 'sKnockback', kind: 'stat', name: 'Key_Knockback_3D', label: 'Knockback'},
+    {id: 'eKnockbackTweenTemplate', kind: 'effect', name: 'Effect_KnockbackTweenTemplate_3D', label: 'KnockbackTweenTemplate'},
+    {id: 'eTitanGreavesDamager', kind: 'effect', name: 'TitanGreaves_Damager', subtitle: 'Effector_Attacher', root: true},
+    {id: 'pEffectorInitializer', kind: 'pack', name: 'Pack_EffectorInitializer_3DC', label: 'EffectorInitializer'},
+    {id: 'eTitanGreavesPushedAttachedEffector', kind: 'effect', name: 'TitanGreaves_PushedAttachedEffector', subtitle: 'Effector_OnCollide'},
+    {id: 'pWallCollision', kind: 'pack', name: 'Pack_WallCollision_3DC', label: 'WallCollision'},
+    {id: 'pKnockback', kind: 'pack', name: 'Knockback', subtitle: 'Effect Pack'},
+    {id: 'sKnockedback', kind: 'stat', name: 'Knockedback', subtitle: 'Knockback / Int Clamped'},
+    {id: 'eRemoveKnockbackModifiers', kind: 'effect', name: 'RemoveKnockbackModifiers', subtitle: 'Modifier Remover Effect (BS)'},
+    {id: 'eKnockbackTween', kind: 'effect', name: 'KnockbackTween', subtitle: 'Tween Effect Model BS Vector3'},
+    {id: 'eKnockback', kind: 'effect', name: 'Knockback', subtitle: 'Int Stat Effect (BS)'},
+    {id: 'sHealth', kind: 'stat', name: 'Health', subtitle: 'Default / Float Clamped'},
+    {id: 'eKickDamage', kind: 'effect', name: 'KickDamage', subtitle: 'Float Stat Effect (BS)'},
+    {id: 'sVerticalSpeed', kind: 'stat', name: 'VerticalSpeed', subtitle: 'VerticalMovement / Float Clamped'},
+    {id: 'eVerticalForce', kind: 'effect', name: 'VerticalForce', subtitle: 'Float Stat Effect (BS)'},
+    {id: 'sSkillCastingOnProgress', kind: 'stat', name: 'SkillCastingOnProgress_', subtitle: 'Default / Int Clamped'},
+    {id: 'eRemoveCastingModifiersAttackInteruption', kind: 'effect', name: 'RemoveCastingModifiers(AttackInteruption)', subtitle: 'Modifier Remover Effect (BS)'},
+  ]}
+  edges={[
+    {from: 'sKnockbackTween', to: 'sKnockbackDuration', kind: 'relation', label: 'MaxValue'},
+    {from: 'sKnockbackTween', to: 'sKnockback', kind: 'reference'},
+    {from: 'sKnockbackTween', to: 'eKnockbackTweenTemplate', kind: 'reference'},
+    {from: 'eTitanGreavesDamager', to: 'pEffectorInitializer', kind: 'reference'},
+    {from: 'eTitanGreavesPushedAttachedEffector', to: 'pWallCollision', kind: 'target'},
+    {from: 'pKnockback', to: 'eRemoveKnockbackModifiers', kind: 'holds'},
+    {from: 'eRemoveKnockbackModifiers', to: 'sKnockedback', kind: 'target'},
+    {from: 'pKnockback', to: 'eKnockbackTween', kind: 'holds'},
+    {from: 'eKnockbackTween', to: 'sKnockbackTween', kind: 'target'},
+    {from: 'pKnockback', to: 'eKnockback', kind: 'holds'},
+    {from: 'eKnockback', to: 'sKnockedback', kind: 'target'},
+    {from: 'pKnockback', to: 'eKickDamage', kind: 'holds'},
+    {from: 'eKickDamage', to: 'sHealth', kind: 'target'},
+    {from: 'pKnockback', to: 'eVerticalForce', kind: 'holds'},
+    {from: 'eVerticalForce', to: 'sVerticalSpeed', kind: 'target'},
+    {from: 'pKnockback', to: 'eRemoveCastingModifiersAttackInteruption', kind: 'holds'},
+    {from: 'eRemoveCastingModifiersAttackInteruption', to: 'sSkillCastingOnProgress', kind: 'target'},
+  ]}
+/>
+
 On collision, the **Knockback** Pack runs on every hit enemy. `KickDamage` applies a flat `-3` to **Health**, and `RemoveCastingModifiers` interrupts whatever the enemy was casting.
 
 <div className="prp-packs">

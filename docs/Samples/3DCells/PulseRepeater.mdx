@@ -24,6 +24,30 @@ The first enemy standing behind the initial target receives critical damage.
 
 ## Implementation
 
+<RelationGraph generated
+  nodes={[
+    {id: 'nArrowDefault', kind: 'environment', name: 'Arrow_Default', root: true},
+    {id: 'ePulseRepeater', kind: 'effect', name: 'PulseRepeater', subtitle: 'Effector_OnCollide'},
+    {id: 'eOnCollide', kind: 'effect', name: 'Effect_OnCollide_3DC', label: 'OnCollide'},
+    {id: 'pIncreaseHitCount', kind: 'pack', name: 'Pack_IncreaseHitCount_3DC', label: 'IncreaseHitCount'},
+    {id: 'sPulseRepeaterAttack', kind: 'stat', name: 'PulseRepeater_Attack', subtitle: 'Stat (Clamped Float)'},
+    {id: 'sPulseRepeaterCritRate', kind: 'stat', name: 'Key_PulseRepeater_CritRate_3DC', label: 'PulseRepeater_CritRate', subtitle: 'Stat (Clamped Float)'},
+    {id: 'nMASContributionCriticalHitFloat', kind: 'processor', name: 'MASContribution_CriticalHit_Float', subtitle: 'MASContribution Critical Hit Float'},
+    {id: 'sASContributionConditionalModifierFloatGeneri', kind: 'stat', name: 'ASContribution_ConditionalModifier(Float-Generic)_3DC', label: 'ASContribution_ConditionalModifier(Float-Generic)'},
+    {id: 'sCritRateModifier', kind: 'stat', name: 'Key_CritRateModifier_3DC', label: 'CritRateModifier'},
+    {id: 'sPulseRepeaterCritRateModifier', kind: 'stat', name: 'PulseRepeater_CritRateModifier', subtitle: 'Stat (ConditionalModifier Float)'},
+    {id: 'nIs1Int', kind: 'other', name: 'Condition_Is1(Int)_3DC', label: 'Is1(Int)'},
+  ]}
+  edges={[
+    {from: 'ePulseRepeater', to: 'eOnCollide', kind: 'target'},
+    {from: 'ePulseRepeater', to: 'pIncreaseHitCount', kind: 'target'},
+    {from: 'sPulseRepeaterAttack', to: 'sPulseRepeaterCritRate', kind: 'relation', label: 'CriticalRate_Applying'},
+    {from: 'nMASContributionCriticalHitFloat', to: 'sASContributionConditionalModifierFloatGeneri', kind: 'condition'},
+    {from: 'sPulseRepeaterCritRate', to: 'sCritRateModifier', kind: 'relation', label: 'ConditionalModifier_ApplyingAS'},
+    {from: 'sPulseRepeaterCritRateModifier', to: 'nIs1Int', kind: 'condition'},
+  ]}
+/>
+
 We need to track the hit count to determine when to deal critical damage. However, the hit count cannot be stored on the source Actor, as this could cause the hit counts of different arrows to interfere with each other.
 
 Therefore, we use **ActorEntity** for the arrow and add a **HitCount** Stat to it.
